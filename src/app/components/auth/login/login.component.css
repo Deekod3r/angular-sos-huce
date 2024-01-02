@@ -1,0 +1,21 @@
+.form-control, .btn-login {
+    width: 100%;
+}
+
+.form-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+.col-12 {
+    margin-top: -10px;
+}
+
+.panel {
+    margin-top: 2%;
+}
