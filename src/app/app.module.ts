@@ -48,7 +48,7 @@ import { StudentComponent } from './themes/student/student.component';
     DropdownModule,
     MenuModule
   ],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  // providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
