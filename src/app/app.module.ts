@@ -9,19 +9,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { PanelModule } from 'primeng/panel'
-import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
-import { PasswordModule } from 'primeng/password';
-import { CardModule } from 'primeng/card';
 import { AvatarModule } from 'primeng/avatar';
-import { MessagesModule } from 'primeng/messages';
-import { ToastModule } from 'primeng/toast';
-import { TabViewModule } from 'primeng/tabview';
 import { MenubarModule } from 'primeng/menubar';
-import { ProgressBarModule } from 'primeng/progressbar';
 import { TieredMenuModule } from 'primeng/tieredmenu';
-import { InputNumberModule } from 'primeng/inputnumber';
 import { DropdownModule } from 'primeng/dropdown';
 import { MenuModule } from 'primeng/menu';
 
@@ -56,7 +48,7 @@ import { StudentComponent } from './themes/student/student.component';
     DropdownModule,
     MenuModule
   ],
-  // providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
