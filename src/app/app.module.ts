@@ -44,28 +44,19 @@ import { StudentComponent } from './themes/student/student.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     PanelModule,
-    InputTextModule,
     ButtonModule,
     DividerModule,
-    PasswordModule,
-    CardModule,
     AvatarModule,
-    MessagesModule,
-    ToastModule,
-    TabViewModule,
     MenubarModule,
-    ProgressBarModule,
-    HttpClientModule,
     TieredMenuModule,
-    InputNumberModule,
     DropdownModule,
     MenuModule
   ],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  // providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
