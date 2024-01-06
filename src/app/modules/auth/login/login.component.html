@@ -1,0 +1,71 @@
+<form (ngSubmit)="onLogin()" [formGroup]="loginForm" class="form-center">
+    <p-panel class="xl:col-4 lg:col-6 md:col-6 col-12 panel">
+        <ng-template pTemplate="header">
+            <div class="flex align-items-center gap-2">
+                <!-- <a routerLink="/home"><p-avatar image="../../../assets/medias/imgs/logo-huce.png" size="large"
+                            shape="square" /></a> -->
+                <span class="font-bold text-4xl ml-2">Đăng nhập</span>
+            </div>
+        </ng-template>
+        <div class="grid">
+            <div class="col-12">
+                <div class="col-6 font-bold">
+                    Mã số sinh viên:
+                </div>
+                <div class="col-12">
+                    <input pInputText type="text" formControlName="studentCode" class="form-control" name="student-id">
+                </div>
+                <div class="col-6"
+                    [hidden]="loginForm.controls['studentCode'].valid || !loginForm.controls['studentCode'].dirty"
+                    class="text-red-500 ml-3">
+                    Vui lòng nhập mã số sinh viên
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="col-6 font-bold">
+                    Mật khẩu:
+                </div>
+                <div class="col-12">
+                    <input pInputText type="password" formControlName="password" class="form-control" name="password">
+                </div>
+                <div class="col-6"
+                    [hidden]="loginForm.controls['password'].valid || !loginForm.controls['password'].dirty"
+                    class="text-red-500 ml-3">
+                    Vui lòng nhập mật khẩu
+                </div>
+            </div>
+            <div class="col-12 mt-3">
+                <div class="col-12">
+                    <button pButton label="Đăng nhập" type="submit" [disabled]="!loginForm.valid || isSubmitted"
+                        class="btn-login">
+                    </button>
+                </div>
+                <div class="col-12 mt-1" [hidden]="!isSubmitted">
+                    <p-progressBar mode="indeterminate" [style]="{ height: '3px' }"></p-progressBar>
+                </div>
+            </div>
+            <div class="col-12" [hidden]="!loginError">
+                <div class="col-12">
+                    <p-messages [(value)]="loginMsg" [enableService]="false" [closable]="false"></p-messages>
+                </div>
+            </div>
+            <p-divider align="center" type="solid" class="col-12">
+                <b>Hoặc</b>
+            </p-divider>
+            <div class="col-12">
+                <div class="col-12">
+                    <a routerLink="/register">
+                        <button pButton label="Đăng ký tài khoản mới" type="button"
+                            class="btn-login p-button-secondary">
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="col-12" align="center">
+                <div class="col-12">
+                    <a class="font-bold" routerLink="/auth/register">Quên mật khẩu?</a>
+                </div>
+            </div>
+        </div>
+    </p-panel>
+</form>

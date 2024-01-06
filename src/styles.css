@@ -19,3 +19,9 @@ body, html {
     right: 10px;
     z-index: 9999;
 }
+
+.form-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

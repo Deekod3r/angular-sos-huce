@@ -1,19 +1,10 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './components/auth/login/login.component';
-import { RegisterComponent } from './components/auth/register/register.component';
-import { HomeComponent } from './components/students/home/home.component';
-import { GuardGuard } from './guards/guard.guard';
-
-const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent, canActivate: [GuardGuard] },
-  { path: 'register', component: RegisterComponent },
-  { path: '',   redirectTo: '/home', pathMatch: 'full' },
-];
+import { RouterModule } from '@angular/router';
+import { CONFIG } from './common/config';
+import { ROUTES_ROOT, getAllRoutes } from './common/router';
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(getAllRoutes(CONFIG.ROUTES.ROOT_ROUTES, ROUTES_ROOT, CONFIG.GUARD.PRIVATE))],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

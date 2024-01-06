@@ -25,22 +25,20 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MenuModule } from 'primeng/menu';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/students/home/home.component';
-import { LoginComponent } from './components/auth/login/login.component';
-import { InfoComponent } from './components/students/info/info.component';
-import { NavbarComponent } from './shared/components/navbar/navbar.component';
-import { FooterComponent } from './shared/components/footer/footer.component';
-import { RegisterComponent } from './components/auth/register/register.component';
+import { NavbarComponent } from './themes/student/navbar/navbar.component';
+import { FooterComponent } from './themes/student/footer/footer.component';
+import { NavbarAuthComponent } from './themes/auth/navbar-auth/navbar-auth.component';
+import { AuthComponent } from './themes/auth/auth.component';
+import { StudentComponent } from './themes/student/student.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    LoginComponent,
-    InfoComponent,
     NavbarComponent,
     FooterComponent,
-    RegisterComponent,
+    NavbarAuthComponent,
+    AuthComponent,
+    StudentComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,15 @@
+.form-control, .btn-register{
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+.col-12 {
+    margin-top: -10px;
+}
+
+.panel {
+    margin-top: 2%;
+}

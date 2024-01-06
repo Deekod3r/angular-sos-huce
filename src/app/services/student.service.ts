@@ -13,7 +13,7 @@ export class StudentService {
 
   constructor(private http: HttpClient) { }
 
-  public register(form: FormGroup): Observable<boolean> {
+  public register(form: FormGroup): Observable<any> {
     const { studentCode, password, faculty, name, email } = form.value;
 
     const requestBody = {
@@ -30,7 +30,7 @@ export class StudentService {
           if (response.error) {
             throw new Error(response.error);
           }
-          return true;
+          return response.data.id;
         }),
         catchError((error: HttpErrorResponse) => {
           return throwError(() => error);

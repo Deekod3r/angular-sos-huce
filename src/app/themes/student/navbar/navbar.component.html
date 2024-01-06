@@ -1,0 +1,15 @@
+<p-menubar [model]="items">
+    <ng-template pTemplate="start">
+        <a href="https://huce.edu.vn"><img src="../../../../assets/medias/imgs/logodhxd-20230421024916-e.png" height="40" class="mr-2"/></a>
+    </ng-template>
+    <ng-template pTemplate="end">
+        <div *ngIf="!isLoggedIn; else userTools">
+            <p-menu #menuUserOptions [model]="userOptions" [popup]="true"></p-menu>
+            <button pButton type="button" (click)="menuUserOptions.toggle($event)" icon="pi pi-bars"></button>
+        </div>
+        <ng-template #userTools>
+            <p-avatar class="mr-2 cursor-pointer" shape="square" icon="pi pi-user" size="large" [style]="{'background-color':'#3B82F6', 'color': '#ffffff'}" (click)="menu.toggle($event)"/>
+            <p-tieredMenu #menu [model]="itemsPerson" [popup]="true"></p-tieredMenu>
+        </ng-template>
+    </ng-template>
+</p-menubar>
