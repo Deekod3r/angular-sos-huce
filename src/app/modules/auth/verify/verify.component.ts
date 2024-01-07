@@ -48,7 +48,7 @@ export class VerifyComponent implements OnInit {
           this.notify('Xác thực thành công', 'success', 'Thành công');
           this.verifyForm.reset();
           setTimeout(() => {
-            window.location.href = '/login';
+            window.location.href = '/auth/login';
           },3000);
         } else {
           this.notify('Xác thực thất bại, vui lòng thử lại sau', 'error', 'Lỗi');
