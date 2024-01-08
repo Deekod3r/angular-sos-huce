@@ -80,37 +80,37 @@ export function getAllRoutes(routeName: string, commonRoute: any, isPublic: bool
         }
         return false;
       });
-      const json = localStorage.getItem(routeName);
-      if (json) {
-        let menus = JSON.parse(json);
-        if (menus && menus.length > 0) {
-          let lstModulePrivate = commonRoute.filter((route: { canActivate: any; }) => {
-            if (route.canActivate) {
-              return true;
-            }
-            return false;
-          });
-          if (lstModulePrivate && lstModulePrivate.length > 0) {
-            const defaultRoute = menus.find((obj: { default: any; }) => obj.default) ?? findMinValueObject(menus, 'order');
-            lstModulePrivate.map((map: { [x: string]: any; children: any[]; }) => {
-              const lstComponentPrivate = map?.children.filter((route: { path: string; }) => {
-                if (route.path == '' || route.path == '**') {
-                  return true;
-                }
-                return menus.find((obj: { path: any; }) => obj.path == route.path);
-              }).map((item: { path: string; }) => {
-                if (item.path == '' || item.path == '**') {
-                  return { ...item, ['redirectTo']: defaultRoute.path };
-                }
-                return item;
-              });
-              map['children'] = lstComponentPrivate;
-              return map;
-            });
-            return [...lstModulePrivate, ...lstModulePublic]
-          }
-        }
-      }
+      // const json = localStorage.getItem(routeName);
+      // if (json) {
+      //   let menus = JSON.parse(json);
+      //   if (menus && menus.length > 0) {
+      //     let lstModulePrivate = commonRoute.filter((route: { canActivate: any; }) => {
+      //       if (route.canActivate) {
+      //         return true;
+      //       }
+      //       return false;
+      //     });
+      //     if (lstModulePrivate && lstModulePrivate.length > 0) {
+      //       const defaultRoute = menus.find((obj: { default: any; }) => obj.default) ?? findMinValueObject(menus, 'order');
+      //       lstModulePrivate.map((map: { [x: string]: any; children: any[]; }) => {
+      //         const lstComponentPrivate = map?.children.filter((route: { path: string; }) => {
+      //           if (route.path == '' || route.path == '**') {
+      //             return true;
+      //           }
+      //           return menus.find((obj: { path: any; }) => obj.path == route.path);
+      //         }).map((item: { path: string; }) => {
+      //           if (item.path == '' || item.path == '**') {
+      //             return { ...item, ['redirectTo']: defaultRoute.path };
+      //           }
+      //           return item;
+      //         });
+      //         map['children'] = lstComponentPrivate;
+      //         return map;
+      //       });
+      //       return [...lstModulePrivate, ...lstModulePublic]
+      //     }
+      //   }
+      // }
       return lstModulePublic
     }
     return [];
@@ -119,19 +119,19 @@ export function getAllRoutes(routeName: string, commonRoute: any, isPublic: bool
   }
 }
 
-function findMinValueObject(list: any[], fieldName: string) {
-  if (list.length === 0) {
-    return null;
-  }
+// function findMinValueObject(list: any[], fieldName: string) {
+//   if (list.length === 0) {
+//     return null;
+//   }
 
-  return list.reduce((minObj: { [x: string]: any; }, currentObj: { [x: string]: any; }) => {
-    const minValue = minObj[fieldName];
-    const currentValue = currentObj[fieldName];
+//   return list.reduce((minObj: { [x: string]: any; }, currentObj: { [x: string]: any; }) => {
+//     const minValue = minObj[fieldName];
+//     const currentValue = currentObj[fieldName];
 
-    if (currentValue === null || (currentValue !== null && currentValue < minValue)) {
-      return currentObj;
-    }
+//     if (currentValue === null || (currentValue !== null && currentValue < minValue)) {
+//       return currentObj;
+//     }
 
-    return minObj;
-  }, list[0]);
-}
+//     return minObj;
+//   }, list[0]);
+// }

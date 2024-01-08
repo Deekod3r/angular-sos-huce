@@ -61,6 +61,17 @@ export class AuthService {
   public logout(): void {
     localStorage.clear();
     sessionStorage.clear();
+    this.http.get<any>(`${this.API_URL}/logout`)
+      .pipe(
+        map(response => {
+          if (response.error) {
+            throw new Error(response.error);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return throwError(() => error);
+        })
+      );
   }
 
 }

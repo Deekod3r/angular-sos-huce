@@ -12,7 +12,10 @@
                 <div class="col-6 font-bold">
                     Họ và tên (<span class="text-red-500">*</span>):
                 </div>
-                <div class="col-12">
+                <div class="p-inputgroup col-12">
+                    <span class="p-inputgroup-addon">
+                        <i class="ti ti-abc"></i>
+                    </span>
                     <input pInputText type="text" formControlName="name" class="form-control" name="name">
                 </div>
                 <div class="text-red-500 ml-3"
@@ -28,9 +31,12 @@
                 <div class="col-6 font-bold">
                     Mã số sinh viên (<span class="text-red-500">*</span>):
                 </div>
-                <div class="col-12">
+                <div class="p-inputgroup col-12">
+                    <span class="p-inputgroup-addon">
+                        <i class="ti ti-123"></i>
+                    </span>
                     <input pInputText type="text" formControlName="studentCode" class="form-control"
-                        name="student-code">
+                    name="student-code">
                 </div>
                 <div class="text-red-500 ml-3"
                     *ngIf="registerForm.controls['studentCode'].hasError('required') && registerForm.controls['studentCode'].dirty">
@@ -45,7 +51,10 @@
                 <div class="col-6 font-bold">
                     Email (<span class="text-red-500">*</span>) (<span class="text-red-500">@huce.edu.vn</span>):
                 </div>
-                <div class="col-12">
+                <div class="p-inputgroup col-12">
+                    <span class="p-inputgroup-addon">
+                        @
+                    </span>
                     <input pInputText type="email" formControlName="email" class="form-control" name="email">
                 </div>
                 <div class="text-red-500 ml-3"
@@ -61,7 +70,7 @@
                 <div class="col-6 font-bold">
                     Mật khẩu (<span class="text-red-500">*</span>):
                 </div>
-                <div class="col-12">
+                <div class="p-inputgroup col-12">
                     <p-password formControlName="password" class="form-control" promptLabel=" " weakLabel="Yếu"
                         mediumLabel="Trung bình" strongLabel="Mạnh" [style]="{'width':'100%'}"
                         [inputStyle]="{'width':'100%'}">
@@ -79,6 +88,9 @@
                             </ul>
                         </ng-template>
                     </p-password>
+                    <span class="p-inputgroup-addon">
+                        <i class="ti ti-key"></i>
+                    </span>
                 </div>
                 <div class="text-red-500 ml-3"
                     *ngIf="registerForm.controls['password'].hasError('required') && registerForm.controls['password'].dirty">

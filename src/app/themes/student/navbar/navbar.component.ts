@@ -12,7 +12,7 @@ import { EncryptionService } from 'src/app/services/encryption.service';
 export class NavbarComponent implements OnInit {
 
   items!: MenuItem[];
-  itemsPerson!: MenuItem[];
+  userTools!: MenuItem[];
   studentInfo!: any;
   isLoggedIn: boolean = false;
   userOptions!: any[];
@@ -23,120 +23,48 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
-        label: 'Việc làm',
-        icon: PrimeIcons.BRIEFCASE,
-        items: [
-          {
-            label: 'Mới nhất',
-            // icon: PrimeIcons.MEGAPHONE
-          },
-          {
-            separator: true
-          },
-          {
-            label: 'Chuyên ngành',
-            // icon: PrimeIcons.PLUS,
-            items: [
-              {
-                label: 'Xây dựng dân dụng',
-                // icon: PrimeIcons.BOOKMARK_FILL
-              },
-              {
-                separator: true
-              },
-              {
-                label: 'Công nghệ thông tin',
-                // icon: PrimeIcons.BOOKMARK_FILL
-              }
-            ]
-          }
-        ]
+        label: 'Trang chủ',
+        icon: 'ti ti-home',
+        routerLink: '/home'
       },
       {
-        label: 'Hồ sơ & CV',
-        icon: PrimeIcons.ID_CARD,
-        items: [
-          {
-            label: 'Mẫu CV',
-            // icon: PrimeIcons.PALETTE
-          },
-          {
-            separator: true
-          },
-          {
-            label: 'Tư vấn CV',
-            // icon: PrimeIcons.PHONE
-          },
-          {
-            separator: true
-          },
-          {
-            label: 'CV cá nhân',
-            // icon: PrimeIcons.USER
-          }
-        ]
+        label: 'Tin tức',
+        icon: 'ti ti-news',
+        
       },
       {
-        label: 'Công ty',
-        icon: PrimeIcons.BUILDING,
-        items: [
-          {
-            label: 'Danh sách công ty',
-            // icon: PrimeIcons.BARS
-          },
-          {
-            separator: true
-          },
-          {
-            label: 'Top công ty',
-            // icon: PrimeIcons.STAR
-          }
-        ]
+        label: 'Phân tích đánh giá',
+        icon: 'ti ti-chart-line',
+        
       },
       {
-        label: 'Công cụ',
-        icon: PrimeIcons.WRENCH,
-        items: [
-          {
-            label: 'Tính thuế TNCN',
-            // icon: PrimeIcons.DOLLAR
-          },
-          {
-            separator: true
-          },
-          {
-            label: 'Tính lãi',
-            // icon: PrimeIcons.MONEY_BILL
-          },
-          {
-            separator: true
-          },
-          {
-            label: 'Test DISC',
-            // icon: PrimeIcons.CHECK_SQUARE
-          },
-        ]
+        label: 'Giới thiệu',
+        icon: 'ti ti-world-star',
+      },
+      {
+        label: 'Hỗ trợ',
+        icon: 'ti ti-help-circle',
       }
     ];
 
-    this.itemsPerson = [
+    this.userTools = [
       {
         label: 'Tài khoản',
-        // icon: 'pi pi-fw pi-file'
+        icon: 'ti ti-user-shield'
       },
       {
         separator: true
       },
       {
-        label: 'CV đã nộp',
-        // icon: 'pi pi-fw pi-user',
+        label: 'Đổi mật khẩu',
+        icon: 'ti ti-password',
       },
       {
         separator: true
       },
       {
         label: 'Đăng xuất',
-        icon: PrimeIcons.POWER_OFF,
+        icon: 'pi pi-power-off text-red-500',
         command: () => {
           this.authService.logout();
           window.location.reload();
@@ -145,8 +73,27 @@ export class NavbarComponent implements OnInit {
     ];
 
     this.userOptions = [
-      { label: 'Đăng nhập', command: () => { window.location.href = '/auth/login' } },
-      { label: 'Đăng ký', command: () => { window.location.href = '/auth/register' } }
+      { 
+        label: 'Đăng nhập', 
+        icon: 'ti ti-circle-key-filled',
+        command: () => { window.location.href = '/auth/login' } 
+      },
+      {
+        separator: true
+      },
+      { 
+        label: 'Đăng ký', 
+        icon: 'ti ti-registered',
+        command: () => { window.location.href = '/auth/register' } 
+      },
+      {
+        separator: true
+      },
+      { 
+        label: 'Đăng tin',
+        icon: 'ti ti-wallpaper', 
+        command: () => { window.location.href = '/auth/login' } 
+      }
     ];
 
     this.isLoggedIn = localStorage.getItem(CONFIG.KEY.IS_LOGGED_IN) == this.encryptService.encrypt(CONFIG.KEY.IS_LOGGED_IN_VALUE);
