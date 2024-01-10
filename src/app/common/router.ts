@@ -6,26 +6,25 @@ import { AuthGuard } from '../guards/auth.guard';
 export let ROUTES_ROOT: Routes = [
   {
     path: '',
-    component: AuthComponent,
-    children: [
-      {
-        path: 'auth',
-        loadChildren: () => import('../modules/auth/auth.module').then((m) => m.AuthModule)
-      },
-      { path: '', redirectTo: '/home', pathMatch: 'full' },
-    ]
-  },
-  {
-    path: '',
     component: UserComponent,
     children: [
       {
         path: '',
         loadChildren: () => import('../modules/user/user.module').then((m) => m.UserModule)
       },
-      { path: '**', redirectTo: '', pathMatch: 'full' },
     ]
   },
+  {
+    path: '',
+    component: AuthComponent,
+    children: [
+      {
+        path: 'auth',
+        loadChildren: () => import('../modules/auth/auth.module').then((m) => m.AuthModule)
+      },
+    ]
+  },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 export let ROUTES_AUTH: Routes = [
@@ -33,11 +32,6 @@ export let ROUTES_AUTH: Routes = [
     path: '',
     canActivate: [AuthGuard],
     children: [
-      {
-        path: '',
-        redirectTo: '',
-        pathMatch: 'full'
-      },
       {
         path: 'login',
         loadComponent: () => import('../modules/auth/login/login.component').then((m) => m.LoginComponent),
@@ -49,7 +43,7 @@ export let ROUTES_AUTH: Routes = [
       {
         path: 'verify/:id',
         loadComponent: () => import('../modules/auth/verify/verify.component').then((m) => m.VerifyComponent),
-      }
+      },
     ]
   },
 ];
@@ -60,13 +54,8 @@ export let ROUTES_USER: Routes = [
     children: [
       {
         path: '',
-        redirectTo: '',
-        pathMatch: 'full'
-      },
-      {
-        path: 'home',
         loadComponent: () => import('../modules/user/home/home.component').then((m) => m.HomeComponent),
-      }
+      },
     ]
   },
 ];

@@ -30,3 +30,8 @@ body, html {
 .primary-color, a, a:visited {
     color: #14B8A6;
 }
+
+li:hover > div > a {
+    background-color: var(--surface-300);
+    border-radius: 0.5rem;
+}

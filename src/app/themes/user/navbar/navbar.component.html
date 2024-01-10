@@ -1,15 +1,15 @@
-<p-menubar [model]="items">
+<p-menubar [model]="items" (click)="activeMenu($event)">
     <ng-template pTemplate="start">
-        <a routerLink="/home"><img src="../../../../assets/medias/imgs/logo-site-removebg.png" height="50" class="mr-2"/></a>
+        <a routerLink="/home" class="mx-3"><img src="../../../../assets/medias/imgs/logo-site-removebg.png" height="60" class="mr-2"/></a>
     </ng-template>
     <ng-template pTemplate="end">
         <div *ngIf="!isLoggedIn; else menuUserTools">
-            <p-menu #menuUserOptions [model]="userOptions" [popup]="true"></p-menu>
-            <button pButton type="button" (click)="menuUserOptions.toggle($event)" icon="pi pi-bars"></button>
+            <button pButton type="button" (click)="menuUserOptions.toggle($event)" icon="pi pi-bars" class="mr-3"></button>
+            <p-tieredMenu #menuUserOptions [model]="userOptions" [popup]="true"></p-tieredMenu>
         </div>
         <ng-template #menuUserTools>
             <p-avatar class="mr-2 cursor-pointer" shape="square" icon="pi pi-user" size="large" [style]="{'background-color':'#14B8A6', 'color': '#ffffff'}" (click)="menu.toggle($event)"/>
-            <p-tieredMenu #menu [model]="userTools" [popup]="true"></p-tieredMenu>
+            <p-tieredMenu #menu [model]="userTools" [popup]="true" class="mr-3"></p-tieredMenu>
         </ng-template>
     </ng-template>
 </p-menubar>

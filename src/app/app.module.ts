@@ -14,6 +14,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { DropdownModule } from 'primeng/dropdown';
 import { MenuModule } from 'primeng/menu';
+import { ScrollTopModule } from 'primeng/scrolltop';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './themes/user/navbar/navbar.component';
@@ -44,7 +45,8 @@ import { UserComponent } from './themes/user/user.component';
     MenubarModule,
     TieredMenuModule,
     DropdownModule,
-    MenuModule
+    MenuModule,
+    ScrollTopModule
   ],
   // providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]

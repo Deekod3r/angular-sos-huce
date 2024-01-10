@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PrimeIcons, MenuItem } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { CONFIG } from 'src/app/common/config';
 import { AuthService } from 'src/app/services/auth.service';
 import { EncryptionService } from 'src/app/services/encryption.service';
@@ -24,30 +24,41 @@ export class NavbarComponent implements OnInit {
     this.items = [
       {
         label: 'Trang chủ',
-        icon: 'ti ti-home',
-        routerLink: '/home'
-      },
-      {
-        label: 'Tin tức',
-        icon: 'ti ti-news',
+        icon: 'fa fa-house',
+        routerLink: '/',
         
       },
       {
-        label: 'Phân tích đánh giá',
-        icon: 'ti ti-chart-line',
+        label: 'Nhận nuôi',
+        icon: 'fa fa-paw',
+        
+      },
+      {
+        label: 'Ủng hộ',
+        icon: 'fa fa-hand-holding-heart',
+        
+      },
+      {
+        label: 'Tin tức',
+        icon: 'fa fa-newspaper',
         
       },
       {
         label: 'Giới thiệu',
-        icon: 'ti ti-world-star',
+        icon: 'fa fa-bullhorn',
+        
       },
       {
         label: 'Hỗ trợ',
-        icon: 'ti ti-help-circle',
+        icon: 'fa fa-circle-question',
+        
       }
     ];
 
     this.userTools = [
+      {
+        visible: false
+      },
       {
         label: 'Tài khoản',
         icon: 'ti ti-user-shield'
@@ -73,9 +84,12 @@ export class NavbarComponent implements OnInit {
     ];
 
     this.userOptions = [
+      {
+        visible: false
+      },
       { 
         label: 'Đăng nhập', 
-        icon: 'ti ti-circle-key-filled',
+        icon: 'fa-brands fa-keycdn',
         command: () => { window.location.href = '/auth/login' } 
       },
       {
@@ -83,15 +97,15 @@ export class NavbarComponent implements OnInit {
       },
       { 
         label: 'Đăng ký', 
-        icon: 'ti ti-registered',
+        icon: 'fa-solid fa-registered',
         command: () => { window.location.href = '/auth/register' } 
       },
       {
         separator: true
       },
       { 
-        label: 'Đăng tin',
-        icon: 'ti ti-wallpaper', 
+        label: 'Nhận nuôi',
+        icon: 'fa-solid fa-heart-circle-plus',
         command: () => { window.location.href = '/auth/login' } 
       }
     ];
@@ -99,6 +113,38 @@ export class NavbarComponent implements OnInit {
     this.isLoggedIn = localStorage.getItem(CONFIG.KEY.IS_LOGGED_IN) == this.encryptService.encrypt(CONFIG.KEY.IS_LOGGED_IN_VALUE);
 
     this.userInfo = JSON.parse(this.encryptService.decrypt(localStorage.getItem(CONFIG.KEY.TOKEN)) || '{}');
+
+  }
+
+  ngAfterViewInit() {
+    const homeMenuItem = document.querySelector('.p-menuitem-link[href="/"]') as HTMLElement;
+    if (homeMenuItem) {
+      homeMenuItem.classList.add('bg-cyan-100', 'border-round');
+    }
+  }
+
+  activeMenu(event:any) {
+    let node = event.target;
+    if (node.tagName === "LI" 
+    || node.classList.contains("p-button-icon") || node.classList.contains("p-button")
+    || node.classList.contains("p-avatar-icon") || node.classList.contains("p-avatar")) {
+      return;
+    } else {
+      if (node.tagName === "A") {
+        node;
+      } else if (event.target.tagName === "SPAN") {
+        node = node.parentNode;
+      } else {
+        return;
+      }
+      let menuitem = document.getElementsByClassName("p-menuitem-link");
+      for (let i = 0; i < menuitem.length; i++) {
+        menuitem[i].classList.remove("bg-cyan-100");
+        menuitem[i].classList.remove("border-round");
+      }
+      node.classList.add("bg-cyan-100");
+      node.classList.add("border-round");
+    }
   }
 }
 

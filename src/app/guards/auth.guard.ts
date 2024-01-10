@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
     const isLoggedIn = localStorage.getItem(CONFIG.KEY.IS_LOGGED_IN) == this.encryptService.encrypt(CONFIG.KEY.IS_LOGGED_IN_VALUE);
 
     if (isLoggedIn && state.url.startsWith('/auth')) {
-      return this.router.parseUrl('/home');
+      return this.router.parseUrl('/');
     }
 
     if (!isLoggedIn && !state.url.startsWith('/auth')) {

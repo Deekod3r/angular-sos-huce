@@ -3,5 +3,7 @@ a {
 }
 
 ::ng-deep .p-menuitem, .p-menuitem-link {
-    padding: 0 0.5rem !important;
+    padding: 0 1rem !important;
 }
+
+  
