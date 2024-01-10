@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthComponent } from '../themes/auth/auth.component';
-import { StudentComponent } from '../themes/student/student.component';
+import { UserComponent } from '../themes/user/user.component';
 import { AuthGuard } from '../guards/auth.guard';
 
 export let ROUTES_ROOT: Routes = [
@@ -17,11 +17,11 @@ export let ROUTES_ROOT: Routes = [
   },
   {
     path: '',
-    component: StudentComponent,
+    component: UserComponent,
     children: [
       {
         path: '',
-        loadChildren: () => import('../modules/student/student.module').then((m) => m.StudentModule)
+        loadChildren: () => import('../modules/user/user.module').then((m) => m.UserModule)
       },
       { path: '**', redirectTo: '', pathMatch: 'full' },
     ]
@@ -54,7 +54,7 @@ export let ROUTES_AUTH: Routes = [
   },
 ];
 
-export let ROUTES_STUDENT: Routes = [
+export let ROUTES_USER: Routes = [
   {
     path: '',
     children: [
@@ -65,7 +65,7 @@ export let ROUTES_STUDENT: Routes = [
       },
       {
         path: 'home',
-        loadComponent: () => import('../modules/student/home/home.component').then((m) => m.HomeComponent),
+        loadComponent: () => import('../modules/user/home/home.component').then((m) => m.HomeComponent),
       }
     ]
   },

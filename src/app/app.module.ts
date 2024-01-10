@@ -3,10 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { PanelModule } from 'primeng/panel'
 import { ButtonModule } from 'primeng/button';
@@ -18,11 +16,11 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MenuModule } from 'primeng/menu';
 
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './themes/student/navbar/navbar.component';
-import { FooterComponent } from './themes/student/footer/footer.component';
+import { NavbarComponent } from './themes/user/navbar/navbar.component';
+import { FooterComponent } from './themes/user/footer/footer.component';
 import { NavbarAuthComponent } from './themes/auth/navbar-auth/navbar-auth.component';
 import { AuthComponent } from './themes/auth/auth.component';
-import { StudentComponent } from './themes/student/student.component';
+import { UserComponent } from './themes/user/user.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +29,7 @@ import { StudentComponent } from './themes/student/student.component';
     FooterComponent,
     NavbarAuthComponent,
     AuthComponent,
-    StudentComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,

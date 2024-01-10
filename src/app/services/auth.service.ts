@@ -17,10 +17,10 @@ export class AuthService {
   constructor(private http: HttpClient, private encryptionService: EncryptionService) { }
 
   public login(form: FormGroup): Observable<boolean> {
-    const { studentCode, password } = form.value;
+    const { email, password } = form.value;
 
     const requestBody = {
-      studentCode: studentCode,
+      email: email,
       password: password
     };
 

@@ -2,15 +2,16 @@
     <p-panel class="xl:col-4 lg:col-6 md:col-6 col-12 panel">
         <ng-template pTemplate="header">
             <div class="flex align-items-center gap-2">
-                <!-- <a routerLink="/home"><p-avatar image="../../../assets/medias/imgs/logo-huce.png" size="large"
-                            shape="square" /></a> -->
-                <span class="font-bold text-4xl ml-2">Đăng ký</span>
+                <span class="font-bold text-4xl ml-2">
+                    <i class="fa-sharp fa-solid fa-shield-cat mr-2 fa-xl primary-color"></i>
+                    Đăng ký
+                </span>
             </div>
         </ng-template>
         <div class="grid">
             <div class="col-12">
-                <div class="col-6 font-bold">
-                    Họ và tên (<span class="text-red-500">*</span>):
+                <div class="col-6 font-bold mb-1">
+                    Họ và tên <span class="text-red-500">*</span>
                 </div>
                 <div class="p-inputgroup col-12">
                     <span class="p-inputgroup-addon">
@@ -28,28 +29,28 @@
                 </div>
             </div>
             <div class="col-12">
-                <div class="col-6 font-bold">
-                    Mã số sinh viên (<span class="text-red-500">*</span>):
+                <div class="col-6 font-bold mb-1">
+                    Số điện thoại <span class="text-red-500">*</span>
                 </div>
                 <div class="p-inputgroup col-12">
                     <span class="p-inputgroup-addon">
                         <i class="ti ti-123"></i>
                     </span>
-                    <input pInputText type="text" formControlName="studentCode" class="form-control"
-                    name="student-code">
+                    <input pInputText type="text" formControlName="phoneNumber" class="form-control"
+                    name="phone-number">
                 </div>
                 <div class="text-red-500 ml-3"
-                    *ngIf="registerForm.controls['studentCode'].hasError('required') && registerForm.controls['studentCode'].dirty">
-                    Vui lòng nhập mã số sinh viên
+                    *ngIf="registerForm.controls['phoneNumber'].hasError('required') && registerForm.controls['phoneNumber'].dirty">
+                    Vui lòng nhập số điện thoại
                 </div>
                 <div class="text-red-500 ml-3"
-                    *ngIf="registerForm.controls['studentCode'].hasError('pattern') && registerForm.controls['studentCode'].dirty">
-                    Mã số sinh viên phải là số
+                    *ngIf="registerForm.controls['phoneNumber'].hasError('pattern') && registerForm.controls['phoneNumber'].dirty">
+                    Số điện thoại không hợp lệ
                 </div>
             </div>
             <div class="col-12">
-                <div class="col-6 font-bold">
-                    Email (<span class="text-red-500">*</span>) (<span class="text-red-500">@huce.edu.vn</span>):
+                <div class="col-6 font-bold mb-1">
+                    Email <span class="text-red-500">*</span>
                 </div>
                 <div class="p-inputgroup col-12">
                     <span class="p-inputgroup-addon">
@@ -62,13 +63,13 @@
                     Vui lòng nhập email
                 </div>
                 <div class="text-red-500 ml-3"
-                    *ngIf="registerForm.controls['email'].hasError('pattern') && registerForm.controls['email'].dirty">
+                    *ngIf="registerForm.controls['email'].hasError('email') && registerForm.controls['email'].dirty">
                     Email không hợp lệ
                 </div>
             </div>
             <div class="col-12">
-                <div class="col-6 font-bold">
-                    Mật khẩu (<span class="text-red-500">*</span>):
+                <div class="col-6 font-bold mb-1">
+                    Mật khẩu <span class="text-red-500">*</span>
                 </div>
                 <div class="p-inputgroup col-12">
                     <p-password formControlName="password" class="form-control" promptLabel=" " weakLabel="Yếu"
@@ -99,34 +100,6 @@
                 <div class="text-red-500 ml-3"
                     *ngIf="registerForm.controls['password'].hasError('pattern') && registerForm.controls['password'].dirty">
                     Mật khẩu không hợp lệ
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="col-6 font-bold">
-                    Khoa trực thuộc (<span class="text-red-500">*</span>):
-                </div>
-                <div class="col-12">
-                    <p-dropdown formControlName="faculty" placeholder="Chọn" class="form-control" name="faculty"
-                        [options]="faculties" optionLabel="name" [style]="{'width':'100%'}" [showClear]="true"
-                        emptyMessage="Không có dữ liệu"></p-dropdown>
-                    <!-- <p-dropdown [options]="faculties" formControlName="faculty" optionLabel="name"
-                            [filter]="true" filterBy="name" [showClear]="true" placeholder="Chọn" name="faculty" [style]="{'width':'100%'}"
-                            emptyMessage="Không có dữ liệu" emptyFilterMessage="Không tìm thấy dữ liệu">
-                            <ng-template pTemplate="selectedItem">
-                                <div class="flex align-items-center gap-2" *ngIf="faculty">
-                                    <div>a</div>
-                                </div>
-                            </ng-template>
-                            <ng-template let-faculty pTemplate="item">
-                                <div class="flex align-items-center gap-2">
-                                    <div>{{ faculty.name }}</div>
-                                </div>
-                            </ng-template>
-                        </p-dropdown> -->
-                </div>
-                <div class="text-red-500 ml-3"
-                    *ngIf="registerForm.controls['faculty'].hasError('required') && registerForm.controls['faculty'].touched">
-                    Vui lòng chọn khoa trực thuộc
                 </div>
             </div>
             <div class="col-12 mt-3">

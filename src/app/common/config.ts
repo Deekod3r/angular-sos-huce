@@ -2,7 +2,7 @@ export const CONFIG = {
     KEY: {
         SYSTEM_NAME: 'SOS HUCE',
         LOCALIZATION: 'language',
-        TOKEN: `SI`,
+        TOKEN: `UI`,
         MENU: 'menu-session',
         METHOD_POST: 'POST',
         METHOD_GET: 'GET',
@@ -16,7 +16,7 @@ export const CONFIG = {
     ROUTES: {
         ROOT_ROUTES: 'ROOT_ROUTES',
         AUTHENTICATION_ROUTES: 'AUTHENTICATION_ROUTES',
-        STUDENT_ROUTES: 'STUDENT_ROUTES',
+        USER_ROUTES: 'USER_ROUTES',
     },
     GUARD: {
         PRIVATE: false,

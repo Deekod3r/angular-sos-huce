@@ -2,31 +2,32 @@
     <p-panel class="xl:col-4 lg:col-6 md:col-6 col-12 panel">
         <ng-template pTemplate="header">
             <div class="flex align-items-center gap-2">
-                <!-- <a routerLink="/home"><p-avatar image="../../../assets/medias/imgs/logo-huce.png" size="large"
-                            shape="square" /></a> -->
-                <span class="font-bold text-4xl ml-2">Đăng nhập</span>
+                <span class="font-bold text-4xl ml-2">          
+                    <i class="fa-sharp fa-solid fa-shield-dog mr-2 fa-xl primary-color"></i>
+                    Đăng nhập
+                </span>
             </div>
         </ng-template>
         <div class="grid">
             <div class="col-12">
-                <div class="col-6 font-bold">
-                    Mã số sinh viên:
+                <div class="col-6 font-bold mb-1">
+                    Email
                 </div>
                 <div class="p-inputgroup col-12">
                     <span class="p-inputgroup-addon">
                         <i class="pi pi-user"></i>
                     </span>
-                    <input pInputText type="text" formControlName="studentCode" class="form-control" name="student-id">
+                    <input pInputText type="text" formControlName="email" class="form-control" name="email">
                 </div>
                 <div class="col-6"
-                    [hidden]="loginForm.controls['studentCode'].valid || !loginForm.controls['studentCode'].dirty"
+                    [hidden]="loginForm.controls['email'].valid || !loginForm.controls['email'].dirty"
                     class="text-red-500 ml-3">
-                    Vui lòng nhập mã số sinh viên
+                    Vui lòng nhập email
                 </div>
             </div>
             <div class="col-12">
-                <div class="col-6 font-bold">
-                    Mật khẩu:
+                <div class="col-6 font-bold mb-1">
+                    Mật khẩu
                 </div>
                 <div class="p-inputgroup col-12">
                     <span class="p-inputgroup-addon">

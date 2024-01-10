@@ -6,9 +6,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { PasswordModule } from 'primeng/password';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { finalize } from 'rxjs';
-import { Faculty } from 'src/app/models/faculty.model';
-import { FacultyService } from 'src/app/services/faculty.service';
-import { StudentService } from 'src/app/services/student.service';
+import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
@@ -24,34 +22,19 @@ export class RegisterComponent implements OnInit, OnDestroy {
   registerNotify: boolean = false;
   registerMsg: Message[] = [];
   isSubmitted: boolean = false;
-  faculties: Faculty[] = [];
-  faculty!: Faculty;
 
-  constructor(private studentService: StudentService, private facultyService: FacultyService) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.getFaculties();
     this.registerForm = new FormGroup({
-      'studentCode': new FormControl('', [Validators.required, Validators.pattern(/^\d+$/)]),
+      'phoneNumber': new FormControl('', [Validators.required, Validators.pattern(/^\d+$/)]),
       'password': new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/)]),
-      faculty: new FormControl<Faculty | null>(null, Validators.required),
       'name': new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưỂỄỆẾỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệếỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ ]{2,}$/)]),
-      'email': new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]+\d+@(h|H)(u|U)(c|C)(e|E)\.(e|E)(d|D)(u|U)\.(v|V)(n|N)$/)]),
+      'email': new FormControl('', [Validators.required, Validators.email]),
     });
   }
 
   ngOnDestroy() {
-  }
-
-  getFaculties() {
-    this.facultyService.getAllFaculty().subscribe({
-      next: (faculties) => {
-        this.faculties = faculties;
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
   }
 
   onRegister() {
@@ -60,7 +43,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       return;
     }
     this.isSubmitted = true;
-    this.studentService.register(this.registerForm).pipe(
+    this.userService.register(this.registerForm).pipe(
       finalize(() => {
         this.isSubmitted = false;
       })
@@ -77,7 +60,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         if (error.status === 409) {
-          this.notify('Tài khoản sinh viên đã tồn tại', 'error', 'Lỗi');
+          this.notify('Tài khoản đã tồn tại', 'error', 'Lỗi');
         } else {
           this.notify('Đăng ký thất bại, vui lòng thử lại sau', 'error', 'Lỗi');
         }

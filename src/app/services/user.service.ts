@@ -7,19 +7,18 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class StudentService {
+export class UserService {
 
-  private API_URL = `${environment.apiUrl}/students`;
+  private API_URL = `${environment.apiUrl}/users`;
 
   constructor(private http: HttpClient) { }
 
   public register(form: FormGroup): Observable<any> {
-    const { studentCode, password, faculty, name, email } = form.value;
+    const { phoneNumber, password, name, email } = form.value;
 
     const requestBody = {
-      studentCode: studentCode,
+      phoneNumber: phoneNumber,
       password: password,
-      faculty: faculty.id,
       name: name,
       email: email
     };

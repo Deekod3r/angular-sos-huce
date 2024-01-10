@@ -13,7 +13,7 @@ export class NavbarComponent implements OnInit {
 
   items!: MenuItem[];
   userTools!: MenuItem[];
-  studentInfo!: any;
+  userInfo!: any;
   isLoggedIn: boolean = false;
   userOptions!: any[];
 
@@ -98,7 +98,7 @@ export class NavbarComponent implements OnInit {
 
     this.isLoggedIn = localStorage.getItem(CONFIG.KEY.IS_LOGGED_IN) == this.encryptService.encrypt(CONFIG.KEY.IS_LOGGED_IN_VALUE);
 
-    this.studentInfo = JSON.parse(this.encryptService.decrypt(localStorage.getItem(CONFIG.KEY.TOKEN)) || '{}');
+    this.userInfo = JSON.parse(this.encryptService.decrypt(localStorage.getItem(CONFIG.KEY.TOKEN)) || '{}');
   }
 }
 
