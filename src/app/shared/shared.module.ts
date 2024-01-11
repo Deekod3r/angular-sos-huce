@@ -6,6 +6,7 @@ import { PanelModule } from 'primeng/panel';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
+import { DividerModule } from 'primeng/divider';
 
 
 @NgModule({
@@ -13,11 +14,6 @@ import { RouterLink } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule,
-    MessagesModule,
-    PanelModule,
-    InputTextModule,
-    ButtonModule,
     RouterLink
   ],
   exports: [
@@ -27,7 +23,8 @@ import { RouterLink } from '@angular/router';
     CommonModule,
     InputTextModule,
     ButtonModule,
-    RouterLink
+    RouterLink,
+    DividerModule
   ]
 })
 export class SharedModule { }

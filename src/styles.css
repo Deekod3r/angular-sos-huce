@@ -7,7 +7,8 @@ body {
     font-family: var(--font-family);
 }
 
-body, html {
+body,
+html {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -26,21 +27,48 @@ body, html {
     align-items: center;
 }
 
-.primary-color, a, a:visited {
-    color: #14B8A6;
+a, a:visited {
+    color: var(--primary-color);
+}
+
+li > a {
+    color: var(--primary-color);
 }
 
 .container {
     width: 100%;
-    max-width: 1140px;
     padding-right: 25px;
     padding-left: 25px;
     margin-right: auto;
     margin-left: auto;
 }
 
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+    }
+}
 
-.top-bar, .bottom-bar {
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+.top-bar,
+.bottom-bar {
     height: 40px;
     background-color: var(--primary-color);
 }
