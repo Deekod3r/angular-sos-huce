@@ -8,9 +8,9 @@ import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 
 
-
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,

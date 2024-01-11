@@ -56,6 +56,26 @@ export let ROUTES_USER: Routes = [
         path: '',
         loadComponent: () => import('../modules/user/home/home.component').then((m) => m.HomeComponent),
       },
+      {
+        path: 'adopt',
+        loadComponent: () => import('../modules/user/adopt/adopt.component').then((m) => m.AdoptComponent),
+      },
+      {
+        path: 'blog',
+        loadComponent: () => import('../modules/user/blog/blog.component').then((m) => m.BlogComponent),
+      },
+      {
+        path: 'donate',
+        loadComponent: () => import('../modules/user/donate/donate.component').then((m) => m.DonateComponent),
+      },
+      {
+        path: 'intro',
+        loadComponent: () => import('../modules/user/intro/intro.component').then((m) => m.IntroComponent),
+      },
+      {
+        path: 'support',
+        loadComponent: () => import('../modules/user/support/support.component').then((m) => m.SupportComponent),
+      }
     ]
   },
 ];

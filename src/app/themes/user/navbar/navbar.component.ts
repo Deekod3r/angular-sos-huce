@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { CONFIG } from 'src/app/common/config';
 import { AuthService } from 'src/app/services/auth.service';
@@ -18,7 +19,7 @@ export class NavbarComponent implements OnInit {
   userOptions!: any[];
 
 
-  constructor(private authService: AuthService, private encryptService: EncryptionService) { }
+  constructor(private authService: AuthService, private encryptService: EncryptionService, private router: Router) { }
 
   ngOnInit() {
     this.items = [
@@ -31,27 +32,28 @@ export class NavbarComponent implements OnInit {
       {
         label: 'Nhận nuôi',
         icon: 'fa fa-paw',
+        routerLink: '/adopt'
         
       },
       {
         label: 'Ủng hộ',
         icon: 'fa fa-hand-holding-heart',
-        
+        routerLink: '/donate'
       },
       {
         label: 'Tin tức',
         icon: 'fa fa-newspaper',
-        
+        routerLink: '/blog'
       },
       {
         label: 'Giới thiệu',
         icon: 'fa fa-bullhorn',
-        
+        routerLink: '/intro'
       },
       {
         label: 'Hỗ trợ',
         icon: 'fa fa-circle-question',
-        
+        routerLink: '/support'
       }
     ];
 
@@ -75,7 +77,7 @@ export class NavbarComponent implements OnInit {
       },
       {
         label: 'Đăng xuất',
-        icon: 'pi pi-power-off text-red-500',
+        icon: 'fa fa-power-off text-red-500',
         command: () => {
           this.authService.logout();
           window.location.reload();
@@ -107,6 +109,14 @@ export class NavbarComponent implements OnInit {
         label: 'Nhận nuôi',
         icon: 'fa-solid fa-heart-circle-plus',
         command: () => { window.location.href = '/auth/login' } 
+      },
+      {
+        separator: true
+      },
+      {
+        label: 'Ủng hộ',
+        icon: 'fa-solid fa-clover',
+        command: () => { window.location.href = '/auth/login' } 
       }
     ];
 
@@ -117,15 +127,34 @@ export class NavbarComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    const homeMenuItem = document.querySelector('.p-menuitem-link[href="/"]') as HTMLElement;
-    if (homeMenuItem) {
-      homeMenuItem.classList.add('bg-cyan-100', 'border-round');
+    let href = this.router.url;
+    if (href != '/') {
+      if (href.startsWith('/adopt')) {
+        href = '/adopt';
+      }
+      if (href.startsWith('/donate')) {
+        href = '/donate';
+      }
+      if (href.startsWith('/blog')) {
+        href = '/blog';
+      }
+      if (href.startsWith('/intro')) {
+        href = '/intro';
+      }
+      if (href.startsWith('/support')) {
+        href = '/support';
+      }
+    }
+    const menuItem = document.querySelector('.p-menuitem-link[href="' + href + '"]') as HTMLElement;
+    if (menuItem) {
+      menuItem.classList.add('bg-cyan-100', 'border-round');
     }
   }
 
   activeMenu(event:any) {
     let node = event.target;
     if (node.tagName === "LI" 
+    || node.classList.contains("p-menubar-button")
     || node.classList.contains("p-button-icon") || node.classList.contains("p-button")
     || node.classList.contains("p-avatar-icon") || node.classList.contains("p-avatar")) {
       return;

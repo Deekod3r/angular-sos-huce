@@ -1,0 +1,41 @@
+a:visited {
+    color: white !important;
+}
+
+a:hover {
+    color: var(--yellow-300) !important;
+}
+
+a {
+    color: white !important;
+    text-decoration: none !important;
+    font-weight: bold;
+}
+
+.top-bar {
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+@media screen and (min-width: 800px) {
+    .top-bar {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+
+    .info {
+        display: inline !important; 
+    }
+}
+
+@media screen and (max-width: 799px) {
+    .top-bar {
+        display: block !important;
+    }
+
+    .info > a {
+        display: none !important;
+    }
+}

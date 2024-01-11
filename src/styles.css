@@ -1,6 +1,5 @@
 @import "primeng/resources/themes/lara-light-teal/theme.css";
 @import "primeng/resources/primeng.css";
-@import "primeicons/primeicons.css";
 @import "primeflex/primeflex.css";
 @import "./assets/icons/tablericon/tabler-icons.min.css";
 
@@ -31,7 +30,17 @@ body, html {
     color: #14B8A6;
 }
 
-li:hover > div > a {
-    background-color: var(--surface-300);
-    border-radius: 0.5rem;
+.container {
+    width: 100%;
+    max-width: 1140px;
+    padding-right: 25px;
+    padding-left: 25px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
+.top-bar, .bottom-bar {
+    height: 40px;
+    background-color: var(--primary-color);
 }

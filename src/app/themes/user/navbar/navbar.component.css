@@ -6,4 +6,7 @@ a {
     padding: 0 1rem !important;
 }
 
-  
+::ng-deep li:hover > div {
+    background-color: var(--surface-300) !important;
+    border-radius: 0.5rem !important;
+}

@@ -18,19 +18,21 @@ import { ScrollTopModule } from 'primeng/scrolltop';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './themes/user/navbar/navbar.component';
-import { FooterComponent } from './themes/user/footer/footer.component';
 import { NavbarAuthComponent } from './themes/auth/navbar-auth/navbar-auth.component';
 import { AuthComponent } from './themes/auth/auth.component';
 import { UserComponent } from './themes/user/user.component';
+import { TopBarComponent } from './shared/components/top-bar/top-bar.component';
+import { BottomBarComponent } from './shared/components/bottom-bar/bottom-bar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    FooterComponent,
     NavbarAuthComponent,
     AuthComponent,
     UserComponent,
+    TopBarComponent,
+    BottomBarComponent
   ],
   imports: [
     BrowserModule,
