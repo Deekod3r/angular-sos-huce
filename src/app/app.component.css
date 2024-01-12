@@ -1,4 +1,3 @@
-::ng-deep .back-to-top > button{
+::ng-deep .back-to-top>button {
     margin-right: 80px !important;
-    /* background-color: #14B8A6 !important; */
 }

@@ -14,27 +14,6 @@ html {
     padding: 0;
 }
 
-#tawk_658d209c07843602b8061bd1 {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    z-index: 9999;
-}
-
-.form-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-a, a:visited {
-    color: var(--primary-color);
-}
-
-li > a {
-    color: var(--primary-color);
-}
-
 .container {
     width: 100%;
     padding-right: 25px;
@@ -67,8 +46,40 @@ li > a {
     }
 }
 
-.top-bar,
-.bottom-bar {
-    height: 40px;
-    background-color: var(--primary-color);
+#tawk_658d209c07843602b8061bd1 {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 9999;
+}
+
+.form-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a, a:visited {
+    color: var(--primary-color);
+}
+
+li > a {
+    color: var(--primary-color);
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.app-top-bar {
+    transition: transform 0.5s ease;
+}
+
+.app-top-bar.hidden {
+    transform: translateY(-100%);
 }

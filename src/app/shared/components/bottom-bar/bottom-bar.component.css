@@ -1,9 +1,9 @@
 body {
-    background: white;
+    background: #ffffff;
 }
 
 .new_footer_area {
-    background: white;
+    background: #ffffff;
 }
 
 .new_footer_top {
@@ -199,10 +199,9 @@ a {
     background-size: 100%;
     background-repeat: no-repeat;
     bottom: 0;
-    left: 35%;
     position: absolute;
-    -webkit-animation: myfirst 30s linear infinite;
-    animation: myfirst 30s linear infinite;
+    -webkit-animation: myfirst 35s linear infinite;
+    animation: myfirst 35s linear infinite;
 }
 
 li {

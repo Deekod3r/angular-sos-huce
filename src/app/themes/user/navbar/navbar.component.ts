@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { CONFIG } from 'src/app/common/config';
 import { AuthService } from 'src/app/services/auth.service';
@@ -17,9 +17,11 @@ export class NavbarComponent implements OnInit {
   userInfo!: any;
   isLoggedIn: boolean = false;
   userOptions!: any[];
+  currentRoute: string = '/';
 
 
-  constructor(private authService: AuthService, private encryptService: EncryptionService, private router: Router) { }
+  constructor(private authService: AuthService, private encryptService: EncryptionService,
+    private router: Router) { }
 
   ngOnInit() {
     this.items = [
@@ -27,13 +29,13 @@ export class NavbarComponent implements OnInit {
         label: 'Trang chủ',
         icon: 'fa fa-house',
         routerLink: '/',
-        
+
       },
       {
         label: 'Nhận nuôi',
         icon: 'fa fa-paw',
         routerLink: '/adopt'
-        
+
       },
       {
         label: 'Ủng hộ',
@@ -89,26 +91,26 @@ export class NavbarComponent implements OnInit {
       {
         visible: false
       },
-      { 
-        label: 'Đăng nhập', 
+      {
+        label: 'Đăng nhập',
         icon: 'fa-brands fa-keycdn',
-        command: () => { window.location.href = '/auth/login' } 
+        command: () => { window.location.href = '/auth/login' }
       },
       {
         separator: true
       },
-      { 
-        label: 'Đăng ký', 
+      {
+        label: 'Đăng ký',
         icon: 'fa-solid fa-registered',
-        command: () => { window.location.href = '/auth/register' } 
+        command: () => { window.location.href = '/auth/register' }
       },
       {
         separator: true
       },
-      { 
+      {
         label: 'Nhận nuôi',
         icon: 'fa-solid fa-heart-circle-plus',
-        command: () => { window.location.href = '/auth/login' } 
+        command: () => { window.location.href = '/auth/login' }
       },
       {
         separator: true
@@ -116,7 +118,7 @@ export class NavbarComponent implements OnInit {
       {
         label: 'Ủng hộ',
         icon: 'fa-solid fa-clover',
-        command: () => { window.location.href = '/auth/login' } 
+        command: () => { window.location.href = '/auth/login' }
       }
     ];
 
@@ -124,10 +126,20 @@ export class NavbarComponent implements OnInit {
 
     this.userInfo = JSON.parse(this.encryptService.decrypt(localStorage.getItem(CONFIG.KEY.TOKEN)) || '{}');
 
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.currentRoute = this.router.routerState.snapshot.url;
+        this.activeMenu(this.currentRoute);
+      }
+    });
+
   }
 
   ngAfterViewInit() {
-    let href = this.router.url;
+    this.activeMenu(this.router.url);
+  }
+
+  activeMenu(href: string) {
     if (href != '/') {
       if (href.startsWith('/adopt')) {
         href = '/adopt';
@@ -145,34 +157,18 @@ export class NavbarComponent implements OnInit {
         href = '/support';
       }
     }
+    let menuitem = document.getElementsByClassName("p-menuitem-link");
+    for (let i = 0; i < menuitem.length; i++) {
+      menuitem[i].classList.remove("bg-cyan-100");
+      menuitem[i].classList.remove("border-round");
+    }
+    this.setActiveMenu(href);
+  }
+
+  setActiveMenu(href: string) {
     const menuItem = document.querySelector('.p-menuitem-link[href="' + href + '"]') as HTMLElement;
     if (menuItem) {
       menuItem.classList.add('bg-cyan-100', 'border-round');
-    }
-  }
-
-  activeMenu(event:any) {
-    let node = event.target;
-    if (node.tagName === "LI" 
-    || node.classList.contains("p-menubar-button")
-    || node.classList.contains("p-button-icon") || node.classList.contains("p-button")
-    || node.classList.contains("p-avatar-icon") || node.classList.contains("p-avatar")) {
-      return;
-    } else {
-      if (node.tagName === "A") {
-        node;
-      } else if (event.target.tagName === "SPAN") {
-        node = node.parentNode;
-      } else {
-        return;
-      }
-      let menuitem = document.getElementsByClassName("p-menuitem-link");
-      for (let i = 0; i < menuitem.length; i++) {
-        menuitem[i].classList.remove("bg-cyan-100");
-        menuitem[i].classList.remove("border-round");
-      }
-      node.classList.add("bg-cyan-100");
-      node.classList.add("border-round");
     }
   }
 }

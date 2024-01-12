@@ -7,7 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
-
+import { CardModule } from 'primeng/card';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,8 @@ import { DividerModule } from 'primeng/divider';
     InputTextModule,
     ButtonModule,
     RouterLink,
-    DividerModule
+    DividerModule,
+    CardModule
   ]
 })
 export class SharedModule { }
