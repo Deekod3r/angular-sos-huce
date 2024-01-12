@@ -1,9 +1,9 @@
 <p-galleria [value]="images" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="true"
     [showIndicatorsOnItem]="false" [responsiveOptions]="responsiveOptions" [autoPlay]="true" [circular]="true"
-    [containerStyle]="{'width': '100%', 'max-height': '750px', 'min-height': '400px'}">
+    [containerStyle]="{'width': '100%', 'max-height': '750px', 'min-height': '700px'}">
     <ng-template pTemplate="item" class="relative" let-item>
         <img [src]="item.itemImageSrc"
-            style="width: 100%; display: block; max-height: 750px; min-height: 400px; object-fit: cover;" />
+            style="width: 100%; display: block; max-height: 750px; min-height: 700px; object-fit: cover;" />
     </ng-template>
     <ng-template pTemplate="caption" let-item>
         <div class="mb-1 ml-1">
