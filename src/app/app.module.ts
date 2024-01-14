@@ -32,7 +32,7 @@ import { BottomBarComponent } from './shared/components/bottom-bar/bottom-bar.co
     AuthComponent,
     UserComponent,
     TopBarComponent,
-    BottomBarComponent
+    BottomBarComponent,
   ],
   imports: [
     BrowserModule,

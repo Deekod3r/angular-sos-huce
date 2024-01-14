@@ -8,12 +8,12 @@ import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
 import { CardModule } from 'primeng/card';
+import { CardFooterModule } from './components/card-footer/card-footer.module';
 
 @NgModule({
   declarations: [
   ],
   imports: [
-    CommonModule,
     RouterLink
   ],
   exports: [
@@ -25,7 +25,8 @@ import { CardModule } from 'primeng/card';
     ButtonModule,
     RouterLink,
     DividerModule,
-    CardModule
+    CardModule,
+    CardFooterModule
   ]
 })
 export class SharedModule { }

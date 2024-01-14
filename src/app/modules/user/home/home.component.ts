@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
       {
         itemImageSrc: '../../../assets/medias/carousel/carousel-1.jpg',
         thumbnailImageSrc: '../../../assets/medias/carousel/carousel-1.jpg',
-        description: 'Description for Image 1 trường đại học xây dựng hà nội 12345 kashdka aldalksdj akdhaskdas',
+        description: 'Description for Image 1',
         title: 'Title 1'
       },
       {
