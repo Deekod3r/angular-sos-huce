@@ -95,7 +95,7 @@
         <div class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12 z-1">
             <div class="justify-center items-center">
                 <i class="fa-solid fa-house-chimney-medical fa-3x text-primary"></i>                
-                <p class="text-5xl font-bold">{{statisticCases.sumCase}}</p>
+                <p class="xl:text-5xl lg:text-5xl md:text-2xl sm:text-2xl text-2xl font-bold">{{statisticCases.sumCase}}</p>
                 <p class="text-2xl">CA CỨU HỘ</p>
             </div>
         </div>
@@ -131,7 +131,7 @@
                     <i class="fa-solid fa-paw fa-rotate-by fa-xl text-primary" style="--fa-rotate-angle: 30deg;"></i>
                 </div>
             </ng-template>
-            <p-carousel [value]="pets" [numVisible]="4" [numScroll]="2" [circular]="true"
+            <p-carousel [value]="pets" [numVisible]="4" [numScroll]="4" [circular]="true"
                 [responsiveOptions]="responsiveOptions" [autoplayInterval]="3000">
                 <ng-template let-pet pTemplate="item">
                     <div class="border-1 surface-border border-round m-2 text-center py-3 px-3">

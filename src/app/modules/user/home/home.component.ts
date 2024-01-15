@@ -22,22 +22,43 @@ export class HomeComponent implements OnInit {
   news!: any[];
   statisticCases!: any;
 
-  responsiveOptions: any[] = [
-      {
-          breakpoint: '1024px',
-          numVisible: 5
-      },
-      {
-          breakpoint: '768px',
-          numVisible: 3
-      },
-      {
-          breakpoint: '560px',
-          numVisible: 1
-      }
+  responsiveOptions = [
+    {
+      breakpoint: '1199px',
+      numVisible: 3,
+      numScroll: 3
+    },
+    {
+      breakpoint: '991px',
+      numVisible: 2,
+      numScroll: 2
+    },
+    {
+      breakpoint: '767px',
+      numVisible: 1,
+      numScroll: 1
+    }
   ];
 
-  constructor(private petService: PetService, private newsService:  NewsService) {}
+  // responsiveOptionsNews = [
+  //   {
+  //     breakpoint: '1199px',
+  //     numVisible: 1,
+  //     numScroll: 1
+  //   },
+  //   {
+  //     breakpoint: '991px',
+  //     numVisible: 1,
+  //     numScroll: 1
+  //   },
+  //   {
+  //     breakpoint: '767px',
+  //     numVisible: 1,
+  //     numScroll: 1
+  //   }
+  // ];
+
+  constructor(private petService: PetService, private newsService: NewsService) { }
 
   ngOnInit() {
     this.images = [
