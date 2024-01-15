@@ -2,16 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { GalleriaModule } from 'primeng/galleria';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FieldsetModule } from 'primeng/fieldset';
+import { PetService } from 'src/app/services/pet.service';
+import { CardPetModule } from 'src/app/shared/components/card-pet/card-pet.module';
+import { CarouselModule } from 'primeng/carousel';
+import { CardNewsModule } from 'src/app/shared/components/card-news/card-news.module';
+import { NewsService } from 'src/app/services/news.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [GalleriaModule, SharedModule, FieldsetModule],
+  imports: [GalleriaModule, SharedModule, FieldsetModule, CardPetModule, CarouselModule, CardNewsModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+
   images: any[] | undefined;
+  pets!: any[];
+  news!: any[];
+  statisticCases!: any;
 
   responsiveOptions: any[] = [
       {
@@ -28,7 +37,7 @@ export class HomeComponent implements OnInit {
       }
   ];
 
-  constructor() {}
+  constructor(private petService: PetService, private newsService:  NewsService) {}
 
   ngOnInit() {
     this.images = [
@@ -63,6 +72,27 @@ export class HomeComponent implements OnInit {
         title: 'Title 5'
       }
     ];
+    this.getStatisticCases();
+    this.getPets();
+    this.getNews();
+  }
+
+  getPets() {
+    this.petService.getPets().subscribe((pets: any) => {
+      this.pets = pets;
+    })
+  }
+
+  getNews() {
+    this.newsService.getNews().subscribe((news: any) => {
+      this.news = news;
+    })
+  }
+
+  getStatisticCases() {
+    this.petService.getStatisticCases().subscribe((statisticCases: any) => {
+      this.statisticCases = statisticCases;
+    })
   }
 
 }

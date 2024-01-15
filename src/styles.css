@@ -82,4 +82,11 @@ li > a {
 
 .app-top-bar.hidden {
     transform: translateY(-100%);
+} 
+
+.text-card {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
 }

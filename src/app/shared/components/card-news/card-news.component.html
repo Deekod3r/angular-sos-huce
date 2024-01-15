@@ -1,1 +1,12 @@
-<p>card-news works!</p>
+<div class="card">
+    <a routerLink="/adopt"><img src="{{news.image}}" class="border-round"></a>
+    <div class="text-card">
+        <a routerLink="/" class="title">
+            <h2 class="my-1 text-card-news-title">{{news.title}}</h2>
+        </a>
+        <p class="m-0 text-primary font-bold">{{news.date}}</p>
+        <p-divider></p-divider>
+        <p class="m-0 text-overflow-ellipsis text-card-news">{{news.description}}</p>
+        <p-divider type="dashed"></p-divider>
+    </div>
+</div>

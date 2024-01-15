@@ -1,1 +1,16 @@
-<p>card-pet works!</p>
+<div class="card">
+    <a routerLink="/adopt"><img src="{{pet.image}}" class="border-round"></a>
+    <div class="text-card-pet">
+        <a routerLink="/" class="name">        
+            <h2 class="my-1">{{pet.name}}</h2>
+        </a>
+        <p class="m-0 text-primary font-bold">{{pet.breed}}</p>
+        <p-divider></p-divider>
+        <p class="m-0"><i class="fa-solid fa-venus-mars mr-1 text-primary"></i><b>Giới tính:</b> {{pet.gender}}</p>
+        <p-divider type="dashed"></p-divider>
+        <p class="m-0"><i class="fa-solid fa-cake-candles mr-1 text-primary"></i><b>Độ tuổi:</b> {{pet.age}}</p>
+        <p-divider type="dashed"></p-divider>
+        <p class="m-0"><i class="fa-solid fa-syringe mr-1 text-primary"></i><b>Tiêm phòng:</b> {{pet.vaccination}}</p>
+        <p-divider type="dashed"></p-divider>
+    </div>
+</div>

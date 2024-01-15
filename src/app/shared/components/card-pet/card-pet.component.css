@@ -1,0 +1,31 @@
+.card {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	margin: 0 auto;
+	max-width: 800px;
+}
+
+.card img {
+	width: 100%;
+	max-width: 400px;
+	height: auto;
+}
+
+.text-card-pet {
+	flex: 1;
+}
+
+::ng-deep .p-divider {
+    margin: 0.5rem 0px !important;
+}
+
+.name {
+    text-decoration: none;
+    color: black;
+}
+
+.name:hover {
+    color: var(--primary-color);
+}
