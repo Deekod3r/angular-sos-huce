@@ -53,7 +53,7 @@
 }
 
 
-.statistic{
+.statistic {
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -81,5 +81,16 @@
 .fa-solid {
     background-color: white;
     border-radius: 50%;
-    padding: 20px;
+}
+
+::ng-deep .p-card {
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.06), 0px 7px 9px rgba(0, 0, 0, 0.12), 0px 20px 25px -8px rgba(0, 0, 0, 0.18);
+}
+
+::ng-deep .p-card-header {
+    padding: 1rem 0.5rem;
+}
+
+::ng-deep .action .p-card-content {
+    padding: 0;
 }

@@ -93,7 +93,7 @@ export class PetService {
             image: 'https://www.hanoipetadoption.com/admin/user-content/Animal/4541b656-c131-4f08-b1b9-7cf22f92ac54.jpeg'
           }
         ]);
-      }, 1000);
+      });
     });
   }
 
@@ -108,7 +108,7 @@ export class PetService {
             notReady: 200
           }
         );
-      }, 1000);
+      });
     });
   }
   

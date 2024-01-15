@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   images: any[] | undefined;
   pets!: any[];
   news!: any[];
-  statisticCases!: any;
+  statisticCases: any;
 
   responsiveOptions = [
     {
@@ -39,24 +39,6 @@ export class HomeComponent implements OnInit {
       numScroll: 1
     }
   ];
-
-  // responsiveOptionsNews = [
-  //   {
-  //     breakpoint: '1199px',
-  //     numVisible: 1,
-  //     numScroll: 1
-  //   },
-  //   {
-  //     breakpoint: '991px',
-  //     numVisible: 1,
-  //     numScroll: 1
-  //   },
-  //   {
-  //     breakpoint: '767px',
-  //     numVisible: 1,
-  //     numScroll: 1
-  //   }
-  // ];
 
   constructor(private petService: PetService, private newsService: NewsService) { }
 
