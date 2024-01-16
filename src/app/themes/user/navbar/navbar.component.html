@@ -4,11 +4,11 @@
     </ng-template>
     <ng-template pTemplate="end">
         <div *ngIf="!isLoggedIn; else menuUserTools">
-            <p-avatar class="mr-3 cursor-pointer" shape="square" icon="fa fa-bars" size="large" [style]="{'background-color':'#14B8A6', 'color': '#ffffff'}" (click)="menuUserOptions.toggle($event)"/>
+            <p-avatar class="mr-3 cursor-pointer" shape="square" icon="fa fa-bars" [style]="{'background-color':'#14B8A6', 'color': '#ffffff'}" (click)="menuUserOptions.toggle($event)"/>
             <p-tieredMenu #menuUserOptions [model]="userOptions" [popup]="true"></p-tieredMenu>
         </div>
         <ng-template #menuUserTools>
-            <p-avatar class="mr-3 cursor-pointer" shape="square" icon="fa fa-user" size="large" [style]="{'background-color':'#14B8A6', 'color': '#ffffff'}" (click)="menu.toggle($event)"/>
+            <p-avatar class="mr-3 cursor-pointer" shape="square" icon="fa fa-user" [style]="{'background-color':'#14B8A6', 'color': '#ffffff'}" (click)="menu.toggle($event)"/>
             <p-tieredMenu #menu [model]="userTools" [popup]="true"></p-tieredMenu>
         </ng-template>
     </ng-template>

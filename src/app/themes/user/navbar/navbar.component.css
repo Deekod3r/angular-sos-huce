@@ -2,11 +2,35 @@ a {
     text-decoration: none;
 }
 
-::ng-deep .p-menuitem, .p-menuitem-link {
-    padding: 0 1rem !important;
+::ng-deep .p-menuitem, .p-menubar-root-list .p-menuitem-link {
+    padding: 0 0.5rem !important;
 }
 
 ::ng-deep li:hover > div {
     background-color: var(--surface-300) !important;
     border-radius: 0.5rem !important;
+}
+
+@media screen and (max-width: 960px) {
+    ::ng-deep .p-tieredmenu {
+        top: 60px !important;
+    }
+}
+
+@media screen and (min-width: 961px) and (max-width: 990px) {
+    ::ng-deep .p-tieredmenu {
+        top: 120px !important;
+    }
+}
+
+@media screen and (min-width: 991px) and (max-width: 1025px) {
+    ::ng-deep .p-tieredmenu {
+        top: 120px !important;
+    }
+}
+
+@media screen and (min-width: 1026px) {
+    ::ng-deep .p-tieredmenu {
+        top: 110px !important;
+    }
 }
