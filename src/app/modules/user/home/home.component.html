@@ -134,7 +134,7 @@
             <p-carousel [value]="pets" [numVisible]="4" [numScroll]="4" [circular]="true"
                 [responsiveOptions]="responsiveOptions" [autoplayInterval]="3000">
                 <ng-template let-pet pTemplate="item">
-                    <div class="border-1 surface-border border-round m-2 text-center py-3 px-3">
+                    <div class="mx-1">
                         <app-card-pet [pet]="pet"></app-card-pet>
                     </div>
                 </ng-template>
@@ -153,7 +153,7 @@
             <p-carousel [value]="news" [numVisible]="3" [numScroll]="3" [circular]="true"
                 [responsiveOptions]="responsiveOptions" [autoplayInterval]="30000000">
                 <ng-template let-news pTemplate="item">
-                    <div class="border-1 surface-border border-round m-2 text-center">
+                    <div class="mx-1">
                         <app-card-news [news]="news"></app-card-news>
                     </div>
                 </ng-template>

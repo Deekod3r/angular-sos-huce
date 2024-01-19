@@ -1,1 +1,73 @@
-<p>pet works!</p>
+<div class="card">
+    <p-toast></p-toast>
+    <p-dialog header="Thêm thú cưng" [(visible)]="visibleCreateModal" [modal]="true" [style]="{ width: '80vw' }" [draggable]="false" [resizable]="false">
+        <app-pet-create></app-pet-create>
+    </p-dialog>
+    <p-dialog header="Chỉnh sửa thú cưng" [(visible)]="visibleUpdateModal" [modal]="true" [style]="{ width: '80vw' }" [draggable]="false" [resizable]="false">
+        <p class="m-0">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+    </p-dialog>
+    <p-panel header="Công cụ" [toggleable]="true">
+        <div class="col-12">
+            <button pButton class="mr-3" label="Thêm mới" icon="fa fa-plus" (click)="showCreateModal()"></button>
+        </div>
+        <div class="grid">
+
+        </div>
+    </p-panel>
+    <p-table [value]="pets" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines mt-3" selectionMode="single"
+    [paginator]="true"
+    [rows]="5"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="{first} - {last} / {totalRecords}"
+    [rowsPerPageOptions]="[5, 10, 25, 50]">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                Thú cưng
+                <p-button icon="fa fa-refresh" (onClick)="getPets()"></p-button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr class="">
+                <th class="col-1">Hình ảnh</th>
+                <th class="col-1">Mã</th>
+                <th class="col-2">Tên</th>
+                <th class="col-1">Loại</th>
+                <th class="col-2">Giống</th>
+                <th class="col-1">Màu</th>
+                <th class="col-1">Tuổi</th>
+                <th class="col-1">Giới tính</th>
+                <th class="col-1">Cân nặng</th>
+                <th class="col-1">Trạng thái</th>
+                <th class=""></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-pet>
+            <tr>
+                <td><img [src]="pet.image" [alt]="pet.name" width="100" class="shadow-4" /></td>
+                <td>{{pet.code}}</td>
+                <td>{{pet.name}}</td>
+                <td>{{pet.type}}</td>
+                <td>{{pet.breed}}</td>
+                <td>{{pet.color}}</td>
+                <td>{{pet.age}}</td>
+                <td>{{pet.gender}}</td>
+                <td>{{pet.weight}}</td>
+                <td><p-tag [value]="getStatus(pet.status)" [severity]="getSeverityStatus(pet.status)"></p-tag></td>
+                <td>
+                    <p-confirmPopup [hideTransitionOptions]="'1s linear'"></p-confirmPopup>
+                    <p-button #btn type="button" icon="fa fa-solid fa-sliders" (click)="menu.toggle($event)"></p-button>
+                    <p-tieredMenu #menu [model]="pet.menuItems" [popup]="true" appendTo="body" class="p-0" styleClass="menucus"></p-tieredMenu>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+            <p-button type="button" icon="fa fa-plus" styleClass="p-button-text"></p-button>
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+            <p-button type="button" icon="fa fa-cloud" styleClass="p-button-text"></p-button>
+        </ng-template>
+    </p-table>
+</div>

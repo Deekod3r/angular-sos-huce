@@ -1,0 +1,7 @@
+::ng-deep .menucus ul {
+    padding-left: 0rem !important; 
+}
+
+::ng-deep .p-tag {
+    font-size: 10px !important; 
+}

@@ -5,6 +5,7 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EncryptionService } from './encryption.service';
 import { CONFIG } from '../common/config';
+import { CommonService } from './common.service';
 
 
 @Injectable({
@@ -12,65 +13,69 @@ import { CONFIG } from '../common/config';
 })
 export class AuthService {
 
-  private API_URL = `${environment.apiUrl}`;
+  constructor(private encryptionService: EncryptionService, private commonService: CommonService) { }
 
-  constructor(private http: HttpClient, private encryptionService: EncryptionService) { }
+  login(form: FormGroup): Observable<boolean> {
 
-  public login(form: FormGroup): Observable<boolean> {
-    const { email, password } = form.value;
+    const {email, password} = form.value;
 
-    const requestBody = {
-      email: email,
-      password: password
-    };
+    const request = {
+      function: 'login',
+      method: CONFIG.KEY.METHOD_POST,
+      body: {
+        email: email,
+        password: password
+      }
+    }
 
-    return this.http.post<any>(`${this.API_URL}/login`, requestBody)
-      .pipe(
-        map(response => {
-          if (response.error) {
-            throw new Error(response.error);
-          }
-          console.log(response.data)
-          localStorage.setItem(CONFIG.KEY.IS_LOGGED_IN, this.encryptionService.encrypt(CONFIG.KEY.IS_LOGGED_IN_VALUE))
-          localStorage.setItem(CONFIG.KEY.TOKEN, this.encryptionService.encrypt(JSON.stringify(response.data)))
-          return true;
-        }),
-        catchError((error: HttpErrorResponse) => {
-          console.log(error)
-          return throwError(() => error);
-        })
-      );
+    return this.commonService.callAPI(request).pipe(
+      map((response: any) => {
+        if (response.error) {
+          throw new Error(response.error);
+        }
+        localStorage.setItem(CONFIG.KEY.IS_LOGGED_IN, this.encryptionService.encrypt(CONFIG.KEY.IS_LOGGED_IN_VALUE));
+        localStorage.setItem(CONFIG.KEY.TOKEN, this.encryptionService.encrypt(JSON.stringify(response.data)));
+        return true;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
+    );
   }
 
-  public verify(id: string, code: string): Observable<any> {
+  verify(id: string, code: string): Observable<any> {
 
-    return this.http.get<any>(`${this.API_URL}/verify/` + id + `?code=` + code)
-      .pipe(
-        map(response => {
-          if (response.error) {
-            throw new Error(response.error);
-          }
-          return response;
-        }),
-        catchError((error: HttpErrorResponse) => {
-          return throwError(() => error);
-        })
-      );
+    const request = {
+      function: 'verify/' + id + '?code=' + code,
+      method: CONFIG.KEY.METHOD_GET
+    }
+
+    return this.commonService.callAPI(request).pipe(
+      map((response: any) => {
+        if (response.error) {
+          throw new Error(response.error);
+        }
+        return response;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
+    );
 
   }
 
-  public getProfile(): any {
+  getProfile(): any {
     return JSON.parse(this.encryptionService.decrypt(localStorage.getItem(CONFIG.KEY.TOKEN)) || '{}')
   }
 
-  public getRole(): any {
+  getRole(): any {
     if (this.getInfoUser()) {
       return this.getInfoUser().role;
     }
     return null;
   }
 
-  public getInfoUser():any {
+  getInfoUser():any {
     let profile = this.getProfile();
     if (JSON.stringify(profile) != '{}') {
       return profile.user;
@@ -78,7 +83,7 @@ export class AuthService {
     return null;
   }
 
-  public getToken(): string {
+  getToken(): string {
     let profile = this.getProfile();
     if (JSON.stringify(profile) != '{}') {
       return profile.token;
@@ -86,7 +91,7 @@ export class AuthService {
     return '';
   }
 
-  public getRefreshToken(): string {
+  getRefreshToken(): string {
     let profile = this.getProfile();
     if (JSON.stringify(profile) != '{}') {
       return profile.refreshToken;
@@ -94,24 +99,23 @@ export class AuthService {
     return '';
   }
 
-  public isAuthenticated(): boolean {
+  isAuthenticated(): boolean {
     return localStorage.getItem(CONFIG.KEY.IS_LOGGED_IN) === this.encryptionService.encrypt(CONFIG.KEY.IS_LOGGED_IN_VALUE);
   }
 
-  public logout(): void {
+  logout(): void {
     localStorage.clear();
     sessionStorage.clear();
-    this.http.get<any>(`${this.API_URL}/logout`)
-      .pipe(
-        map(response => {
-          if (response.error) {
-            throw new Error(response.error);
-          }
-        }),
-        catchError((error: HttpErrorResponse) => {
-          return throwError(() => error);
-        })
-      );
+    const request = {
+      function: 'logout',
+      method: CONFIG.KEY.METHOD_GET,
+      options: {
+        headers: {
+          'Authorization': 'Bearer ' + this.getToken()
+        }
+      }
+    }
+    this.commonService.callAPI(request);
   }
 
 }

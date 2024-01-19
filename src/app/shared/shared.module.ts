@@ -9,6 +9,7 @@ import { RouterLink } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
 import { CardModule } from 'primeng/card';
 import { CardFooterModule } from './components/card-footer/card-footer.module';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { CardFooterModule } from './components/card-footer/card-footer.module';
     RouterLink,
     DividerModule,
     CardModule,
-    CardFooterModule
+    CardFooterModule,
+    ToastModule
   ]
 })
 export class SharedModule { }

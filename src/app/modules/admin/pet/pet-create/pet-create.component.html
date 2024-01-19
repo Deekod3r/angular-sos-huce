@@ -1,0 +1,91 @@
+<div class="position-relative" style="height: 100vh">
+    <p-toast></p-toast>
+    <div class="grid">
+      <div class="col-12">
+        <p-card>
+          <form [formGroup]="form">
+            <div class="grid">
+              <div class="col-4">
+                <label>Hình ảnh</label>
+                <p-button (click)="showImageModal()" icon="fa fa-plus" label="Thêm hình ảnh"
+                  [style]="{'width':'100%'}" styleClass="mt-1"></p-button>
+                <p-dialog header="" [(visible)]="visibleImageModal" [modal]="true"
+                  [style]="{ width: '80vw' }" [draggable]="false" [resizable]="false">
+                  <p-fileUpload name="files[]" url=""
+                    [multiple]="false" accept="image/*">
+                    <ng-template pTemplate="content">
+                      <!-- <ul *ngIf="uploadFile">
+                        <li>{{ uploadFile.name }} - {{ uploadFile.size }} bytes</li>
+                      </ul> -->
+                    </ng-template>
+                  </p-fileUpload>
+                </p-dialog>
+              </div>
+              <div class="d-flex flex-column gap-2 col-lg-3 col-md-6 col-sm-12 mb-2">
+                <label>Phone number</label>
+                <input pInputText id="phone-number" type="text" formControlName="phoneNumber"/>
+              </div>
+              <!-- <div class="d-flex flex-column gap-2 col-lg-6 col-sm-12 mb-2">
+                <label>Category (<span [style]="{'color':'red'}">*</span>)</label>
+                <p-dropdown [options]="categories" optionLabel="name" placeholder="Select" class="w-full"
+                  [showClear]="true" [style]="{'width':'100%'}" formControlName="category"></p-dropdown>
+                <div *ngIf="form.controls['category'].hasError('required') && form.controls['category'].touched"
+                  [style]="{'color':'red'}">
+                  Category is required.
+                </div>
+              </div>
+              <div class="d-flex flex-column gap-2 col-12 mb-2">
+                <label>Provider name (<span [style]="{'color':'red'}">*</span>)</label>
+                <input pInputText id="provider-name" type="text" formControlName="providerName" />
+                <div *ngIf="form.controls['providerName'].hasError('required') && form.controls['providerName'].touched"
+                  [style]="{'color':'red'}">
+                  Provider name is required.
+                </div>
+              </div>
+              <div class="d-flex flex-column gap-2 col-lg-3 col-md-6 col-sm-12 mb-2">
+                <label>Country</label>
+                <p-dropdown [options]="countries" optionLabel="countryName" placeholder="Select" class="w-full"
+                  [showClear]="true" [style]="{'width':'100%'}" (onChange)="getProvinces()" (onClear)="clearAddress()"
+                  formControlName="country"></p-dropdown>
+              </div>
+              <div class="d-flex flex-column gap-2 col-lg-3 col-md-6 col-sm-12 mb-2">
+                <label>Province</label>
+                <p-dropdown [options]="provinces" optionLabel="provinceName" placeholder="Select" class="w-full"
+                  [showClear]="true" [style]="{'width':'100%'}" (onChange)="getDistricts()" (onClear)="getProvinces()"
+                  formControlName="province"></p-dropdown>
+              </div>
+              <div class="d-flex flex-column gap-2 col-lg-3 col-md-6 col-sm-12 mb-2">
+                <label>District</label>
+                <p-dropdown [options]="districts" optionLabel="districtName" placeholder="Select" class="w-full"
+                  [showClear]="true" [style]="{'width':'100%'}" (onChange)="getCommunes()" (onClear)="getDistricts()"
+                  formControlName="district"></p-dropdown>
+              </div>
+              <div class="d-flex flex-column gap-2 col-lg-3 col-md-6 col-sm-12 mb-2">
+                <label>Comune</label>
+                <p-dropdown [options]="communes" optionLabel="name" placeholder="Select" class="w-full" [showClear]="true"
+                  [style]="{'width':'100%'}" formControlName="commune"></p-dropdown>
+              </div>
+              <div class="d-flex flex-column gap-2 col-12 mb-2">
+                <label>Detail address</label>
+                <textarea rows="2" pInputTextarea formControlName="address"></textarea>
+              </div>
+              <div class="d-flex flex-column gap-2 col-lg-6 col-md-6 col-sm-12 mb-2">
+                <label>Map URL</label>
+                <input pInputText id="google-map-url" type="text" formControlName="googleMapUrl"/>
+              </div>
+              <div class="d-flex flex-column gap-2 col-lg-6 col-md-6 col-sm-12 mb-2">
+                <label>Social network URL</label>
+                <input pInputText id="social-url" type="text" formControlName="socialUrl"/>
+              </div>
+              <div class="d-flex flex-column gap-2 col-12 mb-2">
+                <label>Description</label>
+                <textarea rows="2" pInputTextarea formControlName="description"></textarea>
+              </div>
+              <p-button label="Add" [style]="{ width: '50vw' }" align="center" class="mt-3"
+                (onClick)="addProvider()" [disabled]="!form.valid"></p-button> -->
+            </div>
+          </form>
+        </p-card>
+      </div>
+      <div class="pb-1"></div>
+    </div>
