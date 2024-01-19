@@ -3,7 +3,7 @@
         <a routerLink="/home" class="mx-3"><img src="../../../../assets/medias/imgs/logo-site-removebg.png" height="60" class="mr-2"/></a>
     </ng-template>
     <ng-template pTemplate="end">
-        <div *ngIf="!isLoggedIn; else menuUserTools">
+        <div *ngIf="!this.authService.isAuthenticated(); else menuUserTools">
             <p-avatar class="mr-3 cursor-pointer" shape="square" icon="fa fa-bars" [style]="{'background-color':'#14B8A6', 'color': '#ffffff'}" (click)="menuUserOptions.toggle($event)"/>
             <p-tieredMenu #menuUserOptions [model]="userOptions" [popup]="true"></p-tieredMenu>
         </div>

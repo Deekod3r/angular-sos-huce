@@ -30,6 +30,7 @@ export class AuthService {
           if (response.error) {
             throw new Error(response.error);
           }
+          console.log(response.data)
           localStorage.setItem(CONFIG.KEY.IS_LOGGED_IN, this.encryptionService.encrypt(CONFIG.KEY.IS_LOGGED_IN_VALUE))
           localStorage.setItem(CONFIG.KEY.TOKEN, this.encryptionService.encrypt(JSON.stringify(response.data)))
           return true;
@@ -56,6 +57,45 @@ export class AuthService {
         })
       );
 
+  }
+
+  public getProfile(): any {
+    return JSON.parse(this.encryptionService.decrypt(localStorage.getItem(CONFIG.KEY.TOKEN)) || '{}')
+  }
+
+  public getRole(): any {
+    if (this.getInfoUser()) {
+      return this.getInfoUser().role;
+    }
+    return null;
+  }
+
+  public getInfoUser():any {
+    let profile = this.getProfile();
+    if (JSON.stringify(profile) != '{}') {
+      return profile.user;
+    }
+    return null;
+  }
+
+  public getToken(): string {
+    let profile = this.getProfile();
+    if (JSON.stringify(profile) != '{}') {
+      return profile.token;
+    }
+    return '';
+  }
+
+  public getRefreshToken(): string {
+    let profile = this.getProfile();
+    if (JSON.stringify(profile) != '{}') {
+      return profile.refreshToken;
+    }
+    return '';
+  }
+
+  public isAuthenticated(): boolean {
+    return localStorage.getItem(CONFIG.KEY.IS_LOGGED_IN) === this.encryptionService.encrypt(CONFIG.KEY.IS_LOGGED_IN_VALUE);
   }
 
   public logout(): void {

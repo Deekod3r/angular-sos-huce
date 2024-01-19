@@ -2,145 +2,70 @@ import { Routes } from '@angular/router';
 import { AuthComponent } from '../themes/auth/auth.component';
 import { UserComponent } from '../themes/user/user.component';
 import { AuthGuard } from '../guards/auth.guard';
+import { AdminComponent } from '../themes/admin/admin.component';
+import { PermissionGuard } from '../guards/permission.guard';
+import { DashboardComponent } from '../modules/admin/dashboard/dashboard.component';
+import { PetComponent } from '../modules/admin/pet/pet.component';
+import { LoginComponent } from '../modules/auth/login/login.component';
+import { RegisterComponent } from '../modules/auth/register/register.component';
+import { VerifyComponent } from '../modules/auth/verify/verify.component';
+import { AdoptComponent } from '../modules/user/adopt/adopt.component';
+import { BlogComponent } from '../modules/user/blog/blog.component';
+import { DonateComponent } from '../modules/user/donate/donate.component';
+import { HomeComponent } from '../modules/user/home/home.component';
+import { IntroComponent } from '../modules/user/intro/intro.component';
+import { SupportComponent } from '../modules/user/support/support.component';
+import { AccessDeninedComponent } from '../modules/errors/access-denined/access-denined.component';
+import { NotFoundComponent } from '../modules/errors/not-found/not-found.component';
+import { LoggedInGuard } from '../guards/logged-in.guard';
 
 export let ROUTES_ROOT: Routes = [
   {
     path: '',
     component: UserComponent,
-    children: [
-      {
-        path: '',
-        loadChildren: () => import('../modules/user/user.module').then((m) => m.UserModule)
-      },
-    ]
+    canActivate: [PermissionGuard],
+    data: { expectedRole: ["USER"] },
+    loadChildren: () => import('../modules/user/user.module').then((m) => m.UserModule)
   },
   {
-    path: '',
+    path: 'auth',
     component: AuthComponent,
+    canActivate: [LoggedInGuard],
+    loadChildren: () => import('../modules/auth/auth.module').then((m) => m.AuthModule)
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [PermissionGuard],
+    data: { expectedRole: ["ADMIN", "MANAGER"] },
+    loadChildren: () => import('../modules/admin/admin.module').then((m) => m.AdminModule)
+  },
+  {
+    path: 'error',
     children: [
-      {
-        path: 'auth',
-        loadChildren: () => import('../modules/auth/auth.module').then((m) => m.AuthModule)
-      },
+      { path: 'access-denined', component: AccessDeninedComponent },
+      { path: 'not-found', component: NotFoundComponent }
     ]
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 export let ROUTES_AUTH: Routes = [
-  {
-    path: '',
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'login',
-        loadComponent: () => import('../modules/auth/login/login.component').then((m) => m.LoginComponent),
-      },
-      {
-        path: 'register',
-        loadComponent: () => import('../modules/auth/register/register.component').then((m) => m.RegisterComponent),
-      },
-      {
-        path: 'verify/:id',
-        loadComponent: () => import('../modules/auth/verify/verify.component').then((m) => m.VerifyComponent),
-      },
-    ]
-  },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'verify/:id', component: VerifyComponent },
 ];
 
 export let ROUTES_USER: Routes = [
-  {
-    path: '',
-    children: [
-      {
-        path: '',
-        loadComponent: () => import('../modules/user/home/home.component').then((m) => m.HomeComponent),
-      },
-      {
-        path: 'adopt',
-        loadComponent: () => import('../modules/user/adopt/adopt.component').then((m) => m.AdoptComponent),
-      },
-      {
-        path: 'blog',
-        loadComponent: () => import('../modules/user/blog/blog.component').then((m) => m.BlogComponent),
-      },
-      {
-        path: 'donate',
-        loadComponent: () => import('../modules/user/donate/donate.component').then((m) => m.DonateComponent),
-      },
-      {
-        path: 'intro',
-        loadComponent: () => import('../modules/user/intro/intro.component').then((m) => m.IntroComponent),
-      },
-      {
-        path: 'support',
-        loadComponent: () => import('../modules/user/support/support.component').then((m) => m.SupportComponent),
-      }
-    ]
-  },
+  { path: '', component: HomeComponent },
+  { path: 'adopt', component: AdoptComponent },
+  { path: 'blog', component: BlogComponent },
+  { path: 'donate', component: DonateComponent },
+  { path: 'intro', component: IntroComponent },
+  { path: 'support', component: SupportComponent },
 ];
 
-export function getAllRoutes(routeName: string, commonRoute: any, isPublic: boolean): Routes {
-  if (!isPublic) {
-    if (commonRoute && routeName) {
-      let lstModulePublic = commonRoute.filter((route: { canActivate: any; }) => {
-        if (!route.canActivate) {
-          return true;
-        }
-        return false;
-      });
-      // const json = localStorage.getItem(routeName);
-      // if (json) {
-      //   let menus = JSON.parse(json);
-      //   if (menus && menus.length > 0) {
-      //     let lstModulePrivate = commonRoute.filter((route: { canActivate: any; }) => {
-      //       if (route.canActivate) {
-      //         return true;
-      //       }
-      //       return false;
-      //     });
-      //     if (lstModulePrivate && lstModulePrivate.length > 0) {
-      //       const defaultRoute = menus.find((obj: { default: any; }) => obj.default) ?? findMinValueObject(menus, 'order');
-      //       lstModulePrivate.map((map: { [x: string]: any; children: any[]; }) => {
-      //         const lstComponentPrivate = map?.children.filter((route: { path: string; }) => {
-      //           if (route.path == '' || route.path == '**') {
-      //             return true;
-      //           }
-      //           return menus.find((obj: { path: any; }) => obj.path == route.path);
-      //         }).map((item: { path: string; }) => {
-      //           if (item.path == '' || item.path == '**') {
-      //             return { ...item, ['redirectTo']: defaultRoute.path };
-      //           }
-      //           return item;
-      //         });
-      //         map['children'] = lstComponentPrivate;
-      //         return map;
-      //       });
-      //       return [...lstModulePrivate, ...lstModulePublic]
-      //     }
-      //   }
-      // }
-      return lstModulePublic
-    }
-    return [];
-  } else {
-    return commonRoute;
-  }
-}
-
-// function findMinValueObject(list: any[], fieldName: string) {
-//   if (list.length === 0) {
-//     return null;
-//   }
-
-//   return list.reduce((minObj: { [x: string]: any; }, currentObj: { [x: string]: any; }) => {
-//     const minValue = minObj[fieldName];
-//     const currentValue = currentObj[fieldName];
-
-//     if (currentValue === null || (currentValue !== null && currentValue < minValue)) {
-//       return currentObj;
-//     }
-
-//     return minObj;
-//   }, list[0]);
-// }
+export let ROUTES_ADMIN: Routes = [
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'pets', component: PetComponent },
+];

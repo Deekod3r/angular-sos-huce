@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { CONFIG } from 'src/app/common/config';
 import { AuthService } from 'src/app/services/auth.service';
-import { EncryptionService } from 'src/app/services/encryption.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,13 +13,11 @@ export class NavbarComponent implements OnInit {
   items!: MenuItem[];
   userTools!: MenuItem[];
   userInfo!: any;
-  isLoggedIn: boolean = false;
   userOptions!: any[];
   currentRoute: string = '/';
 
 
-  constructor(private authService: AuthService, private encryptService: EncryptionService,
-    private router: Router) { }
+  constructor(public authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.items = [
@@ -122,9 +118,7 @@ export class NavbarComponent implements OnInit {
       }
     ];
 
-    this.isLoggedIn = localStorage.getItem(CONFIG.KEY.IS_LOGGED_IN) == this.encryptService.encrypt(CONFIG.KEY.IS_LOGGED_IN_VALUE);
-
-    this.userInfo = JSON.parse(this.encryptService.decrypt(localStorage.getItem(CONFIG.KEY.TOKEN)) || '{}');
+    this.userInfo = this.authService.getProfile();
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {

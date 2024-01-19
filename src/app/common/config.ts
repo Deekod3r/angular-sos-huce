@@ -17,6 +17,7 @@ export const CONFIG = {
         ROOT_ROUTES: 'ROOT_ROUTES',
         AUTHENTICATION_ROUTES: 'AUTHENTICATION_ROUTES',
         USER_ROUTES: 'USER_ROUTES',
+        ADMIN_ROUTES: 'ADMIN_ROUTES',
     },
     GUARD: {
         PRIVATE: false,
@@ -25,4 +26,8 @@ export const CONFIG = {
     DEFAULT_VALUE: {
         TIMEOUT_TOAST: 2000,
     },
+    ROLE: {
+        USER: ['USER'],
+        ROOT: ['MANAGER','ADMIN']
+    }
 }

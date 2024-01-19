@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CONFIG } from './common/config';
-import { ROUTES_ROOT, getAllRoutes } from './common/router';
+import { ROUTES_ROOT } from './common/router';
 
 @NgModule({
-  imports: [RouterModule.forRoot(getAllRoutes(CONFIG.ROUTES.ROOT_ROUTES, ROUTES_ROOT, CONFIG.GUARD.PRIVATE))],
+  imports: [RouterModule.forRoot(ROUTES_ROOT)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

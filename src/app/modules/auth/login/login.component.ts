@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     .subscribe({
       next: (success) => {
         if (success) {
-          window.location.reload();        
+          window.location.reload();      
         }
       },
       error: (error) => {
