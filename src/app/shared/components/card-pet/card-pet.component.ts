@@ -7,6 +7,11 @@ import { Component, Input } from '@angular/core';
 })
 export class CardPetComponent {
 
-  @Input() pet: any;
+  @Input() image: any;
+  @Input() name: any;
+  @Input() breed: any;
+  @Input() age: any;
+  @Input() vaccin: any;
+  @Input() gender: any;
 
 }

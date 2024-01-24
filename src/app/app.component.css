@@ -1,3 +1,7 @@
-::ng-deep .back-to-top>button {
-    margin-right: 80px !important;
+::ng-deep .mat-form-field {
+    width: 100% !important;
+}
+
+::ng-deep .mat-form-button {
+    width: 75% !important;
 }

@@ -7,6 +7,10 @@ import { CardPetModule } from 'src/app/shared/components/card-pet/card-pet.modul
 import { CarouselModule } from 'primeng/carousel';
 import { CardNewsModule } from 'src/app/shared/components/card-news/card-news.module';
 import { NewsService } from 'src/app/services/news.service';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { Subject, first, takeUntil } from 'rxjs';
+import { petSearch, petStatus, petStatusKey } from 'src/app/common/constant';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +25,8 @@ export class HomeComponent implements OnInit {
   pets!: any[];
   news!: any[];
   statisticCases: any;
+
+  private subscribes$: Subject<void> = new Subject<void>();
 
   responsiveOptions = [
     {
@@ -40,7 +46,7 @@ export class HomeComponent implements OnInit {
     }
   ];
 
-  constructor(private petService: PetService, private newsService: NewsService) { }
+  constructor(public petService: PetService, private newsService: NewsService) { }
 
   ngOnInit() {
     this.images = [
@@ -75,27 +81,32 @@ export class HomeComponent implements OnInit {
         title: 'Title 5'
       }
     ];
-    this.getStatisticCases();
-    this.getPets();
-    this.getNews();
+    this.subscribeAndGetData();
   }
 
-  getPets() {
-    this.petService.getPets().subscribe((pets: any) => {
-      this.pets = pets;
-    })
+  ngOnDestroy(): void {
+    this.subscribes$.next();
+    this.subscribes$.complete();
   }
 
-  getNews() {
-    this.newsService.getNews().subscribe((news: any) => {
+  subscribeAndGetData() {
+    let petSearchKey = {
+      limit: petSearch.limitDefault,
+      page: 1,
+      status: petStatusKey.waiting.toString()
+    };
+    this.petService.getPets(petSearchKey).pipe(takeUntil(this.subscribes$)).subscribe((data: any) => {
+      this.pets = data.pets;
+    });
+
+    this.newsService.getNews().pipe(takeUntil(this.subscribes$)).subscribe((news: any) => {
       this.news = news;
-    })
-  }
+    });
 
-  getStatisticCases() {
-    this.petService.getStatisticCases().subscribe((statisticCases: any) => {
+    this.petService.getStatisticCases().pipe(takeUntil(this.subscribes$)).subscribe((statisticCases: any) => {
       this.statisticCases = statisticCases;
     })
+
   }
 
 }

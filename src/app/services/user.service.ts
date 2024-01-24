@@ -23,10 +23,10 @@ export class UserService {
       function: this.API_URL + 'register',
       method: CONFIG.KEY.METHOD_POST,
       body: {
-        phoneNumber: phoneNumber,
+        phoneNumber: phoneNumber.trim(),
         password: password,
-        name: name,
-        email: email
+        name: name.trim(),
+        email: email.trim()
       }
     }
 

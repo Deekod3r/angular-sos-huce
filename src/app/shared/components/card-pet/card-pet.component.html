@@ -1,16 +1,18 @@
-<div class="card">
-    <a routerLink="/adopt"><img src="{{pet.image}}" class="border-round"></a>
+<div class="card" style="max-height: 550px;">
+    <div class="col-12 p-0">
+        <a routerLink="/adopt"><img src="{{image}}" class="border-round" style="height: 200px;"></a>
+    </div>
     <div class="text-card-pet">
         <a routerLink="/" class="name">        
-            <h2 class="my-1">{{pet.name}}</h2>
+            <h4 class="my-1">{{name}}</h4>
         </a>
-        <p class="m-0 text-cyan-500 font-bold">{{pet.breed}}</p>
+        <p class="m-0 text-cyan-500 font-bold">{{breed}}</p>
         <p-divider></p-divider>
-        <p class="m-0"><i class="fa-solid fa-venus-mars mr-1 text-primary"></i><b>Giới tính:</b> {{pet.gender}}</p>
+        <p class="m-0"><i class="fa-solid fa-venus-mars mr-1 text-primary"></i><b>Giới tính:</b> {{gender}}</p>
         <p-divider type="dashed"></p-divider>
-        <p class="m-0"><i class="fa-solid fa-cake-candles mr-1 text-primary"></i><b>Độ tuổi:</b> {{pet.age}}</p>
+        <p class="m-0"><i class="fa-solid fa-cake-candles mr-1 text-primary"></i><b>Độ tuổi:</b> {{age}}</p>
         <p-divider type="dashed"></p-divider>
-        <p class="m-0"><i class="fa-solid fa-syringe mr-1 text-primary"></i><b>Tiêm phòng:</b> {{pet.vaccination}}</p>
+        <p class="m-0"><i class="fa-solid fa-syringe mr-1 text-primary"></i><b>Tiêm phòng:</b> {{vaccin}}</p>
         <p-divider type="dashed"></p-divider>
     </div>
 </div>

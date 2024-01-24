@@ -17,7 +17,7 @@ export class CommonService {
 
     constructor(private http: HttpClient) { }
 
-    callAPI(request: RequestHttp): any {
+    callAPI(request: RequestHttp): Observable<any> {
         let url = `${this.API_URL}/${request.function}`;
         if (request.method) {
             if (request.method == CONFIG.KEY.METHOD_POST) {

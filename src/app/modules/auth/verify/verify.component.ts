@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Message } from 'primeng/api';
 import { ProgressBarModule } from 'primeng/progressbar';
-import { finalize } from 'rxjs';
+import { Subject, finalize, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 
@@ -22,6 +22,8 @@ export class VerifyComponent implements OnInit {
   isSubmitted: boolean = false;
   id: string = '';
 
+  private readonly subscribes$: Subject<void> = new Subject<void>();
+
   constructor(private route: ActivatedRoute, private authService: AuthService) {}
 
   ngOnInit(): void {
@@ -31,6 +33,11 @@ export class VerifyComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.subscribes$.next();
+    this.subscribes$.complete();
+  }
+
   onVerify() {
     if (this.verifyForm.invalid) {
       this.notify('Vui lòng nhập đầy đủ thông tin', 'error', 'Lỗi')
@@ -38,6 +45,7 @@ export class VerifyComponent implements OnInit {
     }
     this.isSubmitted = true;
     this.authService.verify(this.id, this.verifyForm.controls['code'].value).pipe(
+      takeUntil(this.subscribes$),
       finalize(() => {
         this.isSubmitted = false;
       })
@@ -55,6 +63,7 @@ export class VerifyComponent implements OnInit {
         }
       },
       error: (error) => {
+        console.log(error);
         this.notify('Xác thực thất bại, vui lòng thử lại sau', 'error', 'Lỗi');
       }
     });

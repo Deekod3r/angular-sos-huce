@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Message } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
 import { PasswordModule } from 'primeng/password';
 import { ProgressBarModule } from 'primeng/progressbar';
-import { finalize } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 
@@ -23,27 +24,33 @@ export class RegisterComponent implements OnInit, OnDestroy {
   registerMsg: Message[] = [];
   isSubmitted: boolean = false;
 
+  private readonly subscribes$: Subject<void> = new Subject<void>();
+
   constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.registerForm = new FormGroup({
-      'phoneNumber': new FormControl('', [Validators.required, Validators.pattern(/^\d+$/)]),
+      'phoneNumber': new FormControl('', [Validators.required, Validators.pattern(/^\d+$/), Validators.minLength(9), Validators.maxLength(20)]),
       'password': new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/)]),
       'name': new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưỂỄỆẾỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệếỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ ]{2,}$/)]),
-      'email': new FormControl('', [Validators.required, Validators.email]),
+      'email': new FormControl('', [Validators.required, Validators.email, Validators.maxLength(100)]),
     });
   }
 
   ngOnDestroy() {
+    this.subscribes$.next();
+    this.subscribes$.complete();
   }
 
   onRegister() {
     if (this.registerForm.invalid) {
-      this.notify('Vui lòng nhập đầy đủ thông tin', 'error', 'Lỗi')
+      this.notify('Vui lòng nhập đầy đủ thông tin', 'error', 'Lỗi');
       return;
     }
     this.isSubmitted = true;
+
     this.userService.register(this.registerForm).pipe(
+      takeUntil(this.subscribes$),
       finalize(() => {
         this.isSubmitted = false;
       })
@@ -55,10 +62,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
           this.registerForm.reset();
           setTimeout(() => {
             window.location.href = '/auth/verify/' + response;
-          },2000);
+          }, 2000);
         }
       },
       error: (error) => {
+        console.log(error);
         if (error.status === 409) {
           this.notify('Tài khoản đã tồn tại', 'error', 'Lỗi');
         } else {
@@ -67,7 +75,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       }
     });
   }
-
 
   notify(msg: string, type: string, title: string): void {
     this.registerNotify = true;
@@ -79,6 +86,4 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.registerMsg = [];
     }, 5000);
   }
-
-  
 }

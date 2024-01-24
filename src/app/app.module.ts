@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { PanelModule } from 'primeng/panel'
@@ -19,6 +19,7 @@ import { ScrollTopModule } from 'primeng/scrolltop';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { SidebarModule } from 'primeng/sidebar';
 import { RippleModule } from 'primeng/ripple';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './themes/user/navbar/navbar.component';
@@ -35,6 +36,7 @@ import { CommonModule } from '@angular/common';
 import { MenuitemAdminComponent } from './themes/admin/menu-admin/menuitem-admin.component';
 import { AccessDeninedComponent } from './modules/errors/access-denined/access-denined.component';
 import { NotFoundComponent } from './modules/errors/not-found/not-found.component';
+import { SpinnerInterceptor } from './shared/components/spinner/spinner-interceptor';
 
 @NgModule({
   declarations: [
@@ -72,9 +74,16 @@ import { NotFoundComponent } from './modules/errors/not-found/not-found.componen
     CommonModule,
     SidebarModule,
     RippleModule,
-    FormsModule
+    FormsModule,
+    NgxSpinnerModule
   ],
-  // providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SpinnerInterceptor,
+      multi: true,
+    },
+  ],  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

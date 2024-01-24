@@ -15,17 +15,11 @@ export class AuthService {
 
   constructor(private encryptionService: EncryptionService, private commonService: CommonService) { }
 
-  login(form: FormGroup): Observable<boolean> {
-
-    const {email, password} = form.value;
-
+  login(form: FormData): Observable<boolean> {
     const request = {
       function: 'login',
       method: CONFIG.KEY.METHOD_POST,
-      body: {
-        email: email,
-        password: password
-      }
+      body: form
     }
 
     return this.commonService.callAPI(request).pipe(
@@ -46,7 +40,7 @@ export class AuthService {
   verify(id: string, code: string): Observable<any> {
 
     const request = {
-      function: 'verify/' + id + '?code=' + code,
+      function: 'verify/' + id + '?code=' + code.trim(),
       method: CONFIG.KEY.METHOD_GET
     }
 

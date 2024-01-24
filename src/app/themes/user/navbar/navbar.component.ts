@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -14,8 +15,9 @@ export class NavbarComponent implements OnInit {
   userTools!: MenuItem[];
   userInfo!: any;
   userOptions!: any[];
-  currentRoute: string = '/';
-
+  currentRoute: string = '';
+  
+  private readonly subscribes$: Subject<void> = new Subject<void>();
 
   constructor(public authService: AuthService, private router: Router) { }
 
@@ -120,13 +122,18 @@ export class NavbarComponent implements OnInit {
 
     this.userInfo = this.authService.getProfile();
 
-    this.router.events.subscribe(event => {
+    this.router.events.pipe(takeUntil(this.subscribes$)).subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = this.router.routerState.snapshot.url;
         this.activeMenu(this.currentRoute);
       }
     });
 
+  }
+
+  ngOnDestroy() {
+    this.subscribes$.next();
+    this.subscribes$.complete();
   }
 
   ngAfterViewInit() {

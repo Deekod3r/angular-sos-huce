@@ -3,9 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Message } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
 import { ProgressBarModule } from 'primeng/progressbar';
-import { finalize } from 'rxjs';
+import { finalize, first, takeUntil } from 'rxjs/operators'; 
 import { AuthService } from 'src/app/services/auth.service';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginMsg: Message[] = [];
   isSubmitted: boolean = false;
 
+  private readonly subscribes$: Subject<void> = new Subject<void>();
 
   constructor(private authService: AuthService) { }
 
@@ -32,6 +34,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.subscribes$.next();
+    this.subscribes$.complete();
   }
 
   onLogin() {
@@ -39,8 +43,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.errorLogin('Vui lòng nhập đầy đủ thông tin')
       return;
     }
+
     this.isSubmitted = true;
-    this.authService.login(this.loginForm).pipe(
+
+    this.authService.login(this.loginForm.value).pipe(
+      takeUntil(this.subscribes$),
       finalize(() => {
         this.isSubmitted = false;
       })
@@ -52,6 +59,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       },
       error: (error) => {
+        console.log(error);
         if (error.status == 401) {
           this.errorLogin('Thông tin đăng nhập không chính xác');
         } else {
@@ -61,7 +69,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
     });
   }
-
 
   errorLogin(msg: string): void {
     this.loginError = true;
