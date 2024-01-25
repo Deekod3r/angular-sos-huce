@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CONFIG } from 'src/app/common/config';
 import { AuthService } from 'src/app/services/auth.service';
 import { LayoutService } from 'src/app/services/layout.service';
 
@@ -54,17 +55,54 @@ export class MenuAdminComponent implements OnInit {
 
                         ]
                     },
-                    { label: 'Tin tức', icon: 'fa fa-fw fa-solid fa-newspaper' },
-                    { label: 'Sự kiện', icon: 'fa fa-fw fa-solid fa-calendar-check' },
+                    {
+                        label: 'Blog',
+                        icon: 'fa fa-fw fa-solid fa-blog',
+                        items: [
+                            { 
+                                label: 'Tin tức', 
+                                icon: 'fa fa-fw fa-solid fa-newspaper',
+                                items: [
+                                    {
+                                        label: 'Danh sách',
+                                        icon: 'fa fa-fw fa-list',
+                                        routerLink: ['/admin/blogs']
+                                    },
+                                    {
+                                        label: 'Danh mục',
+                                        icon: 'fa fa-solid fa-layer-group',
+                                        routerLink: ['/admin/blog-categories']
+                                    }
+                                ] 
+                            },
+                            { 
+                                label: 'Sự kiện', 
+                                icon: 'fa fa-fw fa-solid fa-calendar-check',
+                                items: [
+                                    {
+                                        label: 'Danh sách',
+                                        icon: 'fa fa-fw fa-list',
+                                        routerLink: ['/admin/events']
+                                    },
+                                    {
+                                        label: 'Danh mục',
+                                        icon: 'fa fa-solid fa-layer-group',
+                                        routerLink: ['/admin/event-categories']
+                                    }
+                                ]
+                            }
+                        ]
+                    },
                     {
                         label: 'Người dùng', icon: 'fa fa-fw fa-solid fa-users',
                         items: [
                             {
                                 label: 'Cộng đồng',
-                                icon: 'fa fa-fw fa-list',
+                                icon: 'fa fa-solid fa-users-viewfinder',
                                 routerLink: ['/admin/users']
                             },
                             {
+                                visible: CONFIG.ROLE.MANAGER.includes(this.authService.getRole()),
                                 label: 'Quản trị viên',
                                 icon: 'fa fa-fw fa-solid fa-user-shield',
                             }
