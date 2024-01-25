@@ -4,7 +4,6 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpResponse,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';

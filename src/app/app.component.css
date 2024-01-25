@@ -5,3 +5,7 @@
 ::ng-deep .mat-form-button {
     width: 75% !important;
 }
+
+::ng-deep textarea {
+    resize: none;
+}

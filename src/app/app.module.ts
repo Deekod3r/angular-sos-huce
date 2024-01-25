@@ -36,7 +36,8 @@ import { CommonModule } from '@angular/common';
 import { MenuitemAdminComponent } from './themes/admin/menu-admin/menuitem-admin.component';
 import { AccessDeninedComponent } from './modules/errors/access-denined/access-denined.component';
 import { NotFoundComponent } from './modules/errors/not-found/not-found.component';
-import { SpinnerInterceptor } from './shared/components/spinner/spinner-interceptor';
+import { SpinnerInterceptor } from './shared/interceptors/spinner-interceptor';
+import { AuthenticationInterceptor } from './shared/interceptors/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,11 @@ import { SpinnerInterceptor } from './shared/components/spinner/spinner-intercep
       useClass: SpinnerInterceptor,
       multi: true,
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationInterceptor,
+      multi: true,
+    }
   ],  
   bootstrap: [AppComponent]
 })

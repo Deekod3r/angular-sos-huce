@@ -18,10 +18,11 @@ import { SupportComponent } from '../modules/user/support/support.component';
 import { AccessDeninedComponent } from '../modules/errors/access-denined/access-denined.component';
 import { NotFoundComponent } from '../modules/errors/not-found/not-found.component';
 import { LoggedInGuard } from '../guards/logged-in.guard';
+import { CONFIG } from './config';
 
 export let ROUTES_ROOT: Routes = [
   {
-    path: '',
+    path: CONFIG.KEY.ROOT_PAGE,
     component: UserComponent,
     canActivate: [PermissionGuard],
     data: { expectedRole: ["USER"] },
@@ -47,7 +48,7 @@ export let ROUTES_ROOT: Routes = [
       { path: 'not-found', component: NotFoundComponent }
     ]
   },
-  { path: '**', redirectTo: '', pathMatch: 'full' },
+  { path: '**', redirectTo: CONFIG.KEY.ROOT_PAGE, pathMatch: 'full' },
 ];
 
 export let ROUTES_AUTH: Routes = [

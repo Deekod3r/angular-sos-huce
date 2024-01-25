@@ -2,9 +2,10 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete/autocomplete.interface';
-import { Subject, first, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { petBreed, petColor, petType, petAge, petGender, petMoreInfor, petStatus, moreInfor } from 'src/app/common/constant';
 import { PetService } from 'src/app/services/pet.service';
+import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 
 
 @Component({
@@ -33,10 +34,10 @@ export class PetCreateComponent implements OnInit {
   ngOnInit(): void {
     this.form = new FormGroup({
       petImage: new FormControl(null, Validators.required),
-      petName: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
+      petName: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
       petType: new FormControl(null, Validators.required),
-      petBreed: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
-      petColor: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
+      petBreed: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
+      petColor: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
       petAge: new FormControl(null, Validators.required),
       petGender: new FormControl(null, Validators.required),
       petWeight: new FormControl(0),

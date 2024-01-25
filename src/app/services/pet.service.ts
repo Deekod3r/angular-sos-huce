@@ -88,18 +88,21 @@ export class PetService {
   }
 
   getStatisticCases(): Observable<any> {
-    return new Observable((observer) => {
-      setTimeout(() => {
-        observer.next(
-          {
-            sumCase: 2500,
-            adopted: 1500,
-            ready: 500,
-            notReady: 200
-          }
-        );
-      });
-    });
+    const request = {
+      function: this.API_URL + '/statistic-cases',
+      method: CONFIG.KEY.METHOD_GET
+    }
+    return this.commonService.callAPI(request).pipe(
+      map((response: any) => {
+        if (response.error) {
+          throw new Error(response.error);
+        }
+        return response.data;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
+    );
   }
 
 

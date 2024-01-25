@@ -195,8 +195,13 @@
               <textarea formControlName="petDescription" rows="2" pInputTextarea id="pet-description" [rows]="5"></textarea>
             </div>
           </div>
-          <div class="col-12 mt-5" align="center">
-            <p-button label="LƯU" styleClass="mat-form-button" class="mt-3" [disabled]="!form.valid" (onClick)="onSavePet()"></p-button>
+          <div class="col-12 mt-5 grid" align="center">
+            <div class="col-6">
+              <p-button label="LƯU" styleClass="mat-form-button" class="mt-3" [disabled]="!form.valid" (onClick)="onSavePet()"></p-button>
+            </div>
+            <div class="col-6">
+              <p-button label="LÀM MỚI" styleClass="mat-form-button" class="mt-3" [disabled]="!form.dirty" (onClick)="form.reset()"></p-button>
+            </div>
           </div>
         </div>
       </form>

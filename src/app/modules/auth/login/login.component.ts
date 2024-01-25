@@ -7,6 +7,7 @@ import { finalize, first, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { Subject } from 'rxjs';
+import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 
 @Component({
   selector: 'app-login',
@@ -28,8 +29,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loginForm = new FormGroup({
-      'email': new FormControl('', Validators.required),
-      'password': new FormControl('', Validators.required)
+      'email': new FormControl('', [Validators.required, noWhitespaceValidator()]),
+      'password': new FormControl('', [Validators.required, noWhitespaceValidator()])
     });
   }
 

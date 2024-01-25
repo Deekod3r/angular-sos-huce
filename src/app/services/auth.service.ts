@@ -1,8 +1,6 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { Observable, catchError, map, throwError } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { EncryptionService } from './encryption.service';
 import { CONFIG } from '../common/config';
 import { CommonService } from './common.service';
@@ -29,6 +27,7 @@ export class AuthService {
         }
         localStorage.setItem(CONFIG.KEY.IS_LOGGED_IN, this.encryptionService.encrypt(CONFIG.KEY.IS_LOGGED_IN_VALUE));
         localStorage.setItem(CONFIG.KEY.TOKEN, this.encryptionService.encrypt(JSON.stringify(response.data)));
+        this.updateLastActiveTime();
         return true;
       }),
       catchError((error: HttpErrorResponse) => {
@@ -69,7 +68,7 @@ export class AuthService {
     return null;
   }
 
-  getInfoUser():any {
+  getInfoUser(): any {
     let profile = this.getProfile();
     if (JSON.stringify(profile) != '{}') {
       return profile.user;
@@ -97,9 +96,12 @@ export class AuthService {
     return localStorage.getItem(CONFIG.KEY.IS_LOGGED_IN) === this.encryptionService.encrypt(CONFIG.KEY.IS_LOGGED_IN_VALUE);
   }
 
+  updateLastActiveTime() {
+    localStorage.setItem(CONFIG.KEY.LAST_ACTIVE_TIME, Date.now().toString());
+  }
+
   logout(): void {
     localStorage.clear();
-    sessionStorage.clear();
     const request = {
       function: 'logout',
       method: CONFIG.KEY.METHOD_GET,
