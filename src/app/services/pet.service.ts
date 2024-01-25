@@ -23,7 +23,6 @@ export class PetService {
         params = params.set(key, search[key] != null ? search[key].toString() : '');
       }
     }
-    console.log(params);
     const request = {
       function: this.API_URL,
       method: CONFIG.KEY.METHOD_GET,
