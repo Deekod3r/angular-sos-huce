@@ -70,7 +70,7 @@ export class PetCreateComponent implements OnInit {
 
     for (let i = 0; i < (petBreed as any[]).length; i++) {
       let breed = (petBreed as any[])[i];
-      if (breed && breed.label && breed.label.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+      if (breed && breed.label && breed.label.toLowerCase().indexOf(query.toLowerCase()) != -1) {
         filtered.push(breed);
       }
     }
@@ -83,7 +83,7 @@ export class PetCreateComponent implements OnInit {
 
     for (let i = 0; i < (petColor as any[]).length; i++) {
       let color = (petColor as any[])[i];
-      if (color && color.label && color.label.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+      if (color && color.label && color.label.toLowerCase().indexOf(query.toLowerCase()) != -1) {
         filtered.push(color);
       }
     }

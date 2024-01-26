@@ -1,5 +1,4 @@
 import { ValidatorFn, AbstractControl } from "@angular/forms";
-import { debounceTime } from "rxjs";
 
 export function upcaseFirstLetter(str: string) {
     if (!str || str.length === 0) {
@@ -20,10 +19,17 @@ export function upcaseAllFirstLetters(str: string) {
     return result.join(' ');
 }
 
+
 export function noWhitespaceValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-        if (control.value && control.value.trim() === '') {
-            return { 'whitespace': true };
+        if (typeof control.value === 'string') {
+            if (control.value.trim() === '') {
+                return { 'whitespace': true };
+            }
+        } else if (typeof control.value === 'object' && control.value !== null) {
+            if (control.value.label && control.value.label.trim() === '') {
+                return { 'whitespace': true };
+            }
         }
         return null;
     };

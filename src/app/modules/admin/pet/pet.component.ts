@@ -10,6 +10,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { PetModule } from './pet.module';
 import { Subject, takeUntil } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 interface petSearchKey {
   limit: number,
@@ -27,7 +28,7 @@ interface petSearchKey {
 @Component({
   selector: 'app-pet',
   standalone: true,
-  imports: [TableModule, TagModule, ConfirmPopupModule, TieredMenuModule, PetModule, PaginatorModule],
+  imports: [TableModule, TagModule, ConfirmPopupModule, TieredMenuModule, PetModule, PaginatorModule, ConfirmDialogModule],
   providers: [ConfirmationService, MessageService],
   templateUrl: './pet.component.html',
   styleUrls: ['./pet.component.css']
@@ -58,13 +59,13 @@ export class PetComponent implements OnInit {
     breed: ''
   };
 
-  
+
   private subscribes$: Subject<void> = new Subject<void>();
 
-  constructor(public petService: PetService, private messageService: MessageService) { }
+  constructor(public petService: PetService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
-    this.first =  (this.currentPage - 1)* this.limit;
+    this.first = (this.currentPage - 1) * this.limit;
     this.getPets();
   }
 
@@ -78,7 +79,7 @@ export class PetComponent implements OnInit {
     this.key.page = this.currentPage;
     this.petService.getPets(this.key).pipe(takeUntil(this.subscribes$)).subscribe(data => {
       this.currentPage = data.page;
-      this.first =  (this.currentPage - 1)* this.limit;
+      this.first = (this.currentPage - 1) * this.limit;
       this.totalPages = data.totalPages;
       this.totalRecords = data.total;
       this.pets = data.pets;
@@ -104,7 +105,22 @@ export class PetComponent implements OnInit {
       {
         label: 'Xoá',
         icon: 'fa fa-trash',
-        command: () => {
+        command: (event: any) => {
+          this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Bạn chắc chắn muốn xoá thú cưng này chứ?',
+            header: 'XÁC NHẬN',
+            icon: 'fa fa-solid fa-triangle-exclamation',
+            acceptIcon: "none",
+            rejectIcon: "none",
+            rejectButtonStyleClass: "p-button-text",
+            accept: () => {
+              this.messageService.add({ severity: 'success', summary: 'Xác nhận', detail: 'Xoá thành công' });
+            },
+            reject: () => {
+              this.messageService.add({ severity: 'error', summary: 'Huỷ', detail: 'Từ chối xoá', life: 3000 });
+            }
+          });
         }
       },
       {
@@ -139,7 +155,7 @@ export class PetComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Thất bại', detail: 'Vui lòng thử lại sau' });
     }
   }
-  
+
   refresh(): void {
     this.currentPage = 1;
     this.limit = petSearch.limitDefault;
@@ -170,5 +186,23 @@ export class PetComponent implements OnInit {
     this.currentPage = 1;
     this.first = 0;
     this.getPets();
+  }
+
+  confirmDelete(event: any) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Bạn chắc chắn muốn xoá thú cưng này chứ?',
+      header: 'XÁC NHẬN',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: "none",
+      rejectIcon: "none",
+      rejectButtonStyleClass: "p-button-text",
+      accept: () => {
+        this.messageService.add({ severity: 'info', summary: 'Xác nhận', detail: 'Xoá thành công' });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'error', summary: 'Huỷ', detail: 'Từ chối xoá', life: 3000 });
+      }
+    });
   }
 }

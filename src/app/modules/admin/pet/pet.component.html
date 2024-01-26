@@ -1,5 +1,6 @@
 <div class="card">
     <p-toast></p-toast>
+    <p-confirmDialog></p-confirmDialog>
     <p-dialog *ngIf="visibleCreateModal" header="Thêm thú cưng" [(visible)]="visibleCreateModal" [modal]="true"
         [style]="{ width: '90vw', height: '100vh' }" [draggable]="false" [resizable]="false">
         <app-pet-create (resultAction)="receiveResult($event, 0)"></app-pet-create>
@@ -116,7 +117,6 @@
                 <td><p-tag [value]="this.petService.getStatus(pet.status)"
                         [severity]="this.petService.getSeverityStatus(pet.status)"></p-tag></td>
                 <td>
-                    <p-confirmPopup [hideTransitionOptions]="'1s linear'"></p-confirmPopup>
                     <p-button #btn type="button" icon="fa fa-solid fa-sliders" (click)="menu.toggle($event)"></p-button>
                     <p-tieredMenu #menu [model]="pet.menuItems" [popup]="true" appendTo="body" class="p-0"
                         styleClass="menucus"></p-tieredMenu>
