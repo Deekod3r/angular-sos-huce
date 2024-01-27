@@ -6,7 +6,7 @@
           <div class="grid">
             <div class="col-12 mx-auto">
                 <p-image [src]="pet.image" alt="{{pet.name}}" width="250" [preview]="true" [style]="{'border-radius':'50%'}"></p-image>
-                <p-dialog *ngIf="visibleUpdateImageModal" header="Cập nhật ảnh ảnh" [(visible)]="visibleUpdateImageModal" [modal]="true"
+                <p-dialog *ngIf="visibleUpdateImageModal" header="Cập nhật hình ảnh" [(visible)]="visibleUpdateImageModal" [modal]="true"
                     [style]="{ width: '60vw', height: 'fit-content' }" [draggable]="false" [resizable]="false">
                     <p-fileUpload name="petImage" chooseLabel="Chọn hình ảnh" uploadLabel="Tải" accept="image/**" [maxFileSize]="100000000" [customUpload]="true"
                     [showUploadButton]="true" [showCancelButton]="false"
