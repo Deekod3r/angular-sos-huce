@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 })
 export class CardFooterComponent {
   @Input() title!: string;
+  @Input() description!: string;
   @Input() action!: string;
   @Input() actionLink!: string;
 }

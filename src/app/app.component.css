@@ -9,3 +9,13 @@
 ::ng-deep textarea {
     resize: none;
 }
+
+::ng-deep .btn-primary:hover {
+    background-color: var(--cyan-500) !important;
+    border-color: var(--cyan-500) !important;
+}
+
+::ng-deep .btn-active {
+    background-color: var(--cyan-500) !important;
+    border-color: var(--cyan-500) !important;
+}

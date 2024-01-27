@@ -11,19 +11,7 @@ import { PetModule } from './pet.module';
 import { Subject, takeUntil } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-
-interface petSearchKey {
-  limit: number,
-  page: number,
-  code: string,
-  name: string,
-  status: number | null,
-  type: number | null,
-  gender: number | null,
-  age: number | null,
-  color: string,
-  breed: string
-}
+import { petSearchKey } from 'src/app/models/common.model';
 
 @Component({
   selector: 'app-pet',

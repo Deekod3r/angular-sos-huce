@@ -7,10 +7,8 @@ import { CardPetModule } from 'src/app/shared/components/card-pet/card-pet.modul
 import { CarouselModule } from 'primeng/carousel';
 import { CardNewsModule } from 'src/app/shared/components/card-news/card-news.module';
 import { NewsService } from 'src/app/services/news.service';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { Subject, first, takeUntil } from 'rxjs';
-import { petSearch, petStatus, petStatusKey } from 'src/app/common/constant';
-import { HttpParams } from '@angular/common/http';
+import { Subject, takeUntil } from 'rxjs';
+import { petSearch, petStatusKey } from 'src/app/common/constant';
 
 @Component({
   selector: 'app-home',

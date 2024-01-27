@@ -1,6 +1,7 @@
-<div class="w-full card-footer grid mt-3 mx-0" style="height: 200px;">
+<div class="w-full card-footer grid mt-3 mx-0" style="max-height: 300px; min-height: 200px;">
     <div class="xl:col-6 lg:col-6 md:col-12 sm:col-12 col-12" style="z-index: 1;">
-        <p>{{title}}</p>
+        <p class="title">{{title}}</p>
+        <p class="description">{{description}}</p>
     </div>
     <div class="xl:col-6 lg:col-6 md:col-12 sm:col-12 col-12">
         <button pButton routerLink="{{actionLink}}" label="{{action}}"></button>

@@ -4,3 +4,16 @@ export interface PageEvent {
     page: number;
     pageCount: number;
 }
+
+export interface petSearchKey {
+    limit: number,
+    page: number,
+    code: string,
+    name: string,
+    status: number | null,
+    type: number | null,
+    gender: number | null,
+    age: number | null,
+    color: string,
+    breed: string
+}
