@@ -8,6 +8,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ImageModule } from 'primeng/image';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     DialogModule,
     InputTextareaModule,
     DropdownModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    ImageModule
   ],
   exports: [
     PetCreateComponent,

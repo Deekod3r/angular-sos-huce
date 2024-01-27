@@ -43,13 +43,30 @@ export class PetService {
     );
   }
 
+  getPetById(id: string): Observable<any> {
+    const request = {
+      function: this.API_URL + '/' + id,
+      method: CONFIG.KEY.METHOD_GET
+    }
+    return this.commonService.callAPI(request).pipe(
+      map((response: any) => {
+        if (response.error) {
+          throw new Error(response.error);
+        }
+        return response.data;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
+    );
+  }
 
   createPet(form: any): Observable<any> {
     const formData = new FormData();
     formData.append('age', form.petAge);
     formData.append('breed', upcaseFirstLetter((form.petBreed.label ? form.petBreed.label : form.petBreed).trim()));
     formData.append('color', upcaseFirstLetter((form.petColor.label ? form.petColor.label : form.petColor).trim()));
-    formData.append('description', form.petDescription ? form.petDescription.trim() : null);
+    formData.append('description', form.petDescription ? form.petDescription.trim() : '');
     formData.append('diet', form.petDiet != null ? form.petDiet : moreInfor.undefined);
     formData.append('friendlyToCats', form.petFriendlyToCats != null ? form.petFriendlyToCats : moreInfor.undefined);
     formData.append('friendlyToDogs', form.petFriendlyToDogs != null ? form.petFriendlyToDogs : moreInfor.undefined);
@@ -68,6 +85,99 @@ export class PetService {
       function: this.API_URL + '/create',
       method: CONFIG.KEY.METHOD_POST,
       body: formData,
+      options: {
+        headers: {
+          'Authorization': 'Bearer ' + this.authService.getToken()
+        }
+      }
+    }
+    return this.commonService.callAPI(request).pipe(
+      map((response: any) => {
+        if (response.error) {
+          throw new Error(response.error);
+        }
+        return true;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
+    );
+  }
+
+  updatePet(form: any, id: string): Observable<any> {
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('age', form.petAge);
+    formData.append('breed', upcaseFirstLetter((form.petBreed.label ? form.petBreed.label : form.petBreed).trim()));
+    formData.append('color', upcaseFirstLetter((form.petColor.label ? form.petColor.label : form.petColor).trim()));
+    formData.append('description', form.petDescription ? form.petDescription.trim() : '');
+    formData.append('diet', form.petDiet != null ? form.petDiet : moreInfor.undefined);
+    formData.append('friendlyToCats', form.petFriendlyToCats != null ? form.petFriendlyToCats : moreInfor.undefined);
+    formData.append('friendlyToDogs', form.petFriendlyToDogs != null ? form.petFriendlyToDogs : moreInfor.undefined);
+    formData.append('friendlyToHuman', form.petFriendlyToHuman != null ? form.petFriendlyToHuman : moreInfor.undefined);
+    formData.append('gender', form.petGender);
+    formData.append('name', upcaseAllFirstLetters(form.petName.trim()));
+    formData.append('rabies', form.petRabies != null ? form.petRabies : moreInfor.undefined);
+    formData.append('status', form.petStatus);
+    formData.append('sterilization', form.petSterilization != null ? form.petSterilization : moreInfor.undefined);
+    formData.append('toilet', form.petToilet != null ? form.petToilet : moreInfor.undefined);
+    formData.append('type', form.petType != null ? form.petType : moreInfor.undefined);
+    formData.append('vaccin', form.petVaccin != null ? form.petVaccin : moreInfor.undefined);
+    formData.append('weight', form.petWeight);
+    const request = {
+      function: this.API_URL + '/update',
+      method: CONFIG.KEY.METHOD_PUT,
+      body: formData,
+      options: {
+        headers: {
+          'Authorization': 'Bearer ' + this.authService.getToken()
+        }
+      }
+    }
+    return this.commonService.callAPI(request).pipe(
+      map((response: any) => {
+        if (response.error) {
+          throw new Error(response.error);
+        }
+        return true;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
+    );
+  }
+
+  updatePetImage(file: any, id: string): Observable<any> {
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('image', file);
+    const request = {
+      function: this.API_URL + '/update-image',
+      method: CONFIG.KEY.METHOD_PUT,
+      body: formData,
+      options: {
+        headers: {
+          'Authorization': 'Bearer ' + this.authService.getToken()
+        }
+      }
+    }
+    return this.commonService.callAPI(request).pipe(
+      map((response: any) => {
+        if (response.error) {
+          throw new Error(response.error);
+        }
+        return true;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
+    );
+  }
+
+  deleteSoftPet(id: string): Observable<any> {
+    const request = {
+      function: this.API_URL + '/delete/' + id,
+      method: CONFIG.KEY.METHOD_DELETE,
       options: {
         headers: {
           'Authorization': 'Bearer ' + this.authService.getToken()

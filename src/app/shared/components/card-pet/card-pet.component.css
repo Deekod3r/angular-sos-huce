@@ -26,6 +26,6 @@
     color: black;
 }
 
-.name:hover {
+.name:hover > h4 {
     color: var(--primary-color);
 }

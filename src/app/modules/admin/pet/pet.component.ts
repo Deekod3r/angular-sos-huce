@@ -39,6 +39,7 @@ export class PetComponent implements OnInit {
   @ViewChild("table") table!: Table;
 
   pets: any[] = [];
+  idPetUpdate!: string;
   visibleCreateModal: boolean = false;
   visibleUpdateModal: boolean = false;
   currentPage = 1;
@@ -99,28 +100,14 @@ export class PetComponent implements OnInit {
         label: 'Chỉnh sửa',
         icon: 'fa fa-edit',
         command: () => {
-          this.showUpdateModal();
+          this.showUpdateModal(pet.id);
         }
       },
       {
         label: 'Xoá',
         icon: 'fa fa-trash',
         command: (event: any) => {
-          this.confirmationService.confirm({
-            target: event.target as EventTarget,
-            message: 'Bạn chắc chắn muốn xoá thú cưng này chứ?',
-            header: 'XÁC NHẬN',
-            icon: 'fa fa-solid fa-triangle-exclamation',
-            acceptIcon: "none",
-            rejectIcon: "none",
-            rejectButtonStyleClass: "p-button-text",
-            accept: () => {
-              this.messageService.add({ severity: 'success', summary: 'Xác nhận', detail: 'Xoá thành công' });
-            },
-            reject: () => {
-              this.messageService.add({ severity: 'error', summary: 'Huỷ', detail: 'Từ chối xoá', life: 3000 });
-            }
-          });
+          this.confirmDelete(event, pet);
         }
       },
       {
@@ -137,7 +124,8 @@ export class PetComponent implements OnInit {
     this.visibleCreateModal = true;
   }
 
-  showUpdateModal(): void {
+  showUpdateModal(id: string): void {
+    this.idPetUpdate = id;
     this.visibleUpdateModal = true;
   }
 
@@ -188,20 +176,33 @@ export class PetComponent implements OnInit {
     this.getPets();
   }
 
-  confirmDelete(event: any) {
+  confirmDelete(event: any, pet: any) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Bạn chắc chắn muốn xoá thú cưng này chứ?',
       header: 'XÁC NHẬN',
-      icon: 'pi pi-exclamation-triangle',
+      icon: 'fa fa-solid fa-triangle-exclamation',
       acceptIcon: "none",
       rejectIcon: "none",
       rejectButtonStyleClass: "p-button-text",
       accept: () => {
-        this.messageService.add({ severity: 'info', summary: 'Xác nhận', detail: 'Xoá thành công' });
+        this.petService.deleteSoftPet(pet.id).pipe(takeUntil(this.subscribes$)).subscribe({
+          next: (res) => {
+            if (res) {
+              this.getPets();
+              this.messageService.add({ severity: 'success', summary: 'Xác nhận', detail: 'Xoá thú cưng thành công' });
+            } else {
+              this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'Đã xảy ra lỗi. Vui lòng thử lại sau' });
+            }
+          },
+          error: (error) => {
+            console.log(error);
+            this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'Đã xảy ra lỗi. Vui lòng thử lại sau' });
+          }
+        });
       },
       reject: () => {
-        this.messageService.add({ severity: 'error', summary: 'Huỷ', detail: 'Từ chối xoá', life: 3000 });
+        this.messageService.add({ severity: 'error', summary: 'Huỷ', detail: 'Từ chối quá trình xoá', life: 3000 });
       }
     });
   }

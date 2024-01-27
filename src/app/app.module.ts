@@ -88,7 +88,7 @@ import { AuthenticationInterceptor } from './shared/interceptors/auth-intercepto
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationInterceptor,
       multi: true,
-    }
+    },
   ],  
   bootstrap: [AppComponent]
 })

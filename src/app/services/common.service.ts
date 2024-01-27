@@ -25,7 +25,7 @@ export class CommonService {
             } else if (request.method == CONFIG.KEY.METHOD_PUT) {
                 return this.http.put<any>(url, request.body, request.options);
             } else if (request.method == CONFIG.KEY.METHOD_DELETE) {
-                return this.http.delete<any>(url, request.body);
+                return this.http.delete<any>(url, request.options);
             } else {
                 return this.http.get<any>(url, request.options);
             }
