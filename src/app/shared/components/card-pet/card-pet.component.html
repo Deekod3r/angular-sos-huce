@@ -3,16 +3,17 @@
         <a routerLink="/adopt"><img src="{{image}}" class="border-round" style="height: 200px;"></a>
     </div>
     <div class="text-card-pet">
-        <a routerLink="/" class="name">        
+        <a routerLink="/adopt/{{id}}" class="name">        
             <h4 class="my-1">{{name}}</h4>
         </a>
-        <p class="m-0 text-cyan-500 font-bold">{{breed}}</p>
+        <p class="my-1 text-cyan-500 font-bold">{{breed}}</p>
+        <p-badge *ngIf="visibleStatus" value="{{status}}" [severity]="severity"></p-badge>
         <p-divider></p-divider>
         <p class="m-0"><i class="fa-solid fa-venus-mars mr-1 text-primary"></i><b>Giới tính:</b> {{gender}}</p>
         <p-divider type="dashed"></p-divider>
         <p class="m-0"><i class="fa-solid fa-cake-candles mr-1 text-primary"></i><b>Độ tuổi:</b> {{age}}</p>
         <p-divider type="dashed"></p-divider>
-        <p class="m-0"><i class="fa-solid fa-syringe mr-1 text-primary"></i><b>Tiêm phòng:</b> {{vaccin}}</p>
-        <p-divider type="dashed"></p-divider>
+        <p class="mb-2"><i class="fa-solid fa-syringe mr-1 text-primary"></i><b>Tiêm phòng:</b> {{vaccin}}</p>
+        <!-- <p-divider type="dashed"></p-divider> -->
     </div>
 </div>

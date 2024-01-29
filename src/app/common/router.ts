@@ -19,6 +19,8 @@ import { AccessDeninedComponent } from '../modules/errors/access-denined/access-
 import { NotFoundComponent } from '../modules/errors/not-found/not-found.component';
 import { LoggedInGuard } from '../guards/logged-in.guard';
 import { CONFIG } from './config';
+import { AdoptAllComponent } from '../modules/user/adopt/adopt-all/adopt-all.component';
+import { AdoptPetComponent } from '../modules/user/adopt/adopt-pet/adopt-pet.component';
 
 export let ROUTES_ROOT: Routes = [
   {
@@ -60,6 +62,8 @@ export let ROUTES_AUTH: Routes = [
 export let ROUTES_USER: Routes = [
   { path: '', component: HomeComponent },
   { path: 'adopt', component: AdoptComponent },
+  { path: 'adopt/all', component: AdoptAllComponent },
+  { path: 'adopt/:id', component: AdoptPetComponent},
   { path: 'blog', component: BlogComponent },
   { path: 'donate', component: DonateComponent },
   { path: 'intro', component: IntroComponent },

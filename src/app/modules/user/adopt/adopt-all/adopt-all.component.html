@@ -1,50 +1,3 @@
-<div class="container mt-5">
-    <p-fieldset [toggleable]="true">
-        <ng-template pTemplate="header">
-            <div class="flex align-items-center gap-2 px-2">
-                <span class="font-bold lg:text-2xl text-xl">Quy trình nhận nuôi</span>
-            </div>
-        </ng-template>
-        <div class="grid">
-            <div class="xl:col-9 lg:col-9 md:col-9 sm:col-12 col-12">
-                <p class="m-0 text-md">
-                    Trước khi quyết định nhận nuôi bé chó hay mèo nào, bạn hãy tự hỏi bản thân rằng mình đã sẵn sàng để
-                    chịu trách nhiệm cả đời cho bé chưa, cả về tài chính, nơi ở cũng như tinh thần. Việc nhận nuôi cần
-                    được sự đồng thuận lớn từ bản thân bạn cũng như gia đình và những người liên quan. Xin cân nhắc kỹ
-                    trước khi liên hệ với HUCE Pet về việc nhận nuôi.
-                    <br>
-                    Bạn đã sẵn sàng? Hãy thực hiện các bước sau đây nhé:
-                    <br>
-                    1️⃣ Tìm hiểu về thú cưng bạn muốn nhận nuôi trên trang web của HUCE Pet. <br>
-                    2️⃣ Liên hệ với quản trị viên để tìm hiểu thêm về bé. <br>
-                    3️⃣ Tham gia phỏng vấn nhận nuôi. <br>
-                    4️⃣ Chuẩn bị cơ sở vật chất, ký giấy tờ nhận nuôi và đóng tiền vía để đón bé về. <br>
-                    5️⃣ Thường xuyên cập nhật về tình hình của bé, đặc biệt là khi có sự cố để được tư vấn kịp thời.
-                    <br>
-                    ❗ <b>Lưu ý</b>: <br>
-                    - Phần phỏng vấn có thể có nhiều câu hỏi mang tính chất riêng tư, vì vậy mong bạn hãy kiên nhẫn nhé!
-                    <br>
-                    - Tiền vía mỗi bé sẽ khác nhau tùy thuộc vào tình trạng của bé khi cứu cũng như các dịch vụ y tế
-                    (tiêm phòng, triệt sản) đã thực hiện. <br>
-                    - Tiền vía dùng để trả các khoản chi về y tế trước đây cho bé, cũng như để hỗ trợ chi phí chăm sóc,
-                    nuôi dưỡng các bé khác tại nhà chung. <br>
-                    - Trường hợp không nuôi được tiếp cần trả lại cho HUCE Pet, không tự ý đem cho người khác.
-                </p>
-            </div>
-            <div class="xl:col-3 lg:col-3 md:col-3 sm:col-12 col-12 card bg-cyan-100 p-3" style="height: fit-content;">
-                <h4 class="font-semibold">Điều kiện nhận nuôi</h4>
-                <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Tài chính tự chủ và ổn đinh.</p>
-                <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Chỗ ở cố định hoặc ít lưu động, ưu
-                    tiên ở Hà Nội.</p>
-                <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Cam kết tiêm phòng và triệt sản.
-                </p>
-            </div>
-        </div>
-    </p-fieldset>
-</div>
-<app-card-footer [title]="'TẤT CẢ CÁC CA CỨU HỘ'"
-    [description]="'Tìm hiểu về tất cả các ca cứu hộ, đang điều trị, đã mất, đã được nhận nuôi...'"
-    [action]="'XEM TẤT CẢ'" [actionLink]="'/adopt/all'"></app-card-footer>
 <div class="container mt-3">
     <div class="flex align-items-center justify-content-center">
         <h2 class="my-1 mr-2 font-bold">TÌM THÚ CƯNG</h2>
@@ -96,14 +49,15 @@
         </div>
         <div class="grid mt-5">
             <div class="col-3" *ngFor="let pet of pets">
-                <app-card-pet 
-                [id]="pet.id"
-                [age]="this.petService.getAge(pet.age)"
+                <app-card-pet [age]="this.petService.getAge(pet.age)"
                 [breed]="pet.breed"
                 [vaccin]="this.petService.getVaccin(pet.vaccin)"
                 [image]="pet.image"
                 [gender]="this.petService.getGender(pet.gender)"
                 [name]="pet.name"
+                [visibleStatus]="true"
+                [status]="this.petService.getStatus(pet.status)"
+                [severity]="this.petService.getSeverityStatus(pet.status)"
                 ></app-card-pet>
             </div>
             <div class="col-12">

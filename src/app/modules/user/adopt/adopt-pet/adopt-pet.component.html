@@ -1,0 +1,123 @@
+<div class="container mt-3">
+    <div *ngIf="pet" class="grid">
+        <div class="col-4">
+            <img src="{{pet.image}}" alt="pet" class="w-full">
+        </div>
+        <div class="col-8 my-3">
+            <p>{{pet.name}}</p>
+            <p>Mã: {{pet.code}}</p>
+            <p>Giống: {{pet.breed}}</p>
+            <p>Tuổi: {{this.petService.getAge(pet.age)}}</p>
+            <p>Cân nặng: {{pet.weight}} kg</p>
+            <p>Giới tính: {{this.petService.getGender(pet.gender)}}</p>
+        </div>
+        <div class="col-12">
+            <p>Thông tin</p>
+            <div class="grid">
+                <div class="col-3">
+                    <p><p-badge value=""></p-badge> Triệt sản</p>
+                </div>
+                <div class="col-3">
+                    <p>Thân thiện với người</p>
+                </div>
+                <div class="col-3">
+                    <p>Chế độ ăn riêng</p>
+                </div>
+                <div class="col-3">
+                    <p>Tiêm dại</p>
+                </div>
+                <div class="col-3">
+                    <p>Thân thiện với chó</p>
+                </div>
+                <div class="col-3">
+                    <p>Đi vệ sinh đúng chỗ</p>
+                </div>
+                <div class="col-3">
+                    <p>Tiêm phòng bệnh</p>
+                </div>
+                <div class="col-3">
+                    <p>Thân thiện với mèo</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <p>Mô tả</p>
+            <p>{{pet.description}}</p>
+        </div>
+    </div>
+</div>
+<app-card-footer [title]="'BẠN ĐÃ SẴN SÀNG GIÚP ĐỠ?'" [action]="'ỦNG HỘ NGAY'"
+    [actionLink]="'/donate'"></app-card-footer>
+<div class="container mt-5">
+    <p-fieldset [toggleable]="true">
+        <ng-template pTemplate="header">
+            <div class="flex align-items-center gap-2 px-2">
+                <span class="font-bold lg:text-2xl text-xl">Quy trình nhận nuôi</span>
+            </div>
+        </ng-template>
+        <div class="grid">
+            <div class="xl:col-9 lg:col-9 md:col-9 sm:col-12 col-12">
+                <p class="m-0 text-md">
+                    Trước khi quyết định nhận nuôi bé chó hay mèo nào, bạn hãy tự hỏi bản thân rằng mình đã sẵn sàng để
+                    chịu trách nhiệm cả đời cho bé chưa, cả về tài chính, nơi ở cũng như tinh thần. Việc nhận nuôi cần
+                    được sự đồng thuận lớn từ bản thân bạn cũng như gia đình và những người liên quan. Xin cân nhắc kỹ
+                    trước khi liên hệ với HUCE Pet về việc nhận nuôi.
+                    <br>
+                    Bạn đã sẵn sàng? Hãy thực hiện các bước sau đây nhé:
+                    <br>
+                    1️⃣ Tìm hiểu về thú cưng bạn muốn nhận nuôi trên trang web của HUCE Pet. <br>
+                    2️⃣ Liên hệ với quản trị viên để tìm hiểu thêm về bé. <br>
+                    3️⃣ Tham gia phỏng vấn nhận nuôi. <br>
+                    4️⃣ Chuẩn bị cơ sở vật chất, ký giấy tờ nhận nuôi và đóng tiền vía để đón bé về. <br>
+                    5️⃣ Thường xuyên cập nhật về tình hình của bé, đặc biệt là khi có sự cố để được tư vấn kịp thời.
+                    <br>
+                    ❗ <b>Lưu ý</b>: <br>
+                    - Phần phỏng vấn có thể có nhiều câu hỏi mang tính chất riêng tư, vì vậy mong bạn hãy kiên nhẫn nhé!
+                    <br>
+                    - Tiền vía mỗi bé sẽ khác nhau tùy thuộc vào tình trạng của bé khi cứu cũng như các dịch vụ y tế
+                    (tiêm phòng, triệt sản) đã thực hiện. <br>
+                    - Tiền vía dùng để trả các khoản chi về y tế trước đây cho bé, cũng như để hỗ trợ chi phí chăm sóc,
+                    nuôi dưỡng các bé khác tại nhà chung. <br>
+                    - Trường hợp không nuôi được tiếp cần trả lại cho HUCE Pet, không tự ý đem cho người khác.
+                </p>
+            </div>
+            <div class="xl:col-3 lg:col-3 md:col-3 sm:col-12 col-12 card bg-cyan-100 p-3" style="height: fit-content;">
+                <h4 class="font-semibold">Điều kiện nhận nuôi</h4>
+                <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Tài chính tự chủ và ổn đinh.</p>
+                <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Chỗ ở cố định hoặc ít lưu động, ưu
+                    tiên ở Hà Nội.</p>
+                <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Cam kết tiêm phòng và triệt sản.
+                </p>
+            </div>
+        </div>
+    </p-fieldset>
+    <div class="mt-5 panel" align="center">
+        <p-panel [toggleable]="true">
+            <ng-template pTemplate="header">
+                <div class="flex align-items-center">
+                    <h3 class="my-1 mr-2 font-bold">CÁC BÉ KHÁC</h3>
+                    <i class="fa-solid fa-paw fa-rotate-by fa-xl text-primary" style="--fa-rotate-angle: 30deg;"></i>
+                </div>
+            </ng-template>
+            <p-carousel [value]="pets" [numVisible]="4" [numScroll]="1" [circular]="true"
+                [responsiveOptions]="responsiveOptions" [autoplayInterval]="3000">
+                <ng-template let-pet pTemplate="item">
+                    <div class="mx-1">
+                        <app-card-pet 
+                        [id]="pet.id"
+                        [age]="this.petService.getAge(pet.age)"
+                        [breed]="pet.breed"
+                        [vaccin]="this.petService.getVaccin(pet.vaccin)"
+                        [image]="pet.image"
+                        [gender]="this.petService.getGender(pet.gender)"
+                        [name]="pet.name"
+                        ></app-card-pet>
+                    </div>
+                </ng-template>
+            </p-carousel>
+            <button pButton label="NHẬN NUÔI" routerLink="/adopt" class="mt-3"></button>
+        </p-panel>
+    </div>
+</div>
+<app-card-footer [title]="'BẠN CHƯA ĐỦ ĐIỀU KIỆN MANG BOSS VỀ NHÀ? ỦNG HỘ HUCE PET BẰNG CÁC CÁCH KHÁC NHÉ!'"
+    [action]="'TÌM HIỂU NGAY'" [actionLink]="'/donate'"></app-card-footer>

@@ -5,6 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardPetComponent } from './card-pet.component';
 import { RouterModule } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
+import { BadgeModule } from 'primeng/badge';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { DividerModule } from 'primeng/divider';
     CommonModule,
     ButtonModule,
     RouterModule,
-    DividerModule
+    DividerModule,
+    BadgeModule
   ],
   exports: [
     CardPetComponent

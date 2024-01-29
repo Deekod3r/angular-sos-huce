@@ -123,7 +123,7 @@
     </div>
 </div>
 <div class="container">
-    <div class="find-home mt-5 panel">
+    <div class="mt-5 panel" align="center">
         <p-panel [toggleable]="true">
             <ng-template pTemplate="header">
                 <div class="flex align-items-center">
@@ -135,7 +135,9 @@
                 [responsiveOptions]="responsiveOptions" [autoplayInterval]="3000">
                 <ng-template let-pet pTemplate="item">
                     <div class="mx-1">
-                        <app-card-pet [age]="this.petService.getAge(pet.age)"
+                        <app-card-pet 
+                        [id]="pet.id"
+                        [age]="this.petService.getAge(pet.age)"
                         [breed]="pet.breed"
                         [vaccin]="this.petService.getVaccin(pet.vaccin)"
                         [image]="pet.image"
@@ -148,7 +150,7 @@
             <button pButton label="NHẬN NUÔI" routerLink="/adopt" class="mt-3"></button>
         </p-panel>
     </div>
-    <div class="news mt-5 panel">
+    <div class="mt-5 panel" align="center">
         <p-panel [toggleable]="true">
             <ng-template pTemplate="header">
                 <div class="flex align-items-center">

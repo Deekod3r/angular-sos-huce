@@ -13,10 +13,10 @@ import { petStatusKey } from 'src/app/common/constant';
   selector: 'app-adopt',
   standalone: true,
   imports: [SharedModule, FieldsetModule, CardPetModule, DropdownModule, PaginatorModule],
-  templateUrl: './adopt.component.html',
-  styleUrls: ['./adopt.component.css']
+  templateUrl: './adopt-all.component.html',
+  styleUrls: ['./adopt-all.component.css']
 })
-export class AdoptComponent implements OnInit {
+export class AdoptAllComponent implements OnInit {
 
   pets: any[] = [];
   currentPage = 1;
@@ -29,7 +29,7 @@ export class AdoptComponent implements OnInit {
     page: this.currentPage,
     code: '',
     name: '',
-    status: petStatusKey.waiting,
+    status: null,
     type: null,
     gender: null,
     age: null,
@@ -81,7 +81,7 @@ export class AdoptComponent implements OnInit {
       page: this.currentPage,
       code: '',
       name: '',
-      status: petStatusKey.waiting,
+      status: null,
       type: null,
       gender: null,
       age: null,
