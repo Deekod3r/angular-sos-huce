@@ -50,7 +50,8 @@ export class PetCreateComponent implements OnInit {
       petFriendlyToHuman: new FormControl(null),
       petFriendlyToCats: new FormControl(null),
       petFriendlyToDogs: new FormControl(null),
-      petDescription: new FormControl('', Validators.maxLength(500)),
+      petDescription: new FormControl('', Validators.maxLength(1000)),
+      petNote: new FormControl('', Validators.maxLength(500)),
     });
     this.types = petType;
     this.age = petAge;

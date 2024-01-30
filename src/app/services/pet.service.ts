@@ -67,6 +67,7 @@ export class PetService {
     formData.append('breed', upcaseFirstLetter((form.petBreed.label ? form.petBreed.label : form.petBreed).trim()));
     formData.append('color', upcaseFirstLetter((form.petColor.label ? form.petColor.label : form.petColor).trim()));
     formData.append('description', form.petDescription ? form.petDescription.trim() : '');
+    formData.append('note', form.petNote ? form.petNote.trim() : '');
     formData.append('diet', form.petDiet != null ? form.petDiet : moreInfor.undefined);
     formData.append('friendlyToCats', form.petFriendlyToCats != null ? form.petFriendlyToCats : moreInfor.undefined);
     formData.append('friendlyToDogs', form.petFriendlyToDogs != null ? form.petFriendlyToDogs : moreInfor.undefined);
@@ -78,7 +79,7 @@ export class PetService {
     formData.append('status', form.petStatus);
     formData.append('sterilization', form.petSterilization != null ? form.petSterilization : moreInfor.undefined);
     formData.append('toilet', form.petToilet != null ? form.petToilet : moreInfor.undefined);
-    formData.append('type', form.petType != null ? form.petType : moreInfor.undefined);
+    formData.append('type', form.petType);
     formData.append('vaccin', form.petVaccin != null ? form.petVaccin : moreInfor.undefined);
     formData.append('weight', form.petWeight);
     const request = {
@@ -111,6 +112,7 @@ export class PetService {
     formData.append('breed', upcaseFirstLetter((form.petBreed.label ? form.petBreed.label : form.petBreed).trim()));
     formData.append('color', upcaseFirstLetter((form.petColor.label ? form.petColor.label : form.petColor).trim()));
     formData.append('description', form.petDescription ? form.petDescription.trim() : '');
+    formData.append('note', form.petNote ? form.petNote.trim() : '');
     formData.append('diet', form.petDiet != null ? form.petDiet : moreInfor.undefined);
     formData.append('friendlyToCats', form.petFriendlyToCats != null ? form.petFriendlyToCats : moreInfor.undefined);
     formData.append('friendlyToDogs', form.petFriendlyToDogs != null ? form.petFriendlyToDogs : moreInfor.undefined);
@@ -121,7 +123,7 @@ export class PetService {
     formData.append('status', form.petStatus);
     formData.append('sterilization', form.petSterilization != null ? form.petSterilization : moreInfor.undefined);
     formData.append('toilet', form.petToilet != null ? form.petToilet : moreInfor.undefined);
-    formData.append('type', form.petType != null ? form.petType : moreInfor.undefined);
+    formData.append('type', form.petType);
     formData.append('vaccin', form.petVaccin != null ? form.petVaccin : moreInfor.undefined);
     formData.append('weight', form.petWeight);
     const request = {
@@ -250,9 +252,9 @@ export class PetService {
       case 2:
         return 'warning';
       case 3:
-        return 'primary';
+        return 'info';
       default:
-        return 'primary';
+        return 'info';
     }
   }
 

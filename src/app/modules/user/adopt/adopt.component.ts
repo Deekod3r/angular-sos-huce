@@ -24,6 +24,7 @@ export class AdoptComponent implements OnInit {
   totalRecords = 0;
   limit = 16;
   first!: number;
+  btnActive = null;
   key: petSearchKey = {
     limit: this.limit,
     page: this.currentPage,
@@ -89,32 +90,14 @@ export class AdoptComponent implements OnInit {
       breed: ''
     };
     this.getPets();
-
-    const buttons = document.querySelectorAll('.p-button-lg.btn-primary');
-    buttons.forEach(button => {
-        button.classList.remove('btn-active');
-    });
-
-    const allButton = document.querySelector('.p-button-lg.btn-primary[ng-reflect-label="TẤT CẢ"]');
-    if (allButton) {
-        allButton.classList.add('btn-active');
-    }
+    this.btnActive = null;
 }
 
 
   setType(type: any) {
     this.key.type = type;
     this.getPets();
-
-    const buttons = document.querySelectorAll('.p-button-lg.btn-primary');
-    buttons.forEach(button => {
-      button.classList.remove('btn-active');
-    });
-
-    const activeButton = document.querySelector(`.p-button-lg.btn-primary[ng-reflect-label="${type === null ? 'TẤT CẢ' : type === 0 ? 'CHÓ' : type === 1 ? 'MÈO' : 'KHÁC'}"]`);
-    if (activeButton) {
-      activeButton.classList.add('btn-active');
-    }
+    this.btnActive = type;
   }
 
 }

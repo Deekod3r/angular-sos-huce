@@ -92,18 +92,16 @@ export class AdoptPetComponent implements OnInit {
     }
   }
 
-  getBadgeIcon(info: number) {
+  getBadgeValue(info: number) {
     switch (info) {
       case 0:
-        return 'fa fa-times';
+        return '✗';
       case 1:
-        return 'fa fa-check';
+        return '✓';
       case 2:
-        return 'fa fa-question';
-      case 3:
-        return 'fa fa-info';
+        return '?';
       default:
-        return 'fa fa-info';
+        return '?';
     }
   }
 

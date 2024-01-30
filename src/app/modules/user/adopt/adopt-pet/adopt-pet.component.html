@@ -1,48 +1,58 @@
-<div class="container mt-3">
+<div class="container mt-3 card">
     <div *ngIf="pet" class="grid">
-        <div class="col-4">
-            <img src="{{pet.image}}" alt="pet" class="w-full">
+        <div class="col-5">
+            <img src="{{pet.image}}" alt="pet" class="w-full" style="border-radius: 10px;">
         </div>
-        <div class="col-8 my-3">
-            <p>{{pet.name}}</p>
-            <p>Mã: {{pet.code}}</p>
-            <p>Giống: {{pet.breed}}</p>
-            <p>Tuổi: {{this.petService.getAge(pet.age)}}</p>
-            <p>Cân nặng: {{pet.weight}} kg</p>
-            <p>Giới tính: {{this.petService.getGender(pet.gender)}}</p>
+        <div class="col-7 p-3">
+            <p class="text-3xl font-semibold">{{pet.name}}</p>
+            <p-divider type="dashed"></p-divider>
+            <p><b>Mã:</b> {{pet.code}}</p>
+            <p-divider type="dashed"></p-divider>
+            <p><b>Giống:</b> {{pet.breed}}</p>
+            <p-divider type="dashed"></p-divider>
+            <p><b>Tuổi:</b> {{this.petService.getAge(pet.age)}}</p>
+            <p-divider type="dashed"></p-divider>
+            <p><b>Cân nặng:</b> {{pet.weight}} kg</p>
+            <p-divider type="dashed"></p-divider>
+            <p><b>Giới tính:</b> {{this.petService.getGender(pet.gender)}}</p>
+            <p-divider type="dashed"></p-divider>
+            <button pButton label="NHẬN NUÔI" routerLink="/adopt" class="mt-3"></button>
+            <button pButton label="BẠN CÓ CÂU HỎI?" routerLink="/support" class="mt-3 ml-3 bg-cyan-500 border-cyan-500"></button>
         </div>
         <div class="col-12">
-            <p>Thông tin</p>
-            <div class="grid">
+            <p class="text-3xl font-semibold mb-1">Thông tin</p>
+            <p-divider></p-divider>
+            <div class="grid mt-1">
                 <div class="col-3">
-                    <p><p-badge value=""></p-badge> Triệt sản</p>
+                    <p><p-badge value="{{getBadgeValue(pet.sterilization)}}" [severity]="getBadgeSeverity(pet.sterilization)"></p-badge> Triệt sản</p>
                 </div>
                 <div class="col-3">
-                    <p>Thân thiện với người</p>
+                    <p><p-badge value="{{getBadgeValue(pet.friendlyToHuman)}}" [severity]="getBadgeSeverity(pet.friendlyToHuman)"></p-badge> Thân thiện với người</p>
                 </div>
                 <div class="col-3">
-                    <p>Chế độ ăn riêng</p>
+                    <p><p-badge value="{{getBadgeValue(pet.diet)}}" [severity]="getBadgeSeverity(pet.diet)"></p-badge> Chế độ ăn riêng</p>
                 </div>
                 <div class="col-3">
-                    <p>Tiêm dại</p>
+                    <p><p-badge value="{{getBadgeValue(pet.rabies)}}" [severity]="getBadgeSeverity(pet.rabies)"></p-badge> Tiêm dại</p>
                 </div>
                 <div class="col-3">
-                    <p>Thân thiện với chó</p>
+                    <p><p-badge value="{{getBadgeValue(pet.friendlyToDogs)}}" [severity]="getBadgeSeverity(pet.friendlyToDogs)"></p-badge> Thân thiện với chó</p>
                 </div>
                 <div class="col-3">
-                    <p>Đi vệ sinh đúng chỗ</p>
+                    <p><p-badge value="{{getBadgeValue(pet.toilet)}}" [severity]="getBadgeSeverity(pet.toilet)"></p-badge> Đi vệ sinh đúng chỗ</p>
                 </div>
                 <div class="col-3">
-                    <p>Tiêm phòng bệnh</p>
+                    <p><p-badge value="{{getBadgeValue(pet.vaccin)}}" [severity]="getBadgeSeverity(pet.vaccin)"></p-badge> Tiêm phòng bệnh</p>
                 </div>
                 <div class="col-3">
-                    <p>Thân thiện với mèo</p>
+                    <p><p-badge value="{{getBadgeValue(pet.friendlyToCats)}}" [severity]="getBadgeSeverity(pet.friendlyToCats)"></p-badge> Thân thiện với mèo</p>
                 </div>
             </div>
         </div>
         <div class="col-12">
-            <p>Mô tả</p>
-            <p>{{pet.description}}</p>
+            <p class="text-3xl font-semibold mb-1">Mô tả</p>
+            <p-divider></p-divider>
+            <p class="mt-1">{{pet.description}}</p>
         </div>
     </div>
 </div>

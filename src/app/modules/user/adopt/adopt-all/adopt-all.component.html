@@ -8,10 +8,10 @@
             Tìm kiếm thú cưng theo các tiêu chí như giống, tuổi, giới tính, tình trạng sức khỏe...
         </p>
         <div class="flex align-items-center justify-content-center">
-            <button pButton label="TẤT CẢ" class="p-button-lg btn-primary btn-active" (click)="setType(null)"></button>
-            <button pButton label="CHÓ" class="mx-3 p-button-lg btn-primary" (click)="setType(0)"></button>
-            <button pButton label="MÈO" class="p-button-lg btn-primary" (click)="setType(1)"></button>
-            <button pButton label="KHÁC" class="mx-3 p-button-lg btn-primary" (click)="setType(2)"></button>
+            <button pButton label="TẤT CẢ" class="p-button-lg btn-primary btn-type" [ngClass]="{'btn-active': btnActive === null}" (click)="setType(null)"></button>
+            <button pButton label="CHÓ" class="mx-3 p-button-lg btn-primary btn-type" [ngClass]="{'btn-active': btnActive === 0}" (click)="setType(0)"></button>
+            <button pButton label="MÈO" class="p-button-lg btn-primary btn-type" [ngClass]="{'btn-active': btnActive === 1}" (click)="setType(1)"></button>
+            <button pButton label="KHÁC" class="mx-3 p-button-lg btn-primary btn-type" [ngClass]="{'btn-active': btnActive === 2}" (click)="setType(2)"></button> 
         </div>
         <div class="grid mt-3">
             <div class="col-3">

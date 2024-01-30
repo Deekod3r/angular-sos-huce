@@ -52,7 +52,8 @@ export class PetUpdateComponent {
       petFriendlyToHuman: new FormControl(null),
       petFriendlyToCats: new FormControl(null),
       petFriendlyToDogs: new FormControl(null),
-      petDescription: new FormControl('', Validators.maxLength(500)),
+      petDescription: new FormControl('', Validators.maxLength(1000)),
+      petNote: new FormControl('', Validators.maxLength(500)),
     });
     this.getPet();
     this.types = petType;
@@ -104,6 +105,7 @@ export class PetUpdateComponent {
       petFriendlyToCats: this.pet.friendlyToCats,
       petFriendlyToDogs: this.pet.friendlyToDogs,
       petDescription: this.pet.description,
+      petNote: this.pet.note,
     });
   }
 
