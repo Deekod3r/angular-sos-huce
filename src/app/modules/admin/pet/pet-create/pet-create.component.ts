@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/api';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete/autocomplete.interface';
 import { Subject, takeUntil } from 'rxjs';
 import { petBreed, petColor, petType, petAge, petGender, petMoreInfor, petStatus, moreInfor } from 'src/app/common/constant';
+import { message, title } from 'src/app/common/message';
 import { PetService } from 'src/app/services/pet.service';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 
@@ -110,7 +111,7 @@ export class PetCreateComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
-        this.messageService.add({severity:'error', summary: 'Lỗi', detail: 'Đã xảy ra lỗi. Vui lòng thử lại sau'});
+        this.messageService.add({severity:'error', summary: title.error, detail: message.error});
       }
     });
   }

@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { Subject } from 'rxjs';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
+import { message, messageLogin, object, result, title } from 'src/app/common/message';
 
 @Component({
   selector: 'app-login',
@@ -41,7 +42,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onLogin() {
     if (this.loginForm.invalid) {
-      this.errorLogin('Vui lòng nhập đầy đủ thông tin')
+      this.errorLogin(message.requiredInfo)
       return;
     }
 
@@ -62,9 +63,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       error: (error) => {
         console.log(error);
         if (error.status == 401) {
-          this.errorLogin('Thông tin đăng nhập không chính xác');
+          this.errorLogin(messageLogin.notMatch);
         } else {
-          this.errorLogin('Đã xảy ra lỗi. Vui lòng thử lại sau');
+          this.errorLogin(messageLogin.error);
         }
         this.loginForm.controls['password'].setValue('');
       }
@@ -74,7 +75,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   errorLogin(msg: string): void {
     this.loginError = true;
     this.loginMsg = [
-      { severity: 'error', summary: 'Lỗi', detail: msg }
+      { severity: 'error', summary: title.error, detail: msg }
     ];
     setTimeout(() => {
       this.loginError = false;

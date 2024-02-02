@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/api';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 import { Subject, takeUntil } from 'rxjs';
 import { petType, petAge, petGender, petMoreInfor, petStatus, petBreed, petColor } from 'src/app/common/constant';
+import { message, messagePet, title } from 'src/app/common/message';
 import { PetService } from 'src/app/services/pet.service';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 
@@ -146,7 +147,7 @@ export class PetUpdateComponent {
       },
       error: (error) => {
         console.log(error);
-        this.messageService.add({severity:'error', summary: 'Lỗi', detail: 'Đã xảy ra lỗi. Vui lòng thử lại sau'});
+        this.messageService.add({severity:'error', summary: title.error, detail: message.error});
       }
     });
   }
@@ -162,14 +163,14 @@ export class PetUpdateComponent {
         if (res) {
           this.visibleUpdateImageModal = false;
           this.getPet();
-          this.messageService.add({severity:'success', summary: 'Thành công', detail: 'Cập nhật ảnh thú cưng thành công'});
+          this.messageService.add({severity:'success', summary: title.success, detail: messagePet.updateImageSuccess});
         } else {
-          this.messageService.add({severity:'error', summary: 'Lỗi', detail: 'Đã xảy ra lỗi. Vui lòng thử lại sau'});
+          this.messageService.add({severity:'error', summary: title.error, detail: message.error});
         }
       },
       error: (error: any) => {
         console.log(error);
-        this.messageService.add({severity:'error', summary: 'Lỗi', detail: 'Đã xảy ra lỗi. Vui lòng thử lại sau'});
+        this.messageService.add({severity:'error', summary: title.error, detail: message.error});
       }
     });
   }

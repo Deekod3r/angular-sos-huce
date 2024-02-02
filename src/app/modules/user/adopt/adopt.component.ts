@@ -7,7 +7,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { petSearchKey } from 'src/app/models/common.model';
 import { Subject, takeUntil } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
-import { petStatusKey } from 'src/app/common/constant';
+import { petSearch, petStatusKey } from 'src/app/common/constant';
 
 @Component({
   selector: 'app-adopt',
@@ -22,7 +22,7 @@ export class AdoptComponent implements OnInit {
   currentPage = 1;
   totalPages = 0;
   totalRecords = 0;
-  limit = 16;
+  limit = petSearch.limitDefaultClient;
   first!: number;
   btnActive = null;
   key: petSearchKey = {

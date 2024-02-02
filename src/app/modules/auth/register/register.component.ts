@@ -10,6 +10,7 @@ import { Subject } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
+import { message, messageRegister, title } from 'src/app/common/message';
 
 @Component({
   selector: 'app-register',
@@ -45,7 +46,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   onRegister() {
     if (this.registerForm.invalid) {
-      this.notify('Vui lòng nhập đầy đủ thông tin', 'error', 'Lỗi');
+      this.notify(message.requiredInfo, 'error', title.error);
       return;
     }
     this.isSubmitted = true;
@@ -59,7 +60,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     .subscribe({
       next: (response) => {
         if (response) {
-          this.notify('Vui lòng tiếp tục xác nhận tài khoản', 'success', 'Thành công');
+          this.notify('Vui lòng tiếp tục xác nhận tài khoản', 'success', title.success);
           this.registerForm.reset();
           setTimeout(() => {
             window.location.href = '/auth/verify/' + response;
@@ -69,9 +70,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
       error: (error) => {
         console.log(error);
         if (error.status === 409) {
-          this.notify('Tài khoản đã tồn tại', 'error', 'Lỗi');
+          this.notify(messageRegister.exist, 'error', title.error);
         } else {
-          this.notify('Đăng ký thất bại, vui lòng thử lại sau', 'error', 'Lỗi');
+          this.notify(messageRegister.fail, 'error', title.error);
         }
       }
     });

@@ -12,6 +12,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { petSearchKey } from 'src/app/models/common.model';
+import { message, messagePet, title } from 'src/app/common/message';
 
 @Component({
   selector: 'app-pet',
@@ -121,14 +122,14 @@ export class PetComponent implements OnInit {
     if (result) {
       if (type === typeAction.create) {
         this.visibleCreateModal = false;
-        this.messageService.add({ severity: 'success', summary: 'Thành công', detail: 'Tạo mới thành công!' });
+        this.messageService.add({ severity: 'success', summary: title.success, detail: messagePet.createSuccess });
       } else if (type === typeAction.update) {
         this.visibleUpdateModal = false;
-        this.messageService.add({ severity: 'success', summary: 'Thành công', detail: 'Cập nhật thành công!' });
+        this.messageService.add({ severity: 'success', summary: title.success, detail: messagePet.updateSuccess });
       }
       this.getPets();
     } else {
-      this.messageService.add({ severity: 'error', summary: 'Thất bại', detail: 'Vui lòng thử lại sau' });
+      this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
     }
   }
 
@@ -178,19 +179,19 @@ export class PetComponent implements OnInit {
           next: (res) => {
             if (res) {
               this.getPets();
-              this.messageService.add({ severity: 'success', summary: 'Xác nhận', detail: 'Xoá thú cưng thành công' });
+              this.messageService.add({ severity: 'success', summary: title.confirm, detail: messagePet.deleteSuccess });
             } else {
-              this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'Đã xảy ra lỗi. Vui lòng thử lại sau' });
+              this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
             }
           },
           error: (error) => {
             console.log(error);
-            this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'Đã xảy ra lỗi. Vui lòng thử lại sau' });
+            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
           }
         });
       },
       reject: () => {
-        this.messageService.add({ severity: 'error', summary: 'Huỷ', detail: 'Từ chối quá trình xoá', life: 3000 });
+        this.messageService.add({ severity: 'error', summary: title.cancel, detail: 'Từ chối quá trình xoá dữ liệu', life: 3000 });
       }
     });
   }

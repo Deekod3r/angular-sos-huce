@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Message } from 'primeng/api';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { Subject, finalize, takeUntil } from 'rxjs';
+import { message, messageVerify, title } from 'src/app/common/message';
 import { AuthService } from 'src/app/services/auth.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 
@@ -40,7 +41,7 @@ export class VerifyComponent implements OnInit {
 
   onVerify() {
     if (this.verifyForm.invalid) {
-      this.notify('Vui lòng nhập đầy đủ thông tin', 'error', 'Lỗi')
+      this.notify(message.requiredInfo, 'error', title.error)
       return;
     }
     this.isSubmitted = true;
@@ -53,18 +54,18 @@ export class VerifyComponent implements OnInit {
     .subscribe({
       next: (response) => {
         if (response.success) {
-          this.notify('Xác thực thành công', 'success', 'Thành công');
+          this.notify(messageVerify.success, 'success', title.success);
           this.verifyForm.reset();
           setTimeout(() => {
             window.location.href = '/auth/login';
           },3000);
         } else {
-          this.notify('Xác thực thất bại, vui lòng thử lại sau', 'error', 'Lỗi');
+          this.notify(messageVerify.fail, 'error', title.error);
         }
       },
       error: (error) => {
         console.log(error);
-        this.notify('Xác thực thất bại, vui lòng thử lại sau', 'error', 'Lỗi');
+        this.notify(messageVerify.fail, 'error', title.error);
       }
     });
   }

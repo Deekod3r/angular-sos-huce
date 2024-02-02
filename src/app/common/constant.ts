@@ -22,7 +22,8 @@ export const moreInfor = {
 }
 
 export const petSearch = {
-    limitDefault: 5
+    limitDefault: 5,
+    limitDefaultClient: 24
 }
 
 export const petStatusKey = {
