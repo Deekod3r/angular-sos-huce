@@ -50,7 +50,7 @@ export class PetCreateComponent implements OnInit {
       petFriendlyToHuman: new FormControl(null),
       petFriendlyToCats: new FormControl(null),
       petFriendlyToDogs: new FormControl(null),
-      petDescription: new FormControl('', Validators.maxLength(1000)),
+      petDescription: new FormControl('', [Validators.maxLength(1000), Validators.required, noWhitespaceValidator()]),
       petNote: new FormControl('', Validators.maxLength(500)),
     });
     this.types = petType;
