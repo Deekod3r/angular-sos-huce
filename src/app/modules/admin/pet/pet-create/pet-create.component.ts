@@ -117,6 +117,6 @@ export class PetCreateComponent implements OnInit {
 
   removePetImage() {
     this.form.patchValue({ petImage: null });
-  }
+  } 
   
 }
