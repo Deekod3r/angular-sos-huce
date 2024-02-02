@@ -12,31 +12,31 @@
     <p-panel header="Công cụ" [toggleable]="true">
         <button pButton icon="fa fa-plus" label="Thêm mới" (click)="showCreateModal()"></button>
         <div class="card grid mt-3">
-            <div class="col-3">
+            <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-code">Mã</label>
                     <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.code">
                 </div>
             </div>
-            <div class="col-3">
+            <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-name">Tên</label>
                     <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.name">
                 </div>
             </div>
-            <div class="col-3">
+            <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-color">Màu</label>
                     <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.color">
                 </div>
             </div>
-            <div class="col-3">
+            <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-breed">Giống</label>
                     <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.breed">
                 </div>
             </div>
-            <div class="col-3">
+            <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-type">Loại</label>
                     <p-dropdown [options]="petService.optionType()" id="pet-type" optioLabel="label"
@@ -44,7 +44,7 @@
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.type"></p-dropdown>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-gender">Giới tính</label>
                     <p-dropdown [options]="petService.optionGender()" id="pet-gender" optioLabel="label"
@@ -52,7 +52,7 @@
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.gender"></p-dropdown>
                 </div>            
             </div>
-            <div class="col-3">
+            <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-age">Tuổi</label>
                     <p-dropdown [options]="petService.optionAge()" id="pet-age" optioLabel="label"
@@ -60,10 +60,42 @@
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.age"></p-dropdown>
                 </div>            
             </div>
-            <div class="col-3">
+            <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-status">Trạng thái</label>
                     <p-dropdown [options]="petService.optionStatus()" id="pet-status" optioLabel="label"
+                        styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
+                        emptyMessage="Không có dữ liệu" [(ngModel)]="key.status"></p-dropdown>
+                </div>            
+            </div>
+            <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="pet-status">Chế độ ăn riêng</label>
+                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-status" optioLabel="label"
+                        styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
+                        emptyMessage="Không có dữ liệu" [(ngModel)]="key.status"></p-dropdown>
+                </div>            
+            </div>
+            <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="pet-status">Triệt sản</label>
+                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-status" optioLabel="label"
+                        styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
+                        emptyMessage="Không có dữ liệu" [(ngModel)]="key.status"></p-dropdown>
+                </div>            
+            </div>
+            <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="pet-status">Tiêm phòng tổng hợp</label>
+                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-status" optioLabel="label"
+                        styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
+                        emptyMessage="Không có dữ liệu" [(ngModel)]="key.status"></p-dropdown>
+                </div>            
+            </div>
+            <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="pet-status">Tiêm dại</label>
+                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-status" optioLabel="label"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.status"></p-dropdown>
                 </div>            
