@@ -7,26 +7,26 @@
         <p class="text-center">
             Tìm kiếm thú cưng theo các tiêu chí như giống, tuổi, giới tính, tình trạng sức khỏe...
         </p>
-        <div class="flex align-items-center justify-content-center">
-            <button pButton label="TẤT CẢ" class="p-button-lg btn-primary btn-type" [ngClass]="{'btn-active': btnActive === null}" (click)="setType(null)"></button>
-            <button pButton label="CHÓ" class="mx-3 p-button-lg btn-primary btn-type" [ngClass]="{'btn-active': btnActive === 0}" (click)="setType(0)"></button>
-            <button pButton label="MÈO" class="p-button-lg btn-primary btn-type" [ngClass]="{'btn-active': btnActive === 1}" (click)="setType(1)"></button>
-            <button pButton label="KHÁC" class="mx-3 p-button-lg btn-primary btn-type" [ngClass]="{'btn-active': btnActive === 2}" (click)="setType(2)"></button> 
+        <div class="flex align-items-center justify-content-center grid">
+            <button pButton label="TẤT CẢ" class="p-button-lg btn-primary btn-type lg:col-2 mx-3 mt-1 md:col-5 sm:col-5 col-5" [ngClass]="{'btn-active': btnActive === null}" (click)="setType(null)"></button>
+            <button pButton label="CHÓ" class="p-button-lg btn-primary btn-type lg:col-2 md:col-5 mt-1 sm:col-5 col-5" [ngClass]="{'btn-active': btnActive === 0}" (click)="setType(0)"></button>
+            <button pButton label="MÈO" class="p-button-lg btn-primary btn-type lg:col-2 mx-3 md:col-5 mt-1 sm:col-5 col-5" [ngClass]="{'btn-active': btnActive === 1}" (click)="setType(1)"></button>
+            <button pButton label="KHÁC" class="p-button-lg btn-primary btn-type lg:col-2 md:col-5  mt-1 sm:col-5 col-5" [ngClass]="{'btn-active': btnActive === 2}" (click)="setType(2)"></button>            
         </div>
         <div class="grid mt-3">
-            <div class="col-3">
+            <div class="lg:col-4 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-code" class="font-semibold">Mã</label>
                     <input pInputText appendIcon="fa fa-search" class="mat-form-field border-primary-500" [(ngModel)]="key.code">
                 </div>
             </div>
-            <div class="col-3">
+            <div class="lg:col-4 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-name" class="font-semibold">Tên</label>
                     <input pInputText appendIcon="fa fa-search" class="mat-form-field border-primary-500" [(ngModel)]="key.name">
                 </div>
             </div>
-            <div class="col-3">
+            <div class="lg:col-4 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-gender" class="font-semibold">Giới tính</label>
                     <p-dropdown [options]="petService.optionGender()" id="pet-gender" optioLabel="label"
@@ -34,7 +34,7 @@
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.gender"></p-dropdown>
                 </div>            
             </div>
-            <div class="col-3">
+            <div class="lg:col-4 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-age" class="font-semibold">Tuổi</label>
                     <p-dropdown [options]="petService.optionAge()" id="pet-age" optioLabel="label"
@@ -42,13 +42,26 @@
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.age"></p-dropdown>
                 </div>            
             </div>
-            <div class="col-12" align="center">
-                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="search()" class="mx-3"></button>
-                <button pButton icon="fa fa-refresh" label="Làm mới" (click)="refresh()" class="mx-3"></button>
+            <div class="lg:col-4 md:col-6 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="pet-status" class="font-semibold">Trạng thái</label>
+                    <p-dropdown [options]="petService.optionStatus()" id="pet-status" optioLabel="label"
+                        styleClass="mat-form-field border-primary-500" [showClear]="true" placeholder="--Chọn--"
+                        emptyMessage="Không có dữ liệu" [(ngModel)]="key.status"></p-dropdown>
+                </div>            
             </div>
+            <div class="lg:col-4 md:col-6 sm:col-12 col-12">
+                <div class="mt-4 p-1 w-100" align="center">
+                    <div class="px-auto">
+                        <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="search()" class="mr-3"></button>
+                        <button pButton icon="fa fa-refresh" label="Làm mới" (click)="refresh()" class="ml-3"></button>
+                    </div>
+                </div>
+            </div>
+                                
         </div>
         <div class="grid mt-5">
-            <div class="col-3" *ngFor="let pet of pets">
+            <div class="lg:col-3 md:col-4 sm:col-6 col-6 mx-auto" *ngFor="let pet of pets">
                 <app-card-pet [age]="this.petService.getAge(pet.age)"
                 [breed]="pet.breed"
                 [vaccin]="this.petService.getVaccin(pet.vaccin)"

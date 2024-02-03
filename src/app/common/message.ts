@@ -67,6 +67,7 @@ export const message = {
     requiredInfo: 'Vui lòng nhập đầy đủ thông tin',
     wait: 'Vui lòng thử lại sau',
     again: 'Vui lòng thử lại',
+    cancelDelete: 'Từ chối quá trình xoá dữ liệu',
 }
 
 export const messageLogin = {

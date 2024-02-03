@@ -25,7 +25,7 @@ export class AdoptComponent implements OnInit {
   limit = petSearch.limitDefaultClient;
   first!: number;
   btnActive = null;
-  key: petSearchKey = {
+  key = {
     limit: this.limit,
     page: this.currentPage,
     code: '',
@@ -34,8 +34,6 @@ export class AdoptComponent implements OnInit {
     type: null,
     gender: null,
     age: null,
-    color: '',
-    breed: ''
   };
   private subscribes$: Subject<void> = new Subject<void>();
 
@@ -85,9 +83,7 @@ export class AdoptComponent implements OnInit {
       status: petStatusKey.waiting,
       type: null,
       gender: null,
-      age: null,
-      color: '',
-      breed: ''
+      age: null
     };
     this.getPets();
     this.btnActive = null;

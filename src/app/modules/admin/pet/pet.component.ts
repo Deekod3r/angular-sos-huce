@@ -46,7 +46,11 @@ export class PetComponent implements OnInit {
     gender: null,
     age: null,
     color: '',
-    breed: ''
+    breed: '',
+    diet: null,
+    vaccin: null,
+    sterilization: null,
+    rabies: null
   };
 
 
@@ -147,7 +151,11 @@ export class PetComponent implements OnInit {
       gender: null,
       age: null,
       color: '',
-      breed: ''
+      breed: '',
+      diet: null,
+      vaccin: null,
+      sterilization: null,
+      rabies: null
     };
     this.getPets();
   }
@@ -191,7 +199,7 @@ export class PetComponent implements OnInit {
         });
       },
       reject: () => {
-        this.messageService.add({ severity: 'error', summary: title.cancel, detail: 'Từ chối quá trình xoá dữ liệu', life: 3000 });
+        this.messageService.add({ severity: 'error', summary: title.cancel, detail: message.cancelDelete, life: 3000 });
       }
     });
   }

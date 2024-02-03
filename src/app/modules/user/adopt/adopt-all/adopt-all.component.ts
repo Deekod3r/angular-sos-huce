@@ -4,10 +4,9 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { CardPetModule } from 'src/app/shared/components/card-pet/card-pet.module';
 import { PetService } from 'src/app/services/pet.service';
 import { DropdownModule } from 'primeng/dropdown';
-import { petSearchKey } from 'src/app/models/common.model';
 import { Subject, takeUntil } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
-import { petStatusKey } from 'src/app/common/constant';
+import { petSearch } from 'src/app/common/constant';
 
 @Component({
   selector: 'app-adopt',
@@ -22,10 +21,10 @@ export class AdoptAllComponent implements OnInit {
   currentPage = 1;
   totalPages = 0;
   totalRecords = 0;
-  limit = 16;
+  limit = petSearch.limitDefaultClient;
   first!: number;
   btnActive = null;
-  key: petSearchKey = {
+  key = {
     limit: this.limit,
     page: this.currentPage,
     code: '',
@@ -33,9 +32,7 @@ export class AdoptAllComponent implements OnInit {
     status: null,
     type: null,
     gender: null,
-    age: null,
-    color: '',
-    breed: ''
+    age: null
   };
   private subscribes$: Subject<void> = new Subject<void>();
 
@@ -86,8 +83,6 @@ export class AdoptAllComponent implements OnInit {
       type: null,
       gender: null,
       age: null,
-      color: '',
-      breed: ''
     };
     this.getPets();
     this.btnActive = null;
