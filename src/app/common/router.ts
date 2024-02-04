@@ -21,6 +21,7 @@ import { LoggedInGuard } from '../guards/logged-in.guard';
 import { CONFIG } from './config';
 import { AdoptAllComponent } from '../modules/user/adopt/adopt-all/adopt-all.component';
 import { AdoptPetComponent } from '../modules/user/adopt/adopt-pet/adopt-pet.component';
+import { ForgotPasswordComponent } from '../modules/auth/forgot-password/forgot-password.component';
 
 export let ROUTES_ROOT: Routes = [
   {
@@ -57,6 +58,7 @@ export let ROUTES_AUTH: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'verify/:id', component: VerifyComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent}
 ];
 
 export let ROUTES_USER: Routes = [
