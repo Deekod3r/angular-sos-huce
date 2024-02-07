@@ -1,13 +1,3 @@
-export const responseCode = {
-    success: "00",
-    failed: "01",
-    objectExists: "02",
-}
-
-export const responseMessage = {
-
-}
-
 export const typeAction = {
     create: 0,
     update: 1,

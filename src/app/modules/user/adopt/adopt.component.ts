@@ -51,12 +51,17 @@ export class AdoptComponent implements OnInit {
 
   getPets(): void {
     this.key.page = this.currentPage;
-    this.petService.getPets(this.key).pipe(takeUntil(this.subscribes$)).subscribe(data => {
-      this.currentPage = data.page;
-      this.first = (this.currentPage - 1) * this.limit;
-      this.totalPages = data.totalPages;
-      this.totalRecords = data.total;
-      this.pets = data.pets;
+    this.petService.getPets(this.key)
+    .pipe(takeUntil(this.subscribes$))
+    .subscribe(res => {
+      if (res.success) {
+        let data = res.data;
+        this.currentPage = data.page;
+        this.first = (this.currentPage - 1) * this.limit;
+        this.totalPages = data.totalPages;
+        this.totalRecords = data.total;
+        this.pets = data.pets;
+      }
     });
   }
 

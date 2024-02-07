@@ -32,15 +32,81 @@ export class UserService {
 
     return this.commonService.callAPI(request).pipe(
       map((response: any) => {
-        if (response.error) {
-          throw new Error(response.error);
-        }
-        return response.data.id;
-      }),
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => error);
+        return response;
       })
     );
   }
 
+  checkExist(account: string): Observable<any> {
+    const request = {
+      function: this.API_URL + 'check-exist',
+      method: CONFIG.KEY.METHOD_GET,
+      options: {
+        params: {
+          account: account.trim()
+        }
+      }
+    }
+
+    return this.commonService.callAPI(request).pipe(
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
+
+  forgotPassword(email: string): Observable<boolean> {
+    const request = {
+      function: this.API_URL + 'forgot-password',
+      method: CONFIG.KEY.METHOD_GET,
+      options: {
+        params: {
+          email: email
+        }
+      }
+    }
+
+    return this.commonService.callAPI(request).pipe(
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
+
+  verifyForgotPassword(id: string, code: string): Observable<boolean> {
+    const request = {
+      function: this.API_URL + 'verify-forgot-password/' + id,
+      method: CONFIG.KEY.METHOD_GET,
+      options: {
+        params: {
+          code: code
+        }
+      }
+    }
+
+    return this.commonService.callAPI(request).pipe(
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
+
+  resetPassword(id: string, code: string, email: string, password: string): Observable<boolean> {
+    const request = {
+      function: this.API_URL + 'reset-password',
+      method: CONFIG.KEY.METHOD_PUT,
+      body: {
+        id: id,
+        code: code,
+        email: email,
+        newPassword: password
+      }
+    }
+
+    return this.commonService.callAPI(request).pipe(
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
 }

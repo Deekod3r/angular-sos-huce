@@ -5,6 +5,7 @@ import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 import { Subject, takeUntil } from 'rxjs';
 import { petType, petAge, petGender, petMoreInfor, petStatus, petBreed, petColor } from 'src/app/common/constant';
 import { message, messagePet, title } from 'src/app/common/message';
+import { responseCodeCommon, responseCodeAuth } from 'src/app/common/response';
 import { PetService } from 'src/app/services/pet.service';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 
@@ -37,6 +38,7 @@ export class PetUpdateComponent {
 
   ngOnInit(): void {
     this.form = new FormGroup({
+      petId: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
       petName: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
       petType: new FormControl(null, Validators.required),
       petBreed: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
@@ -72,19 +74,17 @@ export class PetUpdateComponent {
   getPet() {
     this.petService.getPetById(this.idPet).pipe(takeUntil(this.subscribes$)).subscribe({
       next: (res) => {
-        if (res) {
-          this.pet = res;
+        if (res.success) {
+          this.pet = res.data;
           this.initForm();
         }
-      },
-      error: (error) => {
-        console.log(error);
       }
     });
   }
 
   initForm() {
     this.form.patchValue({
+      petId: this.pet.id,
       petName: this.pet.name,
       petType: this.pet.type,
       petBreed: {
@@ -137,17 +137,31 @@ export class PetUpdateComponent {
   }
   
   onSavePet() {
-    this.petService.updatePet(this.form.value, this.idPet).pipe(takeUntil(this.subscribes$)).subscribe({
+    this.petService.updatePet(this.form.value, this.idPet)
+    .pipe(takeUntil(this.subscribes$))
+    .subscribe({
       next: (res) => {
-        if (res) {
+        if (res.success) {
           this.form.reset();
           this.result = true;
           this.resultAction.emit(this.result);    
         }
       },
-      error: (error) => {
-        console.log(error);
-        this.messageService.add({severity:'error', summary: title.error, detail: message.error});
+      error: (res) => {
+        if (res.error) {
+          let error = res.error.error;
+          if (error.code == responseCodeCommon.notFound) {
+            this.messageService.add({ severity: 'error', summary: title.error, detail: messagePet.notFound });
+          } else if (error.code == responseCodeCommon.invalid) {
+            this.messageService.add({ severity: 'error', summary: title.error, detail: message.invalidInput });
+          } else if (error.code == responseCodeAuth.permissionDenied){
+            this.messageService.add({ severity: 'error', summary: title.error, detail: message.noPermission });
+          } else if (error.code == responseCodeCommon.notMatch){
+            this.messageService.add({ severity: 'error', summary: title.error, detail: message.notMatch });
+          }
+        } else {
+          this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+        }
       }
     });
   }
@@ -160,17 +174,27 @@ export class PetUpdateComponent {
     const image = event.files[0];
     this.petService.updatePetImage(image, this.idPet).pipe(takeUntil(this.subscribes$)).subscribe({
       next: (res: any) => {
-        if (res) {
+        if (res.success) {
           this.visibleUpdateImageModal = false;
           this.getPet();
           this.messageService.add({severity:'success', summary: title.success, detail: messagePet.updateImageSuccess});
-        } else {
-          this.messageService.add({severity:'error', summary: title.error, detail: message.error});
         }
       },
-      error: (error: any) => {
-        console.log(error);
-        this.messageService.add({severity:'error', summary: title.error, detail: message.error});
+      error: (res) => {
+        if (res.error) {
+          let error = res.error.error;
+          if (error.code == responseCodeCommon.notFound) {
+            this.messageService.add({ severity: 'error', summary: title.error, detail: messagePet.notFound });
+          } else if (error.code == responseCodeCommon.invalid) {
+            this.messageService.add({ severity: 'error', summary: title.error, detail: message.invalidInput });
+          } else if (error.code == responseCodeAuth.permissionDenied){
+            this.messageService.add({ severity: 'error', summary: title.error, detail: message.noPermission });
+          } else if (error.code == responseCodeCommon.notMatch){
+            this.messageService.add({ severity: 'error', summary: title.error, detail: message.notMatch });
+          }
+        } else {
+          this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+        }
       }
     });
   }

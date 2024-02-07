@@ -94,24 +94,28 @@
                 <button pButton icon="fa fa-refresh" label="Làm mới" (click)="refresh()" class="mx-3"></button>
             </div>
         </div>
-        <div class="grid mt-5">
+        <div *ngIf="pets && pets.length > 0; else noDataTemplate" class="grid mt-5">
             <div class="lg:col-3 md:col-4 sm:col-6 col-6 mx-auto" *ngFor="let pet of pets">
                 <app-card-pet 
-                [id]="pet.id"
-                [age]="this.petService.getAge(pet.age)"
-                [breed]="pet.breed"
-                [vaccin]="this.petService.getVaccin(pet.vaccin)"
-                [image]="pet.image"
-                [gender]="this.petService.getGender(pet.gender)"
-                [name]="pet.name"
-                ></app-card-pet>
+                    [id]="pet.id"
+                    [age]="petService.getAge(pet.age)"
+                    [breed]="pet.breed"
+                    [vaccin]="petService.getVaccin(pet.vaccin)"
+                    [image]="pet.image"
+                    [gender]="petService.getGender(pet.gender)"
+                    [name]="pet.name">
+                </app-card-pet>
             </div>
             <div class="col-12 mx-auto">
                 <p-paginator [rows]="limit" [showCurrentPageReport]="false" [totalRecords]="totalRecords" [first]="first"
-                [style]="{'margin-top': '1rem'}"
-                (onPageChange)="onPageChange($event)"></p-paginator>
+                    [style]="{'margin-top': '1rem'}"
+                    (onPageChange)="onPageChange($event)">
+                </p-paginator>
             </div>
         </div>
+        <ng-template #noDataTemplate>
+            <div class="text-center mx-5 p-5 text-lg">Không có dữ liệu</div>
+        </ng-template>        
     </div>
 </div>
 <app-card-footer [title]="'BẠN CHƯA ĐỦ ĐIỀU KIỆN MANG BOSS VỀ NHÀ? ỦNG HỘ HUCE PET BẰNG CÁC CÁCH KHÁC NHÉ!'"

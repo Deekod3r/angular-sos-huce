@@ -13,7 +13,7 @@ export class AuthService {
 
   constructor(private encryptionService: EncryptionService, private commonService: CommonService) { }
 
-  login(form: FormData): Observable<boolean> {
+  login(form: FormData): Observable<any> {
     const request = {
       function: 'login',
       method: CONFIG.KEY.METHOD_POST,
@@ -22,39 +22,30 @@ export class AuthService {
 
     return this.commonService.callAPI(request).pipe(
       map((response: any) => {
-        if (response.error) {
-          throw new Error(response.error);
-        }
         localStorage.setItem(CONFIG.KEY.IS_LOGGED_IN, this.encryptionService.encrypt(CONFIG.KEY.IS_LOGGED_IN_VALUE));
         localStorage.setItem(CONFIG.KEY.TOKEN, this.encryptionService.encrypt(JSON.stringify(response.data)));
         this.updateLastActiveTime();
-        return true;
-      }),
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => error);
+        return response;
       })
     );
   }
 
   verify(id: string, code: string): Observable<any> {
-
     const request = {
-      function: 'verify/' + id + '?code=' + code.trim(),
-      method: CONFIG.KEY.METHOD_GET
+      function: 'verify/' + id,
+      method: CONFIG.KEY.METHOD_GET,
+      options: {
+        params: {
+          code: code.trim()
+        }
+      }
     }
 
     return this.commonService.callAPI(request).pipe(
       map((response: any) => {
-        if (response.error) {
-          throw new Error(response.error);
-        }
         return response;
-      }),
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => error);
       })
     );
-
   }
 
   getProfile(): any {

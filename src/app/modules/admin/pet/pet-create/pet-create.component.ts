@@ -4,7 +4,8 @@ import { MessageService } from 'primeng/api';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete/autocomplete.interface';
 import { Subject, takeUntil } from 'rxjs';
 import { petBreed, petColor, petType, petAge, petGender, petMoreInfor, petStatus, moreInfor } from 'src/app/common/constant';
-import { message, title } from 'src/app/common/message';
+import { message, messagePet, title } from 'src/app/common/message';
+import { responseCodeCommon, responseCodeAuth } from 'src/app/common/response';
 import { PetService } from 'src/app/services/pet.service';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 
@@ -103,15 +104,23 @@ export class PetCreateComponent implements OnInit {
   onSavePet() {
     this.petService.createPet(this.form.value).pipe(takeUntil(this.subscribes$)).subscribe({
       next: (res) => {
-        if (res) {
+        if (res.success) {
           this.form.reset();
           this.result = true;
           this.resultAction.emit(this.result);    
         }
       },
-      error: (error) => {
-        console.log(error);
-        this.messageService.add({severity:'error', summary: title.error, detail: message.error});
+      error: (res) => {
+        if (res.error) {
+          let error = res.error.error;
+          if (error.code == responseCodeCommon.invalid) {
+            this.messageService.add({ severity: 'error', summary: title.error, detail: message.invalidInput });
+          } else if (error.code == responseCodeAuth.permissionDenied){
+            this.messageService.add({ severity: 'error', summary: title.error, detail: message.noPermission });
+          }
+        } else {
+          this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+        }
       }
     });
   }

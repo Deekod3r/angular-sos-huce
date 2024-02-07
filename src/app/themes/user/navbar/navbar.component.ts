@@ -51,9 +51,9 @@ export class NavbarComponent implements OnInit {
         routerLink: '/intro'
       },
       {
-        label: 'Hỗ trợ',
+        label: 'Liên hệ',
         icon: 'fa fa-circle-question',
-        routerLink: '/support'
+        routerLink: '/contact'
       }
     ];
 

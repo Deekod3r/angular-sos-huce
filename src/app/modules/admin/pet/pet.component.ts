@@ -4,7 +4,6 @@ import { PetService } from 'src/app/services/pet.service';
 import { TagModule } from 'primeng/tag';
 import { petSearch, typeAction } from 'src/app/common/constant';
 import { MenuItem } from 'primeng/api/menuitem';
-import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { PetModule } from './pet.module';
@@ -13,11 +12,12 @@ import { PaginatorModule } from 'primeng/paginator';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { petSearchKey } from 'src/app/models/common.model';
 import { message, messagePet, title } from 'src/app/common/message';
+import { responseCodeAuth, responseCodeCommon } from 'src/app/common/response';
 
 @Component({
   selector: 'app-pet',
   standalone: true,
-  imports: [TableModule, TagModule, ConfirmPopupModule, TieredMenuModule, PetModule, PaginatorModule, ConfirmDialogModule],
+  imports: [TableModule, TagModule, TieredMenuModule, PetModule, PaginatorModule, ConfirmDialogModule],
   providers: [ConfirmationService, MessageService],
   templateUrl: './pet.component.html',
   styleUrls: ['./pet.component.css']
@@ -71,15 +71,20 @@ export class PetComponent implements OnInit {
   getPets(): void {
     this.key.limit = this.limit;
     this.key.page = this.currentPage;
-    this.petService.getPets(this.key).pipe(takeUntil(this.subscribes$)).subscribe(data => {
-      this.currentPage = data.page;
-      this.first = (this.currentPage - 1) * this.limit;
-      this.totalPages = data.totalPages;
-      this.totalRecords = data.total;
-      this.pets = data.pets;
-      this.pets.forEach(pet => {
-        pet.menuItems = this.getMenuItems(pet);
-      })
+    this.petService.getPets(this.key)
+    .pipe(takeUntil(this.subscribes$))
+    .subscribe(res => {
+      if (res.success) {
+        let data = res.data;
+        this.currentPage = data.page;
+        this.first = (this.currentPage - 1) * this.limit;
+        this.totalPages = data.totalPages;
+        this.totalRecords = data.total;
+        this.pets = data.pets;
+        this.pets.forEach(pet => {
+          pet.menuItems = this.getMenuItems(pet);
+        })
+      }
     });
   }
 
@@ -185,16 +190,24 @@ export class PetComponent implements OnInit {
       accept: () => {
         this.petService.deleteSoftPet(pet.id).pipe(takeUntil(this.subscribes$)).subscribe({
           next: (res) => {
-            if (res) {
+            if (res.success) {
               this.getPets();
-              this.messageService.add({ severity: 'success', summary: title.confirm, detail: messagePet.deleteSuccess });
+              this.messageService.add({ severity: 'success', summary: title.success, detail: messagePet.deleteSuccess });
+            }
+          },
+          error: (res) => {
+            if (res.error) {
+              let error = res.error.error;
+              if (error.code == responseCodeCommon.notFound) {
+                this.messageService.add({ severity: 'error', summary: title.error, detail: messagePet.notFound });
+              } else if (error.code == responseCodeCommon.invalid) {
+                this.messageService.add({ severity: 'error', summary: title.error, detail: message.invalidInput });
+              } else if (error.code == responseCodeAuth.permissionDenied){
+                this.messageService.add({ severity: 'error', summary: title.error, detail: message.noPermission });
+              }
             } else {
               this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
             }
-          },
-          error: (error) => {
-            console.log(error);
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
           }
         });
       },

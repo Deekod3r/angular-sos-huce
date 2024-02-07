@@ -1,4 +1,4 @@
-<form (ngSubmit)="onRegister()" [formGroup]="registerForm" class="form-center">
+<form *ngIf="step == 1" (ngSubmit)="onRegister()" [formGroup]="registerForm" class="form-center">
     <p-panel class="xl:col-4 lg:col-6 md:col-6 sm:col-8 col-12 panel">
         <ng-template pTemplate="header">
             <div class="flex align-items-center gap-2">
@@ -73,7 +73,7 @@
                 </div>
                 <div class="p-inputgroup col-12">
                     <p-password formControlName="password" class="form-control" promptLabel=" " weakLabel="Yếu"
-                        mediumLabel="Trung bình" strongLabel="Mạnh" [style]="{'width':'100%'}"
+                        mediumLabel="Trung bình" strongLabel="Mạnh" [style]="{'width':'100%'}" [toggleMask]="true"
                         [inputStyle]="{'width':'100%'}">
                         <ng-template pTemplate="header">
                             <h6>Nhập mật khẩu</h6>
@@ -121,6 +121,50 @@
                 <div class="col-12">
                     <span>Đã có tài khoản? <a class="btn-register font-bold" routerLink="/auth/login"
                             icon="pi pi-microsoft">Đăng nhập ngay</a></span>
+                </div>
+            </div>
+        </div>
+    </p-panel>
+</form>
+<form *ngIf="step == 2" (ngSubmit)="onVerify()" [formGroup]="verifyForm" class="form-center">
+    <p-panel class="xl:col-4 lg:col-6 md:col-6 col-12 panel">
+        <ng-template pTemplate="header">
+            <div class="flex align-items-center gap-2">
+                <!-- <a routerLink="/home"><p-avatar image="../../../assets/medias/imgs/logo-huce.png" size="large"
+                            shape="square" /></a> -->
+                <span class="font-bold text-4xl ml-2">Xác thực</span>
+            </div>
+        </ng-template>
+        <div class="grid">
+            <div class="col-12">
+                <div class="col-12">
+                    <span class="text-red-500 font-bold">Kiểm tra mã xác thực được gửi về email của bạn</span>
+                </div>
+                <div class="col-6 font-bold">
+                    Mã xác thực <span class="text-red-500">*</span>
+                </div>
+                <div class="col-12 text-center">
+                    <input pInputText type="text" formControlName="code"
+                        class="form-control text-center font-bold text-3xl" name="code" maxlength="6">
+                </div>
+                <div class="text-red-500 ml-3"
+                    *ngIf="verifyForm.controls['code'].hasError('required') && verifyForm.controls['code'].dirty">
+                    Vui lòng nhập mã xác thực
+                </div>
+            </div>
+            <div class="col-12 mt-3">
+                <div class="col-12">
+                    <button pButton label="Xác thực" type="submit" [disabled]="!verifyForm.valid || isSubmitted"
+                        class="btn-register">
+                    </button>
+                </div>
+                <div class="col-12 mt-1" [hidden]="!isSubmitted">
+                    <p-progressBar mode="indeterminate" [style]="{ height: '3px' }"></p-progressBar>
+                </div>
+            </div>
+            <div class="col-12" [hidden]="!registerNotify">
+                <div class="col-12">
+                    <p-messages [(value)]="registerMsg" [enableService]="false" [closable]="false"></p-messages>
                 </div>
             </div>
         </div>

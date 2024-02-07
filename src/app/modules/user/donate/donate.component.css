@@ -1,0 +1,30 @@
+.donate-other {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    background: url("../../../../assets/medias/imgs/pattern.png") center bottom repeat-x;
+    border-top: 1px solid #fff;
+}
+
+/* .donate-other::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+} */
+
+.donate-other p {
+    color: black;
+    font-weight: 500;
+}
+
+.fa-solid {
+    background-color: white;
+    border-radius: 50%;
+}

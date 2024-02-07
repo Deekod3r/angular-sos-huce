@@ -60,9 +60,12 @@ export class AdoptPetComponent implements OnInit {
   }
 
   getPet(): void {
-    this.petService.getPetById(this.id).pipe(takeUntil(this.subscribes$)).subscribe(data => {
-      console.log(data)
-      this.pet = data;
+    this.petService.getPetById(this.id)
+    .pipe(takeUntil(this.subscribes$))
+    .subscribe(res => {
+      if (res.success) {
+        this.pet = res.data;
+      }
     });
   }
 
@@ -72,8 +75,12 @@ export class AdoptPetComponent implements OnInit {
       page: 1,
       status: petStatusKey.waiting.toString()
     };
-    this.petService.getPets(petSearchKey).pipe(takeUntil(this.subscribes$)).subscribe(data => {
-      this.pets = data.pets;
+    this.petService.getPets(petSearchKey)
+    .pipe(takeUntil(this.subscribes$))
+    .subscribe(res => {
+      if (res.success) {
+        this.pets = res.data.pets;
+      }
     });
   }
 

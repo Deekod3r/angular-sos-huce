@@ -1,4 +1,63 @@
-<div class="container mt-3">
-    Ủng hộ
+<div class="container mt-5">
+    <p-fieldset [toggleable]="true">
+        <ng-template pTemplate="header">
+            <div class="flex align-items-center gap-2 px-2">
+                <span class="font-bold lg:text-2xl text-xl">Ủng hộ</span>
+            </div>
+        </ng-template>
+        <div class="grid">
+            <div class="xl:col-9 lg:col-9 md:col-9 sm:col-12 col-12">
+                <p class="m-0 text-md">
+                    Mọi hoạt động cứu hộ của HUCE Pet hoàn toàn dựa trên các khoản quyên góp từ cộng đồng. 
+                    Chi phí hàng tháng của nhóm bao gồm tiền thuê nhà, tiền viện phí, thức ăn, điện, nước, thuốc men và đồ dùng, bỉm tã, lương hỗ trợ các bạn tình nguyện viên dọn dẹp... 
+                    Nhóm rất cần sự giúp đỡ của các bạn để có thể duy trì nhà chung cũng như đội cứu hộ. 
+                    Chỉ cần cố định 50k - 100k hàng tháng là các bạn đã giúp đỡ được cho nhóm và cách bé rất nhiều!
+                    <br>
+                    <br>
+                    Chi phí sẽ được chia đều cho các bé khác còn nằm viện và gây dựng nhà chung. 
+                    Ngoài ra Nhóm cũng tiếp nhận quyên góp bằng hiện vật như quần áo cũ (để lót chuồng), bỉm, găng tay y tế, thức ăn, cát vệ sinh v.v...
+                    <br>
+                    <br>
+                    *Lưu ý: Nhóm <b>không dùng Zalo</b> và <b>KHÔNG BAO GIỜ</b> yêu cầu mạnh thường quân cung cấp thông tin thẻ hoặc mã OTP.
+                    <br>
+                    <br>
+                    <span><b>Danh sách mạnh thường quân quyên góp cho nhóm sẽ được cập nhật tại đây:<a href="/donate"> Xem tại đây</a></b></span>
+                </p>
+            </div>
+            <div class="xl:col-3 lg:col-3 md:col-3 sm:col-12 col-12 card bg-cyan-100 p-3" style="height: fit-content;">
+                <h4 class="font-semibold">Thông tin ủng hộ</h4>
+                <p class="font-semibold"><i class="fa fa-bank text-primary mr-1"></i> TPBank: <br> 04118445401 <br> TRINH TIEN DUNG </p>
+                <p class="font-semibold"><i class="fa fa-paypal text-primary mr-1"></i> Paypal: <br> 04118445401 <br> TRINH TIEN DUNG </p>
+            </div>
+        </div>
+    </p-fieldset>
 </div>
-<app-card-footer [title]="'DANH SÁCH MẠNH THƯỜNG QUÂN'" [action]="'XEM THÔNG TIN'" [actionLink]="'/donata'"></app-card-footer>
+<div class="w-full mt-3 mx-0 donate-other" style="min-height: 300px;">
+    <div class="grid mx-auto">
+        <div class="col-12 z-1">
+            <p class="text-center font-bold lg:text-3xl text-2xl">ỦNG HỘ BẰNG PHƯƠNG THỨC KHÁC</p>
+        </div>
+        <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12 z-1">
+            <div class="justify-center items-center">
+                <i class="fa-solid fa-shield-heart fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>                
+                <p class="xl:text-2xl lg:text-2xl md:text-base sm:text-sm text-sm my-2">TÃ BỈM</p>
+            </div>
+        </div>
+        <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12 z-1">
+            <div class="justify-center items-center">
+                <i class="fa-solid fa-shirt fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>                
+                <p class="xl:text-2xl lg:text-2xl md:text-base sm:text-sm text-sm my-2">QUẦN ÁO</p>
+            </div>
+        </div>
+        <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12 z-1">
+            <div class="justify-center items-center">
+                <i class="fa-solid fa-bowl-rice fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>
+                <p class="xl:text-2xl lg:text-2xl md:text-base sm:text-sm text-sm my-2">THỨC ĂN</p>
+            </div>
+        </div>      
+        <div class="col-12 z-1">
+            <button pButton class="font-bold border-3 border-round-3xl" routerLink="/contact">LIÊN HỆ HUCE PET</button>
+        </div>
+    </div>
+</div>
+<app-card-footer [title]="'DANH SÁCH MẠNH THƯỜNG QUÂN'" [action]="'XEM THÔNG TIN'" [actionLink]="'/donate'"></app-card-footer>

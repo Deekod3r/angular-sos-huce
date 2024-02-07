@@ -32,13 +32,7 @@ export class PetService {
     }
     return this.commonService.callAPI(request).pipe(
       map((response: any) => {
-        if (response.error) {
-          throw new Error(response.error);
-        }
-        return response.data;
-      }),
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => error);
+        return response;
       })
     );
   }
@@ -50,13 +44,7 @@ export class PetService {
     }
     return this.commonService.callAPI(request).pipe(
       map((response: any) => {
-        if (response.error) {
-          throw new Error(response.error);
-        }
-        return response.data;
-      }),
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => error);
+        return response;
       })
     );
   }
@@ -94,20 +82,14 @@ export class PetService {
     }
     return this.commonService.callAPI(request).pipe(
       map((response: any) => {
-        if (response.error) {
-          throw new Error(response.error);
-        }
-        return true;
-      }),
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => error);
+        return response;
       })
     );
   }
 
   updatePet(form: any, id: string): Observable<any> {
     const formData = new FormData();
-    formData.append('id', id);
+    formData.append('id', form.petId);
     formData.append('age', form.petAge);
     formData.append('breed', upcaseFirstLetter((form.petBreed.label ? form.petBreed.label : form.petBreed).trim()));
     formData.append('color', upcaseFirstLetter((form.petColor.label ? form.petColor.label : form.petColor).trim()));
@@ -127,7 +109,7 @@ export class PetService {
     formData.append('vaccin', form.petVaccin != null ? form.petVaccin : moreInfor.undefined);
     formData.append('weight', form.petWeight);
     const request = {
-      function: this.API_URL + '/update',
+      function: this.API_URL + '/update/' + id,
       method: CONFIG.KEY.METHOD_PUT,
       body: formData,
       options: {
@@ -138,13 +120,7 @@ export class PetService {
     }
     return this.commonService.callAPI(request).pipe(
       map((response: any) => {
-        if (response.error) {
-          throw new Error(response.error);
-        }
-        return true;
-      }),
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => error);
+        return response;
       })
     );
   }
@@ -154,7 +130,7 @@ export class PetService {
     formData.append('id', id);
     formData.append('image', file);
     const request = {
-      function: this.API_URL + '/update-image',
+      function: this.API_URL + '/update-image/' + id,
       method: CONFIG.KEY.METHOD_PUT,
       body: formData,
       options: {
@@ -165,13 +141,7 @@ export class PetService {
     }
     return this.commonService.callAPI(request).pipe(
       map((response: any) => {
-        if (response.error) {
-          throw new Error(response.error);
-        }
-        return true;
-      }),
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => error);
+        return response;
       })
     );
   }
@@ -188,13 +158,7 @@ export class PetService {
     }
     return this.commonService.callAPI(request).pipe(
       map((response: any) => {
-        if (response.error) {
-          throw new Error(response.error);
-        }
-        return true;
-      }),
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => error);
+        return response;
       })
     );
   }
@@ -206,13 +170,7 @@ export class PetService {
     }
     return this.commonService.callAPI(request).pipe(
       map((response: any) => {
-        if (response.error) {
-          throw new Error(response.error);
-        }
         return response.data;
-      }),
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => error);
       })
     );
   }

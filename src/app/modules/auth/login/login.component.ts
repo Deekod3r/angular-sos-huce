@@ -3,12 +3,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Message } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
 import { ProgressBarModule } from 'primeng/progressbar';
-import { finalize, first, takeUntil } from 'rxjs/operators'; 
+import { finalize, takeUntil } from 'rxjs/operators'; 
 import { AuthService } from 'src/app/services/auth.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { Subject } from 'rxjs';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
-import { message, messageLogin, object, result, title } from 'src/app/common/message';
+import { message, messageLogin, title } from 'src/app/common/message';
+import { responseCodeAuth, responseCodeCommon } from 'src/app/common/response';
 
 @Component({
   selector: 'app-login',
@@ -55,17 +56,21 @@ export class LoginComponent implements OnInit, OnDestroy {
       })
     )
     .subscribe({
-      next: (success) => {
-        if (success) {
+      next: (res: any) => {
+        if (res.success) {
           window.location.reload();      
         }
       },
-      error: (error) => {
-        console.log(error);
-        if (error.status == 401) {
-          this.errorLogin(messageLogin.notMatch);
+      error: (res: any) => {
+        if (res.error) {
+          let error = res.error.error;
+          if (error.code == responseCodeAuth.authError) {
+            this.errorLogin(messageLogin.notMatch);
+          } else if (error.code == responseCodeCommon.invalid) {
+            this.errorLogin(message.invalidInput);
+          }
         } else {
-          this.errorLogin(messageLogin.error);
+          this.errorLogin(message.error);
         }
         this.loginForm.controls['password'].setValue('');
       }
@@ -80,6 +85,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.loginError = false;
       this.loginMsg = [];
-    }, 5000);
+    }, 3000);
   }
+
 }

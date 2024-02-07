@@ -89,8 +89,12 @@ export class HomeComponent implements OnInit {
       page: 1,
       status: petStatusKey.waiting.toString()
     };
-    this.petService.getPets(petSearchKey).pipe(takeUntil(this.subscribes$)).subscribe((data: any) => {
-      this.pets = data.pets;
+    this.petService.getPets(petSearchKey)
+    .pipe(takeUntil(this.subscribes$))
+    .subscribe((res: any) => {
+      if (res.success) {
+        this.pets = res.data.pets;
+      }
     });
 
     this.newsService.getNews().pipe(takeUntil(this.subscribes$)).subscribe((news: any) => {
