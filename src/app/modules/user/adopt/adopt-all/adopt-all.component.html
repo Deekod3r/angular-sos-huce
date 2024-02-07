@@ -1,4 +1,4 @@
-<div class="container mt-3">
+<div class="container mt-5">
     <div class="flex align-items-center justify-content-center">
         <h2 class="my-1 mr-2 font-bold">TÌM THÚ CƯNG</h2>
         <i class="fa-solid fa-paw fa-rotate-by fa-xl text-primary" style="--fa-rotate-angle: 30deg;"></i>
@@ -69,6 +69,9 @@
                     [vaccin]="petService.getVaccin(pet.vaccin)"
                     [image]="pet.image"
                     [gender]="petService.getGender(pet.gender)"
+                    [visibleStatus]="true"
+                    [status]="petService.getStatus(pet.status)"
+                    [severity]="petService.getSeverityStatus(pet.status)"
                     [name]="pet.name">
                 </app-card-pet>
             </div>

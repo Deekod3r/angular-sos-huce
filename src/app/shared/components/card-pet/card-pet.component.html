@@ -9,11 +9,32 @@
         <p class="my-1 text-cyan-500 font-bold">{{breed}}</p>
         <p-badge *ngIf="visibleStatus" value="{{status}}" [severity]="severity"></p-badge>
         <p-divider></p-divider>
-        <p class="m-0"><i class="fa-solid fa-venus-mars mr-1 text-primary"></i><b>Giới tính:</b> {{gender}}</p>
+        <div class="grid">
+            <div class="col-1">
+                <i class="fa-solid fa-venus-mars mr-1 text-primary"></i>
+            </div>
+            <div class="col-11">
+                <p class="m-0"><b>Giới tính:</b> {{gender}}</p>
+            </div>
+        </div>
         <p-divider type="dashed"></p-divider>
-        <p class="m-0"><i class="fa-solid fa-cake-candles mr-1 text-primary"></i><b>Độ tuổi:</b> {{age}}</p>
+        <div class="grid">
+            <div class="col-1">
+                <i class="fa-solid fa-cake-candles mr-1 text-primary"></i>
+            </div>
+            <div class="col-11">
+                <p class="m-0"><b>Độ tuổi:</b> {{age}}</p>
+            </div>
+        </div>
         <p-divider type="dashed"></p-divider>
-        <p class="mb-2"><i class="fa-solid fa-syringe mr-1 text-primary"></i><b>Tiêm phòng:</b> {{vaccin}}</p>
+        <div class="grid">
+            <div class="col-1">
+                <i class="fa-solid fa-syringe mr-1 text-primary"></i>
+            </div>
+            <div class="col-11">
+                <p class="mb-1"><b>Tiêm phòng:</b> {{vaccin}}</p>
+            </div>
+        </div>
         <!-- <p-divider type="dashed"></p-divider> -->
     </div>
 </div>

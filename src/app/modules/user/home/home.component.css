@@ -90,3 +90,7 @@
 ::ng-deep .action .p-card-content {
     padding: 0;
 }
+
+::ng-deep .card-home .p-card {
+    background: url("../../../../assets/medias/imgs/pattern.png") center bottom repeat-x !important;
+}
