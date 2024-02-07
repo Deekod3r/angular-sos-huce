@@ -10,68 +10,67 @@
         </ng-template>
         <div class="grid">
             <div class="col-12">
-                <div class="col-6 font-bold mb-1">
+                <div class="font-bold mb-1">
                     Email
                 </div>
-                <div class="p-inputgroup col-12">
+                <div class="p-inputgroup">
                     <span class="p-inputgroup-addon">
                         <i class="fa fa-user"></i>
                     </span>
                     <input pInputText type="text" formControlName="email" class="form-control" name="email">
                 </div>
-                <div class="col-6"
-                    [hidden]="loginForm.controls['email'].valid || !loginForm.controls['email'].dirty"
-                    class="text-red-500 ml-3">
+                <div [hidden]="loginForm.controls['email'].valid || !loginForm.controls['email'].dirty"
+                    class="text-red-500 mt-1">
                     Vui lòng nhập email
                 </div>
             </div>
-            <div class="col-12">
-                <div class="col-6 font-bold mb-1">
+            <div class="col-12 mt-2">
+                <div class="font-bold mb-1">
                     Mật khẩu
                 </div>
-                <div class="p-inputgroup col-12">
+                <div class="p-inputgroup">
                     <span class="p-inputgroup-addon">
                         <i class="fa fa-lock"></i>
                     </span>
                     <input pInputText type="password" formControlName="password" class="form-control" name="password">
                 </div>
-                <div class="col-6"
-                    [hidden]="loginForm.controls['password'].valid || !loginForm.controls['password'].dirty"
-                    class="text-red-500 ml-3">
+                <div [hidden]="loginForm.controls['password'].valid || !loginForm.controls['password'].dirty"
+                    class="text-red-500 mt-1">
                     Vui lòng nhập mật khẩu
                 </div>
             </div>
-            <div class="col-12 mt-3">
-                <div class="col-12">
-                    <button pButton label="Đăng nhập" type="submit" [disabled]="!loginForm.valid || isSubmitted"
-                        class="btn-login">
-                    </button>
+            <div class="col-12 mt-2 flex justify-content-between">
+                <div>
+                    <p-checkbox inputId="remember" formControlName="remember" [binary]="true"
+                        class="mr-2"></p-checkbox>
+                    <label for="remember" class="font-semibold">Ghi nhớ đăng nhập</label>
                 </div>
-                <div class="col-12 mt-1" [hidden]="!isSubmitted">
+                <a class="font-bold" routerLink="/auth/forgot-password">Quên mật khẩu?</a>
+            </div>            
+            <div class="col-12 mt-2">
+                <button pButton label="Đăng nhập" type="submit" [disabled]="!loginForm.valid || isSubmitted"
+                    class="btn-login">
+                </button>
+                <div class="mt-1" [hidden]="!isSubmitted">
                     <p-progressBar mode="indeterminate" [style]="{ height: '3px' }"></p-progressBar>
                 </div>
             </div>
             <div class="col-12" [hidden]="!loginError">
-                <div class="col-12">
-                    <p-messages [(value)]="loginMsg" [enableService]="false" [closable]="false"></p-messages>
-                </div>
+                <p-messages [(value)]="loginMsg" [enableService]="false" [closable]="false"></p-messages>
             </div>
             <p-divider align="center" type="solid" class="col-12">
                 <b>Hoặc</b>
             </p-divider>
-            <div class="col-12">
-                <div class="col-12">
-                    <a routerLink="/auth/register">
-                        <button pButton label="Đăng ký tài khoản mới" type="button"
-                            class="btn-login p-button-secondary">
-                        </button>
-                    </a>
-                </div>
-            </div>
             <div class="col-12" align="center">
-                <div class="col-12">
-                    <a class="font-bold" routerLink="/auth/forgot-password">Quên mật khẩu?</a>
-                </div>
+                <button pButton type="button"
+                        class="p-button-outlined mr-3 border-cyan-500 surface-overlay border-2" icon="fa fa-google">
+                </button>
+                <button pButton type="button"
+                        class="p-button-outlined ml-3 border-cyan-500 surface-overlay border-2" icon="fa fa-facebook">
+                </button>
+            </div>
+            <div class="col-12 mt-2" align="center">
+                <p>Bạn chưa có tài khoản? <a class="font-bold" routerLink="/auth/register">Đăng ký</a></p>
             </div>
         </div>
     </p-panel>

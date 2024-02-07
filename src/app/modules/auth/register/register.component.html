@@ -10,68 +10,67 @@
         </ng-template>
         <div class="grid">
             <div class="col-12">
-                <div class="col-6 font-bold mb-1">
+                <div class="font-bold mb-1">
                     Họ và tên <span class="text-red-500">*</span>
                 </div>
-                <div class="p-inputgroup col-12">
+                <div class="p-inputgroup">
                     <span class="p-inputgroup-addon">
                         <i class="fa-solid fa-address-card"></i>                   
                     </span>
                     <input pInputText type="text" formControlName="name" class="form-control" name="name">
                 </div>
-                <div class="text-red-500 ml-3"
+                <div class="text-red-500 mt-1"
                     *ngIf="registerForm.controls['name'].hasError('required') && registerForm.controls['name'].dirty">
                     Vui lòng nhập họ tên
                 </div>
-                <div class="text-red-500 ml-3"
+                <div class="text-red-500 mt-1"
                     *ngIf="registerForm.controls['name'].hasError('pattern') && registerForm.controls['name'].dirty">
                     Họ tên không hợp lệ
                 </div>
             </div>
-            <div class="col-12">
-                <div class="col-6 font-bold mb-1">
+            <div class="col-12 mt-2">
+                <div class="font-bold mb-1">
                     Số điện thoại <span class="text-red-500">*</span>
                 </div>
-                <div class="p-inputgroup col-12">
+                <div class="p-inputgroup">
                     <span class="p-inputgroup-addon">
                         <i class="fa-solid fa-phone-flip"></i>                    
                     </span>
-                    <input pInputText type="text" formControlName="phoneNumber" class="form-control"
-                    name="phone-number">
+                    <input pInputText type="text" formControlName="phoneNumber" class="form-control" name="phone-number">
                 </div>
-                <div class="text-red-500 ml-3"
+                <div class="text-red-500 mt-1"
                     *ngIf="registerForm.controls['phoneNumber'].hasError('required') && registerForm.controls['phoneNumber'].dirty">
                     Vui lòng nhập số điện thoại
                 </div>
-                <div class="text-red-500 ml-3"
+                <div class="text-red-500 mt-1"
                     *ngIf="registerForm.controls['phoneNumber'].hasError('pattern') && registerForm.controls['phoneNumber'].dirty">
                     Số điện thoại không hợp lệ
                 </div>
             </div>
-            <div class="col-12">
-                <div class="col-6 font-bold mb-1">
+            <div class="col-12 mt-2">
+                <div class="font-bold mb-1">
                     Email <span class="text-red-500">*</span>
                 </div>
-                <div class="p-inputgroup col-12">
+                <div class="p-inputgroup">
                     <span class="p-inputgroup-addon">
                         <i class="fa fa-at"></i>
                     </span>
                     <input pInputText type="email" formControlName="email" class="form-control" name="email">
                 </div>
-                <div class="text-red-500 ml-3"
+                <div class="text-red-500 mt-1"
                     *ngIf="registerForm.controls['email'].hasError('required') && registerForm.controls['email'].dirty">
                     Vui lòng nhập email
                 </div>
-                <div class="text-red-500 ml-3"
+                <div class="text-red-500 mt-1"
                     *ngIf="registerForm.controls['email'].hasError('email') && registerForm.controls['email'].dirty">
                     Email không hợp lệ
                 </div>
             </div>
-            <div class="col-12">
-                <div class="col-6 font-bold mb-1">
+            <div class="col-12 mt-2">
+                <div class="font-bold mb-1">
                     Mật khẩu <span class="text-red-500">*</span>
                 </div>
-                <div class="p-inputgroup col-12">
+                <div class="p-inputgroup">
                     <p-password formControlName="password" class="form-control" promptLabel=" " weakLabel="Yếu"
                         mediumLabel="Trung bình" strongLabel="Mạnh" [style]="{'width':'100%'}" [toggleMask]="true"
                         [inputStyle]="{'width':'100%'}">
@@ -93,35 +92,29 @@
                         <i class="fa fa-key"></i>
                     </span>
                 </div>
-                <div class="text-red-500 ml-3"
+                <div class="text-red-500 mt-1"
                     *ngIf="registerForm.controls['password'].hasError('required') && registerForm.controls['password'].dirty">
                     Vui lòng nhập mật khẩu
                 </div>
-                <div class="text-red-500 ml-3"
+                <div class="text-red-500 mt-1"
                     *ngIf="registerForm.controls['password'].hasError('pattern') && registerForm.controls['password'].dirty">
                     Mật khẩu không hợp lệ
                 </div>
             </div>
-            <div class="col-12 mt-3">
-                <div class="col-12">
-                    <button pButton label="Đăng ký" type="submit" [disabled]="!registerForm.valid || isSubmitted"
-                        class="btn-register">
-                    </button>
-                </div>
-                <div class="col-12 mt-1" [hidden]="!isSubmitted">
+            <div class="col-12 mt-2">
+                <button pButton label="Đăng ký" type="submit" [disabled]="!registerForm.valid || isSubmitted"
+                    class="btn-register">
+                </button>
+                <div class="mt-1" [hidden]="!isSubmitted">
                     <p-progressBar mode="indeterminate" [style]="{ height: '3px' }"></p-progressBar>
                 </div>
             </div>
-            <div class="col-12" [hidden]="!registerNotify">
-                <div class="col-12">
-                    <p-messages [(value)]="registerMsg" [enableService]="false" [closable]="false"></p-messages>
-                </div>
+            <div [hidden]="!registerNotify">
+                <p-messages [(value)]="registerMsg" [enableService]="false" [closable]="false"></p-messages>
             </div>
-            <div class="col-12" align="center">
-                <div class="col-12">
-                    <span>Đã có tài khoản? <a class="btn-register font-bold" routerLink="/auth/login"
+            <div class="col-12 mt-2" align="center">
+                <span>Đã có tài khoản? <a class="btn-register font-bold" routerLink="/auth/login"
                             icon="pi pi-microsoft">Đăng nhập ngay</a></span>
-                </div>
             </div>
         </div>
     </p-panel>
@@ -137,35 +130,31 @@
         </ng-template>
         <div class="grid">
             <div class="col-12">
-                <div class="col-12">
-                    <span class="text-red-500 font-bold">Kiểm tra mã xác thực được gửi về email của bạn</span>
-                </div>
-                <div class="col-6 font-bold">
-                    Mã xác thực <span class="text-red-500">*</span>
-                </div>
-                <div class="col-12 text-center">
-                    <input pInputText type="text" formControlName="code"
-                        class="form-control text-center font-bold text-3xl" name="code" maxlength="6">
-                </div>
-                <div class="text-red-500 ml-3"
-                    *ngIf="verifyForm.controls['code'].hasError('required') && verifyForm.controls['code'].dirty">
-                    Vui lòng nhập mã xác thực
+                <span class="text-red-500 font-bold">Kiểm tra mã xác thực được gửi về email của bạn</span>
+                <div class="mt-2">
+                    <div class="font-bold">
+                        Mã xác thực
+                    </div>
+                    <div class="text-center mt-2">
+                        <input pInputText type="text" formControlName="code"
+                            class="form-control text-center font-bold text-3xl" name="code" maxlength="6">
+                    </div>
+                    <div class="text-red-500 mt-1"
+                        *ngIf="verifyForm.controls['code'].hasError('required') && verifyForm.controls['code'].dirty">
+                        Vui lòng nhập mã xác thực
+                    </div>
                 </div>
             </div>
-            <div class="col-12 mt-3">
-                <div class="col-12">
-                    <button pButton label="Xác thực" type="submit" [disabled]="!verifyForm.valid || isSubmitted"
-                        class="btn-register">
-                    </button>
-                </div>
-                <div class="col-12 mt-1" [hidden]="!isSubmitted">
+            <div class="col-12 mt-2">
+                <button pButton label="Xác thực" type="submit" [disabled]="!verifyForm.valid || isSubmitted"
+                    class="btn-register">
+                </button>
+                <div class="mt-1" [hidden]="!isSubmitted">
                     <p-progressBar mode="indeterminate" [style]="{ height: '3px' }"></p-progressBar>
                 </div>
             </div>
             <div class="col-12" [hidden]="!registerNotify">
-                <div class="col-12">
-                    <p-messages [(value)]="registerMsg" [enableService]="false" [closable]="false"></p-messages>
-                </div>
+                <p-messages [(value)]="registerMsg" [enableService]="false" [closable]="false"></p-messages>
             </div>
         </div>
     </p-panel>

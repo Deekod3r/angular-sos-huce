@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Message } from 'primeng/api';
-import { DividerModule } from 'primeng/divider';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { finalize, takeUntil } from 'rxjs/operators'; 
 import { AuthService } from 'src/app/services/auth.service';
@@ -10,11 +9,12 @@ import { Subject } from 'rxjs';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 import { message, messageLogin, title } from 'src/app/common/message';
 import { responseCodeAuth, responseCodeCommon } from 'src/app/common/response';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [SharedModule, ProgressBarModule, DividerModule],
+  imports: [SharedModule, ProgressBarModule, CheckboxModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -32,7 +32,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loginForm = new FormGroup({
       'email': new FormControl('', [Validators.required, noWhitespaceValidator()]),
-      'password': new FormControl('', [Validators.required, noWhitespaceValidator()])
+      'password': new FormControl('', [Validators.required, noWhitespaceValidator()]),
+      'remember': new FormControl(false)
     });
   }
 
