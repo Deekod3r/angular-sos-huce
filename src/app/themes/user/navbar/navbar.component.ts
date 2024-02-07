@@ -32,28 +32,28 @@ export class NavbarComponent implements OnInit {
       {
         label: 'Nhận nuôi',
         icon: 'fa fa-paw',
-        routerLink: '/adopt'
+        routerLink: '/cuu-tro'
 
       },
       {
         label: 'Ủng hộ',
         icon: 'fa fa-hand-holding-heart',
-        routerLink: '/donate'
+        routerLink: '/ung-ho'
       },
       {
         label: 'Tin tức',
         icon: 'fa fa-newspaper',
-        routerLink: '/blog'
+        routerLink: '/tin-tuc'
       },
       {
         label: 'Giới thiệu',
         icon: 'fa fa-bullhorn',
-        routerLink: '/intro'
+        routerLink: '/gioi-thieu'
       },
       {
         label: 'Liên hệ',
         icon: 'fa fa-circle-question',
-        routerLink: '/contact'
+        routerLink: '/lien-he'
       }
     ];
 
@@ -92,7 +92,7 @@ export class NavbarComponent implements OnInit {
       {
         label: 'Đăng nhập',
         icon: 'fa-brands fa-keycdn',
-        command: () => { window.location.href = '/auth/login' }
+        command: () => { window.location.href = '/dang-nhap' }
       },
       {
         separator: true
@@ -100,7 +100,7 @@ export class NavbarComponent implements OnInit {
       {
         label: 'Đăng ký',
         icon: 'fa-solid fa-registered',
-        command: () => { window.location.href = '/auth/register' }
+        command: () => { window.location.href = '/dang-ky' }
       },
       {
         separator: true
@@ -108,7 +108,7 @@ export class NavbarComponent implements OnInit {
       {
         label: 'Nhận nuôi',
         icon: 'fa-solid fa-heart-circle-plus',
-        command: () => { window.location.href = '/auth/login' }
+        command: () => { window.location.href = '/dang-nhap' }
       },
       {
         separator: true
@@ -116,7 +116,7 @@ export class NavbarComponent implements OnInit {
       {
         label: 'Ủng hộ',
         icon: 'fa-solid fa-clover',
-        command: () => { window.location.href = '/auth/login' }
+        command: () => { window.location.href = '/dang-nhap' }
       }
     ];
 
@@ -142,20 +142,20 @@ export class NavbarComponent implements OnInit {
 
   activeMenu(href: string) {
     if (href != '/') {
-      if (href.startsWith('/adopt')) {
-        href = '/adopt';
+      if (href.startsWith('/cuu-tro')) {
+        href = '/cuu-tro';
       }
-      if (href.startsWith('/donate')) {
-        href = '/donate';
+      if (href.startsWith('/ung-ho')) {
+        href = '/ung-ho';
       }
-      if (href.startsWith('/blog')) {
-        href = '/blog';
+      if (href.startsWith('/tin-tuc')) {
+        href = '/tin-tuc';
       }
-      if (href.startsWith('/intro')) {
-        href = '/intro';
+      if (href.startsWith('/gioi-thieu')) {
+        href = '/gioi-thieu';
       }
-      if (href.startsWith('/support')) {
-        href = '/support';
+      if (href.startsWith('/lien-he')) {
+        href = '/lien-he';
       }
     }
     let menuitem = document.getElementsByClassName("p-menuitem-link");

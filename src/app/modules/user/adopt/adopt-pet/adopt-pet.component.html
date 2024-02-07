@@ -16,8 +16,8 @@
             <p-divider type="dashed"></p-divider>
             <p><b>Giới tính:</b> {{this.petService.getGender(pet.gender)}}</p>
             <p-divider type="dashed"></p-divider>
-            <button pButton label="NHẬN NUÔI" routerLink="/adopt" class="mt-3"></button>
-            <button pButton label="BẠN CÓ CÂU HỎI?" routerLink="/support" class="mt-3 ml-3 bg-cyan-500 border-cyan-500"></button>
+            <button pButton label="NHẬN NUÔI" routerLink="/cuu-tro" class="mt-3"></button>
+            <button pButton label="BẠN CÓ CÂU HỎI?" routerLink="/lien-he" class="mt-3 ml-3 bg-cyan-500 border-cyan-500"></button>
         </div>
         <div class="col-12">
             <p class="text-3xl font-semibold mb-1">Thông tin</p>
@@ -57,7 +57,7 @@
     </div>
 </div>
 <app-card-footer [title]="'BẠN ĐÃ SẴN SÀNG GIÚP ĐỠ?'" [action]="'ỦNG HỘ NGAY'"
-    [actionLink]="'/donate'"></app-card-footer>
+    [actionLink]="'/ung-ho'"></app-card-footer>
 <div class="container mt-5">
     <p-fieldset [toggleable]="true">
         <ng-template pTemplate="header">
@@ -126,10 +126,10 @@
                 </ng-template>
             </p-carousel>
             <div class="w-full" align="center">
-                <button pButton label="NHẬN NUÔI" routerLink="/adopt" class="mt-3 text-center"></button>
+                <button pButton label="NHẬN NUÔI" routerLink="/cuu-tro" class="mt-3 text-center"></button>
             </div>        
         </p-panel>
     </div>
 </div>
 <app-card-footer [title]="'BẠN CHƯA ĐỦ ĐIỀU KIỆN MANG BOSS VỀ NHÀ? ỦNG HỘ HUCE PET BẰNG CÁC CÁCH KHÁC NHÉ!'"
-    [action]="'TÌM HIỂU NGAY'" [actionLink]="'/donate'"></app-card-footer>
+    [action]="'TÌM HIỂU NGAY'" [actionLink]="'/ung-ho'"></app-card-footer>

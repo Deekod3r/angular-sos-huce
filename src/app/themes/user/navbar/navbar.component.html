@@ -1,6 +1,6 @@
 <p-menubar [model]="items">
     <ng-template pTemplate="start">
-        <a routerLink="/home" class="mx-3"><img src="../../../../assets/medias/imgs/logo-site-removebg.png" height="60" class="mr-2"/></a>
+        <a routerLink="/" class="mx-3"><img src="../../../../assets/medias/imgs/logo-site-removebg.png" height="60" class="mr-2"/></a>
     </ng-template>
     <ng-template pTemplate="end">
         <div *ngIf="!this.authService.isAuthenticated(); else menuUserTools">

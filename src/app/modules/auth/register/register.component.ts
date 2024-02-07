@@ -105,7 +105,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           this.notify(messageVerify.success, 'success', title.success);
           this.verifyForm.reset();
           setTimeout(() => {
-            window.location.href = '/auth/login';
+            window.location.href = '/dang-nhap';
           }, 2000);
         }
       },

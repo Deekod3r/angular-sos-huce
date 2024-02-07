@@ -1,9 +1,9 @@
 <div class="card" style="max-height: 550px;">
     <div class="col-12 p-0">
-        <a routerLink="/adopt"><img src="{{image}}" class="border-round" style="height: 200px;"></a>
+        <a routerLink="/cuu-tro"><img src="{{image}}" alt="{{name}}" class="border-round" style="height: 200px;"></a>
     </div>
     <div class="text-card-pet">
-        <a routerLink="/adopt/{{id}}" class="name">        
+        <a routerLink="/cuu-tro/{{id}}" class="name">        
             <h4 class="my-1">{{name}}</h4>
         </a>
         <p class="my-1 text-cyan-500 font-bold">{{breed}}</p>
@@ -11,28 +11,28 @@
         <p-divider></p-divider>
         <div class="grid">
             <div class="col-1">
-                <i class="fa-solid fa-venus-mars mr-1 text-primary"></i>
+                <i class="fa-solid fa-venus-mars text-primary"></i>
             </div>
             <div class="col-11">
-                <p class="m-0"><b>Giới tính:</b> {{gender}}</p>
+                <p><b>Giới tính:</b> {{gender}}</p>
             </div>
         </div>
         <p-divider type="dashed"></p-divider>
         <div class="grid">
             <div class="col-1">
-                <i class="fa-solid fa-cake-candles mr-1 text-primary"></i>
+                <i class="fa-solid fa-cake-candles text-primary"></i>
             </div>
             <div class="col-11">
-                <p class="m-0"><b>Độ tuổi:</b> {{age}}</p>
+                <p><b>Độ tuổi:</b> {{age}}</p>
             </div>
         </div>
         <p-divider type="dashed"></p-divider>
         <div class="grid">
             <div class="col-1">
-                <i class="fa-solid fa-syringe mr-1 text-primary"></i>
+                <i class="fa-solid fa-syringe text-primary"></i>
             </div>
             <div class="col-11">
-                <p class="mb-1"><b>Tiêm phòng:</b> {{vaccin}}</p>
+                <p><b>Tiêm phòng:</b> {{vaccin}}</p>
             </div>
         </div>
         <!-- <p-divider type="dashed"></p-divider> -->

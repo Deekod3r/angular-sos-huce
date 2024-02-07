@@ -14,7 +14,7 @@ export class LoggedInGuard implements CanActivate {
     if (this.authService.isAuthenticated()) {
       const role = this.authService.getRole();
       if (CONFIG.ROLE.ROOT.includes(role)) {
-        this.router.navigateByUrl('/admin/dashboard');
+        this.router.navigateByUrl('/admin/trang-chu');
         return false;
       }
       this.router.navigateByUrl('');

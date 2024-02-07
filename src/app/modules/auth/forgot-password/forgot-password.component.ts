@@ -171,7 +171,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
             this.resetPasswordForm.reset();
             this.notify(messageForgot.success, 'success', title.success);
             setTimeout(() => {
-              window.location.href = '/auth/login';
+              window.location.href = '/dang-nhap';
             }, 2000);
           }
         },

@@ -15,7 +15,7 @@ export class PermissionGuard implements CanActivate {
     const expectedRole = route.data['expectedRole'] ? route.data['expectedRole'] : ["USER"];
     const role = this.authService.getRole() ? this.authService.getRole() : "USER";
     if (!expectedRole.includes(role)) {
-      return this.router.navigateByUrl('/auth/login');
+      return this.router.navigateByUrl('/dang-nhap');
     }
     return true;
 

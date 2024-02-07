@@ -30,7 +30,7 @@ export let ROUTES_ROOT: Routes = [
     loadChildren: () => import('../modules/user/user.module').then((m) => m.UserModule)
   },
   {
-    path: 'auth',
+    path: CONFIG.KEY.ROOT_PAGE,
     component: AuthComponent,
     canActivate: [LoggedInGuard],
     loadChildren: () => import('../modules/auth/auth.module').then((m) => m.AuthModule)
@@ -45,31 +45,31 @@ export let ROUTES_ROOT: Routes = [
   {
     path: 'error',
     children: [
-      { path: 'access-denined', component: AccessDeninedComponent },
-      { path: 'not-found', component: NotFoundComponent }
+      { path: '403', component: AccessDeninedComponent },
+      { path: '404', component: NotFoundComponent }
     ]
   },
   { path: '**', redirectTo: CONFIG.KEY.ROOT_PAGE, pathMatch: 'full' },
 ];
 
 export let ROUTES_AUTH: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'forgot-password', component: ForgotPasswordComponent}
+  { path: 'dang-nhap', component: LoginComponent },
+  { path: 'dang-ky', component: RegisterComponent },
+  { path: 'quen-mat-khau', component: ForgotPasswordComponent}
 ];
 
 export let ROUTES_USER: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'adopt', component: AdoptComponent },
-  { path: 'adopt/all', component: AdoptAllComponent },
-  { path: 'adopt/:id', component: AdoptPetComponent},
-  { path: 'blog', component: BlogComponent },
-  { path: 'donate', component: DonateComponent },
-  { path: 'intro', component: IntroComponent },
-  { path: 'contact', component: ContactComponent },
+  { path: 'cuu-tro', component: AdoptComponent },
+  { path: 'cuu-tro/tat-ca', component: AdoptAllComponent },
+  { path: 'cuu-tro/:id', component: AdoptPetComponent},
+  { path: 'tin-tuc', component: BlogComponent },
+  { path: 'ung-ho', component: DonateComponent },
+  { path: 'gioi-thieu', component: IntroComponent },
+  { path: 'lien-he', component: ContactComponent },
 ];
 
 export let ROUTES_ADMIN: Routes = [
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'pets', component: PetComponent },
+  { path: 'trang-chu', component: DashboardComponent },
+  { path: 'thu-cung', component: PetComponent },
 ];

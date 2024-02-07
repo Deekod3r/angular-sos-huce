@@ -6,6 +6,7 @@
     text-align: center;
     padding: 1rem;
     background: url("../../../../assets/medias/imgs/pattern.png") center bottom repeat-x;
+    border-top: 1px solid #fff;
 }
 
 .donate-other p {

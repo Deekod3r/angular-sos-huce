@@ -19,7 +19,7 @@ export class MenuAdminComponent implements OnInit {
             {
                 label: 'Trang chủ',
                 items: [
-                    { label: 'Dashboard', icon: 'fa fa-fw fa-home', routerLink: ['/admin/dashboard'] }
+                    { label: 'Dashboard', icon: 'fa fa-fw fa-home', routerLink: ['/admin/trang-chu'] }
                 ]
             },
             {
@@ -32,7 +32,7 @@ export class MenuAdminComponent implements OnInit {
                             {
                                 label: 'Danh sách',
                                 icon: 'fa fa-fw fa-list',
-                                routerLink: ['/admin/pets']
+                                routerLink: ['/admin/thu-cung']
                             },
                             {
                                 label: 'Đơn nhận nuôi',
@@ -46,7 +46,7 @@ export class MenuAdminComponent implements OnInit {
                             {
                                 label: 'Danh sách',
                                 icon: 'fa fa-fw fa-list',
-                                routerLink: ['/admin/donates']
+                                routerLink: ['/admin/ung-ho']
                             },
                             {
                                 label: 'Chi tiêu',
@@ -66,12 +66,12 @@ export class MenuAdminComponent implements OnInit {
                                     {
                                         label: 'Danh sách',
                                         icon: 'fa fa-fw fa-list',
-                                        routerLink: ['/admin/blogs']
+                                        routerLink: ['/admin/tin-tuc']
                                     },
                                     {
                                         label: 'Danh mục',
                                         icon: 'fa fa-solid fa-layer-group',
-                                        routerLink: ['/admin/blog-categories']
+                                        routerLink: ['/admin/danh-muc-tin-tuc']
                                     }
                                 ] 
                             },
@@ -82,12 +82,12 @@ export class MenuAdminComponent implements OnInit {
                                     {
                                         label: 'Danh sách',
                                         icon: 'fa fa-fw fa-list',
-                                        routerLink: ['/admin/events']
+                                        routerLink: ['/admin/su-kien']
                                     },
                                     {
                                         label: 'Danh mục',
                                         icon: 'fa fa-solid fa-layer-group',
-                                        routerLink: ['/admin/event-categories']
+                                        routerLink: ['/admin/danh-muc-su-kien']
                                     }
                                 ]
                             }
@@ -99,7 +99,7 @@ export class MenuAdminComponent implements OnInit {
                             {
                                 label: 'Cộng đồng',
                                 icon: 'fa fa-solid fa-users-viewfinder',
-                                routerLink: ['/admin/users']
+                                routerLink: ['/admin/nguoi-dung']
                             },
                             {
                                 visible: CONFIG.ROLE.MANAGER.includes(this.authService.getRole()),

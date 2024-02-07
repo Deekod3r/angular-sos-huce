@@ -41,7 +41,7 @@
                     phần cứu giúp trên 4.000 ca chó mèo bị bỏ rơi, hoang lạc, bị bạo hành, đồng thời tìm mái ấm mới cho
                     hàng trăm bé.
                 </p>
-                <button pButton label="VỀ CHÚNG TÔI" class="mt-3" routerLink="/intro"></button>
+                <button pButton label="VỀ CHÚNG TÔI" class="mt-3" routerLink="/gioi-thieu"></button>
             </div>
             <div class="xl:col-3 lg:col-3 md:col-3 sm:col-8 col-8 mx-auto">
                 <img src="../../../../assets/medias/imgs/logo-site-removebg.png" alt="" class="w-full">
@@ -59,7 +59,7 @@
                     Giúp duy trì hoạt động của HUCE Pet qua hình thức quyên góp tiền hoặc vật phẩm.
                 </p>
                 <ng-template pTemplate="footer">
-                    <p-button label="XEM THÊM" icon="fa fa-check"></p-button>
+                    <p-button label="XEM THÊM" icon="fa fa-check" routerLink="/ung-ho"></p-button>
                 </ng-template>
             </p-card>
         </div>
@@ -73,7 +73,7 @@
                     Hành động để thay đổi cuộc sống của chó, mèo và thú cưng khác.
                 </p>
                 <ng-template pTemplate="footer">
-                    <p-button label="XEM THÊM" icon="fa fa-check"></p-button>
+                    <p-button label="XEM THÊM" icon="fa fa-check" routerLink="/ung-ho"></p-button>
                 </ng-template>
             </p-card>
         </div>
@@ -87,7 +87,7 @@
                     Hãy nhận nuôi, cưu mang, đừng xua đuổi và yêu thương loài động vật bị bỏ rơi.
                 </p>
                 <ng-template pTemplate="footer">
-                    <p-button label="XEM THÊM" icon="fa fa-check"></p-button>
+                    <p-button label="XEM THÊM" icon="fa fa-check" routerLink="cuu-tro"></p-button>
                 </ng-template>
             </p-card>
         </div>
@@ -154,7 +154,7 @@
                 </ng-template>
             </p-carousel>
             <div class="w-full" align="center">
-                <button pButton label="NHẬN NUÔI" routerLink="/adopt" class="mt-3 text-center"></button>
+                <button pButton label="NHẬN NUÔI" routerLink="/cuu-tro" class="mt-3 text-center"></button>
             </div>
         </p-panel>
     </div>
@@ -167,7 +167,7 @@
                 </div>
             </ng-template>
             <p-carousel [value]="news" [numVisible]="3" [numScroll]="3" [circular]="true"
-                [responsiveOptions]="responsiveOptions" [autoplayInterval]="30000000">
+                [responsiveOptions]="responsiveOptions" [autoplayInterval]="3000">
                 <ng-template let-news pTemplate="item">
                     <div class="mx-1">
                         <app-card-news [news]="news"></app-card-news>
@@ -175,10 +175,10 @@
                 </ng-template>
             </p-carousel>
             <div class="w-full" align="center">
-                <button pButton label="XEM THÊM" routerLink="/blog" class="mt-3"></button>
+                <button pButton label="XEM THÊM" routerLink="/tin-tuc" class="mt-3"></button>
             </div>
         </p-panel>
     </div>
 </div>
 <app-card-footer [title]="'BẠN ĐÃ SẴN SÀNG GIÚP ĐỠ?'" [action]="'ỦNG HỘ NGAY'"
-    [actionLink]="'/donate'"></app-card-footer>
+    [actionLink]="'/ung-ho'"></app-card-footer>
