@@ -21,7 +21,7 @@
     margin: 0.5rem 0px !important;
 }
 
-.text-card-news {
+.text-card-event {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -30,7 +30,7 @@
     line-height: 1.5;
 }
 
-.text-card-news-title {
+.text-card-event-title {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;

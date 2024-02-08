@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
     <p-fieldset [toggleable]="true">
         <ng-template pTemplate="header">
             <div class="flex align-items-center gap-2 px-2">
@@ -31,21 +31,25 @@
                     - Trường hợp không nuôi được tiếp cần trả lại cho HUCE Pet, không tự ý đem cho người khác.
                 </p>
             </div>
-            <div class="xl:col-3 lg:col-3 md:col-3 sm:col-12 col-12 card bg-cyan-100 p-3 mt-3" style="height: fit-content;">
-                <h4 class="font-semibold">Điều kiện nhận nuôi</h4>
-                <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Tài chính tự chủ và ổn đinh.</p>
-                <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Chỗ ở cố định hoặc ít lưu động, ưu
-                    tiên ở Hà Nội.</p>
-                <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Cam kết tiêm phòng và triệt sản.
-                </p>
+            <div class="xl:col-3 lg:col-3 md:col-3 sm:col-12 col-12" style="height: fit-content;">
+                <p-panel>
+                    <ng-template pTemplate="header">
+                        <span class="font-semibold text-2xl mx-auto">Điều kiện nhận nuôi</span>
+                    </ng-template>
+                    <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Tài chính tự chủ và ổn định.</p>
+                    <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Chỗ ở cố định hoặc ít lưu động, ưu
+                        tiên ở Hà Nội.</p>
+                    <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Cam kết tiêm phòng và triệt sản.
+                    </p>
+                </p-panel>
             </div>
         </div>
     </p-fieldset>
 </div>
-<app-card-footer [title]="'TẤT CẢ CÁC CA CỨU HỘ'"
-    [description]="'Tìm hiểu về tất cả các ca cứu hộ, đang điều trị, đã mất, đã được nhận nuôi...'"
+<app-card-footer [title]="'TẤT CẢ CÁC CA CỨU TRỢ'"
+    [description]="'Tìm hiểu về tất cả các ca cứu trợ, đang điều trị, đã mất, đã được nhận nuôi...'"
     [action]="'XEM TẤT CẢ'" [actionLink]="'/cuu-tro/tat-ca'"></app-card-footer>
-<div class="container mt-3">
+<div class="container mt-5 mb-5">
     <div class="flex align-items-center justify-content-center">
         <h2 class="my-1 mr-2 font-bold">TÌM THÚ CƯNG</h2>
         <i class="fa-solid fa-paw fa-rotate-by fa-xl text-primary" style="--fa-rotate-angle: 30deg;"></i>

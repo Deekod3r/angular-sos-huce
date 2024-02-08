@@ -1,76 +1,168 @@
 <div class="container mt-5">
-    <div class="grid">
-        <div class="xl:col-6 lg:col-6 md:col-12 sm:col-12 col-12">
-            <div class="grid">
-                <div class="col-12">
-                    <p class="font-bold text-3xl">Thông tin liên hệ</p>
+    <div class="card">
+        <p-tabView styleClass="tabview-custom">
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <i class="fa fa-address-book mr-2"></i>
+                    <span>Thông tin liên hệ</span>
+                </ng-template>
+                <div class="grid">
+                    <p class="font-bold text-3xl col-12 pb-0">Thông tin liên hệ</p>
+                    <div class="md:col-4 sm:col-12 col-12">
+                        <i class="fa-solid fa-map-marker-alt text-primary mr-2"></i>
+                        <span class="font-semibold">
+                            Hai Bà Trưng, Hà Nội
+                        </span>
+                    </div>
+                    <div class="md:col-4 sm:col-12 col-12">
+                        <i class="fa-solid fa-phone text-primary mr-2"></i>
+                        <a class="font-semibold" href="tel:0987654xxx">
+                            0987654xxx
+                        </a>
+                    </div>
+                    <div class="md:col-4 sm:col-12 col-12">
+                        <i class="fa-solid fa-envelope text-primary mr-2"></i>
+                        <a class="font-semibold" href="mailto:hucepet@gmail.com">
+                            hucepet@gmail.com
+                        </a>
+                    </div>
+                    <div class="md:col-4 sm:col-12 col-12">
+                        <i class="fa fa-facebook text-primary mr-2"></i>
+                        <a class="font-semibold" href="https://www.facebook.com/carepet.nhom2">
+                            HUCE Pet
+                        </a>
+                    </div>
+                    <div class="md:col-4 sm:col-12 col-12">
+                        <i class="fa fa-instagram text-primary mr-2"></i>
+                        <a class="font-semibold" href="https://www.instagram.com/trtieensdungx/">
+                            huce.pet
+                        </a>
+                    </div>
+                    <div class="md:col-4 sm:col-12 col-12">
+                        <i class="fa fa-twitter text-primary mr-2"></i>
+                        <a class="font-semibold" href="https://twitter.com">
+                            huce.pet
+                        </a>
+                    </div>
                 </div>
-                <div class="col-1">
-                    <i class="fa-solid fa-phone text-primary"></i>
+                <p-divider></p-divider>
+                <div class="grid mt-2 w-full">
+                    <div class="col-12">
+                        <p class="font-bold text-3xl">Tài khoản ủng hộ</p>
+                        <p>Chi phí sẽ được chia đều cho các bé khác đang điều trị và phục vụ xây dựng nhà chung để các bé sinh hoạt</p>
+                    </div>
+                    <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
+                        <div class="font-semibold"><i class="fa fa-bank text-primary mr-1"></i> TPBank: <br> 04118445401 <br> TRINH TIEN DUNG </div>
+                    </div>
+                    <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
+                        <div class="font-semibold"><i class="fa fa-bank text-primary mr-1"></i> TPBank: <br> 04118445401 <br> TRINH TIEN DUNG </div>
+                    </div>
+                    <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
+                        <div class="font-semibold"><i class="fa fa-paypal text-primary mr-1"></i> Paypal: <br> 04118445401 <br> TRINH TIEN DUNG </div>
+                    </div>
                 </div>
-                <a class="col-11 font-semibold" href="telto:0987654xxx">
-                    0987654xxx
-                </a>
-                <div class="col-1">
-                    <i class="fa-solid fa-envelope text-primary"></i>
+            </p-tabPanel>
+            <p-tabPanel header="Header II">
+                <ng-template pTemplate="header">
+                    <i class="fa fa-envelope mr-2"></i>
+                    <span>Hòm thư góp ý</span>
+                </ng-template>
+                <div class="grid">
+                    <div class="col-12">
+                        <p class="font-bold text-3xl">Hòm thư góp ý</p>
+                        <p>Hãy để lại lời nhắn cho chúng tôi</p>
+                    </div>
+                    <!-- <div class="col-6" align="right">
+                        <img src="../../../../assets/medias/imgs/donate-1.png" alt="" class="w-25">
+                    </div> -->
+                    <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12">
+                        <label for="name">Họ và tên <span class="text-red-500">*</span></label>
+                        <input pInputText type="text" class="w-full p-2 border-primary-500 mt-1" id="name">
+                    </div>
+                    <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12">
+                        <label for="email">Email <span class="text-red-500">*</span></label>
+                        <input pInputText type="text" class="w-full p-2 border-primary-500 mt-1" id="email">
+                    </div>
+                    <div class="col-12">
+                        <label for="message">Tin nhắn <span class="text-red-500">*</span></label>
+                        <textarea pInputTextarea class="w-full p-2 border-primary-500 mt-1" rows="5" id="message"></textarea>
+                    </div>
+                    <div class="col-12" align="center">
+                        <button pButton class="font-bold" routerLink="/lien-he">GỬI TIN NHẮN</button>
+                    </div>
                 </div>
-                <a class="col-11 font-semibold" href="mailto:hucepet@gmail.com">
-                    hucepet@gmail.com
-                </a>
-                <div class="col-1">
-                    <i class="fa-solid fa-map-marker-alt text-primary"></i>
+            </p-tabPanel>
+        </p-tabView>
+        <!-- <div class="grid">
+            <div class="xl:col-6 lg:col-6 md:col-12 sm:col-12 col-12">
+                <div class="grid">
+                    <div class="col-12">
+                        <p class="font-bold text-3xl">Thông tin liên hệ</p>
+                    </div>
+                    <div class="col-1">
+                        <i class="fa-solid fa-phone text-primary"></i>
+                    </div>
+                    <a class="col-11 font-semibold" href="telto:0987654xxx">
+                        0987654xxx
+                    </a>
+                    <div class="col-1">
+                        <i class="fa-solid fa-envelope text-primary"></i>
+                    </div>
+                    <a class="col-11 font-semibold" href="mailto:hucepet@gmail.com">
+                        hucepet@gmail.com
+                    </a>
+                    <div class="col-1">
+                        <i class="fa-solid fa-map-marker-alt text-primary"></i>
+                    </div>
+                    <p class="col-11 font-semibold">
+                        Hai Bà Trưng, Hà Nội
+                    </p>
                 </div>
-                <p class="col-11 font-semibold">
-                    Hai Bà Trưng, Hà Nội
-                </p>
+                <div class="grid mt-2 w-full">
+                    <div class="col-12">
+                        <p class="font-bold text-3xl">Tài khoản ủng hộ</p>
+                        <p>Chi phí sẽ được chia đều cho các bé khác đang điều trị và phục vụ xây dựng nhà chung để các bé sinh hoạt</p>
+                    </div>
+                    <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
+                        <div class="font-semibold"><i class="fa fa-bank text-primary mr-1"></i> TPBank: <br> 04118445401 <br> TRINH TIEN DUNG </div>
+                    </div>
+                    <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
+                        <div class="font-semibold"><i class="fa fa-bank text-primary mr-1"></i> TPBank: <br> 04118445401 <br> TRINH TIEN DUNG </div>
+                    </div>
+                    <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
+                        <div class="font-semibold"><i class="fa fa-paypal text-primary mr-1"></i> Paypal: <br> 04118445401 <br> TRINH TIEN DUNG </div>
+                    </div>
+                </div>
             </div>
-            <div class="grid mt-2 w-full">
-                <div class="col-12">
-                    <p class="font-bold text-3xl">Tài khoản ủng hộ</p>
-                    <p>Chi phí sẽ được chia đều cho các bé khác đang điều trị và phục vụ xây dựng nhà chung để các bé sinh hoạt</p>
-                </div>
-                <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
-                    <div class="font-semibold"><i class="fa fa-bank text-primary mr-1"></i> TPBank: <br> 04118445401 <br> TRINH TIEN DUNG </div>
-                </div>
-                <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
-                    <div class="font-semibold"><i class="fa fa-bank text-primary mr-1"></i> TPBank: <br> 04118445401 <br> TRINH TIEN DUNG </div>
-                </div>
-                <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
-                    <div class="font-semibold"><i class="fa fa-paypal text-primary mr-1"></i> Paypal: <br> 04118445401 <br> TRINH TIEN DUNG </div>
-                </div>
-            </div>
-        </div>
-        <div class="xl:col-6 lg:col-6 md:col-12 sm:col-12 col-12">
-            <div class="grid">
-                <div class="col-12">
-                    <p class="font-bold text-3xl">Hòm thư góp ý</p>
-                    <p>Hãy để lại lời nhắn cho chúng tôi</p>
-                </div>
-                <!-- <div class="col-6" align="right">
-                    <img src="../../../../assets/medias/imgs/donate-1.png" alt="" class="w-25">
-                </div> -->
-                <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12">
-                    <label for="name">Họ và tên <span class="text-red-500">*</span></label>
-                    <input pInputText type="text" class="w-full p-2 border-primary-500 mt-1" id="name">
-                </div>
-                <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12">
-                    <label for="email">Email <span class="text-red-500">*</span></label>
-                    <input pInputText type="text" class="w-full p-2 border-primary-500 mt-1" id="email">
-                </div>
-                <div class="col-12">
-                    <label for="message">Tin nhắn <span class="text-red-500">*</span></label>
-                    <textarea pInputTextarea class="w-full p-2 border-primary-500 mt-1" rows="5" id="message"></textarea>
-                </div>
-                <div class="col-12" align="center">
-                    <button pButton class="font-bold" routerLink="/lien-he">GỬI TIN NHẮN</button>
+            <div class="xl:col-6 lg:col-6 md:col-12 sm:col-12 col-12">
+                <div class="grid">
+                    <div class="col-12">
+                        <p class="font-bold text-3xl">Hòm thư góp ý</p>
+                        <p>Hãy để lại lời nhắn cho chúng tôi</p>
+                    </div>
+                    <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12">
+                        <label for="name">Họ và tên <span class="text-red-500">*</span></label>
+                        <input pInputText type="text" class="w-full p-2 border-primary-500 mt-1" id="name">
+                    </div>
+                    <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12">
+                        <label for="email">Email <span class="text-red-500">*</span></label>
+                        <input pInputText type="text" class="w-full p-2 border-primary-500 mt-1" id="email">
+                    </div>
+                    <div class="col-12">
+                        <label for="message">Tin nhắn <span class="text-red-500">*</span></label>
+                        <textarea pInputTextarea class="w-full p-2 border-primary-500 mt-1" rows="5" id="message"></textarea>
+                    </div>
+                    <div class="col-12" align="center">
+                        <button pButton class="font-bold" routerLink="/lien-he">GỬI TIN NHẮN</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 <div class="w-full my-5 mx-0 donate-other" style="min-height: 300px;">
     <div class="grid mx-auto">
-        <div class="col-12 z-1">
+        <div class="col-12 z-1 mb-3">
             <p class="text-center font-bold lg:text-3xl text-2xl">ỦNG HỘ BẰNG PHƯƠNG THỨC KHÁC</p>
         </div>
         <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12 z-1">
@@ -91,9 +183,6 @@
                 <p class="xl:text-2xl text-2xl my-2">THỨC ĂN</p>
             </div>
         </div>      
-        <div class="col-12 z-1">
-            <button pButton class="font-bold" routerLink="/lien-he">LIÊN HỆ HUCE PET</button>
-        </div>
     </div>
 </div>
 <app-card-footer [title]="'BẠN ĐÃ SẴN SÀNG GIÚP ĐỠ?'" [action]="'ỦNG HỘ NGAY'" [actionLink]="'/ung-ho'"></app-card-footer>

@@ -1,40 +1,19 @@
-<div class="card" style="max-height: 550px;">
+<div class="card px-0 pt-0">
     <div class="col-12 p-0">
-        <a routerLink="/cuu-tro"><img src="{{image}}" alt="{{name}}" class="border-round" style="height: 200px;"></a>
+        <a [routerLink]="['/cuu-tro', id]"><img src="{{image}}" alt="{{name}}" class="border-round" style="height: 200px;"></a>
     </div>
-    <div class="text-card-pet">
-        <a routerLink="/cuu-tro/{{id}}" class="name">        
+    <div class="text-card-pet px-2">
+        <a [routerLink]="['/cuu-tro', id]" class="name">        
             <h4 class="my-1">{{name}}</h4>
         </a>
         <p class="my-1 text-cyan-500 font-bold">{{breed}}</p>
         <p-badge *ngIf="visibleStatus" value="{{status}}" [severity]="severity"></p-badge>
         <p-divider></p-divider>
-        <div class="grid">
-            <div class="col-1">
-                <i class="fa-solid fa-venus-mars text-primary"></i>
-            </div>
-            <div class="col-11">
-                <p><b>Giới tính:</b> {{gender}}</p>
-            </div>
-        </div>
+        <p><i class="fa-solid fa-venus-mars text-primary mr-2"></i><b>Giới tính:</b> {{gender}}</p>
         <p-divider type="dashed"></p-divider>
-        <div class="grid">
-            <div class="col-1">
-                <i class="fa-solid fa-cake-candles text-primary"></i>
-            </div>
-            <div class="col-11">
-                <p><b>Độ tuổi:</b> {{age}}</p>
-            </div>
-        </div>
+        <p><i class="fa-solid fa-cake-candles text-primary mr-2"></i><b>Độ tuổi:</b> {{age}}</p>
         <p-divider type="dashed"></p-divider>
-        <div class="grid">
-            <div class="col-1">
-                <i class="fa-solid fa-syringe text-primary"></i>
-            </div>
-            <div class="col-11">
-                <p><b>Tiêm phòng:</b> {{vaccin}}</p>
-            </div>
-        </div>
+        <p><i class="fa-solid fa-syringe text-primary mr-2"></i><b>Tiêm phòng:</b> {{vaccin}}</p>
         <!-- <p-divider type="dashed"></p-divider> -->
     </div>
 </div>

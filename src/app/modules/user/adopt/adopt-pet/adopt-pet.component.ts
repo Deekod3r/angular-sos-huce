@@ -10,11 +10,12 @@ import { petSearch, petStatusKey } from 'src/app/common/constant';
 import { CarouselModule } from 'primeng/carousel';
 import { ActivatedRoute } from '@angular/router';
 import { BadgeModule } from 'primeng/badge';
+import { ImageModule } from 'primeng/image';
 
 @Component({
   selector: 'app-adopt',
   standalone: true,
-  imports: [SharedModule, FieldsetModule, CardPetModule, DropdownModule, PaginatorModule, CarouselModule, BadgeModule],
+  imports: [SharedModule, FieldsetModule, CardPetModule, DropdownModule, PaginatorModule, CarouselModule, BadgeModule, ImageModule],
   templateUrl: './adopt-pet.component.html',
   styleUrls: ['./adopt-pet.component.css']
 })

@@ -57,4 +57,31 @@ export class NewsService {
     });
   }
   
+  getNewsCategory(): Observable<any> {
+    return new Observable<any>(observer => {
+      observer.next([
+        {
+          id: 1,
+          name: "Chăm sóc và nuôi dưỡng"
+        },
+        {
+          id: 2,
+          name: "Giáo dục và huấn luyện"
+        },
+        {
+          id: 3,
+          name: "Sức khỏe và y tế"
+        },
+        {
+          id: 4,
+          name: "Thú cưng quốc tế"
+        },
+        {
+          id: 5,
+          name: "Phong cách sống và thời trang"
+        }
+      ]);
+    });
+  }
+
 }
