@@ -1,9 +1,9 @@
 <div *ngIf="pet" class="container mt-5 mb-5 card">
     <div class="grid">
-        <div class="col-5 mt-3">
+        <div class="md:col-5 sm:col-12 mt-3 mx-auto">
             <img src="{{pet.image}}" alt="{{pet.name}}" class="w-full" style="border-radius: 10px; max-height: 600px;">
         </div>
-        <div class="col-7 p-3">
+        <div class="md:col-7 col-12 p-3 mx-auto">
             <p class="text-3xl font-semibold">{{pet.name}}</p>
             <p-divider type="dashed"></p-divider>
             <p><b>Mã:</b> {{pet.code}}</p>
@@ -16,35 +16,35 @@
             <p-divider type="dashed"></p-divider>
             <p><b>Giới tính:</b> {{this.petService.getGender(pet.gender)}}</p>
             <p-divider type="dashed"></p-divider>
-            <button pButton label="NHẬN NUÔI" routerLink="/cuu-tro" class="mt-3"></button>
-            <button pButton label="BẠN CÓ CÂU HỎI?" routerLink="/lien-he" class="mt-3 ml-3 bg-cyan-500 border-cyan-500"></button>
+            <button pButton label="NHẬN NUÔI" routerLink="/cuu-tro" class="mt-3 mr-3"></button>
+            <button pButton label="BẠN CÓ CÂU HỎI?" routerLink="/lien-he" class="mt-3 bg-cyan-500 border-cyan-500"></button>
         </div>
         <div class="col-12">
             <p class="text-3xl font-semibold mb-1">Thông tin</p>
             <p-divider></p-divider>
             <div class="grid mt-1">
-                <div class="col-3">
+                <div class="lg:col-3 md:col-6 sm:col-6 col-6">
                     <p><p-badge value="{{getBadgeValue(pet.sterilization)}}" [severity]="getBadgeSeverity(pet.sterilization)"></p-badge> Triệt sản</p>
                 </div>
-                <div class="col-3">
+                <div class="lg:col-3 md:col-6 sm:col-6 col-6">
                     <p><p-badge value="{{getBadgeValue(pet.friendlyToHuman)}}" [severity]="getBadgeSeverity(pet.friendlyToHuman)"></p-badge> Thân thiện với người</p>
                 </div>
-                <div class="col-3">
+                <div class="lg:col-3 md:col-6 sm:col-6 col-6">
                     <p><p-badge value="{{getBadgeValue(pet.diet)}}" [severity]="getBadgeSeverity(pet.diet)"></p-badge> Chế độ ăn riêng</p>
                 </div>
-                <div class="col-3">
+                <div class="lg:col-3 md:col-6 sm:col-6 col-6">
                     <p><p-badge value="{{getBadgeValue(pet.rabies)}}" [severity]="getBadgeSeverity(pet.rabies)"></p-badge> Tiêm dại</p>
                 </div>
-                <div class="col-3">
+                <div class="lg:col-3 md:col-6 sm:col-6 col-6">
                     <p><p-badge value="{{getBadgeValue(pet.friendlyToDogs)}}" [severity]="getBadgeSeverity(pet.friendlyToDogs)"></p-badge> Thân thiện với chó</p>
                 </div>
-                <div class="col-3">
+                <div class="lg:col-3 md:col-6 sm:col-6 col-6">
                     <p><p-badge value="{{getBadgeValue(pet.toilet)}}" [severity]="getBadgeSeverity(pet.toilet)"></p-badge> Đi vệ sinh đúng chỗ</p>
                 </div>
-                <div class="col-3">
+                <div class="lg:col-3 md:col-6 sm:col-6 col-6">
                     <p><p-badge value="{{getBadgeValue(pet.vaccin)}}" [severity]="getBadgeSeverity(pet.vaccin)"></p-badge> Tiêm phòng bệnh</p>
                 </div>
-                <div class="col-3">
+                <div class="lg:col-3 md:col-6 sm:col-6 col-6">
                     <p><p-badge value="{{getBadgeValue(pet.friendlyToCats)}}" [severity]="getBadgeSeverity(pet.friendlyToCats)"></p-badge> Thân thiện với mèo</p>
                 </div>
             </div>
@@ -66,8 +66,8 @@
             </div>
         </ng-template>
         <div class="grid">
-            <div class="xl:col-9 lg:col-9 md:col-9 sm:col-12 col-12">
-                <p class="m-0 text-md">
+            <div class="xl:col-8 lg:col-8 md:col-8 sm:col-12 col-12">
+                <p class="m-0 text-lg line-height-3">
                     Trước khi quyết định nhận nuôi bé chó hay mèo nào, bạn hãy tự hỏi bản thân rằng mình đã sẵn sàng để
                     chịu trách nhiệm cả đời cho bé chưa, cả về tài chính, nơi ở cũng như tinh thần. Việc nhận nuôi cần
                     được sự đồng thuận lớn từ bản thân bạn cũng như gia đình và những người liên quan. Xin cân nhắc kỹ
@@ -91,10 +91,12 @@
                     - Trường hợp không nuôi được tiếp cần trả lại cho HUCE Pet, không tự ý đem cho người khác.
                 </p>
             </div>
-            <div class="xl:col-3 lg:col-3 md:col-3 sm:col-12 col-12" style="height: fit-content;">
-                <p-panel>
+            <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12" style="height: fit-content;">
+                <p-panel iconPos="start">
                     <ng-template pTemplate="header">
-                        <span class="font-semibold text-2xl mx-auto">Điều kiện nhận nuôi</span>
+                        <div class="flex align-items-center text-center mx-auto">
+                            <span class="font-semibold text-2xl">Điều kiện nhận nuôi</span>
+                        </div>
                     </ng-template>
                     <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Tài chính tự chủ và ổn định.</p>
                     <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Chỗ ở cố định hoặc ít lưu động, ưu

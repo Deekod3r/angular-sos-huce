@@ -24,7 +24,7 @@
 
 @media screen and (max-width: 480px) {
     .title {
-        font-size: 1.2em;
+        font-size: 1.3em;
     }
 
     .description {
@@ -36,7 +36,7 @@
     font-size: 1em;
 }
 
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
     .btn-more {
         font-size: 0.8em;
     }
@@ -46,7 +46,7 @@
     .btn-more {
         font-size: 0.6em;
     }
-}
+} */
 
 
 .statistic {

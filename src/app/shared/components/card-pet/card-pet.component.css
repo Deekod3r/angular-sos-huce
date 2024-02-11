@@ -29,3 +29,13 @@
 .name:hover > h4 {
     color: var(--primary-color);
 }
+
+::ng-deep .img-pet {
+    height: 300px !important;
+}
+
+@media (min-width: 768px) {
+    ::ng-deep .img-pet {
+        height: 250px !important; 
+    }
+}

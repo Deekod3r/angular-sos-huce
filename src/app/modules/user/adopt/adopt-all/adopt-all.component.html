@@ -61,7 +61,7 @@
                                 
         </div>
         <div *ngIf="pets && pets.length > 0; else noDataTemplate" class="grid mt-5">
-            <div class="lg:col-3 md:col-4 sm:col-6 col-6 mx-auto" *ngFor="let pet of pets">
+            <div class="xl:col-3 lg:col-3 md:col-4 sm:col-6 col-9 mx-auto" *ngFor="let pet of pets">
                 <app-card-pet 
                     [id]="pet.id"
                     [age]="petService.getAge(pet.age)"

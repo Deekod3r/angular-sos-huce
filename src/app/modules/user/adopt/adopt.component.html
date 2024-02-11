@@ -6,7 +6,7 @@
             </div>
         </ng-template>
         <div class="grid">
-            <div class="xl:col-9 lg:col-9 md:col-9 sm:col-12 col-12">
+            <div class="xl:col-8 lg:col-8 md:col-8 sm:col-12 col-12">
                 <p class="m-0 text-lg line-height-3">
                     Trước khi quyết định nhận nuôi bé chó hay mèo nào, bạn hãy tự hỏi bản thân rằng mình đã sẵn sàng để
                     chịu trách nhiệm cả đời cho bé chưa, cả về tài chính, nơi ở cũng như tinh thần. Việc nhận nuôi cần
@@ -31,10 +31,12 @@
                     - Trường hợp không nuôi được tiếp cần trả lại cho HUCE Pet, không tự ý đem cho người khác.
                 </p>
             </div>
-            <div class="xl:col-3 lg:col-3 md:col-3 sm:col-12 col-12" style="height: fit-content;">
-                <p-panel>
+            <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12" style="height: fit-content;">
+                <p-panel iconPos="start">
                     <ng-template pTemplate="header">
-                        <span class="font-semibold text-2xl mx-auto">Điều kiện nhận nuôi</span>
+                        <div class="flex align-items-center text-center mx-auto">
+                            <span class="font-semibold text-2xl">Điều kiện nhận nuôi</span>
+                        </div>
                     </ng-template>
                     <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Tài chính tự chủ và ổn định.</p>
                     <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Chỗ ở cố định hoặc ít lưu động, ưu
@@ -99,7 +101,7 @@
             </div>
         </div>
         <div *ngIf="pets && pets.length > 0; else noDataTemplate" class="grid mt-5">
-            <div class="lg:col-3 md:col-4 sm:col-6 col-6 mx-auto" *ngFor="let pet of pets">
+            <div class="xl:col-3 lg:col-3 md:col-4 sm:col-6 col-9 mx-auto" *ngFor="let pet of pets">
                 <app-card-pet 
                     [id]="pet.id"
                     [age]="petService.getAge(pet.age)"
