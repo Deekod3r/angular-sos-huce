@@ -9,11 +9,13 @@
         <p class="my-1 text-cyan-500 font-bold">{{breed}}</p>
         <p-badge *ngIf="visibleStatus" value="{{status}}" [severity]="severity"></p-badge>
         <p-divider></p-divider>
-        <p><i class="fa-solid fa-venus-mars text-primary mr-2"></i><b>Giới tính:</b> {{gender}}</p>
-        <p-divider type="dashed"></p-divider>
-        <p><i class="fa-solid fa-cake-candles text-primary mr-2"></i><b>Độ tuổi:</b> {{age}}</p>
-        <p-divider type="dashed"></p-divider>
-        <p><i class="fa-solid fa-syringe text-primary mr-2"></i><b>Tiêm phòng:</b> {{vaccin}}</p>
+        <div class="p-0 m-0 sm:text-base text-sm">
+            <p><i class="fa-solid fa-venus-mars text-primary mr-2"></i><b>Giới tính:</b> {{gender}}</p>
+            <p-divider type="dashed"></p-divider>
+            <p><i class="fa-solid fa-cake-candles text-primary mr-2"></i><b>Độ tuổi:</b> {{age}}</p>
+            <p-divider type="dashed"></p-divider>
+            <p><i class="fa-solid fa-syringe text-primary mr-2"></i><b>Tiêm phòng:</b> {{vaccin}}</p>
+        </div>
         <!-- <p-divider type="dashed"></p-divider> -->
     </div>
 </div>

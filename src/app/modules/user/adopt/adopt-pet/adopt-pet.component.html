@@ -118,7 +118,7 @@
             <p-carousel [value]="pets" [numVisible]="4" [numScroll]="1" [circular]="true"
                 [responsiveOptions]="responsiveOptions" [autoplayInterval]="3000">
                 <ng-template let-pet pTemplate="item">
-                    <div class="mx-1">
+                    <div class="mx-1 card-pet">
                         <app-card-pet 
                         [id]="pet.id"
                         [age]="this.petService.getAge(pet.age)"

@@ -31,10 +31,10 @@
 }
 
 ::ng-deep .img-pet {
-    height: 300px !important;
+    height: 220px !important;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 575px) {
     ::ng-deep .img-pet {
         height: 250px !important; 
     }

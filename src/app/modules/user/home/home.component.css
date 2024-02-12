@@ -36,15 +36,10 @@
     font-size: 1em;
 }
 
-/* @media screen and (max-width: 768px) {
-    .btn-more {
-        font-size: 0.8em;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .btn-more {
-        font-size: 0.6em;
+/* @media screen and (max-width: 480px) {
+    .card-pet {
+        padding-right: 2rem;
+        padding-left: 2rem;
     }
 } */
 

@@ -19,3 +19,17 @@
     background-color: var(--cyan-500) !important;
     border-color: var(--cyan-500) !important;
 }
+
+@media screen and (max-width: 767px) and (min-width: 555px) {
+    ::ng-deep .card-pet {
+        padding-right: 2rem !important;
+        padding-left: 2rem !important;
+    }
+}
+
+@media screen and (max-width: 554px) and (min-width: 500px) {
+    ::ng-deep .card-pet {
+        padding-right: 1.5rem !important;
+        padding-left: 1.5rem !important;
+    }
+}

@@ -49,7 +49,7 @@
         </div>
     </p-fieldset>
     <div class="grid mt-5 action card-home">
-        <div class="xl:col-4 lg:col-4 md:col-7 sm:col-8 col-10 mx-auto card-home">
+        <div class="xl:col-4 lg:col-4 md:col-6 sm:col-9 col-10 mx-auto card-home">
             <p-card header="ỦNG HỘ">
                 <ng-template pTemplate="header">
                     <img alt="ỦNG HỘ" src="../../../../assets/medias/imgs/action-1.jpg" style="height:350px"
@@ -63,7 +63,7 @@
                 </ng-template>
             </p-card>
         </div>
-        <div class="xl:col-4 lg:col-4 md:col-7 sm:col-8 col-10 mx-auto">
+        <div class="xl:col-4 lg:col-4 md:col-6 sm:col-9 col-10 mx-auto">
             <p-card header="TÌNH NGUYỆN">
                 <ng-template pTemplate="header" class="bg-cyan-100">
                     <img alt="TÌNH NGUYỆN" src="../../../../assets/medias/imgs/action-2.jpg" style="height:350px"
@@ -77,7 +77,7 @@
                 </ng-template>
             </p-card>
         </div>
-        <div class="xl:col-4 lg:col-4 md:col-7 sm:col-8 col-10 mx-auto card-home">
+        <div class="xl:col-4 lg:col-4 md:col-6 sm:col-9 col-10 mx-auto card-home">
             <p-card header="NHẬN NUÔI">
                 <ng-template pTemplate="header">
                     <img alt="NHẬN NUÔI" src="../../../../assets/medias/imgs/action-3.jpg" style="height:350px"
@@ -137,10 +137,10 @@
                     <i class="fa-solid fa-paw fa-rotate-by fa-xl text-primary" style="--fa-rotate-angle: 30deg;"></i>
                 </div>
             </ng-template>
-            <p-carousel [value]="pets" [numVisible]="4" [numScroll]="1" [circular]="true"
+            <p-carousel [value]="pets" [numVisible]="4" [numScroll]="4" [circular]="true"
                 [responsiveOptions]="responsiveOptions" [autoplayInterval]="300000000">
                 <ng-template let-pet pTemplate="item">
-                    <div class="mx-1">
+                    <div class="mx-1 card-pet">
                         <app-card-pet 
                         [id]="pet.id"
                         [age]="this.petService.getAge(pet.age)"
