@@ -7,6 +7,7 @@ export const environment = {
     secretKey: '1',
     isMockEnabled: false,
     //apiUrl: 'http://localhost:8080/sos-huce/api',
-    apiUrl: 'https://sos-huce-api.up.railway.app/sos-huce/api',
+    //apiUrl: 'https://sos-huce-api.up.railway.app/sos-huce/api',
+    apiUrl: 'https://sos-huce-api.onrender.com/sos-huce/api',
     defaultLanguage: 'vi',
 };

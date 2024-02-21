@@ -158,6 +158,8 @@ export class PetUpdateComponent {
             this.messageService.add({ severity: 'error', summary: title.error, detail: message.noPermission });
           } else if (error.code == responseCodeCommon.notMatch){
             this.messageService.add({ severity: 'error', summary: title.error, detail: message.notMatch });
+          } else {
+            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
           }
         } else {
           this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
@@ -191,6 +193,8 @@ export class PetUpdateComponent {
             this.messageService.add({ severity: 'error', summary: title.error, detail: message.noPermission });
           } else if (error.code == responseCodeCommon.notMatch){
             this.messageService.add({ severity: 'error', summary: title.error, detail: message.notMatch });
+          } else {
+            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
           }
         } else {
           this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });

@@ -69,6 +69,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.errorLogin(messageLogin.notMatch);
           } else if (error.code == responseCodeCommon.invalid) {
             this.errorLogin(message.invalidInput);
+          } else {
+            this.errorLogin(message.error);
           }
         } else {
           this.errorLogin(message.error);

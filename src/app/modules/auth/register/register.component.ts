@@ -118,6 +118,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
             this.notify(messageRegister.codeExpired, 'error', title.error);
           } else if (error.code == responseCodeAuth.codeIncorrect) {
             this.notify(messageRegister.codeNotMatch, 'error', title.error);
+          } else {
+            this.notify(message.error, 'error', title.error);
           }
         } else {
           this.notify(message.error, 'error', title.error);

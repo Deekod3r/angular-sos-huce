@@ -117,6 +117,8 @@ export class PetCreateComponent implements OnInit {
             this.messageService.add({ severity: 'error', summary: title.error, detail: message.invalidInput });
           } else if (error.code == responseCodeAuth.permissionDenied){
             this.messageService.add({ severity: 'error', summary: title.error, detail: message.noPermission });
+          } else {
+            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
           }
         } else {
           this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
