@@ -6,9 +6,9 @@ export const typeAction = {
 }
 
 export const moreInfor = {
-    no: 0,
-    yes: 1,
-    undefined: 2
+    no: 1,
+    yes: 2,
+    undefined: 3
 }
 
 export const petSearch = {
@@ -17,77 +17,77 @@ export const petSearch = {
 }
 
 export const petStatusKey = {
-    dead: 0,
-    received: 1,
-    treating: 2,
-    waiting: 3
+    dead: 1,
+    received: 2,
+    treating: 3,
+    waiting: 4
 }
 
 export const petStatus = [
     { 
         label: "Đã chết", 
-        value: 0 
-    },
-    { 
-        label: "Đã được nhận", 
         value: 1 
     },
     { 
-        label: "Đang điều trị", 
+        label: "Đã được nhận", 
         value: 2 
     },
     { 
-        label: "Chờ nhận nuôi", 
+        label: "Đang điều trị", 
         value: 3 
+    },
+    { 
+        label: "Chờ nhận nuôi", 
+        value: 4 
     },
 ];
 
 export const petType = [
     {
         label: "Chó",
-        value: 0
-    },
-    {
-        label: "Mèo",
         value: 1
     },
     {
-        label: "Khác",
+        label: "Mèo",
         value: 2
+    },
+    {
+        label: "Khác",
+        value: 3
     }
 ]
 
 export const petGender = [
     {
         label: "Đực",
-        value: 0
-    },
-    {
-        label: "Cái",
         value: 1
     },
     {
-        label: "Chưa rõ",
+        label: "Cái",
         value: 2
+    },
+    {
+        label: "Chưa rõ",
+        value: 3
     }
 ]
 
 export const petAge = [
     {
         label: "Trẻ",
-        value: 0
-    },
-    {
-        label: "Trưởng thành",
         value: 1
     },
     {
-        label: "Già",
+        label: "Trưởng thành",
         value: 2
     },
     {
-        label: "Chưa rõ",
+        label: "Già",
         value: 3
+    },
+    {
+        label: "Chưa rõ",
+        value: 4
     }
 ]
 
@@ -197,14 +197,14 @@ export const petColor = [
 export const petMoreInfor = [
     {
         label: "Không",
-        value: 0
-    },
-    {
-        label: "Có",
         value: 1
     },
     {
-        label: "Chưa rõ",
+        label: "Có",
         value: 2
+    },
+    {
+        label: "Chưa rõ",
+        value: 3
     }
 ]

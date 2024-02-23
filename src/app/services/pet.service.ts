@@ -3,8 +3,8 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 import { CommonService } from './common.service';
 import { CONFIG } from '../common/config';
 import { AuthService } from './auth.service';
-import { HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { petStatus, petGender, petType, petAge, petMoreInfor, moreInfor } from '../common/constant';
+import { HttpParams } from '@angular/common/http';
+import { petStatus, petGender, petType, petAge, petMoreInfor, moreInfor, petStatusKey } from '../common/constant';
 import { upcaseAllFirstLetters, upcaseFirstLetter } from '../shared/utils/string.util';
 
 @Injectable({
@@ -175,6 +175,9 @@ export class PetService {
     );
   }
 
+  isAvailable(status: number): boolean {
+    return status === petStatusKey.waiting;
+  }
 
   getStatus(status: number): string | undefined {
     const statusOption = petStatus.find(option => option.value === status);
@@ -203,16 +206,44 @@ export class PetService {
 
   getSeverityStatus(status: number): string {
     switch (status) {
-      case 0:
-        return 'danger';
       case 1:
-        return 'success';
+        return 'danger';
       case 2:
-        return 'warning';
+        return 'success';
       case 3:
+        return 'warning';
+      case 4:
         return 'info';
       default:
         return 'info';
+    }
+  }
+
+  getBadgeSeverity(info: number) {
+    switch (info) {
+      case 1:
+        return 'danger';
+      case 2:
+        return 'success';
+      case 3:
+        return 'warning';
+      case 4:
+        return 'info';
+      default:
+        return 'info';
+    }
+  }
+
+  getBadgeValue(info: number) {
+    switch (info) {
+      case 1:
+        return '✗';
+      case 2:
+        return '✓';
+      case 3:
+        return '?';
+      default:
+        return '?';
     }
   }
 

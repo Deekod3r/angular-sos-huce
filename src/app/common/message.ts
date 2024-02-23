@@ -56,4 +56,5 @@ export const messagePet = {
     updateImageSuccess: 'Cập nhật hình ảnh thú cưng thành công',
     deleteSuccess: 'Xoá thông tin thú cưng thành công',
     notFound: 'Không tìm thấy thông tin thú cưng',
+    createAdoptRegisterSuccess: 'Đăng ký nhận nuôi thú cưng thành công',
 }
