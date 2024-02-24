@@ -69,7 +69,7 @@ export class AdoptPetComponent implements OnInit {
       province: new FormControl(null, Validators.required),
       district: new FormControl(null, Validators.required),
       ward: new FormControl(null, Validators.required),
-      address: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
+      address: new FormControl(null, [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
       confirm: new FormControl(false, Validators.requiredTrue)
     });
     this.route.params.pipe(takeUntil(this.subscribes$)).subscribe(params => {

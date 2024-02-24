@@ -54,8 +54,8 @@ export class PetService {
     formData.append('age', form.petAge);
     formData.append('breed', upcaseFirstLetter((form.petBreed.label ? form.petBreed.label : form.petBreed).trim()));
     formData.append('color', upcaseFirstLetter((form.petColor.label ? form.petColor.label : form.petColor).trim()));
-    formData.append('description', form.petDescription ? form.petDescription.trim() : '');
-    formData.append('note', form.petNote ? form.petNote.trim() : '');
+    formData.append('description', form.petDescription ? form.petDescription.trim() : null);
+    formData.append('note', form.petNote ? form.petNote.trim() : null);
     formData.append('diet', form.petDiet != null ? form.petDiet : moreInfor.undefined);
     formData.append('friendlyToCats', form.petFriendlyToCats != null ? form.petFriendlyToCats : moreInfor.undefined);
     formData.append('friendlyToDogs', form.petFriendlyToDogs != null ? form.petFriendlyToDogs : moreInfor.undefined);
@@ -93,8 +93,8 @@ export class PetService {
     formData.append('age', form.petAge);
     formData.append('breed', upcaseFirstLetter((form.petBreed.label ? form.petBreed.label : form.petBreed).trim()));
     formData.append('color', upcaseFirstLetter((form.petColor.label ? form.petColor.label : form.petColor).trim()));
-    formData.append('description', form.petDescription ? form.petDescription.trim() : '');
-    formData.append('note', form.petNote ? form.petNote.trim() : '');
+    formData.append('description', form.petDescription ? form.petDescription.trim() : null);
+    formData.append('note', form.petNote ? form.petNote.trim() : null);
     formData.append('diet', form.petDiet != null ? form.petDiet : moreInfor.undefined);
     formData.append('friendlyToCats', form.petFriendlyToCats != null ? form.petFriendlyToCats : moreInfor.undefined);
     formData.append('friendlyToDogs', form.petFriendlyToDogs != null ? form.petFriendlyToDogs : moreInfor.undefined);

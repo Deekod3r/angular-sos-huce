@@ -24,7 +24,12 @@
                     Vui lòng nhập họ tên
                 </div>
                 <div class="text-red-500 mt-1"
-                    *ngIf="registerForm.controls['name'].hasError('pattern') && registerForm.controls['name'].dirty">
+                    *ngIf="(
+                        registerForm.controls['name'].hasError('pattern')
+                        || registerForm.controls['name'].hasError('minLength')
+                        || registerForm.controls['name'].hasError('maxLength')
+                        )
+                        && registerForm.controls['name'].dirty">
                     Họ tên không hợp lệ
                 </div>
             </div>
@@ -43,7 +48,12 @@
                     Vui lòng nhập số điện thoại
                 </div>
                 <div class="text-red-500 mt-1"
-                    *ngIf="registerForm.controls['phoneNumber'].hasError('pattern') && registerForm.controls['phoneNumber'].dirty">
+                    *ngIf="(
+                        registerForm.controls['phoneNumber'].hasError('pattern') ||
+                        registerForm.controls['phoneNumber'].hasError('minLength') ||
+                        registerForm.controls['phoneNumber'].hasError('maxLength')
+                        )
+                        && registerForm.controls['phoneNumber'].dirty">
                     Số điện thoại không hợp lệ
                 </div>
             </div>
@@ -62,7 +72,12 @@
                     Vui lòng nhập email
                 </div>
                 <div class="text-red-500 mt-1"
-                    *ngIf="registerForm.controls['email'].hasError('email') && registerForm.controls['email'].dirty">
+                    *ngIf="(
+                        registerForm.controls['email'].hasError('email') ||
+                        registerForm.controls['email'].hasError('minLength') ||
+                        registerForm.controls['email'].hasError('maxLength')
+                        )
+                        && registerForm.controls['email'].dirty">
                     Email không hợp lệ
                 </div>
             </div>
@@ -97,7 +112,11 @@
                     Vui lòng nhập mật khẩu
                 </div>
                 <div class="text-red-500 mt-1"
-                    *ngIf="registerForm.controls['password'].hasError('pattern') && registerForm.controls['password'].dirty">
+                    *ngIf="(
+                        registerForm.controls['password'].hasError('pattern') ||
+                        registerForm.controls['password'].hasError('maxLength')
+                        )
+                        && registerForm.controls['password'].dirty">
                     Mật khẩu không hợp lệ
                 </div>
             </div>

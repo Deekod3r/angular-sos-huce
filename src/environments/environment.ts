@@ -6,8 +6,8 @@ export const environment = {
     encryptPrivateKey: '-----BEGIN PRIVATE KEY-----\na12345\n-----END PRIVATE KEY-----',
     secretKey: '1',
     isMockEnabled: false,
-    //apiUrl: 'http://localhost:8080/sos-huce/api',
+    apiUrl: 'http://localhost:8080/sos-huce/api',
     //apiUrl: 'https://sos-huce-api.up.railway.app/sos-huce/api',
-    apiUrl: 'https://sos-huce-api.onrender.com/sos-huce/api',
+    //apiUrl: 'https://sos-huce-api.onrender.com/sos-huce/api',
     defaultLanguage: 'vi',
 };

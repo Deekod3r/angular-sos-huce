@@ -36,10 +36,10 @@ export class PetCreateComponent implements OnInit {
   ngOnInit(): void {
     this.form = new FormGroup({
       petImage: new FormControl(null, Validators.required),
-      petName: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
+      petName: new FormControl(null, [Validators.required, noWhitespaceValidator(), Validators.maxLength(50), Validators.minLength(2)]),
       petType: new FormControl(null, Validators.required),
-      petBreed: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
-      petColor: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
+      petBreed: new FormControl(null, [Validators.required, noWhitespaceValidator(), Validators.maxLength(100), Validators.minLength(2)]),
+      petColor: new FormControl(null, [Validators.required, noWhitespaceValidator(), Validators.maxLength(100), Validators.minLength(2)]),
       petAge: new FormControl(null, Validators.required),
       petGender: new FormControl(null, Validators.required),
       petWeight: new FormControl(0),
@@ -52,8 +52,8 @@ export class PetCreateComponent implements OnInit {
       petFriendlyToHuman: new FormControl(null),
       petFriendlyToCats: new FormControl(null),
       petFriendlyToDogs: new FormControl(null),
-      petDescription: new FormControl('', [Validators.maxLength(1000), Validators.required, noWhitespaceValidator()]),
-      petNote: new FormControl('', Validators.maxLength(500)),
+      petDescription: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
+      petNote: new FormControl(null),
     });
     this.types = petType;
     this.age = petAge;
