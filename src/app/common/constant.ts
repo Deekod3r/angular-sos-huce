@@ -18,9 +18,18 @@ export const petSearch = {
 
 export const petStatusKey = {
     dead: 1,
-    received: 2,
+    adopted: 2,
     treating: 3,
     waiting: 4
+}
+
+export const adoptStatusKey = {
+    waiting: 1,
+    inProgress: 2,
+    reject: 3,
+    cancel: 4,
+    complete: 5,
+    refund: 6
 }
 
 export const petStatus = [
@@ -206,5 +215,32 @@ export const petMoreInfor = [
     {
         label: "Chưa rõ",
         value: 3
+    }
+]
+
+export const adoptStatus = [
+    {
+        label: "Chờ xử lý",
+        value: 1
+    },
+    {
+        label: "Đang xử lý",
+        value: 2
+    },
+    {
+        label: "Từ chối",
+        value: 3
+    },
+    {
+        label: "Đã hủy",
+        value: 4
+    },
+    {
+        label: "Hoàn tất",
+        value: 5
+    },
+    {
+        label: "Hoàn trả",
+        value: 6
     }
 ]

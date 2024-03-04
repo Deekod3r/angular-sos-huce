@@ -20,13 +20,15 @@ import { CONFIG } from './config';
 import { AdoptAllComponent } from '../modules/user/adopt/adopt-all/adopt-all.component';
 import { AdoptPetComponent } from '../modules/user/adopt/adopt-pet/adopt-pet.component';
 import { ForgotPasswordComponent } from '../modules/auth/forgot-password/forgot-password.component';
+import { AccountComponent } from '../modules/user/account/account.component';
+import { AdoptionComponent } from '../modules/admin/adoption/adoption.component';
 
 export let ROUTES_ROOT: Routes = [
   {
     path: CONFIG.KEY.ROOT_PAGE,
     component: UserComponent,
     canActivate: [PermissionGuard],
-    data: { expectedRole: ["USER"] },
+    data: { expectedRole: ["GUEST", "USER"] },
     loadChildren: () => import('../modules/user/user.module').then((m) => m.UserModule)
   },
   {
@@ -67,9 +69,17 @@ export let ROUTES_USER: Routes = [
   { path: 'ung-ho', component: DonateComponent },
   { path: 'gioi-thieu', component: IntroComponent },
   { path: 'lien-he', component: ContactComponent },
+  { 
+    path: 'tai-khoan',
+    canActivate: [PermissionGuard],
+    data: { expectedRole: ["USER"] },
+    component: AccountComponent 
+  }
 ];
 
 export let ROUTES_ADMIN: Routes = [
   { path: 'trang-chu', component: DashboardComponent },
   { path: 'thu-cung', component: PetComponent },
+  { path: 'don-nhan-nuoi', component: AdoptionComponent },
+  { path: '', redirectTo: 'trang-chu', pathMatch: 'full'}
 ];

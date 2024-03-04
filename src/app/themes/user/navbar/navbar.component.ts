@@ -63,14 +63,8 @@ export class NavbarComponent implements OnInit {
       },
       {
         label: 'Tài khoản',
-        icon: 'ti ti-user-shield'
-      },
-      {
-        separator: true
-      },
-      {
-        label: 'Đổi mật khẩu',
-        icon: 'ti ti-password',
+        icon: 'ti ti-user-shield',
+        routerLink: '/tai-khoan'
       },
       {
         separator: true

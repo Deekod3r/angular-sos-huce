@@ -44,7 +44,7 @@ export class PetCreateComponent implements OnInit {
       petGender: new FormControl(null, Validators.required),
       petWeight: new FormControl(0),
       petStatus: new FormControl(null, Validators.required),
-      petVaccin: new FormControl(null),
+      petVaccine: new FormControl(null),
       petRabies: new FormControl(null),
       petSterilization: new FormControl(null),
       petDiet: new FormControl(null),
@@ -112,14 +112,7 @@ export class PetCreateComponent implements OnInit {
       },
       error: (res) => {
         if (res.error) {
-          let error = res.error.error;
-          if (error.code == responseCodeCommon.invalid) {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.invalidInput });
-          } else if (error.code == responseCodeAuth.permissionDenied){
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.noPermission });
-          } else {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-          }
+          this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
         } else {
           this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
         }

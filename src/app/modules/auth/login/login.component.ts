@@ -7,8 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { Subject } from 'rxjs';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
-import { message, messageLogin, title } from 'src/app/common/message';
-import { responseCodeAuth, responseCodeCommon } from 'src/app/common/response';
+import { message, title } from 'src/app/common/message';
 import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
@@ -47,9 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.errorLogin(message.requiredInfo)
       return;
     }
-
     this.isSubmitted = true;
-
     this.authService.login(this.loginForm.value).pipe(
       takeUntil(this.subscribes$),
       finalize(() => {
@@ -64,14 +61,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       },
       error: (res: any) => {
         if (res.error) {
-          let error = res.error.error;
-          if (error.code == responseCodeAuth.authError) {
-            this.errorLogin(messageLogin.notMatch);
-          } else if (error.code == responseCodeCommon.invalid) {
-            this.errorLogin(message.invalidInput);
-          } else {
-            this.errorLogin(message.error);
-          }
+          this.errorLogin(res.error.message);
         } else {
           this.errorLogin(message.error);
         }

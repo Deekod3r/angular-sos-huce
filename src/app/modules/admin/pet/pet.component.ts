@@ -48,9 +48,10 @@ export class PetComponent implements OnInit {
     color: '',
     breed: '',
     diet: null,
-    vaccin: null,
+    vaccine: null,
     sterilization: null,
-    rabies: null
+    rabies: null,
+    adoptedBy: ''
   };
 
 
@@ -158,9 +159,10 @@ export class PetComponent implements OnInit {
       color: '',
       breed: '',
       diet: null,
-      vaccin: null,
+      vaccine: null,
       sterilization: null,
-      rabies: null
+      rabies: null,
+      adoptedBy: ''
     };
     this.getPets();
   }
@@ -197,14 +199,7 @@ export class PetComponent implements OnInit {
           },
           error: (res) => {
             if (res.error) {
-              let error = res.error.error;
-              if (error.code == responseCodeCommon.notFound) {
-                this.messageService.add({ severity: 'error', summary: title.error, detail: messagePet.notFound });
-              } else if (error.code == responseCodeCommon.invalid) {
-                this.messageService.add({ severity: 'error', summary: title.error, detail: message.invalidInput });
-              } else if (error.code == responseCodeAuth.permissionDenied){
-                this.messageService.add({ severity: 'error', summary: title.error, detail: message.noPermission });
-              }
+              this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
             } else {
               this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
             }

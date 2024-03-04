@@ -5,6 +5,7 @@ import { Observable, map, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CONFIG } from '../common/config';
 import { CommonService } from './common.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class UserService {
 
   private API_URL = 'users/';
 
-  constructor(private commonService: CommonService) { }
+  constructor(private commonService: CommonService, private authService: AuthService) { }
 
   register(form: FormGroup): Observable<any> {
 
@@ -61,7 +62,25 @@ export class UserService {
       method: CONFIG.KEY.METHOD_GET,
       options: {
         params: {
-          email: email
+          email: email.trim()
+        }
+      }
+    }
+
+    return this.commonService.callAPI(request).pipe(
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
+
+  verifyRegister(id: string, code: string): Observable<any> {
+    const request = {
+      function: this.API_URL + 'verify-register/' + id,
+      method: CONFIG.KEY.METHOD_GET,
+      options: {
+        params: {
+          code: code.trim()
         }
       }
     }
@@ -79,7 +98,7 @@ export class UserService {
       method: CONFIG.KEY.METHOD_GET,
       options: {
         params: {
-          code: code
+          code: code.trim()
         }
       }
     }
@@ -97,9 +116,30 @@ export class UserService {
       method: CONFIG.KEY.METHOD_PUT,
       body: {
         id: id,
-        code: code,
-        email: email,
+        code: code.trim(),
+        email: email.trim(),
         newPassword: password
+      }
+    }
+
+    return this.commonService.callAPI(request).pipe(
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
+
+  getUserById(id: string): Observable<any> {
+    const request = {
+      function: this.API_URL + id,
+      method: CONFIG.KEY.METHOD_GET,
+      options: {
+        headers: {
+          'Authorization': 'Bearer ' + this.authService.getToken()
+        },
+        params: {
+          role: this.authService.getRole()
+        }
       }
     }
 

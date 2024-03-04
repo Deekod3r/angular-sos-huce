@@ -1,0 +1,52 @@
+<div class="card">
+    <p-toast></p-toast>
+    <p-confirmDialog></p-confirmDialog>
+    <p-panel header="Công cụ">
+    </p-panel>
+    <p-table #table [value]="adopts" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines mt-3"
+        selectionMode="single" [paginator]="false">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                Đơn nhận nuôi
+                <p-button icon="fa fa-refresh"></p-button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr class="">
+                <th class="col-1">Mã đơn</th>
+                <th class="col-2">Thú cưng</th>
+                <th class="col-1">Thời gian tạo</th>
+                <th class="col-2">Người đăng ký</th>
+                <th class="col-2">Người tạo</th>
+                <th class="col-3">Thông tin liên hệ</th>
+                <th class="col-1">Trạng thái</th>
+                <th class=""></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-adopt>
+            <tr>
+                <td>{{adopt.code}}</td>
+                <td>{{adopt.petName}}</td>
+                <td>{{adopt.createdAt | date:'HH:mm - dd/MM/yyyy'}}</td>
+                <td>{{adopt.nameRegisteredBy}}</td>
+                <td>{{adopt.nameCreatedBy}}</td>
+                <td>{{adopt.emailRegisteredBy}} - {{adopt.phoneRegisteredBy}}</td>
+                <td>
+                    <p-tag [value]="this.adoptService.getStatus(adopt.status)"
+                        [severity]="this.adoptService.getSeverityStatus(adopt.status)"></p-tag>
+                </td>
+                <td>
+                    <p-button #btn type="button" icon="fa fa-solid fa-sliders" (click)="menu.toggle($event)"></p-button>
+                    <p-tieredMenu #menu [model]="adopt.menuItems" [popup]="true" appendTo="body" class="p-0"
+                        styleClass="menucus"></p-tieredMenu>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+            <p-button type="button" icon="fa fa-plus" styleClass="p-button-text"></p-button>
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+            <p-button type="button" icon="fa fa-cloud" styleClass="p-button-text"></p-button>
+        </ng-template>
+    </p-table>
+</div>

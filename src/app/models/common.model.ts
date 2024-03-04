@@ -17,7 +17,8 @@ export interface petSearchKey {
     color: string,
     breed: string,
     diet: number | null,
-    vaccin: number | null,
+    vaccine: number | null,
     sterilization: number | null,
-    rabies: number | null
+    rabies: number | null,
+    adoptedBy: string
 }

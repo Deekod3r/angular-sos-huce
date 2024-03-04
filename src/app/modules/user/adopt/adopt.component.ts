@@ -4,7 +4,6 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { CardPetModule } from 'src/app/shared/components/card-pet/card-pet.module';
 import { PetService } from 'src/app/services/pet.service';
 import { DropdownModule } from 'primeng/dropdown';
-import { petSearchKey } from 'src/app/models/common.model';
 import { Subject, takeUntil } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
 import { petSearch, petStatusKey } from 'src/app/common/constant';

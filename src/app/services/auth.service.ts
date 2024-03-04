@@ -30,24 +30,6 @@ export class AuthService {
     );
   }
 
-  verify(id: string, code: string): Observable<any> {
-    const request = {
-      function: 'verify/' + id,
-      method: CONFIG.KEY.METHOD_GET,
-      options: {
-        params: {
-          code: code.trim()
-        }
-      }
-    }
-
-    return this.commonService.callAPI(request).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
-  }
-
   getProfile(): any {
     return JSON.parse(this.encryptionService.decrypt(localStorage.getItem(CONFIG.KEY.TOKEN)) || '{}')
   }

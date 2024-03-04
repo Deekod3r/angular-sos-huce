@@ -68,7 +68,7 @@ export class PetService {
     formData.append('sterilization', form.petSterilization != null ? form.petSterilization : moreInfor.undefined);
     formData.append('toilet', form.petToilet != null ? form.petToilet : moreInfor.undefined);
     formData.append('type', form.petType);
-    formData.append('vaccin', form.petVaccin != null ? form.petVaccin : moreInfor.undefined);
+    formData.append('vaccine', form.petVaccine != null ? form.petVaccine : moreInfor.undefined);
     formData.append('weight', form.petWeight);
     const request = {
       function: this.API_URL + '/create',
@@ -106,8 +106,8 @@ export class PetService {
     formData.append('sterilization', form.petSterilization != null ? form.petSterilization : moreInfor.undefined);
     formData.append('toilet', form.petToilet != null ? form.petToilet : moreInfor.undefined);
     formData.append('type', form.petType);
-    formData.append('vaccin', form.petVaccin != null ? form.petVaccin : moreInfor.undefined);
-    formData.append('weight', form.petWeight);
+    formData.append('vaccine', form.petVaccine != null ? form.petVaccine : moreInfor.undefined);
+    formData.append('weight', form.petWeight != null ? form.petWeight : null);
     const request = {
       function: this.API_URL + '/update/' + id,
       method: CONFIG.KEY.METHOD_PUT,
@@ -199,9 +199,9 @@ export class PetService {
     return ageObject?.label;
   }
 
-  getVaccin(vaccin: number): string | undefined {
-    const vaccinObject = petMoreInfor.find(i => i.value === vaccin);
-    return vaccinObject?.label;
+  getVaccine(vaccine: number): string | undefined {
+    const vaccineObject = petMoreInfor.find(i => i.value === vaccine);
+    return vaccineObject?.label;
   }
 
   getSeverityStatus(status: number): string {

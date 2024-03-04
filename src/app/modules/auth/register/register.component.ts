@@ -10,9 +10,8 @@ import { Subject } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
-import { message, messageRegister, messageVerify, title } from 'src/app/common/message';
+import { message, messageVerify, title } from 'src/app/common/message';
 import { AuthService } from 'src/app/services/auth.service';
-import { responseCodeCommon, responseCodeAuth } from 'src/app/common/response';
 
 @Component({
   selector: 'app-register',
@@ -58,7 +57,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       return;
     }
     this.isSubmitted = true;
-
     this.userService.register(this.registerForm).pipe(
       takeUntil(this.subscribes$),
       finalize(() => {
@@ -74,12 +72,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       },
       error: (res) => {
         if (res.error) {
-          let error = res.error.error;
-          if (error.code == responseCodeCommon.invalid) {
-            this.notify(message.invalidInput, 'error', title.error);
-          } else if (error.code == responseCodeCommon.existed) {
-            this.notify(messageRegister.exist, 'error', title.error);
-          }
+          this.notify(res.error.message, 'error', title.error);
         } else {
           this.notify(message.error, 'error', title.error);
         }
@@ -93,7 +86,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       return;
     }
     this.isSubmitted = true;
-    this.authService.verify(this.id, this.verifyForm.controls['code'].value).pipe(
+    this.userService.verifyRegister(this.id, this.verifyForm.controls['code'].value).pipe(
       takeUntil(this.subscribes$),
       finalize(() => {
         this.isSubmitted = false;
@@ -111,16 +104,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       },
       error: (res) => {
         if (res.error) {
-          let error = res.error.error;
-          if (error.code == responseCodeCommon.invalid) {
-            this.notify(message.invalidInput, 'error', title.error);
-          } else if (error.code == responseCodeAuth.codeExpired) {
-            this.notify(messageRegister.codeExpired, 'error', title.error);
-          } else if (error.code == responseCodeAuth.codeIncorrect) {
-            this.notify(messageRegister.codeNotMatch, 'error', title.error);
-          } else {
-            this.notify(message.error, 'error', title.error);
-          }
+            this.notify(res.error.message, 'error', title.error);
         } else {
           this.notify(message.error, 'error', title.error);
         }

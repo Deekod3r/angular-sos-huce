@@ -47,7 +47,7 @@ export class PetUpdateComponent {
       petGender: new FormControl(null, Validators.required),
       petWeight: new FormControl(0),
       petStatus: new FormControl(null, Validators.required),
-      petVaccin: new FormControl(null),
+      petVaccine: new FormControl(null),
       petRabies: new FormControl(null),
       petSterilization: new FormControl(null),
       petDiet: new FormControl(null),
@@ -97,7 +97,7 @@ export class PetUpdateComponent {
       petGender: this.pet.gender,
       petWeight: this.pet.weight,
       petStatus: this.pet.status,
-      petVaccin: this.pet.vaccin,
+      petVaccine: this.pet.vaccine,
       petRabies: this.pet.rabies,
       petSterilization: this.pet.sterilization,
       petDiet: this.pet.diet,
@@ -148,19 +148,9 @@ export class PetUpdateComponent {
         }
       },
       error: (res) => {
+        console.log(res);
         if (res.error) {
-          let error = res.error.error;
-          if (error.code == responseCodeCommon.notFound) {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: messagePet.notFound });
-          } else if (error.code == responseCodeCommon.invalid) {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.invalidInput });
-          } else if (error.code == responseCodeAuth.permissionDenied){
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.noPermission });
-          } else if (error.code == responseCodeCommon.notMatch){
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.notMatch });
-          } else {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-          }
+          this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
         } else {
           this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
         }
@@ -178,24 +168,14 @@ export class PetUpdateComponent {
       next: (res: any) => {
         if (res.success) {
           this.visibleUpdateImageModal = false;
-          this.getPet();
+          this.result = true;
+          this.resultAction.emit(this.result);    
           this.messageService.add({severity:'success', summary: title.success, detail: messagePet.updateImageSuccess});
         }
       },
       error: (res) => {
         if (res.error) {
-          let error = res.error.error;
-          if (error.code == responseCodeCommon.notFound) {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: messagePet.notFound });
-          } else if (error.code == responseCodeCommon.invalid) {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.invalidInput });
-          } else if (error.code == responseCodeAuth.permissionDenied){
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.noPermission });
-          } else if (error.code == responseCodeCommon.notMatch){
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.notMatch });
-          } else {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-          }
+          this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
         } else {
           this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
         }

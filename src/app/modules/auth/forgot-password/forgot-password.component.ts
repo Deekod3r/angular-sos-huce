@@ -74,6 +74,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     .subscribe({
       next: (res: any) => {
         if (res.success) {
+          console.log(res)
           if (res.data != "NOT_FOUND") {
             this.email = res.data;
             this.confirmationService.confirm({
@@ -92,13 +93,8 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
                     }
                   },
                   error: (resForgot) => {
-                    if (res.error) {
-                      let error = res.error.error;
-                      if (error.code == responseCodeCommon.notFound) {
-                        this.notify(messageForgot.notMatch, 'error', title.error);
-                      } else if (error.code == responseCodeCommon.invalid) {
-                        this.notify(message.invalidInput, 'error', title.error);
-                      }
+                    if (resForgot.error) {
+                      this.notify(resForgot.error.message, 'error', title.error);
                     } else {
                       this.notify(message.error, 'error', title.error);
                     }
@@ -109,13 +105,13 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
               }
             });
           } else {
-            this.notify(messageForgot.notMatch, 'error', title.error);
+            this.notify(res.message, 'error', title.error);
           }
         }
       },
       error: (res) => {
         if (res.error) {
-          this.notify(message.invalidInput, 'error', title.error);
+          this.notify(res.error.message, 'error', title.error);
         } else {
           this.notify(message.error, 'error', title.error);
         }
@@ -139,14 +135,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       },
       error: (res: any) => {
         if (res.error) {
-          let error = res.error.error;
-          if (error.code == responseCodeCommon.invalid) {
-            this.notify(message.invalidInput, 'error', title.error);
-          } else if (error.code == responseCodeAuth.codeExpired) {
-            this.notify(messageForgot.codeExpired, 'error', title.error);
-          } else if (error.code == responseCodeAuth.codeIncorrect) {
-            this.notify(messageForgot.codeNotMatch, 'error', title.error);
-          }
+          this.notify(res.error.message, 'error', title.error);
         } else {
           this.notify(message.error, 'error', title.error);
         }
@@ -177,16 +166,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
         },
         error: (res: any) => {
           if (res.error) {
-            let error = res.error.error;
-            if (error.code == responseCodeCommon.invalid) {
-              this.notify(message.invalidInput, 'error', title.error);
-            } else if (error.code == responseCodeAuth.codeExpired) {
-              this.notify(messageForgot.codeExpired, 'error', title.error);
-            } else if (error.code == responseCodeAuth.codeIncorrect) {
-              this.notify(messageForgot.codeNotMatch, 'error', title.error);
-            } else {
-              this.notify(message.error, 'error', title.error);
-            }
+            this.notify(res.error.message, 'error', title.error);
           } else {
             this.notify(message.error, 'error', title.error);
           }

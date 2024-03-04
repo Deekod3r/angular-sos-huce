@@ -18,7 +18,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 import { CheckboxModule } from 'primeng/checkbox';
 import { MessageService } from 'primeng/api';
-import { message, messagePet, title } from 'src/app/common/message';
+import { message, messageAdopt, messagePet, title } from 'src/app/common/message';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { responseCodeCommon, responseCodeAuth } from 'src/app/common/response';
 
@@ -70,6 +70,7 @@ export class AdoptPetComponent implements OnInit {
       district: new FormControl(null, Validators.required),
       ward: new FormControl(null, Validators.required),
       address: new FormControl(null, [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
+      reason: new FormControl(null, [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
       confirm: new FormControl(false, Validators.requiredTrue)
     });
     this.route.params.pipe(takeUntil(this.subscribes$)).subscribe(params => {
@@ -153,39 +154,37 @@ export class AdoptPetComponent implements OnInit {
   }
 
   onRegisterAdopt(): void {
-    if (this.formAdopt.valid) {
-      let adopt = {
-        petId: this.id,
-        province: this.formAdopt.value.province,
-        district: this.formAdopt.value.district,
-        ward: this.formAdopt.value.ward,
-        address: this.formAdopt.value.address
-      };
-      this.adoptService.createAdopt(adopt)
-      .pipe(takeUntil(this.subscribes$))
-      .subscribe({
-        next: (res) => {
-          if (res.success) {
-            this.visibleCreateModal = false;
-            this.formAdopt.reset();
-            this.messageService.add({severity:'success', summary: title.success, detail: messagePet.createAdoptRegisterSuccess});
-          }
-        },
-        error: (res) => {
-          if (res.error) {
-            let error = res.error.error;
-            if (error.code == responseCodeCommon.invalid) {
-              this.messageService.add({ severity: 'error', summary: title.error, detail: message.invalidInput });
-            } else if (error.code == responseCodeAuth.permissionDenied){
-              this.messageService.add({ severity: 'error', summary: title.error, detail: message.noPermission });
-            } else {
-              this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-            }
-          } else {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-          }
-        }
-      });
+    if (!this.formAdopt.valid) {
+      this.messageService.add({severity:'error', summary: title.error, detail: message.requiredInfo});
+      return;
     }
+    let adopt = {
+      petAdopt: this.id,
+      province: this.formAdopt.value.province,
+      district: this.formAdopt.value.district,
+      ward: this.formAdopt.value.ward,
+      address: this.formAdopt.value.address,
+      reason: this.formAdopt.value.reason,
+      registeredBy: this.userInfo.id
+    };
+    this.adoptService.createAdopt(adopt)
+    .pipe(takeUntil(this.subscribes$))
+    .subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.visibleCreateModal = false;
+          this.formAdopt.reset();
+          this.messageService.add({severity:'success', summary: title.success, detail: messageAdopt.createSuccess});
+        }
+      },
+      error: (res) => {
+        if (res.error) {
+          this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+        } else {
+          this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+        }
+      }
+    });
   }
+
 }

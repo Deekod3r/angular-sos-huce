@@ -37,6 +37,7 @@ export class MenuAdminComponent implements OnInit {
                             {
                                 label: 'Đơn nhận nuôi',
                                 icon: 'fa fa-fw fa-brands fa-wpforms',
+                                routerLink: ['/admin/don-nhan-nuoi']
                             }
                         ]
                     },
