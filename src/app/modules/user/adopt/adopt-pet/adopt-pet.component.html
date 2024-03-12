@@ -8,7 +8,7 @@
                     <p>Người nhận nuôi: <b>{{userInfo.name}}</b></p>
                     <p>Email liên hệ: <b>{{userInfo.email}}</b></p>
                     <p>Số điện thoại: <b>{{userInfo.phoneNumber}}</b></p>
-                    <p class="font-bold font-italic text-red-500">Nếu thông tin của bạn đã thay đổi, hãy cập nhật lại trong mục Tài khoản để HUCE Pet có thể liên hệ với bạn cùng làm việc cho các bước tiếp theo</p>
+                    <p class="font-semibold font-italic text-red-500">Nếu thông tin của bạn đã thay đổi, hãy cập nhật lại trong mục Tài khoản để HUCE Pet có thể liên hệ với bạn cùng làm việc cho các bước tiếp theo</p>
                     <form [formGroup]="formAdopt">
                         <div class="grid">
                             <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
@@ -16,7 +16,7 @@
                                 <label for="adopt-province">Tỉnh/thành phố <span class="text-red-500 font-bold">*</span></label>
                                 <p-dropdown [options]="provinces" optionLabel="name" optionValue="id"
                                     styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
-                                    emptyMessage="Không có dữ liệu" formControlName="province" (onChange)="getDistricts()" (onClear)="districts = []; wards = []"></p-dropdown>
+                                    emptyMessage="Không có dữ liệu" formControlName="province" (onChange)="getDistricts(); wards = []" (onClear)="districts = []; wards = []"></p-dropdown>
                                 </div>
                                 <div class="col-6"
                                 [hidden]="formAdopt.controls['province'].valid || !formAdopt.controls['province'].dirty"
@@ -74,7 +74,7 @@
                             </div>
                             <div class="col-12">
                                 <p-checkbox formControlName="confirm" [binary]="true" inputId="confirm"></p-checkbox>
-                                <label for="confirm" class="ml-2 font-bold">Tôi xác nhận đã đủ hành vi, điều kiện và hoàn toàn chịu mọi trách viện cho việc nhận nuôi thú cưng</label>
+                                <label for="confirm" class="ml-2 font-semibold">Tôi xác nhận đã đủ hành vi, điều kiện và hoàn toàn chịu mọi trách nhiệm cho việc nhận nuôi thú cưng</label>
                             </div>
                         </div>
                     </form>
@@ -99,7 +99,7 @@
                             <p-divider type="dashed"></p-divider>
                         </div>
                         <div class="xl:col-9 lg:col-9 md:col-12 col-12 mx-auto">
-                            <p class="text-3xl font-semibold mb-1">Thông tin</p>
+                            <p class="text-3xl font-semibold mb-3">Thông tin</p>
                             <p-divider></p-divider>
                             <div class="grid mt-1">
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
@@ -127,17 +127,19 @@
                                     <p><p-badge value="{{petService.getBadgeValue(pet.friendlyToCats)}}" [severity]="petService.getBadgeSeverity(pet.friendlyToCats)"></p-badge> Thân thiện với mèo</p>
                                 </div>
                                 <div class="col-12">
-                                    <p class="text-3xl font-semibold mb-1">Mô tả</p>
-                                    <p-divider></p-divider>
-                                    <p class="mt-1">{{pet.description}}</p>
+                                    <p><span class="font-semibold">Mô tả: </span><span>{{pet.description}}</span></p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </p-panel>
-                <div class="col-12 mt-3" align="center">
-                    <p class="font-bold font-italic text-red-500">Khi nhấn nút 'ĐĂNG KÝ', bạn đồng ý rằng bạn đã xem xét, đảm bảo đủ điều kiện và trách nhiệm cần thiết cho việc chăm sóc và nuôi thú cưng</p>
-                    <p-button label="ĐĂNG KÝ" styleClass="mat-form-button" [disabled]="!formAdopt.valid || !formAdopt.dirty" (onClick)="onRegisterAdopt()"></p-button>
+                <div class="grid justify-content-center">
+                    <div class="col-12 mt-3" align="center">
+                        <p class="font-semibold font-italic text-red-500">Khi nhấn nút 'ĐĂNG KÝ', bạn xác nhận đã đồng ý với các điều khoản của HUCE Pet</p>
+                    </div>
+                    <div class="md:col-4 col-6 mt-3" align="center">
+                        <p-button label="ĐĂNG KÝ" styleClass="mat-form-button" [disabled]="!formAdopt.valid || !formAdopt.dirty" (onClick)="onRegisterAdopt()"></p-button>
+                    </div>
                 </div>
             </p-dialog>
         </div>

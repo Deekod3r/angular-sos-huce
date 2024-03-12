@@ -86,8 +86,8 @@
                     Mật khẩu <span class="text-red-500">*</span>
                 </div>
                 <div class="p-inputgroup">
-                    <p-password formControlName="password" class="form-control" promptLabel=" " weakLabel="Yếu"
-                        mediumLabel="Trung bình" strongLabel="Mạnh" [style]="{'width':'100%'}" [toggleMask]="true"
+                    <p-password formControlName="password" class="form-control" promptLabel=" " strongRegex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$"
+                    weakLabel="Yếu" mediumLabel="Trung bình" strongLabel="Mạnh" [style]="{'width':'100%'}" [toggleMask]="true"
                         [inputStyle]="{'width':'100%'}">
                         <ng-template pTemplate="header">
                             <h6>Nhập mật khẩu</h6>
@@ -96,6 +96,7 @@
                             <p-divider></p-divider>
                             <p class="mt-2 font-bold">Yêu cầu</p>
                             <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                <li>Tối thiểu 1 ký tự đặc biệt</li>
                                 <li>Tối thiểu 1 ký tự chữ thường</li>
                                 <li>Tối thiểu 1 ký tự chữ hoa</li>
                                 <li>Tối thiểu 1 ký tự số</li>
@@ -164,13 +165,21 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 mt-2">
-                <button pButton label="Xác thực" type="submit" [disabled]="!verifyForm.valid || isSubmitted"
+            <div class="col-6 mt-2">
+                <button pButton label="Quay lại" type="button"
+                    class="btn-register p-button-outlined" (click)="step = 1">
+                </button>
+            </div>
+            <div class="col-6 mt-2">
+                <button pButton label="Kiểm tra" type="submit" [disabled]="!verifyForm.valid || isSubmitted"
                     class="btn-register">
                 </button>
-                <div class="mt-1" [hidden]="!isSubmitted">
-                    <p-progressBar mode="indeterminate" [style]="{ height: '3px' }"></p-progressBar>
-                </div>
+            </div>
+            <div class="col-12 text-center mt-1">
+                <p class="font-semibold">Chưa nhận được mã? <a class="cursor-pointer" (click)="onRegister()">Gửi lại</a></p>
+            </div>
+            <div class="col-12" [hidden]="!isSubmitted">
+                <p-progressBar mode="indeterminate" [style]="{ height: '3px' }"></p-progressBar>
             </div>
             <div class="col-12" [hidden]="!registerNotify">
                 <p-messages [(value)]="registerMsg" [enableService]="false" [closable]="false"></p-messages>

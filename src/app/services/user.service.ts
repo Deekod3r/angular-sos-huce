@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, map, catchError, throwError } from 'rxjs';
@@ -12,7 +12,7 @@ import { AuthService } from './auth.service';
 })
 export class UserService {
 
-  private API_URL = 'users/';
+  private API_URL = 'users';
 
   constructor(private commonService: CommonService, private authService: AuthService) { }
 
@@ -21,7 +21,7 @@ export class UserService {
     const { phoneNumber, password, name, email } = form.value;
 
     const request = {
-      function: this.API_URL + 'register',
+      function: this.API_URL + '/register',
       method: CONFIG.KEY.METHOD_POST,
       body: {
         phoneNumber: phoneNumber.trim(),
@@ -30,17 +30,12 @@ export class UserService {
         email: email.trim()
       }
     }
-
-    return this.commonService.callAPI(request).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
+    return this.commonService.callAPI(request);
   }
 
   checkExist(account: string): Observable<any> {
     const request = {
-      function: this.API_URL + 'check-exist',
+      function: this.API_URL + '/check-exist',
       method: CONFIG.KEY.METHOD_GET,
       options: {
         params: {
@@ -48,17 +43,12 @@ export class UserService {
         }
       }
     }
-
-    return this.commonService.callAPI(request).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
+    return this.commonService.callAPI(request);
   }
 
   forgotPassword(email: string): Observable<boolean> {
     const request = {
-      function: this.API_URL + 'forgot-password',
+      function: this.API_URL + '/forgot-password',
       method: CONFIG.KEY.METHOD_GET,
       options: {
         params: {
@@ -66,17 +56,12 @@ export class UserService {
         }
       }
     }
-
-    return this.commonService.callAPI(request).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
+    return this.commonService.callAPI(request);
   }
 
   verifyRegister(id: string, code: string): Observable<any> {
     const request = {
-      function: this.API_URL + 'verify-register/' + id,
+      function: this.API_URL + '/verify-register/' + id,
       method: CONFIG.KEY.METHOD_GET,
       options: {
         params: {
@@ -84,17 +69,12 @@ export class UserService {
         }
       }
     }
-
-    return this.commonService.callAPI(request).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
+    return this.commonService.callAPI(request);
   }
 
   verifyForgotPassword(id: string, code: string): Observable<boolean> {
     const request = {
-      function: this.API_URL + 'verify-forgot-password/' + id,
+      function: this.API_URL + '/verify-forgot-password/' + id,
       method: CONFIG.KEY.METHOD_GET,
       options: {
         params: {
@@ -102,17 +82,12 @@ export class UserService {
         }
       }
     }
-
-    return this.commonService.callAPI(request).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
+    return this.commonService.callAPI(request);
   }
 
   resetPassword(id: string, code: string, email: string, password: string): Observable<boolean> {
     const request = {
-      function: this.API_URL + 'reset-password',
+      function: this.API_URL + '/reset-password',
       method: CONFIG.KEY.METHOD_PUT,
       body: {
         id: id,
@@ -121,17 +96,12 @@ export class UserService {
         newPassword: password
       }
     }
-
-    return this.commonService.callAPI(request).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
+    return this.commonService.callAPI(request);
   }
 
   getUserById(id: string): Observable<any> {
     const request = {
-      function: this.API_URL + id,
+      function: this.API_URL + '/' + id,
       method: CONFIG.KEY.METHOD_GET,
       options: {
         headers: {
@@ -142,11 +112,27 @@ export class UserService {
         }
       }
     }
-
-    return this.commonService.callAPI(request).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
+    return this.commonService.callAPI(request);
   }
+
+  getUsers(search: any): Observable<any> {
+    let params = new HttpParams();
+    for (const key in search) {
+      if (search.hasOwnProperty(key)) {
+        params = params.set(key, search[key] != null ? search[key].toString() : '');
+      }
+    }
+    const request = {
+      function: this.API_URL,
+      method: CONFIG.KEY.METHOD_GET,
+      options: {
+        headers: {
+          'Authorization': 'Bearer ' + this.authService.getToken()
+        },
+        params: params
+      }
+    }
+    return this.commonService.callAPI(request);
+  }
+
 }

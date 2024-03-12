@@ -28,8 +28,7 @@ export const adoptStatusKey = {
     inProgress: 2,
     reject: 3,
     cancel: 4,
-    complete: 5,
-    refund: 6
+    complete: 5
 }
 
 export const petStatus = [
@@ -236,11 +235,27 @@ export const adoptStatus = [
         value: 4
     },
     {
-        label: "Hoàn tất",
+        label: "Hoàn thành",
         value: 5
-    },
-    {
-        label: "Hoàn trả",
-        value: 6
     }
 ]
+
+export const adoptSearch = {
+    limitDefault: 5,
+}
+
+export const CALENDER_CONFIG = {
+    firstDayOfWeek: 1,
+    dayNames: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 6', 'Chủ nhật'],
+    dayNamesShort: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+    dayNamesMin: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+    monthNames: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10',
+        'Tháng 11', 'Tháng 12'],
+    monthNamesShort: ['Th1', 'Th2', 'Th3', 'Th4', 'Th5', 'Th6', 'Th7', 'Th8', 'Th9', 'Th10', 'Th11', 'Th12'],
+    today: 'Hôm nay',
+    clear: 'Xóa',
+};
+
+export const MIN_DATE = new Date(2020, 0, 1);
+
+export const MAX_DATE = new Date();

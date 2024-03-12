@@ -3,9 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 import { Subject, takeUntil } from 'rxjs';
-import { petType, petAge, petGender, petMoreInfor, petStatus, petBreed, petColor } from 'src/app/common/constant';
+import { petType, petAge, petGender, petMoreInfor, petStatus, petBreed, petColor, CALENDER_CONFIG, MAX_DATE, MIN_DATE, petStatusKey } from 'src/app/common/constant';
 import { message, messagePet, title } from 'src/app/common/message';
-import { responseCodeCommon, responseCodeAuth } from 'src/app/common/response';
 import { PetService } from 'src/app/services/pet.service';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 
@@ -32,32 +31,18 @@ export class PetUpdateComponent {
   filteredBreeds: any[] = [];
   filteredColors: any[] = [];
 
+  calendar_cf: any;
+  min_date: any;
+  max_date: any;
+  
   private subscribes$: Subject<void> = new Subject<void>();
 
   constructor(private petService: PetService, private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-      petId: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
-      petName: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
-      petType: new FormControl(null, Validators.required),
-      petBreed: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
-      petColor: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
-      petAge: new FormControl(null, Validators.required),
-      petGender: new FormControl(null, Validators.required),
-      petWeight: new FormControl(0),
-      petStatus: new FormControl(null, Validators.required),
-      petVaccine: new FormControl(null),
-      petRabies: new FormControl(null),
-      petSterilization: new FormControl(null),
-      petDiet: new FormControl(null),
-      petToilet: new FormControl(null),
-      petFriendlyToHuman: new FormControl(null),
-      petFriendlyToCats: new FormControl(null),
-      petFriendlyToDogs: new FormControl(null),
-      petDescription: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
-      petNote: new FormControl(null),
-    });
+    this.calendar_cf = CALENDER_CONFIG;
+    this.min_date = MIN_DATE;
+    this.max_date = MAX_DATE;
     this.getPet();
     this.types = petType;
     this.age = petAge;
@@ -76,6 +61,28 @@ export class PetUpdateComponent {
       next: (res) => {
         if (res.success) {
           this.pet = res.data;
+          this.form = new FormGroup({
+            petId: new FormControl({ value: null, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }, [Validators.required, noWhitespaceValidator()]),
+            petName: new FormControl({ value: null, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }, [Validators.required, noWhitespaceValidator()]),
+            petType: new FormControl({ value: null, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }, Validators.required),
+            petBreed: new FormControl({ value: null, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }, [Validators.required, noWhitespaceValidator()]),
+            petColor: new FormControl({ value: null, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }, [Validators.required, noWhitespaceValidator()]),
+            petAge: new FormControl({ value: null, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }, Validators.required),
+            petGender: new FormControl({ value: null, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }, Validators.required),
+            petWeight: new FormControl({ value: 0, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }),
+            petStatus: new FormControl({ value: null, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }, Validators.required),
+            petVaccine: new FormControl({ value: null, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }),
+            petRabies: new FormControl({ value: null, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }),
+            petSterilization: new FormControl({ value: null, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }),
+            petDiet: new FormControl({ value: null, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }),
+            petToilet: new FormControl({ value: null, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }),
+            petFriendlyToHuman: new FormControl({value: null, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }),
+            petFriendlyToCats: new FormControl({ value: null, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }),
+            petFriendlyToDogs: new FormControl({ value: null, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }),
+            petDescription: new FormControl({ value: '', disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }, [Validators.required, noWhitespaceValidator()]),
+            petNote: new FormControl({ value: '', disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }),
+            intakeDate: new FormControl({ value: null, disabled: this.pet.status == petStatusKey.adopted || this.pet.status == petStatusKey.dead }, Validators.required),
+          });
           this.initForm();
         }
       }
@@ -107,6 +114,7 @@ export class PetUpdateComponent {
       petFriendlyToDogs: this.pet.friendlyToDogs,
       petDescription: this.pet.description,
       petNote: this.pet.note,
+      intakeDate: new Date(this.pet.intakeDate)
     });
   }
 
@@ -137,6 +145,10 @@ export class PetUpdateComponent {
   }
   
   onSavePet() {
+    if (!this.form.valid) {
+      this.messageService.add({severity:'error', summary: title.error, detail: message.requiredInfo});
+      return;
+    }
     this.petService.updatePet(this.form.value, this.idPet)
     .pipe(takeUntil(this.subscribes$))
     .subscribe({
@@ -183,4 +195,8 @@ export class PetUpdateComponent {
     });
   }
   
+  isNotAvailableForUpdate(): boolean {
+    return this.pet.status === petStatusKey.dead || this.pet.status === petStatusKey.adopted;
+  }
+
 }

@@ -42,10 +42,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onLogin() {
-    if (this.loginForm.invalid) {
-      this.errorLogin(message.requiredInfo)
-      return;
-    }
+    // if (this.loginForm.invalid) {
+    //   this.errorLogin(message.requiredInfo)
+    //   return;
+    // }
     this.isSubmitted = true;
     this.authService.login(this.loginForm.value).pipe(
       takeUntil(this.subscribes$),

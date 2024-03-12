@@ -31,9 +31,9 @@ export const CONFIG = {
         SESSION_TIME_IN_SECONDS: 3600
     },
     ROLE: {
-        USER: ['USER'],
-        MANAGER: ['MANAGER'],
+        USER: 'USER',
+        ADMIN: 'ADMIN',
+        MANAGER: 'MANAGER',
         ROOT: ['MANAGER','ADMIN'],
-        ADMIN: ['ADMIN'],
     }
 }

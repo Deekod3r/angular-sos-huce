@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CommonService } from './common.service';
+import { CONFIG } from '../common/config';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class LocationService {
     getPronvinces(): Observable<any> {
         const request = {
             function: this.API_URL + '/provinces',
-            method: 'GET'
+            method: CONFIG.KEY.METHOD_GET
         }
         return this.commonService.callAPI(request);
     }
@@ -23,7 +24,7 @@ export class LocationService {
     getDistricts(provinceId: string): Observable<any> {
         const request = {
             function: this.API_URL + '/districts',
-            method: 'GET',
+            method: CONFIG.KEY.METHOD_GET,
             options: {
                 params: {
                     provinceId: provinceId
@@ -37,7 +38,7 @@ export class LocationService {
     getWards(districtId: string): Observable<any> {
         const request = {
             function: this.API_URL + '/wards',
-            method: 'GET',
+            method: CONFIG.KEY.METHOD_GET,
             options: {
                 params: {
                     districtId: districtId

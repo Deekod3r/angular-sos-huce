@@ -9,25 +9,26 @@
                 <p-dialog *ngIf="visibleUpdateImageModal" header="Cập nhật hình ảnh" [(visible)]="visibleUpdateImageModal" [modal]="true"
                     [style]="{ width: '60vw', height: 'fit-content' }" [draggable]="false" [resizable]="false">
                     <p-fileUpload name="petImage" chooseLabel="Chọn hình ảnh" uploadLabel="Tải" accept="image/**" [maxFileSize]="100000000" [customUpload]="true"
-                    [showUploadButton]="true" [showCancelButton]="false"
-                    (uploadHandler)="upload($event)"
-                    invalidFileSizeMessageSummary="Lỗi kích thước" invalidFileSizeMessageDetail="Kích thước file quá lớn"
-                    invalidFileTypeMessageSummary="Lỗi định dạng" invalidFileTypeMessageDetail="Chỉ chấp nhận file có định dạng hình ảnh: .jpg .jpge .png .gif"> 
-                    <!-- <ng-template pTemplate="file">
-                        <div *ngIf="form.controls['petImage'].value">
-                        <div class="p-fileupload-row grid">
-                            <div class="col-3"><img [src]="form.controls['petImage'].value.objectURL" width="50"/></div>
-                            <div class="col-3">{{form.controls['petImage'].value.name}}</div>
-                            <div class="col-3">{{form.controls['petImage'].value.size}} bytes</div>
-                            <div class="col-3"><button type="button" icon="fa fa-close" pButton (click)="removePetImage()"></button></div>
-                        </div>
-                        </div>
-                    </ng-template> -->
-              </p-fileUpload>
+                          [showUploadButton]="true" [showCancelButton]="false"
+                          (uploadHandler)="upload($event)"
+                          invalidFileSizeMessageSummary="Lỗi kích thước" invalidFileSizeMessageDetail="Kích thước file quá lớn"
+                          invalidFileTypeMessageSummary="Lỗi định dạng" invalidFileTypeMessageDetail="Chỉ chấp nhận file có định dạng hình ảnh: .jpg .jpge .png .gif"> 
+                          <!-- <ng-template pTemplate="file">
+                              <div *ngIf="form.controls['petImage'].value">
+                              <div class="p-fileupload-row grid">
+                                  <div class="col-3"><img [src]="form.controls['petImage'].value.objectURL" width="50"/></div>
+                                  <div class="col-3">{{form.controls['petImage'].value.name}}</div>
+                                  <div class="col-3">{{form.controls['petImage'].value.size}} bytes</div>
+                                  <div class="col-3"><button type="button" icon="fa fa-close" pButton (click)="removePetImage()"></button></div>
+                              </div>
+                              </div>
+                          </ng-template> -->
+                    </p-fileUpload>
                 </p-dialog>
-                <button pButton icon="fa fa-upload" label="Cập nhật ảnh ảnh" class="ml-3" (click)="showUpdateImageModal()"></button>
+                <button *ngIf="pet && !isNotAvailableForUpdate()" pButton icon="fa fa-upload" label="Cập nhật hình ảnh" class="ml-3" (click)="showUpdateImageModal()"></button>
+                <p *ngIf="pet && isNotAvailableForUpdate()" class="mt-2"><b>Người nhận nuôi:</b> {{pet.infoAdoptedBy}}</p>
             </div>
-            <div class="lg:col-6 md:col-6 sm:col-12 col-12">
+            <div class="lg:col-4 md:col-4 sm:col-12 col-12">
               <div class="flex flex-column gap-2">
                 <label for="pet-name">Tên thú cưng <span class="text-red-500 font-bold">*</span></label>
                 <input pInputText formControlName="petName" id="pet-name" />
@@ -38,10 +39,23 @@
                 Vui lòng nhập tên
               </div>
             </div>
+            <div class="lg:col-2 md:col-2 sm:col-12 col-12">
+              <div class="flex flex-column gap-2">
+                <label for="intake-date">Ngày tiếp nhận <span class="text-red-500 font-bold">*</span></label>
+                <p-calendar formControlName="intakeDate" id="intake-date"
+                [minDate]="min_date" [maxDate]="max_date"
+                [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string"></p-calendar>
+              </div>
+              <div class="col-6"
+                [hidden]="form.controls['intakeDate'].valid || !form.controls['intakeDate'].dirty"
+                class="text-red-500 mt-2 ml-1">
+                Vui lòng chọn ngày tiếp nhận
+              </div>
+            </div>
             <div class="xl:col-2 lg:col-6 md:col-6 sm:col-12 col-12">
               <div class="flex flex-column gap-2">
                 <label for="pet-type">Loại <span class="text-red-500 font-bold">*</span></label>
-                <p-dropdown formControlName="petType" [options]="types" id="pet-type" optioLabel="label"
+                <p-dropdown formControlName="petType" [options]="types" id="pet-type" optioLabel="label" optionValue="value"
                   styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                   emptyMessage="Không có dữ liệu"></p-dropdown>
               </div>
@@ -80,7 +94,7 @@
             <div class="xl:col-2 lg:col-6 md:col-6 sm:col-12 col-12">
               <div class="flex flex-column gap-2">
                 <label for="pet-age">Tuổi <span class="text-red-500 font-bold">*</span></label>
-                <p-dropdown formControlName="petAge" [options]="age" id="pet-age" optioLabel="label"
+                <p-dropdown formControlName="petAge" [options]="age" id="pet-age" optioLabel="label" optionValue="value"
                   styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                   emptyMessage="Không có dữ liệu"></p-dropdown>
               </div>
@@ -93,7 +107,7 @@
             <div class="xl:col-2 lg:col-6 md:col-6 sm:col-12 col-12">
               <div class="flex flex-column gap-2">
                 <label for="pet-gender">Giới tính <span class="text-red-500 font-bold">*</span></label>
-                <p-dropdown formControlName="petGender" [options]="gender" id="pet-gender" optioLabel="label"
+                <p-dropdown formControlName="petGender" [options]="gender" id="pet-gender" optioLabel="label" optionValue="value"
                   styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                   emptyMessage="Không có dữ liệu"></p-dropdown>
               </div>
@@ -106,7 +120,7 @@
             <div class="xl:col-2 lg:col-6 md:col-6 sm:col-12 col-12">
               <div class="flex flex-column gap-2">
                 <label for="pet-status">Trạng thái <span class="text-red-500 font-bold">*</span></label>
-                <p-dropdown formControlName="petStatus" [options]="status" id="pet-status" optioLabel="label"
+                <p-dropdown formControlName="petStatus" [options]="status" id="pet-status" optioLabel="label" optionValue="value"
                   styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                   emptyMessage="Không có dữ liệu"></p-dropdown>
               </div>
@@ -125,7 +139,7 @@
             <div class="xl:col-2 lg:col-6 md:col-6 sm:col-12 col-12">
               <div class="flex flex-column gap-2">
                 <label for="pet-vaccine">Tiêm phòng tổng hợp</label>
-                <p-dropdown formControlName="petVaccine" [options]="moreInfor" id="pet-vaccine" optioLabel="label"
+                <p-dropdown formControlName="petVaccine" [options]="moreInfor" id="pet-vaccine" optioLabel="label" optionValue="value"
                   styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                   emptyMessage="Không có dữ liệu"></p-dropdown>
               </div>
@@ -133,7 +147,7 @@
             <div class="xl:col-2 lg:col-6 md:col-6 sm:col-12 col-12">
               <div class="flex flex-column gap-2">
                 <label for="pet-rabies">Tiêm phòng dại</label>
-                <p-dropdown formControlName="petRabies" [options]="moreInfor" id="pet-rabies" optioLabel="label"
+                <p-dropdown formControlName="petRabies" [options]="moreInfor" id="pet-rabies" optioLabel="label" optionValue="value"
                   styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                   emptyMessage="Không có dữ liệu"></p-dropdown>
               </div>
@@ -141,7 +155,7 @@
             <div class="xl:col-2 lg:col-6 md:col-6 sm:col-12 col-12">
               <div class="flex flex-column gap-2">
                 <label for="pet-sterilization">Triệt sản</label>
-                <p-dropdown formControlName="petSterilization" [options]="moreInfor" id="pet-sterilization"
+                <p-dropdown formControlName="petSterilization" [options]="moreInfor" id="pet-sterilization" optionValue="value"
                   optioLabel="label" styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                   emptyMessage="Không có dữ liệu"></p-dropdown>
               </div>
@@ -149,7 +163,7 @@
             <div class="xl:col-2 lg:col-6 md:col-6 sm:col-12 col-12">
               <div class="flex flex-column gap-2">
                 <label for="pet-diet">Chế độ ăn riêng</label>
-                <p-dropdown formControlName="petDiet" [options]="moreInfor" id="pet-diet" optioLabel="label"
+                <p-dropdown formControlName="petDiet" [options]="moreInfor" id="pet-diet" optioLabel="label" optionValue="value"
                   styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                   emptyMessage="Không có dữ liệu"></p-dropdown>
               </div>
@@ -157,7 +171,7 @@
             <div class="xl:col-2 lg:col-6 md:col-6 sm:col-12 col-12">
               <div class="flex flex-column gap-2">
                 <label for="pet-toilet">Đi vệ sinh đúng chỗ</label>
-                <p-dropdown formControlName="petToilet" [options]="moreInfor" id="pet-toilet" optioLabel="label"
+                <p-dropdown formControlName="petToilet" [options]="moreInfor" id="pet-toilet" optioLabel="label" optionValue="value"
                   styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                   emptyMessage="Không có dữ liệu"></p-dropdown>
               </div>
@@ -165,7 +179,7 @@
             <div class="xl:col-2 lg:col-6 md:col-6 sm:col-12 col-12">
               <div class="flex flex-column gap-2">
                 <label for="pet-friendlyToHuman">Thân thiện với người</label>
-                <p-dropdown formControlName="petFriendlyToHuman" [options]="moreInfor" id="pet-friendlyToHuman"
+                <p-dropdown formControlName="petFriendlyToHuman" [options]="moreInfor" id="pet-friendlyToHuman" optionValue="value"
                   optioLabel="label" styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                   emptyMessage="Không có dữ liệu"></p-dropdown>
               </div>
@@ -173,7 +187,7 @@
             <div class="xl:col-2 lg:col-6 md:col-6 sm:col-12 col-12">
               <div class="flex flex-column gap-2">
                 <label for="pet-friendlyToCats">Thân thiện với mèo</label>
-                <p-dropdown formControlName="petFriendlyToCats" [options]="moreInfor" id="pet-friendlyToCats"
+                <p-dropdown formControlName="petFriendlyToCats" [options]="moreInfor" id="pet-friendlyToCats" optionValue="value"
                   optioLabel="label" styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                   emptyMessage="Không có dữ liệu"></p-dropdown>
               </div>
@@ -181,7 +195,7 @@
             <div class="xl:col-2 lg:col-6 md:col-6 sm:col-12 col-12">
               <div class="flex flex-column gap-2">
                 <label for="pet-friendlyToDogs">Thân thiện với chó</label>
-                <p-dropdown formControlName="petFriendlyToDogs" [options]="moreInfor" id="pet-friendlyToDogs"
+                <p-dropdown formControlName="petFriendlyToDogs" [options]="moreInfor" id="pet-friendlyToDogs" optionValue="value"
                   optioLabel="label" styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                   emptyMessage="Không có dữ liệu"></p-dropdown>
               </div>
@@ -203,12 +217,12 @@
                 <textarea formControlName="petNote" pInputTextarea id="pet-note" [rows]="5"></textarea>
               </div>
             </div>
-            <div class="col-12 mt-5 grid" align="center">
-              <div class="col-6">
-                <p-button label="LƯU" styleClass="mat-form-button" class="mt-3" [disabled]="!form.valid || !form.dirty" (onClick)="onSavePet()"></p-button>
+            <div class="col-12 mt-5 grid justify-content-center" align="center" *ngIf="pet && !isNotAvailableForUpdate()">
+              <div class="md:col-3 col-6">
+                <p-button label="LÀM MỚI" styleClass="mat-form-button p-button-outlined" class="mt-3" [disabled]="!form.dirty" (onClick)="initForm()"></p-button>
               </div>
-              <div class="col-6">
-                <p-button label="LÀM MỚI" styleClass="mat-form-button" class="mt-3" [disabled]="!form.dirty" (onClick)="initForm()"></p-button>
+              <div class="md:col-3 col-6">
+                <p-button label="LƯU" styleClass="mat-form-button" class="mt-3" [disabled]="!form.valid || !form.dirty" (onClick)="onSavePet()"></p-button>
               </div>
             </div>
           </div>

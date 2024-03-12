@@ -3,9 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete/autocomplete.interface';
 import { Subject, takeUntil } from 'rxjs';
-import { petBreed, petColor, petType, petAge, petGender, petMoreInfor, petStatus } from 'src/app/common/constant';
+import { petBreed, petColor, petType, petAge, petGender, petMoreInfor, petStatus, CALENDER_CONFIG, MIN_DATE, MAX_DATE } from 'src/app/common/constant';
 import { message, title } from 'src/app/common/message';
-import { responseCodeCommon, responseCodeAuth } from 'src/app/common/response';
 import { PetService } from 'src/app/services/pet.service';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 
@@ -28,6 +27,10 @@ export class PetCreateComponent implements OnInit {
   moreInfor: any[] = [];
   filteredBreeds: any[] = [];
   filteredColors: any[] = [];
+
+  calendar_cf: any;
+  min_date: any;
+  max_date: any;
 
   private subscribes$: Subject<void> = new Subject<void>();
 
@@ -52,9 +55,13 @@ export class PetCreateComponent implements OnInit {
       petFriendlyToHuman: new FormControl(null),
       petFriendlyToCats: new FormControl(null),
       petFriendlyToDogs: new FormControl(null),
-      petDescription: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
-      petNote: new FormControl(null),
+      petDescription: new FormControl('', [Validators.required, noWhitespaceValidator()]),
+      petNote: new FormControl(''),
+      intakeDate: new FormControl(null, Validators.required),
     });
+    this.calendar_cf = CALENDER_CONFIG;
+    this.min_date = MIN_DATE;
+    this.max_date = MAX_DATE;
     this.types = petType;
     this.age = petAge;
     this.gender = petGender;
@@ -102,6 +109,10 @@ export class PetCreateComponent implements OnInit {
   }
   
   onSavePet() {
+    if (!this.form.valid) {
+      this.messageService.add({severity:'error', summary: title.error, detail: message.requiredInfo});
+      return;
+    }
     this.petService.createPet(this.form.value).pipe(takeUntil(this.subscribes$)).subscribe({
       next: (res) => {
         if (res.success) {

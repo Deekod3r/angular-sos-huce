@@ -9,7 +9,6 @@ import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, } from 'primeng/api';
 import { PasswordModule } from 'primeng/password';
-import { responseCodeAuth, responseCodeCommon } from 'src/app/common/response';
 
 const passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const password = control.get('password');
@@ -81,6 +80,8 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
               message: 'Tạo mã xác thực và gửi tới '+  this.email + '?',
               header: 'ĐẶT LẠI MẬT KHẨU',
               icon: 'fa fa-solid fa-triangle-exclamation',
+              acceptLabel: 'Đồng ý',
+              rejectLabel: 'Hủy',
               acceptIcon: "none",
               rejectIcon: "none",
               rejectButtonStyleClass: "p-button-text",

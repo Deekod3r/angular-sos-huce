@@ -83,7 +83,7 @@
                 <div class="flex flex-column gap-2">
                     <label for="pet-gender" class="font-semibold">Giới tính</label>
                     <p-dropdown [options]="petService.optionGender()" id="pet-gender" optioLabel="label"
-                        styleClass="mat-form-field border-primary-500" [showClear]="true" placeholder="--Chọn--"
+                        styleClass="mat-form-field border-primary-500" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.gender"></p-dropdown>
                 </div>            
             </div>
@@ -91,13 +91,14 @@
                 <div class="flex flex-column gap-2">
                     <label for="pet-age" class="font-semibold">Tuổi</label>
                     <p-dropdown [options]="petService.optionAge()" id="pet-age" optioLabel="label"
-                        styleClass="mat-form-field border-primary-500" [showClear]="true" placeholder="--Chọn--"
+                        styleClass="mat-form-field border-primary-500" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.age"></p-dropdown>
                 </div>            
             </div>
             <div class="col-12" align="center">
-                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="search()" class="mr-5"></button>
-                <button pButton icon="fa fa-refresh" label="Làm mới" (click)="refresh()" class="ml-5"></button>
+                <button pButton icon="fa fa-refresh" label="Làm mới" (click)="refresh()" class="mr-5"></button>
+                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="search()" class="ml-5"></button>
+
             </div>
         </div>
         <div *ngIf="pets && pets.length > 0; else noDataTemplate" class="grid mt-5">

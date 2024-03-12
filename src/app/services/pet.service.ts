@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { HttpParams } from '@angular/common/http';
 import { petStatus, petGender, petType, petAge, petMoreInfor, moreInfor, petStatusKey } from '../common/constant';
 import { upcaseAllFirstLetters, upcaseFirstLetter } from '../shared/utils/string.util';
+import { convertDateFormat } from '../shared/utils/data.util';
 
 @Injectable({
   providedIn: 'root'
@@ -30,11 +31,7 @@ export class PetService {
         params: params
       }
     }
-    return this.commonService.callAPI(request).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
+    return this.commonService.callAPI(request);
   }
 
   getPetById(id: string): Observable<any> {
@@ -42,11 +39,7 @@ export class PetService {
       function: this.API_URL + '/' + id,
       method: CONFIG.KEY.METHOD_GET
     }
-    return this.commonService.callAPI(request).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
+    return this.commonService.callAPI(request);
   }
 
   createPet(form: any): Observable<any> {
@@ -54,8 +47,8 @@ export class PetService {
     formData.append('age', form.petAge);
     formData.append('breed', upcaseFirstLetter((form.petBreed.label ? form.petBreed.label : form.petBreed).trim()));
     formData.append('color', upcaseFirstLetter((form.petColor.label ? form.petColor.label : form.petColor).trim()));
-    formData.append('description', form.petDescription ? form.petDescription.trim() : null);
-    formData.append('note', form.petNote ? form.petNote.trim() : null);
+    formData.append('description', form.petDescription.trim());
+    formData.append('note', form.petNote ? form.petNote.trim() : form.petNote);
     formData.append('diet', form.petDiet != null ? form.petDiet : moreInfor.undefined);
     formData.append('friendlyToCats', form.petFriendlyToCats != null ? form.petFriendlyToCats : moreInfor.undefined);
     formData.append('friendlyToDogs', form.petFriendlyToDogs != null ? form.petFriendlyToDogs : moreInfor.undefined);
@@ -70,6 +63,7 @@ export class PetService {
     formData.append('type', form.petType);
     formData.append('vaccine', form.petVaccine != null ? form.petVaccine : moreInfor.undefined);
     formData.append('weight', form.petWeight);
+    formData.append('intakeDate', convertDateFormat(form.intakeDate));
     const request = {
       function: this.API_URL + '/create',
       method: CONFIG.KEY.METHOD_POST,
@@ -80,49 +74,42 @@ export class PetService {
         }
       }
     }
-    return this.commonService.callAPI(request).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
+    return this.commonService.callAPI(request);
   }
 
   updatePet(form: any, id: string): Observable<any> {
-    const formData = new FormData();
-    formData.append('id', form.petId);
-    formData.append('age', form.petAge);
-    formData.append('breed', upcaseFirstLetter((form.petBreed.label ? form.petBreed.label : form.petBreed).trim()));
-    formData.append('color', upcaseFirstLetter((form.petColor.label ? form.petColor.label : form.petColor).trim()));
-    formData.append('description', form.petDescription ? form.petDescription.trim() : null);
-    formData.append('note', form.petNote ? form.petNote.trim() : null);
-    formData.append('diet', form.petDiet != null ? form.petDiet : moreInfor.undefined);
-    formData.append('friendlyToCats', form.petFriendlyToCats != null ? form.petFriendlyToCats : moreInfor.undefined);
-    formData.append('friendlyToDogs', form.petFriendlyToDogs != null ? form.petFriendlyToDogs : moreInfor.undefined);
-    formData.append('friendlyToHuman', form.petFriendlyToHuman != null ? form.petFriendlyToHuman : moreInfor.undefined);
-    formData.append('gender', form.petGender);
-    formData.append('name', upcaseAllFirstLetters(form.petName.trim()));
-    formData.append('rabies', form.petRabies != null ? form.petRabies : moreInfor.undefined);
-    formData.append('status', form.petStatus);
-    formData.append('sterilization', form.petSterilization != null ? form.petSterilization : moreInfor.undefined);
-    formData.append('toilet', form.petToilet != null ? form.petToilet : moreInfor.undefined);
-    formData.append('type', form.petType);
-    formData.append('vaccine', form.petVaccine != null ? form.petVaccine : moreInfor.undefined);
-    formData.append('weight', form.petWeight != null ? form.petWeight : null);
     const request = {
       function: this.API_URL + '/update/' + id,
       method: CONFIG.KEY.METHOD_PUT,
-      body: formData,
+      body: {
+        id: form.petId,
+        age: form.petAge,
+        breed: upcaseFirstLetter((form.petBreed.label ? form.petBreed.label : form.petBreed).trim()),
+        color: upcaseFirstLetter((form.petColor.label ? form.petColor.label : form.petColor).trim()),
+        description: form.petDescription.trim(),
+        note: form.petNote ? form.petNote.trim() : form.petNote,
+        diet: form.petDiet != null ? form.petDiet : moreInfor.undefined,
+        friendlyToCats: form.petFriendlyToCats != null ? form.petFriendlyToCats : moreInfor.undefined,
+        friendlyToDogs: form.petFriendlyToDogs != null ? form.petFriendlyToDogs : moreInfor.undefined,
+        friendlyToHuman: form.petFriendlyToHuman != null ? form.petFriendlyToHuman : moreInfor.undefined,
+        gender: form.petGender,
+        name: upcaseAllFirstLetters(form.petName.trim()),
+        rabies: form.petRabies != null ? form.petRabies : moreInfor.undefined,
+        status: form.petStatus,
+        sterilization: form.petSterilization != null ? form.petSterilization : moreInfor.undefined,
+        toilet: form.petToilet != null ? form.petToilet : moreInfor.undefined,
+        type: form.petType,
+        vaccine: form.petVaccine != null ? form.petVaccine : moreInfor.undefined,
+        weight: form.petWeight != null ? form.petWeight : null,
+        intakeDate: convertDateFormat(form.intakeDate)
+      },
       options: {
         headers: {
           'Authorization': 'Bearer ' + this.authService.getToken()
         }
       }
     }
-    return this.commonService.callAPI(request).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
+    return this.commonService.callAPI(request);
   }
 
   updatePetImage(file: any, id: string): Observable<any> {
@@ -139,11 +126,7 @@ export class PetService {
         }
       }
     }
-    return this.commonService.callAPI(request).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
+    return this.commonService.callAPI(request);
   }
 
   deleteSoftPet(id: string): Observable<any> {
@@ -156,11 +139,7 @@ export class PetService {
         }
       }
     }
-    return this.commonService.callAPI(request).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
+    return this.commonService.callAPI(request);
   }
 
   getStatisticCases(): Observable<any> {
@@ -168,11 +147,7 @@ export class PetService {
       function: this.API_URL + '/statistic-cases',
       method: CONFIG.KEY.METHOD_GET
     }
-    return this.commonService.callAPI(request).pipe(
-      map((response: any) => {
-        return response.data;
-      })
-    );
+    return this.commonService.callAPI(request);
   }
 
   isAvailable(status: number): boolean {

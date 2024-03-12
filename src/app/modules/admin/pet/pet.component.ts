@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Table, TableModule } from 'primeng/table';
 import { PetService } from 'src/app/services/pet.service';
 import { TagModule } from 'primeng/tag';
-import { petSearch, typeAction } from 'src/app/common/constant';
+import { petSearch, petStatusKey, typeAction } from 'src/app/common/constant';
 import { MenuItem } from 'primeng/api/menuitem';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -12,7 +12,6 @@ import { PaginatorModule } from 'primeng/paginator';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { petSearchKey } from 'src/app/models/common.model';
 import { message, messagePet, title } from 'src/app/common/message';
-import { responseCodeAuth, responseCodeCommon } from 'src/app/common/response';
 
 @Component({
   selector: 'app-pet',
@@ -96,11 +95,14 @@ export class PetComponent implements OnInit {
         visible: false
       },
       {
-        label: 'Chỉnh sửa',
-        icon: 'fa fa-edit',
+        label: pet.status === petStatusKey.adopted || pet.status === petStatusKey.dead ? 'Xem chi tiết' : 'Chỉnh sửa',
+        icon: pet.status === petStatusKey.adopted || pet.status === petStatusKey.dead ? 'fa fa-photo' : 'fa fa-edit',
         command: () => {
           this.showUpdateModal(pet.id);
         }
+      },
+      {
+          separator: true
       },
       {
         label: 'Xoá',
@@ -109,13 +111,16 @@ export class PetComponent implements OnInit {
           this.confirmDelete(event, pet);
         }
       },
-      {
-        label: 'Xem chi tiết',
-        icon: 'fa fa-photo',
-        command: () => {
+      //{
+      //    separator: true
+      //},
+      //{
+        //label: 'Xem chi tiết',
+        //icon: 'fa fa-photo',
+        //command: () => {
           //this.view(provider);
-        }
-      }
+        //}
+      //}
     ];
   }
 
@@ -186,6 +191,8 @@ export class PetComponent implements OnInit {
       message: 'Bạn chắc chắn muốn xoá thú cưng này chứ?',
       header: 'XÁC NHẬN',
       icon: 'fa fa-solid fa-triangle-exclamation',
+      acceptLabel: 'Có',
+      rejectLabel: 'Hủy',
       acceptIcon: "none",
       rejectIcon: "none",
       rejectButtonStyleClass: "p-button-text",

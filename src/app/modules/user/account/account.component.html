@@ -46,6 +46,19 @@
                             <div class="card p-3">
                                 <div class="flex justify-content-between mb-3">
                                     <div>
+                                        <span class="block text-500 font-medium mb-3">Tổng số đơn</span>
+                                        <div class="text-900 font-medium text-xl">{{user.total}}</div>
+                                    </div>
+                                    <div class="flex align-items-center justify-content-center bg-indigo-100 border-round" style="width: 2.5rem; height: 2.5rem;">
+                                        <i class="fa fa-plus text-indigo-500 text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:col-4 col-12">
+                            <div class="card p-3">
+                                <div class="flex justify-content-between mb-3">
+                                    <div>
                                         <span class="block text-500 font-medium mb-3">Đơn chờ xử lý</span>
                                         <div class="text-900 font-medium text-xl">{{user.countWaiting}}</div>
                                     </div>
@@ -64,6 +77,19 @@
                                     </div>
                                     <div class="flex align-items-center justify-content-center bg-yellow-100 border-round" style="width: 2.5rem; height: 2.5rem;">
                                         <i class="fa fa-hourglass-start text-yellow-500 text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:col-4 col-12">
+                            <div class="card p-3">
+                                <div class="flex justify-content-between mb-3">
+                                    <div>
+                                        <span class="block text-500 font-medium mb-3">Đơn đã hoàn thành</span>
+                                        <div class="text-900 font-medium text-xl">{{user.countComplete}}</div>
+                                    </div>
+                                    <div class="flex align-items-center justify-content-center bg-green-100 border-round" style="width: 2.5rem; height: 2.5rem;">
+                                        <i class="fa fa-check text-green-500 text-xl"></i>
                                     </div>
                                 </div>
                             </div>
@@ -94,32 +120,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="md:col-4 col-12">
-                            <div class="card p-3">
-                                <div class="flex justify-content-between mb-3">
-                                    <div>
-                                        <span class="block text-500 font-medium mb-3">Đơn đã hoàn thành</span>
-                                        <div class="text-900 font-medium text-xl">{{user.countComplete}}</div>
-                                    </div>
-                                    <div class="flex align-items-center justify-content-center bg-green-100 border-round" style="width: 2.5rem; height: 2.5rem;">
-                                        <i class="fa fa-check text-green-500 text-xl"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="md:col-4 col-12">
-                            <div class="card p-3">
-                                <div class="flex justify-content-between mb-3">
-                                    <div>
-                                        <span class="block text-500 font-medium mb-3">Đơn hoàn trả</span>
-                                        <div class="text-900 font-medium text-xl">{{user.countRefund}}</div>
-                                    </div>
-                                    <div class="flex align-items-center justify-content-center bg-indigo-100 border-round" style="width: 2.5rem; height: 2.5rem;">
-                                        <i class="fa fa-rotate-left text-indigo-500 text-xl"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -127,22 +127,42 @@
         <p-tabPanel header="Lịch sử nhận nuôi">
             <p-dialog *ngIf="visibleDetailAdopt && detailAdoptData" header="Thông tin đơn nhận nuôi" [(visible)]="visibleDetailAdopt" [modal]="true"
                 [style]="{ width: '90vw', height: '100vh' }" [draggable]="false" [resizable]="false" (visibleChange)="hideDetailAdopt()">
-                <p-panel header="Thông tin cá nhân">
+                <p-panel header="Trạng thái">
+                    <p>
+                        <p-badge [value]="this.adoptService.getStatus(detailAdoptData.adopt.status)"
+                            [severity]="this.adoptService.getSeverityStatus(detailAdoptData.adopt.status)" size="large"></p-badge>
+                    </p>
+                    <p *ngIf="detailAdoptData.adopt.status == adoptStatus.complete">Tiền vía: <b>{{detailAdoptData.adopt.fee | currency: ' ' }} VNĐ</b></p>
+                    <div *ngIf="detailAdoptData.adopt.status == adoptStatus.reject">
+                        <p>Lý do từ chối: <b>{{detailAdoptData.adopt.rejectedReason}}</b></p>
+                        <p>Thời gian từ chối: <b>{{detailAdoptData.adopt.rejectedAt | date:'HH:mm - dd/MM/yyyy'}}</b></p>
+                        <p>Người từ chối: <b>{{detailAdoptData.adopt.nameRejectedBy}}</b></p>
+                    </div>
+                    <div *ngIf="detailAdoptData.adopt.status == adoptStatus.complete">
+                        <p>Thời gian xác nhận: <b>{{detailAdoptData.adopt.confirmedAt | date:'HH:mm - dd/MM/yyyy'}}</b></p>
+                        <p>Người xác nhận: <b>{{detailAdoptData.adopt.nameConfirmedBy}}</b></p>
+                    </div>
+                </p-panel>
+                <br>
+                <p-panel header="Thông tin đăng ký">
                     <p>Người nhận nuôi: <b>{{detailAdoptData.adopt.nameRegisteredBy}}</b></p>
                     <p>Email liên hệ: <b>{{detailAdoptData.adopt.emailRegisteredBy}}</b></p>
                     <p>Số điện thoại: <b>{{detailAdoptData.adopt.phoneRegisteredBy}}</b></p>
                     <p>Địa chỉ: <b>{{detailAdoptData.adopt.wardName}}, {{detailAdoptData.adopt.districtName}}, {{detailAdoptData.adopt.provinceName}}</b></p>
                     <p>Số nhà, tên đường: <b>{{detailAdoptData.adopt.address}}</b></p>
+                    <p>Thời gian tạo: <b>{{detailAdoptData.adopt.createdAt | date:'HH:mm - dd/MM/yyyy'}}</b></p>
                     <p>Lý do nhận nuôi: <b>{{detailAdoptData.adopt.reason}}</b></p>
                 </p-panel>
                 <br>
                 <p-panel header="Thông tin thú cưng - {{detailAdoptData.pet.name}}">
                     <div class="grid">
-                        <div class="xl:col-4 lg:col-4 md:col-6 col-12 mx-auto">
-                            <img src="{{detailAdoptData.pet.image}}" alt="{{detailAdoptData.pet.name}}" class="w-full" style="border-radius: 10px; max-height: 600px;">
+                        <div class="xl:col-3 lg:col-3 md:col-6 col-8 mx-auto">
+                            <img src="{{detailAdoptData.pet.image}}" alt="{{detailAdoptData.pet.name}}" class="w-full mt-2" style="border-radius: 10px; max-height: 600px;">
                         </div>
-                        <div class="xl:col-2 lg:col-2 md:col-6 col-12 mx-auto mt-2">
-                            <p><b>Mã:</b> {{detailAdoptData.pet.code}}</p>
+                        <div class="xl:col-2 lg:col-2 md:col-6 col-12 mx-auto">
+                            <p class="text-3xl font-semibold">{{detailAdoptData.pet.name}}</p>
+                            <p-divider type="dashed"></p-divider>
+                            <p class="my-1"><b>Mã:</b> {{detailAdoptData.pet.code}}</p>
                             <p-divider type="dashed"></p-divider>
                             <p><b>Giống:</b> {{detailAdoptData.pet.breed}}</p>
                             <p-divider type="dashed"></p-divider>
@@ -155,7 +175,7 @@
                             <p><b>Giới tính:</b> {{this.petService.getGender(detailAdoptData.pet.gender)}}</p>
                             <p-divider type="dashed"></p-divider>
                         </div>
-                        <div class="xl:col-6 lg:col-6 md:col-12 col-12 mx-auto">
+                        <div class="xl:col-7 lg:col-7 md:col-12 col-12 mx-auto">
                             <p class="text-3xl font-semibold mb-1">Thông tin</p>
                             <p-divider></p-divider>
                             <div class="grid mt-1">
@@ -183,10 +203,8 @@
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
                                     <p><p-badge value="{{petService.getBadgeValue(detailAdoptData.pet.friendlyToCats)}}" [severity]="petService.getBadgeSeverity(detailAdoptData.pet.friendlyToCats)"></p-badge> Thân thiện với mèo</p>
                                 </div>
-                                <div class="col-12 mx-auto">
-                                    <p class="text-3xl font-semibold mb-1">Mô tả</p>
-                                    <p-divider></p-divider>
-                                    <p class="mt-1">{{detailAdoptData.pet.description}}</p>
+                                <div class="col-12">
+                                    <p><span class="font-semibold">Mô tả: </span><span>{{detailAdoptData.pet.description}}</span></p>
                                 </div>
                             </div>
                         </div>
@@ -261,9 +279,7 @@
                         <th class="col-1">Loại</th>
                         <th class="col-2">Giống</th>
                         <th class="col-1">Màu</th>
-                        <th class="col-1">Tuổi</th>
                         <th class="col-1">Giới tính</th>
-                        <th class="col-1">Cân nặng</th>
                         <th class="col-1">Trạng thái</th>
                     </tr>
                 </ng-template>
@@ -275,9 +291,7 @@
                         <td>{{this.petService.getType(pet.type)}}</td>
                         <td>{{pet.breed}}</td>
                         <td>{{pet.color}}</td>
-                        <td>{{this.petService.getAge(pet.age)}}</td>
                         <td>{{this.petService.getGender(pet.gender)}}</td>
-                        <td>{{pet.weight}} kg</td>
                         <td><p-tag [value]="this.petService.getStatus(pet.status)"
                                 [severity]="this.petService.getSeverityStatus(pet.status)"></p-tag></td>
                     </tr>

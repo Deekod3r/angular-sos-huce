@@ -1,0 +1,191 @@
+<div class="position-relative">
+    <p-toast></p-toast>
+    <div class="grid">
+        <div class="col-12">
+        <form [formGroup]="formAdopt">
+            <div class="grid">
+                <div class="lg:col-6 col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="adopt-user">Người nhận nuôi <span class="text-red-500 font-bold">*</span></label>
+                        <p-dropdown [options]="users" optionLabel="name" [filter]="true" filterBy="name" emptyMessage="Không có dữ liệu"
+                        [showClear]="true" placeholder="--Chọn--" styleClass="mat-form-field" formControlName="registeredBy">
+                            <ng-template let-user pTemplate="item">
+                                <div class="flex align-items-center">
+                                    <div>{{ user.name }} - {{ user.email }} - {{user.phoneNumber}}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                    <div class="col-6"
+                        [hidden]="formAdopt.controls['registeredBy'].valid || !formAdopt.controls['registeredBy'].dirty"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng chọn người nhận nuôi
+                    </div>
+                </div>
+                <div class="lg:col-6 col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="adopt-pet">Thú cưng <span class="text-red-500 font-bold">*</span></label>
+                        <p-dropdown [options]="pets" optionLabel="name" [filter]="true" filterBy="code" emptyMessage="Không có dữ liệu"
+                        [showClear]="true" placeholder="--Chọn--" styleClass="mat-form-field"  formControlName="petAdopt">
+                            <ng-template let-pet pTemplate="item">
+                                <div class="flex align-items-center">
+                                    <div>{{ pet.code }} - {{ pet.name }}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                    <div class="col-6"
+                        [hidden]="formAdopt.controls['petAdopt'].valid || !formAdopt.controls['petAdopt'].dirty"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng chọn thú cưng
+                    </div>
+                </div>
+                <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="adopt-province">Tỉnh/thành phố <span class="text-red-500 font-bold">*</span></label>
+                        <p-dropdown [options]="provinces" optionLabel="name" optionValue="id"
+                            styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
+                            emptyMessage="Không có dữ liệu" formControlName="province" (onChange)="getDistricts(); wards = []" (onClear)="districts = []; wards = []"></p-dropdown>
+                    </div>
+                    <div class="col-6"
+                        [hidden]="formAdopt.controls['province'].valid || !formAdopt.controls['province'].dirty"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng chọn tỉnh/thành phố 
+                    </div>
+                </div>
+                <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="pet-district">Quận/huyện/thị xã <span class="text-red-500 font-bold">*</span></label>
+                        <p-dropdown [options]="districts" id="pet-district" optionLabel="name" optionValue="id"
+                            styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
+                            emptyMessage="Không có dữ liệu" (onChange)="getWards()" formControlName="district" (onClear)="wards = []"></p-dropdown>
+                    </div>
+                    <div class="col-6"
+                        [hidden]="formAdopt.controls['district'].valid || !formAdopt.controls['district'].dirty"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng chọn quận/huyện/thị xã 
+                    </div>
+                </div>
+                <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="pet-ward">Xã/phường/thị trấn <span class="text-red-500 font-bold">*</span></label>
+                        <p-dropdown [options]="wards" id="pet-ward" optionLabel="name" optionValue="id"
+                            styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
+                            emptyMessage="Không có dữ liệu" formControlName="ward"></p-dropdown>
+                    </div>
+                    <div class="col-6"
+                        [hidden]="formAdopt.controls['ward'].valid || !formAdopt.controls['ward'].dirty"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng chọn xã/phường/thị trấn 
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="address">Số nhà, tên đường <span class="text-red-500 font-bold">*</span></label>
+                        <input pInputText id="address" styleClass="mat-form-field" formControlName="address"/>
+                    </div>
+                    <div class="col-6"
+                        [hidden]="formAdopt.controls['address'].valid || !formAdopt.controls['address'].dirty"
+                        class="text-red-500 mt-2 ml-1">
+                            Vui lòng nhập thông tin số nhà, tên đường
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="reason">Lý do nhận nuôi <span class="text-red-500 font-bold">*</span></label>
+                        <input pInputText id="reason" styleClass="mat-form-field" formControlName="reason"/>
+                    </div>
+                    <div class="col-6"
+                        [hidden]="formAdopt.controls['reason'].valid || !formAdopt.controls['reason'].dirty"
+                        class="text-red-500 mt-2 ml-1">
+                            Vui lòng nhập lý do nhận nuôi
+                    </div>
+                </div>
+                <div class="col-12">
+                    <p-panel header="Thông tin đăng ký" styleClass="mb-3">
+                        <div *ngIf="this.formAdopt.controls['registeredBy'].value">
+                            <p>Người nhận nuôi: <b>{{this.formAdopt.controls['registeredBy'].value.name}}</b></p>
+                            <p>Email liên hệ: <b>{{this.formAdopt.controls['registeredBy'].value.email}}</b></p>
+                            <p>Số điện thoại: <b>{{this.formAdopt.controls['registeredBy'].value.phoneNumber}}</b></p>
+                        </div>
+                    </p-panel>
+                    <p-panel header="Thông tin thú cưng">
+                        <div *ngIf="this.formAdopt.controls['petAdopt'].value" class="grid">
+                            <div class="xl:col-3 lg:col-3 md:col-6 col-8 mx-auto">
+                                <img src="{{this.formAdopt.controls['petAdopt'].value.image}}" 
+                                alt="{{this.formAdopt.controls['petAdopt'].value.name}}" class="w-full mt-2" style="border-radius: 10px; max-height: 600px;">
+                            </div>
+                            <div class="xl:col-2 lg:col-2 md:col-6 col-12 mx-auto">
+                                <p class="text-3xl font-semibold">{{this.formAdopt.controls['petAdopt'].value.name}}</p>
+                                <p-divider type="dashed"></p-divider>
+                                <p><b>Mã:</b> {{this.formAdopt.controls['petAdopt'].value.code}}</p>
+                                <p-divider type="dashed"></p-divider>
+                                <p><b>Giống:</b> {{this.formAdopt.controls['petAdopt'].value.breed}}</p>
+                                <p-divider type="dashed"></p-divider>
+                                <p><b>Màu lông:</b> {{this.formAdopt.controls['petAdopt'].value.color}}</p>
+                                <p-divider type="dashed"></p-divider>
+                                <p><b>Tuổi:</b> {{this.petService.getAge(this.formAdopt.controls['petAdopt'].value.age)}}</p>
+                                <p-divider type="dashed"></p-divider>
+                                <p><b>Cân nặng:</b> {{this.formAdopt.controls['petAdopt'].value.weight}} kg</p>
+                                <p-divider type="dashed"></p-divider>
+                                <p><b>Giới tính:</b> {{this.petService.getGender(this.formAdopt.controls['petAdopt'].value.gender)}}</p>
+                                <p-divider type="dashed"></p-divider>
+                            </div>
+                            <div class="xl:col-7 lg:col-7 md:col-12 col-12 mx-auto">
+                                <p class="text-3xl font-semibold mb-1">Thông tin</p>
+                                <p-divider></p-divider>
+                                <div class="grid mt-1">
+                                    <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                        <p><p-badge value="{{petService.getBadgeValue(this.formAdopt.controls['petAdopt'].value.sterilization)}}" [severity]="petService.getBadgeSeverity(this.formAdopt.controls['petAdopt'].value.sterilization)"></p-badge> Triệt sản</p>
+                                    </div>
+                                    <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                        <p><p-badge value="{{petService.getBadgeValue(this.formAdopt.controls['petAdopt'].value.friendlyToHuman)}}" [severity]="petService.getBadgeSeverity(this.formAdopt.controls['petAdopt'].value.friendlyToHuman)"></p-badge> Thân thiện với người</p>
+                                    </div>
+                                    <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                        <p><p-badge value="{{petService.getBadgeValue(this.formAdopt.controls['petAdopt'].value.diet)}}" [severity]="petService.getBadgeSeverity(this.formAdopt.controls['petAdopt'].value.diet)"></p-badge> Chế độ ăn riêng</p>
+                                    </div>
+                                    <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                        <p><p-badge value="{{petService.getBadgeValue(this.formAdopt.controls['petAdopt'].value.rabies)}}" [severity]="petService.getBadgeSeverity(this.formAdopt.controls['petAdopt'].value.rabies)"></p-badge> Tiêm dại</p>
+                                    </div>
+                                    <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                        <p><p-badge value="{{petService.getBadgeValue(this.formAdopt.controls['petAdopt'].value.friendlyToDogs)}}" [severity]="petService.getBadgeSeverity(this.formAdopt.controls['petAdopt'].value.friendlyToDogs)"></p-badge> Thân thiện với chó</p>
+                                    </div>
+                                    <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                        <p><p-badge value="{{petService.getBadgeValue(this.formAdopt.controls['petAdopt'].value.toilet)}}" [severity]="petService.getBadgeSeverity(this.formAdopt.controls['petAdopt'].value.toilet)"></p-badge> Đi vệ sinh đúng chỗ</p>
+                                    </div>
+                                    <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                        <p><p-badge value="{{petService.getBadgeValue(this.formAdopt.controls['petAdopt'].value.vaccine)}}" [severity]="petService.getBadgeSeverity(this.formAdopt.controls['petAdopt'].value.vaccine)"></p-badge> Tiêm phòng bệnh</p>
+                                    </div>
+                                    <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                        <p><p-badge value="{{petService.getBadgeValue(this.formAdopt.controls['petAdopt'].value.friendlyToCats)}}" [severity]="petService.getBadgeSeverity(this.formAdopt.controls['petAdopt'].value.friendlyToCats)"></p-badge> Thân thiện với mèo</p>
+                                    </div>
+                                    <div class="col-12">
+                                        <p><span class="font-semibold">Mô tả: </span><span>{{this.formAdopt.controls['petAdopt'].value.description}}</span></p>
+                                    </div>
+                                    <div class="col-12">
+                                        <p><span class="font-semibold">Ghi chú: </span>
+                                            <span *ngIf="this.formAdopt.controls['petAdopt'].value.note; else showDots">
+                                              {{ this.formAdopt.controls['petAdopt'].value.note }}
+                                            </span>
+                                            <ng-template #showDots>
+                                                <span>...</span>
+                                            </ng-template>
+                                          </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </p-panel>
+                </div>
+                <div class="col-12 mt-5 grid justify-content-center" align="center">
+                    <div class="md:col-3 col-6">
+                        <p-button label="LÀM MỚI" styleClass="mat-form-button p-button-outlined" [disabled]="!formAdopt.dirty" (onClick)="formAdopt.reset()"></p-button>
+                    </div>
+                    <div class="md:col-3 col-6">
+                        <p-button label="TẠO ĐƠN" styleClass="mat-form-button" [disabled]="!formAdopt.valid || !formAdopt.dirty" (onClick)="onRegisterAdopt()"></p-button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

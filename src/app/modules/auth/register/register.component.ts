@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   private readonly subscribes$: Subject<void> = new Subject<void>();
 
-  constructor(private userService: UserService, private authService: AuthService) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.registerForm = new FormGroup({

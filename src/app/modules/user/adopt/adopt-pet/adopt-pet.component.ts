@@ -18,9 +18,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 import { CheckboxModule } from 'primeng/checkbox';
 import { MessageService } from 'primeng/api';
-import { message, messageAdopt, messagePet, title } from 'src/app/common/message';
+import { message, messageAdopt, title } from 'src/app/common/message';
 import { AdoptService } from 'src/app/services/adopt.service';
-import { responseCodeCommon, responseCodeAuth } from 'src/app/common/response';
 
 @Component({
   selector: 'app-adopt',

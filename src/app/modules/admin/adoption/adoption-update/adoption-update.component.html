@@ -1,0 +1,196 @@
+<div class="position-relative">
+    <p-toast></p-toast>
+    <div class="grid" *ngIf="adopt">
+        <div class="col-12">
+        <form [formGroup]="formAdopt">
+            <div class="grid">
+                <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="adopt-province">Tỉnh/thành phố <span class="text-red-500 font-bold">*</span></label>
+                        <p-dropdown [options]="provinces" optionLabel="name" optionValue="id" 
+                            styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
+                            emptyMessage="Không có dữ liệu" formControlName="province" (onChange)="getDistricts(); wards = []" (onClear)="districts = []; wards = []"></p-dropdown>
+                    </div>
+                    <div class="col-6"
+                        [hidden]="formAdopt.controls['province'].valid || !formAdopt.controls['province'].dirty"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng chọn tỉnh/thành phố 
+                    </div>
+                </div>
+                <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="pet-district">Quận/huyện/thị xã <span class="text-red-500 font-bold">*</span></label>
+                        <p-dropdown [options]="districts" id="pet-district" optionLabel="name" optionValue="id"
+                            styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--" 
+                            emptyMessage="Không có dữ liệu" (onChange)="getWards()" formControlName="district" (onClear)="wards = []"></p-dropdown>
+                    </div>
+                    <div class="col-6"
+                        [hidden]="formAdopt.controls['district'].valid || !formAdopt.controls['district'].dirty"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng chọn quận/huyện/thị xã 
+                    </div>
+                </div>
+                <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="pet-ward">Xã/phường/thị trấn <span class="text-red-500 font-bold">*</span></label>
+                        <p-dropdown [options]="wards" id="pet-ward" optionLabel="name" optionValue="id"
+                            styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
+                            emptyMessage="Không có dữ liệu" formControlName="ward"></p-dropdown>
+                    </div>
+                    <div class="col-6"
+                        [hidden]="formAdopt.controls['ward'].valid || !formAdopt.controls['ward'].dirty"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng chọn xã/phường/thị trấn 
+                    </div>
+                </div>
+                <div class="lg:col-8 col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="address">Số nhà, tên đường <span class="text-red-500 font-bold">*</span></label>
+                        <input pInputText id="address" styleClass="mat-form-field" formControlName="address"/>
+                    </div>
+                    <div class="col-6"
+                        [hidden]="formAdopt.controls['address'].valid || !formAdopt.controls['address'].dirty"
+                        class="text-red-500 mt-2 ml-1">
+                            Vui lòng nhập thông tin số nhà, tên đường
+                    </div>
+                </div>
+                <div class="lg:col-4 col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="fee">Tiền vía <span class="text-red-500 font-bold">*</span></label>
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon">
+                                ₫
+                            </span>
+                            <p-inputNumber styleClass="mat-form-field" formControlName="fee" inputId="fee"></p-inputNumber>
+                        </div>
+                    </div>
+                    <div class="col-6"
+                        [hidden]="formAdopt.controls['fee'].valid || !formAdopt.controls['fee'].dirty"
+                        class="text-red-500 mt-2 ml-1">
+                            Vui lòng nhập thông tin tiền vía
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="reason">Lý do nhận nuôi <span class="text-red-500 font-bold">*</span></label>
+                        <input pInputText id="reason" styleClass="mat-form-field" formControlName="reason"/>
+                    </div>
+                    <div class="col-6"
+                        [hidden]="formAdopt.controls['reason'].valid || !formAdopt.controls['reason'].dirty"
+                        class="text-red-500 mt-2 ml-1">
+                            Vui lòng nhập lý do nhận nuôi
+                    </div>
+                </div>
+                <div class="col-12">
+                    <p-panel header="Trạng thái">
+                        <p>
+                            <p-badge [value]="this.adoptService.getStatus(adopt.status)"
+                                [severity]="this.adoptService.getSeverityStatus(adopt.status)" size="large"></p-badge>
+                        </p>
+                        <p>Tiền vía: <b>{{adopt.fee | currency: ' ' }} VNĐ</b></p>
+                        <div *ngIf="adopt.status == adoptStatus.reject">
+                            <p>Lý do từ chối: <b>{{adopt.rejectedReason}}</b></p>
+                            <p>Thời gian từ chối: <b>{{adopt.rejectedAt | date:'HH:mm - dd/MM/yyyy'}}</b></p>
+                            <p>Người từ chối: <b>{{adopt.nameRejectedBy}}</b></p>
+                        </div>
+                        <div *ngIf="adopt.status == adoptStatus.complete">
+                            <p>Thời gian xác nhận: <b>{{adopt.confirmedAt | date:'HH:mm - dd/MM/yyyy'}}</b></p>
+                            <p>Người xác nhận: <b>{{adopt.nameConfirmedBy}}</b></p>
+                        </div>
+                    </p-panel>
+                </div>
+                <div class="col-12">
+                    <p-panel header="Thông tin đăng ký" styleClass="mb-3">
+                        <div *ngIf="adopt">
+                            <p>Người nhận nuôi: <b>{{adopt.nameRegisteredBy}}</b></p>
+                            <p>Email liên hệ: <b>{{adopt.emailRegisteredBy}}</b></p>
+                            <p>Số điện thoại: <b>{{adopt.phoneRegisteredBy}}</b></p>
+                            <p>Thời gian tạo: <b>{{adopt.createdAt | date:'HH:mm - dd/MM/yyyy'}}</b></p>
+                        </div>
+                    </p-panel>
+                    <p-panel header="Thông tin thú cưng">
+                        <div *ngIf="pet" class="grid">
+                            <div class="xl:col-3 lg:col-3 md:col-6 col-8 mx-auto">
+                                <img src="{{pet.image}}" 
+                                alt="{{pet.name}}" class="w-full mt-2" style="border-radius: 10px; max-height: 600px;">
+                            </div>
+                            <div class="xl:col-2 lg:col-2 md:col-6 col-12 mx-auto">
+                                <p class="text-3xl font-semibold">{{pet.name}}</p>
+                                <p-divider type="dashed"></p-divider>
+                                <p><b>Mã:</b> {{pet.code}}</p>
+                                <p-divider type="dashed"></p-divider>
+                                <p><b>Giống:</b> {{pet.breed}}</p>
+                                <p-divider type="dashed"></p-divider>
+                                <p><b>Màu lông:</b> {{pet.color}}</p>
+                                <p-divider type="dashed"></p-divider>
+                                <p><b>Tuổi:</b> {{this.petService.getAge(pet.age)}}</p>
+                                <p-divider type="dashed"></p-divider>
+                                <p><b>Cân nặng:</b> {{pet.weight}} kg</p>
+                                <p-divider type="dashed"></p-divider>
+                                <p><b>Giới tính:</b> {{this.petService.getGender(pet.gender)}}</p>
+                                <p-divider type="dashed"></p-divider>
+                            </div>
+                            <div class="xl:col-7 lg:col-7 md:col-12 col-12 mx-auto">
+                                <p class="text-3xl font-semibold mb-1">Thông tin</p>
+                                <p-divider></p-divider>
+                                <div class="grid mt-1">
+                                    <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                        <p><p-badge value="{{petService.getBadgeValue(pet.sterilization)}}" [severity]="petService.getBadgeSeverity(pet.sterilization)"></p-badge> Triệt sản</p>
+                                    </div>
+                                    <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                        <p><p-badge value="{{petService.getBadgeValue(pet.friendlyToHuman)}}" [severity]="petService.getBadgeSeverity(pet.friendlyToHuman)"></p-badge> Thân thiện với người</p>
+                                    </div>
+                                    <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                        <p><p-badge value="{{petService.getBadgeValue(pet.diet)}}" [severity]="petService.getBadgeSeverity(pet.diet)"></p-badge> Chế độ ăn riêng</p>
+                                    </div>
+                                    <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                        <p><p-badge value="{{petService.getBadgeValue(pet.rabies)}}" [severity]="petService.getBadgeSeverity(pet.rabies)"></p-badge> Tiêm dại</p>
+                                    </div>
+                                    <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                        <p><p-badge value="{{petService.getBadgeValue(pet.friendlyToDogs)}}" [severity]="petService.getBadgeSeverity(pet.friendlyToDogs)"></p-badge> Thân thiện với chó</p>
+                                    </div>
+                                    <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                        <p><p-badge value="{{petService.getBadgeValue(pet.toilet)}}" [severity]="petService.getBadgeSeverity(pet.toilet)"></p-badge> Đi vệ sinh đúng chỗ</p>
+                                    </div>
+                                    <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                        <p><p-badge value="{{petService.getBadgeValue(pet.vaccine)}}" [severity]="petService.getBadgeSeverity(pet.vaccine)"></p-badge> Tiêm phòng bệnh</p>
+                                    </div>
+                                    <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                        <p><p-badge value="{{petService.getBadgeValue(pet.friendlyToCats)}}" [severity]="petService.getBadgeSeverity(pet.friendlyToCats)"></p-badge> Thân thiện với mèo</p>
+                                    </div>
+                                    <div class="col-12">
+                                        <p><span class="font-semibold">Mô tả: </span>
+                                            <span>
+                                              {{ pet.description }}
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="col-12">
+                                        <p><span class="font-semibold">Ghi chú: </span>
+                                            <span *ngIf="pet.note; else showDots">
+                                              {{ pet.note }}
+                                            </span>
+                                            <ng-template #showDots>
+                                              <span>...</span>
+                                            </ng-template>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </p-panel>
+                </div>
+                <div class="col-12 mt-5 grid justify-content-center" align="center" *ngIf="adopt && !isNotAvailableForUpdate()">
+                    <div class="md:col-3 col-6">
+                        <p-button label="LÀM MỚI" styleClass="mat-form-button p-button-outlined" 
+                        [disabled]="!formAdopt.dirty" (onClick)="initForm()"></p-button>
+                    </div>
+                    <div class="md:col-3 col-6">
+                        <p-button label="LƯU" styleClass="mat-form-button" (onClick)="onSaveAdopt()"
+                        [disabled]="!formAdopt.valid || !formAdopt.dirty"></p-button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

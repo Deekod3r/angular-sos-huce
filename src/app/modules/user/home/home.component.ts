@@ -117,8 +117,10 @@ export class HomeComponent implements OnInit {
     this.petService
       .getStatisticCases()
       .pipe(takeUntil(this.subscribes$))
-      .subscribe((statisticCases: any) => {
-        this.statisticCases = statisticCases;
+      .subscribe((res: any) => {
+        if (res.success) {
+          this.statisticCases = res.data;
+        }
       });
   }
 }

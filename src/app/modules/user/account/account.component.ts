@@ -7,9 +7,8 @@ import { TableModule } from 'primeng/table';
 import { TabView, TabViewModule } from 'primeng/tabview';
 import { TagModule } from 'primeng/tag';
 import { Subject, takeUntil } from 'rxjs';
-import { petStatusKey } from 'src/app/common/constant';
+import { adoptStatusKey, petStatusKey } from 'src/app/common/constant';
 import { title, message, messageAdopt } from 'src/app/common/message';
-import { responseCodeCommon, responseCodeAuth } from 'src/app/common/response';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { PetService } from 'src/app/services/pet.service';
@@ -34,6 +33,7 @@ export class AccountComponent implements OnInit {
   detailAdopt: any;
   detailAdoptData: any;
   visibleDetailAdopt: boolean = false;
+  adoptStatus: any;
 
   constructor(public adoptService: AdoptService, public petService: PetService, 
     private userService: UserService, private authService: AuthService, 
@@ -43,6 +43,7 @@ export class AccountComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser();
+    this.adoptStatus = adoptStatusKey;
   }
 
   getUser() {
@@ -56,7 +57,7 @@ export class AccountComponent implements OnInit {
         this.user.countCancel = response.data.statistic.countCancel;
         this.user.countReject = response.data.statistic.countReject;
         this.user.countComplete = response.data.statistic.countComplete;
-        this.user.countRefund = response.data.statistic.countRefund;
+        this.user.total = response.data.statistic.total;
       }
     });
   }
@@ -126,6 +127,8 @@ export class AccountComponent implements OnInit {
       message: 'Bạn chắc chắn muốn hủy đơn nhận nuôi này chứ?',
       header: 'XÁC NHẬN',
       icon: 'fa fa-solid fa-triangle-exclamation',
+      acceptLabel: 'Có',
+      rejectLabel: 'Hủy',
       acceptIcon: "none",
       rejectIcon: "none",
       rejectButtonStyleClass: "p-button-text",

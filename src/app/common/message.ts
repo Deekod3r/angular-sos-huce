@@ -38,6 +38,11 @@ export const messagePet = {
 
 export const messageAdopt = {
     createSuccess: 'Tạo đơn nhận nuôi thành công',
+    updateSuccess: 'Cập nhật đơn nhận nuôi thành công',
+    updateStatusSuccess: 'Cập nhật trạng thái đơn nhận nuôi thành công',
+    deleteSuccess: 'Xoá đơn nhận nuôi thành công',
+    cancelUpdateStatus: 'Huỷ quá trình cập nhật trạng thái đơn nhận nuôi',
     cancelSuccess: 'Huỷ đơn nhận nuôi thành công',
     canelCancel: 'Huỷ quá trình huỷ đơn nhận nuôi',
+    rejectReason: 'Vui lòng nhập lý do từ chối',
 }

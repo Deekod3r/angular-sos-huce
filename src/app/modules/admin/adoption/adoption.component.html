@@ -1,18 +1,100 @@
 <div class="card">
     <p-toast></p-toast>
     <p-confirmDialog></p-confirmDialog>
-    <p-panel header="Công cụ">
+    <p-dialog *ngIf="visibleCreateModal" header="Thêm đơn nhận nuôi" [(visible)]="visibleCreateModal" [modal]="true"
+        [style]="{ width: '90vw'}" [draggable]="false" [resizable]="false">
+        <app-adoption-create (resultAction)="receiveResult($event, 0)"></app-adoption-create>
+    </p-dialog>
+    <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa đơn nhận nuôi" [(visible)]="visibleUpdateModal" [modal]="true"
+        [style]="{ width: '90vw', height: '100vh' }" [draggable]="false" [resizable]="false">
+        <app-adoption-update (resultAction)="receiveResult($event, 1)" [idAdoption]="idAdoptionUpdate"></app-adoption-update>
+    </p-dialog>
+    <p-dialog header="Header" [(visible)]="visibleDeleteModal" (onHide)="dataReject.message = ''" [draggable]="false" [style]="{ width: '60vw' }">
+        <ng-template pTemplate="header">
+            <span class="text-xl font-bold">Lý do từ chối</span>
+        </ng-template>
+        <ng-template pTemplate="content">
+            <div class="flex flex-column mt-2">
+                <textarea pInputTextarea [(ngModel)]="dataReject.message" rows="5" styleClass="mat-form-field"></textarea>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <p-button (click)="rejectAdopt()" label="Tiếp tục"></p-button>
+        </ng-template>
+    </p-dialog>
+    <p-panel header="Công cụ" [toggleable]="true">
+        <button pButton icon="fa fa-plus" label="Thêm mới" (click)="showCreateModal()"></button>
+        <div class="card grid mt-3">
+            <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="pet-code">Mã đơn</label>
+                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.code">
+                </div>
+            </div>
+            <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="adopt-user">Người nhận nuôi</label>
+                    <p-dropdown [options]="users" optionLabel="name" optionValue="id" [filter]="true" filterBy="name" emptyMessage="Không có dữ liệu"
+                    [showClear]="true" placeholder="--Tất cả--" styleClass="mat-form-field" [(ngModel)]="key.registeredBy">
+                        <ng-template let-user pTemplate="item">
+                            <div class="flex align-items-center">
+                                <div>{{ user.name }} - {{ user.email }}</div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>            
+            </div>
+            <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="adopt-pet">Thú cưng</label>
+                        <p-dropdown [options]="pets" optionLabel="name" optionValue="id" [filter]="true" filterBy="code" emptyMessage="Không có dữ liệu"
+                        [showClear]="true" placeholder="--Tất cả--" styleClass="mat-form-field"  [(ngModel)]="key.petAdopt">
+                            <ng-template let-pet pTemplate="item">
+                                <div class="flex align-items-center">
+                                    <div>{{ pet.code }} - {{ pet.name }}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                </div>            
+            </div>
+            <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="pet-status">Trạng thái</label>
+                    <p-dropdown [options]="adoptService.optionStatus()" id="pet-status" optioLabel="label" optionValue="value"
+                        styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--" [(ngModel)]="key.status"
+                        emptyMessage="Không có dữ liệu"></p-dropdown>
+                </div>            
+            </div>
+            <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="pet-name">Từ ngày</label>
+                    <p-calendar 
+                    [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.fromDateTime"></p-calendar>
+                </div>
+            </div>
+            <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="pet-color">Đến ngày</label>
+                    <p-calendar 
+                    [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.toDateTime"></p-calendar>
+                </div>
+            </div>
+            <div class="col-12">
+                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="search()"></button>
+            </div>
+        </div>
     </p-panel>
     <p-table #table [value]="adopts" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines mt-3"
         selectionMode="single" [paginator]="false">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Đơn nhận nuôi
-                <p-button icon="fa fa-refresh"></p-button>
+                <p-button icon="fa fa-refresh" (onClick)="refresh()"></p-button>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
             <tr class="">
+                <th class=""></th>
                 <th class="col-1">Mã đơn</th>
                 <th class="col-2">Thú cưng</th>
                 <th class="col-1">Thời gian tạo</th>
@@ -20,11 +102,15 @@
                 <th class="col-2">Người tạo</th>
                 <th class="col-3">Thông tin liên hệ</th>
                 <th class="col-1">Trạng thái</th>
-                <th class=""></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-adopt>
             <tr>
+                <td>
+                    <p-button #btn type="button" icon="fa fa-solid fa-sliders" (click)="menu.toggle($event)"></p-button>
+                    <p-tieredMenu #menu [model]="adopt.menuItems" [popup]="true" appendTo="body" class="p-0"
+                        styleClass="menucus"></p-tieredMenu>
+                </td>
                 <td>{{adopt.code}}</td>
                 <td>{{adopt.petName}}</td>
                 <td>{{adopt.createdAt | date:'HH:mm - dd/MM/yyyy'}}</td>
@@ -35,11 +121,6 @@
                     <p-tag [value]="this.adoptService.getStatus(adopt.status)"
                         [severity]="this.adoptService.getSeverityStatus(adopt.status)"></p-tag>
                 </td>
-                <td>
-                    <p-button #btn type="button" icon="fa fa-solid fa-sliders" (click)="menu.toggle($event)"></p-button>
-                    <p-tieredMenu #menu [model]="adopt.menuItems" [popup]="true" appendTo="body" class="p-0"
-                        styleClass="menucus"></p-tieredMenu>
-                </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="paginatorleft">
@@ -49,4 +130,7 @@
             <p-button type="button" icon="fa fa-cloud" styleClass="p-button-text"></p-button>
         </ng-template>
     </p-table>
+    <p-paginator [rows]="limit" [showCurrentPageReport]="false" [totalRecords]="totalRecords" [first]="first"
+        [rowsPerPageOptions]="[5, 10, 25, 50]" [style]="{'margin-top': '1rem'}"
+        (onPageChange)="onPageChange($event)"></p-paginator>
 </div>
