@@ -20,7 +20,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 @Component({
   selector: 'app-adoption',
   standalone: true,
-  imports: [TableModule, TagModule, TieredMenuModule, PaginatorModule, ConfirmDialogModule, AdoptionModule, PaginatorModule, InputTextareaModule],
+  imports: [AdoptionModule, TableModule, TagModule, TieredMenuModule, 
+    PaginatorModule, ConfirmDialogModule, PaginatorModule],
   providers: [ConfirmationService, MessageService],
   templateUrl: './adoption.component.html',
   styleUrls: ['./adoption.component.css']

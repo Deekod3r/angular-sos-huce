@@ -9,15 +9,7 @@ import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, } from 'primeng/api';
 import { PasswordModule } from 'primeng/password';
-
-const passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  const password = control.get('password');
-  const confirmPassword = control.get('confirmPassword');
-  if (password && confirmPassword && password.value !== confirmPassword.value) {
-    return { 'passwordMismatch': true };
-  }
-  return null;
-};
+import { passwordMatchValidator } from 'src/app/shared/utils/data.util';
 
 @Component({
   selector: 'app-forgot-password',

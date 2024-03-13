@@ -86,8 +86,9 @@
                     Mật khẩu <span class="text-red-500">*</span>
                 </div>
                 <div class="p-inputgroup">
-                    <p-password formControlName="password" class="form-control" promptLabel=" " strongRegex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$"
-                    weakLabel="Yếu" mediumLabel="Trung bình" strongLabel="Mạnh" [style]="{'width':'100%'}" [toggleMask]="true"
+                    <p-password formControlName="password" class="form-control" promptLabel=" " 
+                        strongRegex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$"
+                        weakLabel="Yếu" mediumLabel="Trung bình" strongLabel="Mạnh" [style]="{'width':'100%'}" [toggleMask]="true"
                         [inputStyle]="{'width':'100%'}">
                         <ng-template pTemplate="header">
                             <h6>Nhập mật khẩu</h6>

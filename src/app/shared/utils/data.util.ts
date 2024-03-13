@@ -1,3 +1,5 @@
+import { ValidatorFn, AbstractControl, ValidationErrors } from "@angular/forms";
+
 export function convertDateFormat(inputDate: any): string {
     if (typeof inputDate === 'string') {
         const parts = inputDate.split('/');
@@ -24,3 +26,12 @@ export function convertDateTimeFormat(inputDate: any, type: boolean): any {
     }
     return formattedDate;
 }
+
+export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+    if (password && confirmPassword && password.value !== confirmPassword.value) {
+      return { 'passwordMismatch': true };
+    }
+    return null;
+  };

@@ -1,8 +1,7 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable, map, catchError, throwError } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 import { CONFIG } from '../common/config';
 import { CommonService } from './common.service';
 import { AuthService } from './auth.service';
@@ -130,6 +129,36 @@ export class UserService {
           'Authorization': 'Bearer ' + this.authService.getToken()
         },
         params: params
+      }
+    }
+    return this.commonService.callAPI(request);
+  }
+
+  updateUser(id: string, body: any, functionName: string): Observable<any> {
+    const request = {
+      function: this.API_URL + '/update/' + functionName + '/' + id,
+      method: CONFIG.KEY.METHOD_PUT,
+      body: body,
+      options: {
+        headers: {
+          'Authorization': 'Bearer ' + this.authService.getToken()
+        }
+      }
+    }
+    return this.commonService.callAPI(request);
+  }
+
+  verifyUpdateEmail(id: string, code: string): Observable<any> {
+    const request = {
+      function: this.API_URL + '/update/verify-email/' + id,
+      method: CONFIG.KEY.METHOD_GET,
+      options: {
+        headers: {
+          'Authorization': 'Bearer ' + this.authService.getToken()
+        },
+        params: {
+          code: code.trim()
+        }
       }
     }
     return this.commonService.callAPI(request);

@@ -1,6 +1,11 @@
 <div class="mx-5 my-5">
     <p-toast></p-toast>
     <p-confirmDialog></p-confirmDialog>
+    <p-dialog *ngIf="visibleUpdateInfo" header="Cập nhật thông tin {{info.title}}"
+        styleClass="lg:w-4 md:w-8 w-11" [resizable]="true"
+        [(visible)]="visibleUpdateInfo" [modal]="true" [draggable]="false" [resizable]="false">
+        <app-update-info [infoKey]="info.key" [userId]="info.userId" [userInfo]="info.userInfo" (resultAction)="receiveResult($event)"></app-update-info>
+    </p-dialog>
     <p-tabView #tabView (onChange)="changeTabView($event)">
         <p-tabPanel header="Thông tin tài khoản">
             <div *ngIf="user != null" class="grid">
@@ -11,7 +16,15 @@
                                 <p>Họ và tên: <b>{{user.name}}</b></p>
                             </td>
                             <td>
-                                <p-button styleClass="p-button-link" label="Chỉnh sửa"></p-button>
+                                <p-button styleClass="p-button-link" label="Chỉnh sửa" (onClick)="showUpdateInfo('name', 'họ và tên')"></p-button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>                                
+                                <p>Số điện thoại: <b>{{user.phoneNumber}}</b></p>
+                            </td>
+                            <td>
+                                <p-button styleClass="p-button-link" label="Chỉnh sửa" (onClick)="showUpdateInfo('phoneNumber', 'số điện thoại')"></p-button>
                             </td>
                         </tr>
                         <tr>
@@ -19,15 +32,7 @@
                                 <p>Email: <b>{{user.email}}</b></p>
                             </td>
                             <td>
-                                <p-button styleClass="p-button-link" label="Chỉnh sửa"></p-button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p>Số điện thoại: <b>{{user.phoneNumber}}</b></p>
-                            </td>
-                            <td>
-                                <p-button styleClass="p-button-link" label="Chỉnh sửa"></p-button>
+                                <p-button styleClass="p-button-link" label="Chỉnh sửa" (onClick)="showUpdateInfo('email', 'email')"></p-button>
                             </td>
                         </tr>
                         <tr>
@@ -35,7 +40,7 @@
                                 <p><i class="fa fa-key"></i> Đổi mật khẩu</p>
                             </td>
                             <td>
-                                <p-button styleClass="p-button-link" label="Chỉnh sửa"></p-button>
+                                <p-button styleClass="p-button-link" label="Chỉnh sửa" (onClick)="showUpdateInfo('password', 'mật khẩu')"></p-button>
                             </td>
                         </tr>
                     </table>

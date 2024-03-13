@@ -17,7 +17,6 @@ import { CalendarModule } from 'primeng/calendar';
     PetUpdateComponent
   ],
   imports: [
-    CommonModule,
     SharedModule,
     FileUploadModule,
     DialogModule,

@@ -11,7 +11,8 @@ import { petSearch } from 'src/app/common/constant';
 @Component({
   selector: 'app-adopt',
   standalone: true,
-  imports: [SharedModule, FieldsetModule, CardPetModule, DropdownModule, PaginatorModule],
+  imports: [SharedModule, FieldsetModule, 
+    CardPetModule, DropdownModule, PaginatorModule],
   templateUrl: './adopt-all.component.html',
   styleUrls: ['./adopt-all.component.css']
 })

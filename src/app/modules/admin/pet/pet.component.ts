@@ -10,13 +10,12 @@ import { PetModule } from './pet.module';
 import { Subject, takeUntil } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { petSearchKey } from 'src/app/models/common.model';
 import { message, messagePet, title } from 'src/app/common/message';
 
 @Component({
   selector: 'app-pet',
   standalone: true,
-  imports: [TableModule, TagModule, TieredMenuModule, PetModule, PaginatorModule, ConfirmDialogModule],
+  imports: [PetModule, TableModule, TagModule, TieredMenuModule, PaginatorModule, ConfirmDialogModule],
   providers: [ConfirmationService, MessageService],
   templateUrl: './pet.component.html',
   styleUrls: ['./pet.component.css']
@@ -35,7 +34,7 @@ export class PetComponent implements OnInit {
   totalRecords = 0;
   limit = petSearch.limitDefault;
   first!: number;
-  key: petSearchKey = {
+  key = {
     limit: this.limit,
     page: this.currentPage,
     code: '',
@@ -111,16 +110,6 @@ export class PetComponent implements OnInit {
           this.confirmDelete(event, pet);
         }
       },
-      //{
-      //    separator: true
-      //},
-      //{
-        //label: 'Xem chi tiết',
-        //icon: 'fa fa-photo',
-        //command: () => {
-          //this.view(provider);
-        //}
-      //}
     ];
   }
 

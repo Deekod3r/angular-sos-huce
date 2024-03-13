@@ -19,7 +19,11 @@ export class MenuAdminComponent implements OnInit {
             {
                 label: 'Trang chủ',
                 items: [
-                    { label: 'Dashboard', icon: 'fa fa-fw fa-home', routerLink: ['/admin/trang-chu'] }
+                    { 
+                        label: 'Dashboard', 
+                        icon: 'fa fa-fw fa-home', 
+                        routerLink: ['/admin/trang-chu'] 
+                    }
                 ]
             },
             {
@@ -31,7 +35,7 @@ export class MenuAdminComponent implements OnInit {
                         items: [
                             {
                                 label: 'Danh sách',
-                                icon: 'fa fa-fw fa-list',
+                                icon: 'fa fa-list',
                                 routerLink: ['/admin/thu-cung']
                             },
                             {
@@ -42,7 +46,8 @@ export class MenuAdminComponent implements OnInit {
                         ]
                     },
                     {
-                        label: 'Ủng hộ', icon: 'fa fa-fw fa-solid fa-hand-holding-heart',
+                        label: 'Ủng hộ', 
+                        icon: 'fa fa-fw fa-solid fa-hand-holding-heart',
                         items: [
                             {
                                 label: 'Danh sách',
@@ -51,7 +56,14 @@ export class MenuAdminComponent implements OnInit {
                             },
                             {
                                 label: 'Chi tiêu',
-                                icon: 'fa fa-fw fa-solid fa-dollar-sign',
+                                icon: 'fa fa-solid fa-circle-dollar-to-slot',
+                                routerLink: ['/admin/chi-tieu'],
+                            },
+                            {
+                                label: 'Tài khoản',
+                                icon: 'fa fa-bank',
+                                routerLink: ['/admin/tai-khoan-ung-ho'],
+                                visible: CONFIG.ROLE.MANAGER.includes(this.authService.getRole())
                             }
 
                         ]
@@ -63,39 +75,18 @@ export class MenuAdminComponent implements OnInit {
                             { 
                                 label: 'Tin tức', 
                                 icon: 'fa fa-fw fa-solid fa-newspaper',
-                                items: [
-                                    {
-                                        label: 'Danh sách',
-                                        icon: 'fa fa-fw fa-list',
-                                        routerLink: ['/admin/tin-tuc']
-                                    },
-                                    {
-                                        label: 'Danh mục',
-                                        icon: 'fa fa-solid fa-layer-group',
-                                        routerLink: ['/admin/danh-muc-tin-tuc']
-                                    }
-                                ] 
+                                routerLink: ['/admin/tin-tuc']
                             },
                             { 
-                                label: 'Sự kiện', 
-                                icon: 'fa fa-fw fa-solid fa-calendar-check',
-                                items: [
-                                    {
-                                        label: 'Danh sách',
-                                        icon: 'fa fa-fw fa-list',
-                                        routerLink: ['/admin/su-kien']
-                                    },
-                                    {
-                                        label: 'Danh mục',
-                                        icon: 'fa fa-solid fa-layer-group',
-                                        routerLink: ['/admin/danh-muc-su-kien']
-                                    }
-                                ]
+                                label: 'Danh mục',
+                                icon: 'fa fa-solid fa-layer-group',
+                                routerLink: ['/admin/danh-muc-tin-tuc']
                             }
                         ]
                     },
                     {
-                        label: 'Người dùng', icon: 'fa fa-fw fa-solid fa-users',
+                        label: 'Người dùng', 
+                        icon: 'fa fa-fw fa-solid fa-users',
                         items: [
                             {
                                 label: 'Cộng đồng',
@@ -103,9 +94,10 @@ export class MenuAdminComponent implements OnInit {
                                 routerLink: ['/admin/nguoi-dung']
                             },
                             {
-                                visible: CONFIG.ROLE.MANAGER.includes(this.authService.getRole()),
                                 label: 'Quản trị viên',
                                 icon: 'fa fa-fw fa-solid fa-user-shield',
+                                routerLink: ['/admin/quan-tri-vien'],
+                                visible: CONFIG.ROLE.MANAGER.includes(this.authService.getRole())
                             }
                         ]
                     },
@@ -114,15 +106,23 @@ export class MenuAdminComponent implements OnInit {
             {
                 label: 'Cấu hình',
                 items: [
-                    { label: 'Thông tin web', icon: 'fa fa-fw fa-solid fa-circle-info', badge: 'NEW' },
-                    { label: 'Galleria', icon: 'fa fa-fw fa-solid fa-photo-film' },
+                    { 
+                        label: 'Galleria', 
+                        icon: 'fa fa-fw fa-solid fa-photo-film',
+                        routerLink: ['/admin/galleria']
+                    },
+                    { 
+                        label: 'Thông tin web', 
+                        icon: 'fa fa-fw fa-solid fa-circle-info', 
+                        routerLink: ['/admin/thong-tin-web']
+                    },
                 ]
             },
             {
                 label: 'Tài khoản',
                 items: [
                     {
-                        label: 'Đăng xuất', 
+                        label: 'Đăng xuất',
                         icon: 'fa-solid fa-right-from-bracket text-red-600', 
                         command: () => {
                             this.authService.logout();

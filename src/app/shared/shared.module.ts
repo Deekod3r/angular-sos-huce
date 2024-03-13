@@ -28,7 +28,7 @@ import { ToastModule } from 'primeng/toast';
     DividerModule,
     CardModule,
     CardFooterModule,
-    ToastModule
+    ToastModule,
   ]
 })
 export class SharedModule { }

@@ -1,0 +1,187 @@
+<div *ngIf="infoKey == 'name'">
+    <form [formGroup]="formName" (ngSubmit)="updateName()">
+        <div class="grid">
+            <div class="col-12 mt-1">
+                <input type="text" pInputText formControlName="name" class="mat-form-field" placeholder="Họ và tên"/>
+                <div class="text-red-500 mt-1"
+                    *ngIf="formName.controls['name'].hasError('required') && formName.controls['name'].touched">
+                    Vui lòng nhập họ tên
+                </div>
+            </div>
+            <div class="col-12 mt-2">
+                <div class="font-bold mb-1">
+                    Mật khẩu hiện tại <span class="text-red-500">*</span>
+                </div>
+                <div class="p-inputgroup">
+                    <input pInputText type="password" formControlName="currentPassword" class="form-control" name="currentPassword">
+                </div>
+                <div class="text-red-500 mt-1"
+                    *ngIf="formName.controls['currentPassword'].hasError('required') && formName.controls['currentPassword'].touched">
+                    Vui lòng nhập mật khẩu hiện tại
+                </div>
+            </div>
+            <div class="col-12 mt-2 flex justify-content-center">
+                <button pButton label="Lưu" type="submit" class="w-5"></button>
+            </div>
+        </div>
+    </form>
+</div>
+<div *ngIf="infoKey == 'phoneNumber'">
+    <form [formGroup]="formPhone" (ngSubmit)="updatePhone()">
+        <div class="grid">
+            <div class="col-12 mt-1">
+                <input type="text" pInputText formControlName="phoneNumber" class="mat-form-field" placeholder="Số điện thoại"/>
+                <div class="text-red-500 mt-1"
+                    *ngIf="formPhone.controls['phoneNumber'].hasError('required') && formPhone.controls['phoneNumber'].touched">
+                    Vui lòng nhập số điện thoại
+                </div>
+            </div>
+            <div class="col-12 mt-2">
+                <div class="font-bold mb-1">
+                    Mật khẩu hiện tại <span class="text-red-500">*</span>
+                </div>
+                <div class="p-inputgroup">
+                    <input pInputText type="password" formControlName="currentPassword" class="form-control" name="currentPassword">
+                </div>
+                <div class="text-red-500 mt-1"
+                    *ngIf="formPhone.controls['currentPassword'].hasError('required') && formPhone.controls['currentPassword'].touched">
+                    Vui lòng nhập mật khẩu hiện tại
+                </div>
+            </div>
+            <div class="col-12 mt-2 flex justify-content-center">
+                <button pButton label="Lưu" type="submit" class="w-5"></button>
+            </div>
+        </div>
+    </form>
+</div>
+<div *ngIf="infoKey == 'email'">
+    <form *ngIf="!onConfirmEmail" [formGroup]="formEmail" (ngSubmit)="updateEmail()">
+        <div class="grid">
+            <div class="col-12 mt-1">
+                <input type="text" pInputText formControlName="email" class="mat-form-field" placeholder="Email"/>
+                <div class="text-red-500 mt-1"
+                    *ngIf="formEmail.controls['email'].hasError('required') && formEmail.controls['email'].touched">
+                    Vui lòng nhập email
+                </div>
+            </div>
+            <div class="col-12 mt-2">
+                <div class="font-bold mb-1">
+                    Mật khẩu hiện tại <span class="text-red-500">*</span>
+                </div>
+                <div class="p-inputgroup">
+                    <input pInputText type="password" formControlName="currentPassword" class="form-control" name="currentPassword">
+                </div>
+                <div class="text-red-500 mt-1"
+                    *ngIf="formEmail.controls['currentPassword'].hasError('required') && formEmail.controls['currentPassword'].touched">
+                    Vui lòng nhập mật khẩu hiện tại
+                </div>
+            </div>
+            <div class="col-12 mt-2 flex justify-content-center">
+                <button pButton label="Lưu" type="submit" class="w-5"></button>
+            </div>
+        </div>
+    </form>
+    <form *ngIf="onConfirmEmail" [formGroup]="formEmailConfirm" (ngSubmit)="verifyUpdateEmail()">
+        <div class="grid">
+            <div class="col-12 mt-1 justify-content-center">
+                <label for="code">Nhập mã xác thực được gửi về email mới của bạn</label>
+                <div class="text-center mt-1">
+                    <input pInputText type="text" formControlName="code"
+                        class="form-control text-center font-bold text-3xl mat-form-field" name="code" maxlength="6">
+                </div>
+                <div class="text-red-500 mt-1"
+                    *ngIf="formEmailConfirm.controls['code'].hasError('required') && formEmailConfirm.controls['code'].touched">
+                    Vui lòng nhập mã xác thực
+                </div>
+            </div>
+            <div class="col-12 mt-2 flex justify-content-center">
+                <button pButton label="Lưu" type="submit" class="w-5"></button>
+            </div>
+            <div class="col-12 text-center mt-1">
+                <p class="font-semibold">Chưa nhận được mã? <a class="cursor-pointer" (click)="updateEmail()">Gửi lại</a></p>
+            </div>
+        </div>
+    </form>
+</div>
+<div *ngIf="infoKey == 'password'">
+    <form [formGroup]="formPassword" (ngSubmit)="updatePassword()">
+        <div class="grid">
+            <div class="col-12">
+                <div class="font-bold mb-1">
+                    Mật khẩu hiện tại <span class="text-red-500">*</span>
+                </div>
+                <div class="p-inputgroup">
+                    <input pInputText type="password" formControlName="currentPassword" class="form-control" name="currentPassword">
+                </div>
+                <div class="text-red-500 mt-1"
+                    *ngIf="formPassword.controls['currentPassword'].hasError('required') && formPassword.controls['currentPassword'].touched">
+                    Vui lòng nhập mật khẩu hiện tại
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="font-bold mb-1">
+                    Mật khẩu mới <span class="text-red-500">*</span>
+                </div>
+                <div class="p-inputgroup">
+                    <p-password formControlName="password" class="form-control" promptLabel=" " weakLabel="Yếu" 
+                        strongRegex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$"
+                        mediumLabel="Trung bình" strongLabel="Mạnh" [style]="{'width':'100%'}" [toggleMask]="true"
+                        [inputStyle]="{'width':'100%'}">
+                        <ng-template pTemplate="header">
+                            <h6>Nhập mật khẩu mới</h6>
+                        </ng-template>
+                        <ng-template pTemplate="footer">
+                            <p-divider></p-divider>
+                            <p class="mt-2 font-bold">Yêu cầu</p>
+                            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                <li>Tối thiểu 1 ký tự đặc biệt</li>
+                                <li>Tối thiểu 1 ký tự chữ thường</li>
+                                <li>Tối thiểu 1 ký tự chữ hoa</li>
+                                <li>Tối thiểu 1 ký tự số</li>
+                                <li>Độ dài tối thiểu 8 ký tự</li>
+                            </ul>
+                        </ng-template>
+                    </p-password>
+                    <span class="p-inputgroup-addon">
+                        <i class="fa fa-key"></i>
+                    </span>
+                </div>
+                <div class="text-red-500 mt-1"
+                    *ngIf="formPassword.controls['password'].hasError('required') && formPassword.controls['password'].touched">
+                    Vui lòng nhập mật khẩu mới
+                </div>
+                <div class="text-red-500 mt-1"
+                    *ngIf="(
+                        formPassword.controls['password'].hasError('pattern') ||
+                        formPassword.controls['password'].hasError('maxLength')
+                        )
+                        && formPassword.controls['password'].touched">
+                    Mật khẩu mới không hợp lệ
+                </div>
+            </div>
+            <div class="col-12 mt-2">
+                <div class="font-bold mb-1">
+                    Nhập lại mật khẩu mới <span class="text-red-500">*</span>
+                </div>
+                <div class="p-inputgroup">
+                    <input pInputText type="password" formControlName="confirmPassword" class="form-control" name="confirmPassword">
+                </div>
+                <div class="text-red-500 mt-1"
+                    *ngIf="formPassword.controls['confirmPassword'].hasError('required') && formPassword.controls['confirmPassword'].touched">
+                    Vui lòng nhập lại mật khẩu mới
+                </div>
+                <div class="text-red-500 mt-1"
+                    *ngIf="!formPassword.controls['confirmPassword'].hasError('required') && 
+                    formPassword.hasError('passwordMismatch') && formPassword.controls['confirmPassword'].touched">
+                    Mật khẩu mới không khớp
+                </div>
+            </div>
+            <div class="col-12 mt-2 flex justify-content-center">
+                <button pButton label="Lưu" type="submit" class="w-5"></button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="mt-2" [hidden]="!notify">
+    <p-messages [(value)]="message" [enableService]="false" [closable]="false" [style]="{width: '100%'}"></p-messages>
+</div>

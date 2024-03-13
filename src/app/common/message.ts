@@ -46,3 +46,18 @@ export const messageAdopt = {
     canelCancel: 'Huỷ quá trình huỷ đơn nhận nuôi',
     rejectReason: 'Vui lòng nhập lý do từ chối',
 }
+
+export const messageUser = {
+    updateSuccess: 'Cập nhật thông tin tài khoản thành công',
+    updatePasswordSuccess: 'Cập nhật mật khẩu thành công',
+    updateEmailSuccess: 'Cập nhật email thành công',
+    updatePhoneSuccess: 'Cập nhật số điện thoại thành công',
+    updateNameSuccess: 'Cập nhật tên thành công',
+    updateImageSuccess: 'Cập nhật hình ảnh thành công',
+    deleteSuccess: 'Xoá tài khoản thành công',
+    verifySuccess: 'Xác thực tài khoản thành công',
+    registerSuccess: 'Đăng ký tài khoản thành công',
+    forgotSuccess: 'Quên mật khẩu thành công',
+    checkExist: 'Tài khoản đã tồn tại',
+    passwordDuplicate: 'Mật khẩu mới không được trùng với mật khẩu cũ',
+}

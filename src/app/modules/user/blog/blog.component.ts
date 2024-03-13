@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FieldsetModule } from 'primeng/fieldset';
 import { Subject, takeUntil } from 'rxjs';
-import { EventService } from 'src/app/services/event.service';
 import { NewsService } from 'src/app/services/news.service';
 import { CardEventModule } from 'src/app/shared/components/card-event/card-event.module';
 import { CardNewsModule } from 'src/app/shared/components/card-news/card-news.module';
@@ -18,10 +17,9 @@ export class BlogComponent implements OnInit {
 
   newsCategory!: any[];
   news!: any[];
-  events!: any[];
   private subscribes$: Subject<void> = new Subject<void>();
 
-  constructor(private newsService: NewsService, private eventServie: EventService) { }
+  constructor(private newsService: NewsService) { }
 
   ngOnInit() {
     this.newsService.getNews().pipe(takeUntil(this.subscribes$)).subscribe((res: any) => {
@@ -35,12 +33,6 @@ export class BlogComponent implements OnInit {
       //   this.newsCategory = res.data;
       // }
       this.newsCategory = res;
-    });
-    this.eventServie.getEvents().pipe(takeUntil(this.subscribes$)).subscribe((res: any) => {
-      // if (res.success) {
-      //   this.events = res.data;
-      // }
-      this.events = res;
     });
   }
 

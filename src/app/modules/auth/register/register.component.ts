@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Message } from 'primeng/api';
-import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
 import { PasswordModule } from 'primeng/password';
 import { ProgressBarModule } from 'primeng/progressbar';
@@ -11,12 +10,11 @@ import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 import { message, messageVerify, title } from 'src/app/common/message';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [SharedModule, ProgressBarModule, DropdownModule, DividerModule, PasswordModule],
+  imports: [SharedModule, ProgressBarModule, DropdownModule, PasswordModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -38,7 +36,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.registerForm = new FormGroup({
       'phoneNumber': new FormControl('', [Validators.required, Validators.pattern(/^\d+$/), Validators.minLength(10), Validators.maxLength(15)]),
       'password': new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/)]),
-      'name': new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưỂỄỆẾỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệếỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ ]{2,}$/), noWhitespaceValidator(), Validators.maxLength(100)]),
+      'name': new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưỂỄỆẾỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪẹễệếỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ ]{2,}$/), noWhitespaceValidator(), Validators.maxLength(100)]),
       'email': new FormControl('', [Validators.required, Validators.email, Validators.minLength(5), Validators.maxLength(100)]),
     });
     this.verifyForm = new FormGroup({

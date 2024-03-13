@@ -18,7 +18,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
     AdoptionUpdateComponent
   ],
   imports: [
-    CommonModule,
     SharedModule,
     DialogModule,
     InputTextareaModule,
@@ -34,7 +33,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
     DialogModule,
     CalendarModule,
     AdoptionCreateComponent,
-    AdoptionUpdateComponent
+    AdoptionUpdateComponent,
+    InputTextareaModule
   ]
 })
 export class AdoptionModule { }

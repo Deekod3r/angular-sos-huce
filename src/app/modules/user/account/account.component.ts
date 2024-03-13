@@ -1,24 +1,24 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { BadgeModule } from 'primeng/badge';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { DialogModule } from 'primeng/dialog';
-import { TableModule } from 'primeng/table';
 import { TabView, TabViewModule } from 'primeng/tabview';
-import { TagModule } from 'primeng/tag';
 import { Subject, takeUntil } from 'rxjs';
 import { adoptStatusKey, petStatusKey } from 'src/app/common/constant';
-import { title, message, messageAdopt } from 'src/app/common/message';
+import { title, message, messageAdopt, messageUser } from 'src/app/common/message';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { PetService } from 'src/app/services/pet.service';
 import { UserService } from 'src/app/services/user.service';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { AccountModule } from './account.module';
+import { BadgeModule } from 'primeng/badge';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [SharedModule, TabViewModule, TableModule, TagModule, DialogModule, BadgeModule, ConfirmDialogModule],
+  imports: [AccountModule, TabViewModule, TableModule, TagModule, DialogModule, BadgeModule, ConfirmDialogModule],
   providers: [ConfirmationService, MessageService],
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.css']
@@ -28,11 +28,18 @@ export class AccountComponent implements OnInit {
   @ViewChild("tabView") tabView!: TabView;
 
   user: any;
+  info = {
+    key: '',
+    title: '',
+    userId: '',
+    userInfo: ''
+  }
   pets: any[] = [];
   adopts: any[] = [];
   detailAdopt: any;
   detailAdoptData: any;
   visibleDetailAdopt: boolean = false;
+  visibleUpdateInfo: boolean = false;
   adoptStatus: any;
 
   constructor(public adoptService: AdoptService, public petService: PetService, 
@@ -115,6 +122,14 @@ export class AccountComponent implements OnInit {
     this.getAdopt(adoptId);
   }
 
+  showUpdateInfo(infoKey: string, title: string) {
+    this.info.key = infoKey;
+    this.info.userId = this.user.id;
+    this.info.title = title;
+    this.info.userInfo = this.user[infoKey] ? this.user[infoKey] : '';
+    this.visibleUpdateInfo = true;
+  }
+
   hideDetailAdopt() {
     this.visibleDetailAdopt = false;
     this.detailAdopt = null;
@@ -153,5 +168,15 @@ export class AccountComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: title.cancel, detail: messageAdopt.canelCancel, life: 3000 });
       }
     });
+  }
+
+  receiveResult(result: boolean) {
+    if (result) {
+      this.messageService.add({ severity: 'success', summary: title.success, detail: messageUser.updateSuccess });
+      this.visibleUpdateInfo = false;
+      this.getUser();
+    } else {
+      this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+    }
   }
 }

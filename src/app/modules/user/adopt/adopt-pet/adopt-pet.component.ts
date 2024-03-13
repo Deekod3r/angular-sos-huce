@@ -25,7 +25,9 @@ import { AdoptService } from 'src/app/services/adopt.service';
   selector: 'app-adopt',
   standalone: true,
   providers: [MessageService],
-  imports: [SharedModule, FieldsetModule, CardPetModule, DropdownModule, PaginatorModule, CarouselModule, BadgeModule, ImageModule, DialogModule, CheckboxModule],
+  imports: [SharedModule, FieldsetModule, CardPetModule, 
+    DropdownModule, PaginatorModule, CarouselModule, 
+    BadgeModule, ImageModule, DialogModule, CheckboxModule],
   templateUrl: './adopt-pet.component.html',
   styleUrls: ['./adopt-pet.component.css']
 })

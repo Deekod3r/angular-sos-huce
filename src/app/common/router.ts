@@ -22,6 +22,8 @@ import { AdoptPetComponent } from '../modules/user/adopt/adopt-pet/adopt-pet.com
 import { ForgotPasswordComponent } from '../modules/auth/forgot-password/forgot-password.component';
 import { AccountComponent } from '../modules/user/account/account.component';
 import { AdoptionComponent } from '../modules/admin/adoption/adoption.component';
+import { SponsorComponent } from '../modules/user/donate/sponsor/sponsor.component';
+import { NewsComponent } from '../modules/user/blog/news/news.component';
 
 export let ROUTES_ROOT: Routes = [
   {
@@ -66,7 +68,9 @@ export let ROUTES_USER: Routes = [
   { path: 'cuu-tro/tat-ca', component: AdoptAllComponent },
   { path: 'cuu-tro/:id', component: AdoptPetComponent},
   { path: 'tin-tuc', component: BlogComponent },
+  { path: 'tin-tuc/:id', component: NewsComponent},
   { path: 'ung-ho', component: DonateComponent },
+  { path: 'danh-sach-ung-ho', component: SponsorComponent },
   { path: 'gioi-thieu', component: IntroComponent },
   { path: 'lien-he', component: ContactComponent },
   { 
