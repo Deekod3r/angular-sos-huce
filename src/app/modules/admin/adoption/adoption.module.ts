@@ -13,28 +13,28 @@ import { BadgeModule } from 'primeng/badge';
 import { InputNumberModule } from 'primeng/inputnumber';
 
 @NgModule({
-  declarations: [
-    AdoptionCreateComponent,
-    AdoptionUpdateComponent
-  ],
-  imports: [
-    SharedModule,
-    DialogModule,
-    InputTextareaModule,
-    DropdownModule,
-    AutoCompleteModule,
-    ImageModule,
-    CalendarModule,
-    BadgeModule,
-    InputNumberModule
-  ],
-  exports: [
-    SharedModule,
-    DialogModule,
-    CalendarModule,
-    AdoptionCreateComponent,
-    AdoptionUpdateComponent,
-    InputTextareaModule
-  ]
+    declarations: [
+        AdoptionCreateComponent,
+        AdoptionUpdateComponent
+    ],
+    imports: [
+        SharedModule,
+        DialogModule,
+        InputTextareaModule,
+        DropdownModule,
+        AutoCompleteModule,
+        ImageModule,
+        CalendarModule,
+        BadgeModule,
+        InputNumberModule
+    ],
+    exports: [
+        SharedModule,
+        DialogModule,
+        CalendarModule,
+        AdoptionCreateComponent,
+        AdoptionUpdateComponent,
+        InputTextareaModule
+    ]
 })
 export class AdoptionModule { }

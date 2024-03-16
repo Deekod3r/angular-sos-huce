@@ -11,116 +11,116 @@ import { Subject, takeUntil } from 'rxjs';
 import { petSearch, petStatusKey } from 'src/app/common/constant';
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [
-    GalleriaModule,
-    SharedModule,
-    FieldsetModule,
-    CardPetModule,
-    CarouselModule,
-    CardNewsModule,
-  ],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+    selector: 'app-home',
+    standalone: true,
+    imports: [
+        GalleriaModule,
+        SharedModule,
+        FieldsetModule,
+        CardPetModule,
+        CarouselModule,
+        CardNewsModule,
+    ],
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  images: any[] | undefined;
-  pets!: any[];
-  news!: any[];
-  statisticCases: any;
+    images: any[] | undefined;
+    pets!: any[];
+    news!: any[];
+    statisticCases: any;
 
-  private subscribes$: Subject<void> = new Subject<void>();
+    private subscribes$: Subject<void> = new Subject<void>();
 
-  responsiveOptions = [
-    {
-      breakpoint: '1199px',
-      numVisible: 3,
-      numScroll: 3,
-    },
-    {
-      breakpoint: '991px',
-      numVisible: 2,
-      numScroll: 2,
-    },
-    {
-      breakpoint: '767px',
-      numVisible: 1,
-      numScroll: 1,
-    },
-  ];
-
-  constructor(
-    public petService: PetService,
-    private newsService: NewsService
-  ) {}
-
-  ngOnInit() {
-    this.images = [
-      {
-        itemImageSrc: '../../../assets/medias/carousel/carousel-1.jpg',
-        description: 'Description for Image 1',
-        title: 'Title 1',
-        url: 'https://www.google.com',
-      },
-      {
-        itemImageSrc: '../../../assets/medias/carousel/carousel-2.jpg',
-        description: 'Description for Image 2',
-        title: 'Title 2',
-      },
-      {
-        itemImageSrc: '../../../assets/medias/carousel/carousel-3.jpg',
-        description: 'Description for Image 3',
-        title: 'Title 3',
-      },
-      {
-        itemImageSrc: '../../../assets/medias/carousel/carousel-4.jpg',
-        description: 'Description for Image 4',
-        title: 'Title 4',
-      },
-      {
-        itemImageSrc: '../../../assets/medias/carousel/carousel-5.jpg',
-        description: 'Description for Image 5',
-        title: 'Title 5',
-      },
+    responsiveOptions = [
+        {
+            breakpoint: '1199px',
+            numVisible: 3,
+            numScroll: 3,
+        },
+        {
+            breakpoint: '991px',
+            numVisible: 2,
+            numScroll: 2,
+        },
+        {
+            breakpoint: '767px',
+            numVisible: 1,
+            numScroll: 1,
+        },
     ];
-    this.subscribeAndGetData();
-  }
 
-  ngOnDestroy(): void {
-    this.subscribes$.next();
-    this.subscribes$.complete();
-  }
+    constructor(
+        public petService: PetService,
+        private newsService: NewsService
+    ) {}
 
-  subscribeAndGetData() {
-    let petSearchKey = {
-      limit: petSearch.limitDefault,
-      page: 1,
-      status: petStatusKey.waiting.toString(),
-    };
-    this.petService
-      .getPets(petSearchKey)
-      .pipe(takeUntil(this.subscribes$))
-      .subscribe((res: any) => {
-        if (res.success) {
-          this.pets = res.data.pets;
-        }
-      });
+    ngOnInit() {
+        this.images = [
+            {
+                itemImageSrc: '../../../assets/medias/carousel/carousel-1.jpg',
+                description: 'Description for Image 1',
+                title: 'Title 1',
+                url: 'https://www.google.com',
+            },
+            {
+                itemImageSrc: '../../../assets/medias/carousel/carousel-2.jpg',
+                description: 'Description for Image 2',
+                title: 'Title 2',
+            },
+            {
+                itemImageSrc: '../../../assets/medias/carousel/carousel-3.jpg',
+                description: 'Description for Image 3',
+                title: 'Title 3',
+            },
+            {
+                itemImageSrc: '../../../assets/medias/carousel/carousel-4.jpg',
+                description: 'Description for Image 4',
+                title: 'Title 4',
+            },
+            {
+                itemImageSrc: '../../../assets/medias/carousel/carousel-5.jpg',
+                description: 'Description for Image 5',
+                title: 'Title 5',
+            },
+        ];
+        this.subscribeAndGetData();
+    }
 
-    this.newsService
-      .getNews()
-      .pipe(takeUntil(this.subscribes$))
-      .subscribe((news: any) => {
-        this.news = news;
-      });
+    ngOnDestroy(): void {
+        this.subscribes$.next();
+        this.subscribes$.complete();
+    }
 
-    this.petService
-      .getStatisticCases()
-      .pipe(takeUntil(this.subscribes$))
-      .subscribe((res: any) => {
-        if (res.success) {
-          this.statisticCases = res.data;
-        }
-      });
-  }
+    subscribeAndGetData() {
+        let petSearchKey = {
+            limit: petSearch.limitDefault,
+            page: 1,
+            status: petStatusKey.waiting.toString(),
+        };
+        this.petService
+            .getPets(petSearchKey)
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe((res: any) => {
+                if (res.success) {
+                    this.pets = res.data.pets;
+                }
+            });
+
+        this.newsService
+            .getNews()
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe((news: any) => {
+                this.news = news;
+            });
+
+        this.petService
+            .getStatisticCases()
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe((res: any) => {
+                if (res.success) {
+                    this.statisticCases = res.data;
+                }
+            });
+    }
 }

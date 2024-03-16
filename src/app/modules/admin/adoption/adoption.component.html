@@ -2,7 +2,7 @@
     <p-toast></p-toast>
     <p-confirmDialog></p-confirmDialog>
     <p-dialog *ngIf="visibleCreateModal" header="Thêm đơn nhận nuôi" [(visible)]="visibleCreateModal" [modal]="true"
-        [style]="{ width: '90vw'}" [draggable]="false" [resizable]="false">
+        [style]="{ width: '90vw' }" [draggable]="false" [resizable]="false">
         <app-adoption-create (resultAction)="receiveResult($event, 0)"></app-adoption-create>
     </p-dialog>
     <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa đơn nhận nuôi" [(visible)]="visibleUpdateModal" [modal]="true"
@@ -34,7 +34,8 @@
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="adopt-user">Người nhận nuôi</label>
-                    <p-dropdown [options]="users" optionLabel="name" optionValue="id" [filter]="true" filterBy="name" emptyMessage="Không có dữ liệu"
+                    <p-dropdown [options]="users" optionLabel="name" optionValue="id" [filter]="true" filterBy="name" 
+                    filterPlaceholder="Họ và tên" emptyMessage="Không có dữ liệu"
                     [showClear]="true" placeholder="--Tất cả--" styleClass="mat-form-field" [(ngModel)]="key.registeredBy">
                         <ng-template let-user pTemplate="item">
                             <div class="flex align-items-center">
@@ -47,7 +48,8 @@
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="adopt-pet">Thú cưng</label>
-                        <p-dropdown [options]="pets" optionLabel="name" optionValue="id" [filter]="true" filterBy="code" emptyMessage="Không có dữ liệu"
+                        <p-dropdown [options]="pets" optionLabel="name" optionValue="id" [filter]="true" filterBy="code" 
+                        filterPlaceholder="Mã thú cưng" emptyMessage="Không có dữ liệu"
                         [showClear]="true" placeholder="--Tất cả--" styleClass="mat-form-field"  [(ngModel)]="key.petAdopt">
                             <ng-template let-pet pTemplate="item">
                                 <div class="flex align-items-center">

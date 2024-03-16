@@ -8,11 +8,11 @@ import { UpdateInfoComponent } from './account/update-info/update-info.component
 
 
 @NgModule({
-  declarations: [
-  ],
-  imports: [
-    CommonModule,
-    UserRoutingModule,
-  ]
+    declarations: [
+    ],
+    imports: [
+        CommonModule,
+        UserRoutingModule,
+    ]
 })
 export class UserModule { }

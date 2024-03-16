@@ -8,18 +8,18 @@ import { DividerModule } from 'primeng/divider';
 import { BadgeModule } from 'primeng/badge';
 
 @NgModule({
-  declarations: [
-    CardPetComponent,
-  ],
-  imports: [
-    CommonModule,
-    ButtonModule,
-    RouterModule,
-    DividerModule,
-    BadgeModule
-  ],
-  exports: [
-    CardPetComponent
-  ]
+    declarations: [
+        CardPetComponent,
+    ],
+    imports: [
+        CommonModule,
+        ButtonModule,
+        RouterModule,
+        DividerModule,
+        BadgeModule
+    ],
+    exports: [
+        CardPetComponent
+    ]
 })
 export class CardPetModule { }

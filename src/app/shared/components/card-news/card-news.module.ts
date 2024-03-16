@@ -7,17 +7,17 @@ import { RouterModule } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
 
 @NgModule({
-  declarations: [
-    CardNewsComponent,
-  ],
-  imports: [
-    CommonModule,
-    ButtonModule,
-    RouterModule,
-    DividerModule
-  ],
-  exports: [
-    CardNewsComponent
-  ]
+    declarations: [
+        CardNewsComponent,
+    ],
+    imports: [
+        CommonModule,
+        ButtonModule,
+        RouterModule,
+        DividerModule
+    ],
+    exports: [
+        CardNewsComponent
+    ]
 })
 export class CardNewsModule { }

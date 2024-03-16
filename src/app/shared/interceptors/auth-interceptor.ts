@@ -13,9 +13,9 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const lastActiveTime = localStorage.getItem(CONFIG.KEY.LAST_ACTIVE_TIME);
         if (lastActiveTime && (Date.now() - parseInt(lastActiveTime, 10) > CONFIG.DEFAULT_VALUE.SESSION_TIME_IN_SECONDS * 1000)) {
-            alert("Đã hết phiên đăng nhập, vui lòng đăng nhập lại!")
+            sessionStorage.setItem(CONFIG.KEY.TOKEN_EXPIRED, 'true');
             this.authService.logout();
-            this.router.navigateByUrl(CONFIG.KEY.ROOT_PAGE);
+            this.router.navigateByUrl('/dang-nhap');
         }
         return next.handle(request);
     }

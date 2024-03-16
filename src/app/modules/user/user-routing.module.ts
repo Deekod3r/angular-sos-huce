@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { ROUTES_USER } from 'src/app/common/router';
 
 @NgModule({
-  imports: [RouterModule.forChild(ROUTES_USER)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(ROUTES_USER)],
+    exports: [RouterModule]
 })
 export class UserRoutingModule { }

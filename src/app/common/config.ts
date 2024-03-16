@@ -13,6 +13,7 @@ export const CONFIG = {
         ROOT_PAGE: '',
         IS_LOGGED_IN: 'ILGI',
         IS_LOGGED_IN_VALUE: '"$1@2#3"',
+        TOKEN_EXPIRED: 'TE',
     },
     ROUTES: {
         ROOT_ROUTES: 'ROOT_ROUTES',

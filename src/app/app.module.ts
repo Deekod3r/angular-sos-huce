@@ -40,56 +40,56 @@ import { SpinnerInterceptor } from './shared/interceptors/spinner-interceptor';
 import { AuthenticationInterceptor } from './shared/interceptors/auth-interceptor';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    NavbarAuthComponent,
-    AuthComponent,
-    UserComponent,
-    TopBarComponent,
-    BottomBarComponent,
-    AdminComponent,
-    NavbarAdminComponent,
-    SidebarAdminComponent,
-    MenuAdminComponent,
-    MenuitemAdminComponent,
-    AccessDeninedComponent,
-    NotFoundComponent
-],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    PanelModule,
-    ButtonModule,
-    DividerModule,
-    AvatarModule,
-    MenubarModule,
-    TieredMenuModule,
-    DropdownModule,
-    MenuModule,
-    ScrollTopModule,
-    PanelMenuModule,
-    CommonModule,
-    SidebarModule,
-    RippleModule,
-    FormsModule,
-    NgxSpinnerModule
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: SpinnerInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthenticationInterceptor,
-      multi: true,
-    },
-  ],  
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        NavbarComponent,
+        NavbarAuthComponent,
+        AuthComponent,
+        UserComponent,
+        TopBarComponent,
+        BottomBarComponent,
+        AdminComponent,
+        NavbarAdminComponent,
+        SidebarAdminComponent,
+        MenuAdminComponent,
+        MenuitemAdminComponent,
+        AccessDeninedComponent,
+        NotFoundComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        PanelModule,
+        ButtonModule,
+        DividerModule,
+        AvatarModule,
+        MenubarModule,
+        TieredMenuModule,
+        DropdownModule,
+        MenuModule,
+        ScrollTopModule,
+        PanelMenuModule,
+        CommonModule,
+        SidebarModule,
+        RippleModule,
+        FormsModule,
+        NgxSpinnerModule
+    ],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: SpinnerInterceptor,
+            multi: true,
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthenticationInterceptor,
+            multi: true,
+        },
+    ],    
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

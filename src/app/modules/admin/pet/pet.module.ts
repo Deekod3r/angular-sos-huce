@@ -12,25 +12,25 @@ import { ImageModule } from 'primeng/image';
 import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
-  declarations: [
-    PetCreateComponent,
-    PetUpdateComponent
-  ],
-  imports: [
-    SharedModule,
-    FileUploadModule,
-    DialogModule,
-    InputTextareaModule,
-    DropdownModule,
-    AutoCompleteModule,
-    ImageModule,
-    CalendarModule
-  ],
-  exports: [
-    PetCreateComponent,
-    PetUpdateComponent,    
-    SharedModule,
-    DialogModule,
-  ]
+    declarations: [
+        PetCreateComponent,
+        PetUpdateComponent
+    ],
+    imports: [
+        SharedModule,
+        FileUploadModule,
+        DialogModule,
+        InputTextareaModule,
+        DropdownModule,
+        AutoCompleteModule,
+        ImageModule,
+        CalendarModule
+    ],
+    exports: [
+        PetCreateComponent,
+        PetUpdateComponent,        
+        SharedModule,
+        DialogModule,
+    ]
 })
 export class PetModule { }

@@ -60,4 +60,11 @@ export const messageUser = {
     forgotSuccess: 'Quên mật khẩu thành công',
     checkExist: 'Tài khoản đã tồn tại',
     passwordDuplicate: 'Mật khẩu mới không được trùng với mật khẩu cũ',
+    tokenExpired: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại',
+}
+
+export const messageLog = {
+    createSuccess: 'Tạo thông tin nhật ký thành công',
+    updateSuccess: 'Cập nhật thông tin nhật ký thành công',
+    deleteSuccess: 'Xoá thông tin nhật ký thành công',
 }

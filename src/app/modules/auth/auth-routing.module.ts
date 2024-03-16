@@ -4,7 +4,7 @@ import { ROUTES_AUTH } from 'src/app/common/router';
 
 
 @NgModule({
-  imports: [RouterModule.forChild(ROUTES_AUTH)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(ROUTES_AUTH)],
+    exports: [RouterModule]
 })
 export class AuthRoutingModule { }

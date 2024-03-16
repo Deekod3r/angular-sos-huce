@@ -6,17 +6,17 @@ import { DividerModule } from 'primeng/divider';
 import { CardEventComponent } from './card-event.component';
 
 @NgModule({
-  declarations: [
-    CardEventComponent,
-  ],
-  imports: [
-    CommonModule,
-    ButtonModule,
-    RouterModule,
-    DividerModule
-  ],
-  exports: [
-    CardEventComponent
-  ]
+    declarations: [
+        CardEventComponent,
+    ],
+    imports: [
+        CommonModule,
+        ButtonModule,
+        RouterModule,
+        DividerModule
+    ],
+    exports: [
+        CardEventComponent
+    ]
 })
 export class CardEventModule { }

@@ -23,14 +23,6 @@ export const petStatusKey = {
     waiting: 4
 }
 
-export const adoptStatusKey = {
-    waiting: 1,
-    inProgress: 2,
-    reject: 3,
-    cancel: 4,
-    complete: 5
-}
-
 export const petStatus = [
     { 
         label: "Đã chết", 
@@ -216,6 +208,15 @@ export const petMoreInfor = [
         value: 3
     }
 ]
+
+
+export const adoptStatusKey = {
+    waiting: 1,
+    inProgress: 2,
+    reject: 3,
+    cancel: 4,
+    complete: 5
+}
 
 export const adoptStatus = [
     {

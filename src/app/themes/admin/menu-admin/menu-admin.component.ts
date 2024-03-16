@@ -42,6 +42,11 @@ export class MenuAdminComponent implements OnInit {
                                 label: 'Đơn nhận nuôi',
                                 icon: 'fa fa-fw fa-brands fa-wpforms',
                                 routerLink: ['/admin/don-nhan-nuoi']
+                            },
+                            {
+                                label: 'Kiểm tra sau nhận nuôi',
+                                icon: 'fa fa-check-to-slot',
+                                routerLink: ['/admin/kiem-tra-sau-nhan-nuoi']
                             }
                         ]
                     },
@@ -114,7 +119,7 @@ export class MenuAdminComponent implements OnInit {
                     { 
                         label: 'Thông tin web', 
                         icon: 'fa fa-fw fa-solid fa-circle-info', 
-                        routerLink: ['/admin/thong-tin-web']
+                        routerLink: ['/admin/cau-hinh']
                     },
                 ]
             },

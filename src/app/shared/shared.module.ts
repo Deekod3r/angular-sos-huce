@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessagesModule } from 'primeng/messages';
 import { PanelModule } from 'primeng/panel';
 import { InputTextModule } from 'primeng/inputtext';
@@ -29,6 +29,7 @@ import { ToastModule } from 'primeng/toast';
     CardModule,
     CardFooterModule,
     ToastModule,
+    FormsModule
   ]
 })
 export class SharedModule { }

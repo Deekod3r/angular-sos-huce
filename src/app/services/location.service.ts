@@ -4,7 +4,7 @@ import { CommonService } from './common.service';
 import { CONFIG } from '../common/config';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 
 export class LocationService {
@@ -29,7 +29,7 @@ export class LocationService {
                 params: {
                     provinceId: provinceId
                 }
-            
+
             }
         }
         return this.commonService.callAPI(request);

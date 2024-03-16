@@ -7,7 +7,8 @@
                 <div class="lg:col-6 col-12">
                     <div class="flex flex-column gap-2">
                         <label for="adopt-user">Người nhận nuôi <span class="text-red-500 font-bold">*</span></label>
-                        <p-dropdown [options]="users" optionLabel="name" [filter]="true" filterBy="name" emptyMessage="Không có dữ liệu"
+                        <p-dropdown [options]="users" optionLabel="name" [filter]="true" filterBy="name" 
+                        filterPlaceholder="Họ và tên" emptyMessage="Không có dữ liệu"
                         [showClear]="true" placeholder="--Chọn--" styleClass="mat-form-field" formControlName="registeredBy">
                             <ng-template let-user pTemplate="item">
                                 <div class="flex align-items-center">
@@ -25,7 +26,8 @@
                 <div class="lg:col-6 col-12">
                     <div class="flex flex-column gap-2">
                         <label for="adopt-pet">Thú cưng <span class="text-red-500 font-bold">*</span></label>
-                        <p-dropdown [options]="pets" optionLabel="name" [filter]="true" filterBy="code" emptyMessage="Không có dữ liệu"
+                        <p-dropdown [options]="pets" optionLabel="name" [filter]="true" filterBy="code" 
+                        filterPlaceholder="Mã thú cưng" emptyMessage="Không có dữ liệu"
                         [showClear]="true" placeholder="--Chọn--" styleClass="mat-form-field"  formControlName="petAdopt">
                             <ng-template let-pet pTemplate="item">
                                 <div class="flex align-items-center">
