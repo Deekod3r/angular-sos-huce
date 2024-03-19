@@ -33,6 +33,7 @@ import { AdoptService } from 'src/app/services/adopt.service';
 export class AdoptPetComponent implements OnInit {
 
     visibleCreateModal: boolean = false;
+    alertRequiredLogin: boolean = false;
     id!: string;
     pet: any;
     pets: any[] = [];
@@ -61,7 +62,7 @@ export class AdoptPetComponent implements OnInit {
     private subscribes$: Subject<void> = new Subject<void>();
 
     constructor(public petService: PetService, private route: ActivatedRoute, private adoptService: AdoptService,    
-        private locationService: LocationService, private authService: AuthService, private messageService: MessageService) { }
+        private locationService: LocationService, public authService: AuthService, private messageService: MessageService) { }
 
     ngOnInit(): void {
         this.formAdopt = new FormGroup({
@@ -117,8 +118,7 @@ export class AdoptPetComponent implements OnInit {
                 this.userInfo = this.authService.getCurrentUser();
             }
         } else {
-            alert('Bạn cần đăng nhập để đăng ký nhận nuôi thú cưng');
-            window.location.href = '/dang-nhap';
+            this.alertRequiredLogin = true;
         }
     }
 

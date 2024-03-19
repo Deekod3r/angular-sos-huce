@@ -1,3 +1,12 @@
+<p-dialog header="" [(visible)]="alertRequiredLogin" [closable]="true">
+    <ng-template pTemplate="header">
+        <i class="fa-solid fa-circle-exclamation fa-2xl text-primary"></i>    
+    </ng-template>
+    <strong>Bạn cần đăng nhập để đăng ký nhận nuôi thú cưng</strong>
+    <ng-template pTemplate="footer">
+        <p-button [routerLink]="'/dang-nhap'" label="Ok"></p-button>
+    </ng-template>
+</p-dialog>
 <div *ngIf="pet" class="container mt-5 mb-5 card">
     <div class="grid">
         <div class="lg:col-7 md:col-8 sm:col-12 col-12">
