@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TabView, TabViewModule } from 'primeng/tabview';
 import { Subject, takeUntil } from 'rxjs';
-import { adoptStatusKey, petStatusKey } from 'src/app/common/constant';
+import { adoptConfig, petConfig } from 'src/app/common/constant';
 import { title, message, messageAdopt, messageUser } from 'src/app/common/message';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -19,7 +19,6 @@ import { TagModule } from 'primeng/tag';
     selector: 'app-account',
     standalone: true,
     imports: [AccountModule, TabViewModule, TableModule, TagModule, DialogModule, BadgeModule, ConfirmDialogModule],
-    providers: [ConfirmationService, MessageService],
     templateUrl: './account.component.html',
     styleUrls: ['./account.component.css']
 })
@@ -50,11 +49,11 @@ export class AccountComponent implements OnInit {
 
     ngOnInit(): void {
         this.getUser();
-        this.adoptStatus = adoptStatusKey;
+        this.adoptStatus = adoptConfig.statusKey;
     }
 
-    getUser() {
-        this.userService.getUserById(this.authService.getInfoUser().id)
+    getUser(): void {
+        this.userService.getUserById(this.authService.getCurrentUser().id)
         .pipe(takeUntil(this.subscribes$))
         .subscribe((response: any) => {
             if (response.success) {
@@ -69,7 +68,7 @@ export class AccountComponent implements OnInit {
         });
     }
 
-    getAdopts() {
+    getAdopts(): void {
         this.adoptService.getAdoptsByUser()
         .pipe(takeUntil(this.subscribes$))
         .subscribe((response: any) => {
@@ -79,7 +78,7 @@ export class AccountComponent implements OnInit {
         });
     }
 
-    getAdopt(adoptId: string) {
+    getAdopt(adoptId: string): void {
         this.adoptService.getAdoptById(adoptId)
         .pipe(takeUntil(this.subscribes$))
         .subscribe((response: any) => {
@@ -89,23 +88,22 @@ export class AccountComponent implements OnInit {
         });
     }
 
-    getPets() {
+    getPets(): void {
         this.petService.getPets(
             {
-                status: petStatusKey.adopted,
-                adoptedBy: this.authService.getInfoUser().id
+                status: petConfig.statusKey.adopted,
+                adoptedBy: this.authService.getCurrentUser().id
             }
         )
         .pipe(takeUntil(this.subscribes$))
         .subscribe((response: any) => {
             if (response.success) {
                 this.pets = response.data.pets;
-                console.log(this.pets)
             }
         });
     }
 
-    changeTabView(event: any) {
+    changeTabView(event: any): void {
         let indexTab = event.index;
         if (indexTab === 0) {
             this.getUser();
@@ -116,13 +114,13 @@ export class AccountComponent implements OnInit {
         }
     }
 
-    showDetailAdopt(adoptId: any) {
+    showDetailAdopt(adoptId: any): void {
         this.detailAdopt = adoptId;
         this.visibleDetailAdopt = true;
         this.getAdopt(adoptId);
     }
 
-    showUpdateInfo(infoKey: string, title: string) {
+    showUpdateInfo(infoKey: string, title: string): void {
         this.info.key = infoKey;
         this.info.userId = this.user.id;
         this.info.title = title;
@@ -130,13 +128,13 @@ export class AccountComponent implements OnInit {
         this.visibleUpdateInfo = true;
     }
 
-    hideDetailAdopt() {
+    hideDetailAdopt(): void {
         this.visibleDetailAdopt = false;
         this.detailAdopt = null;
         this.detailAdoptData = null;
     }
 
-    confirmCancel(event: any, adoptId: any) {
+    confirmCancel(event: any, adoptId: any): void {
         this.confirmationService.confirm({
             target: event.target as EventTarget,
             message: 'Bạn chắc chắn muốn hủy đơn nhận nuôi này chứ?',
@@ -165,18 +163,19 @@ export class AccountComponent implements OnInit {
                 });
             },
             reject: () => {
-                this.messageService.add({ severity: 'error', summary: title.cancel, detail: messageAdopt.canelCancel, life: 3000 });
+                this.messageService.add({ severity: 'error', summary: title.cancel, detail: messageAdopt.canelCancel });
             }
         });
     }
 
-    receiveResult(result: boolean) {
+    receiveResult(result: boolean): void {
         if (result) {
-            this.messageService.add({ severity: 'success', summary: title.success, detail: messageUser.updateSuccess });
-            this.visibleUpdateInfo = false;
             this.getUser();
+            this.visibleUpdateInfo = false;
+            this.messageService.add({ severity: 'success', summary: title.success, detail: messageUser.updateSuccess });
         } else {
             this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
         }
     }
+
 }

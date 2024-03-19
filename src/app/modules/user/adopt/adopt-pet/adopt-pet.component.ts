@@ -6,7 +6,7 @@ import { PetService } from 'src/app/services/pet.service';
 import { DropdownModule } from 'primeng/dropdown';
 import { Subject, takeUntil } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
-import { petSearch, petStatusKey } from 'src/app/common/constant';
+import { petConfig } from 'src/app/common/constant';
 import { CarouselModule } from 'primeng/carousel';
 import { ActivatedRoute } from '@angular/router';
 import { BadgeModule } from 'primeng/badge';
@@ -24,7 +24,6 @@ import { AdoptService } from 'src/app/services/adopt.service';
 @Component({
     selector: 'app-adopt',
     standalone: true,
-    providers: [MessageService],
     imports: [SharedModule, FieldsetModule, CardPetModule, 
         DropdownModule, PaginatorModule, CarouselModule, 
         BadgeModule, ImageModule, DialogModule, CheckboxModule],
@@ -61,11 +60,10 @@ export class AdoptPetComponent implements OnInit {
     ];
     private subscribes$: Subject<void> = new Subject<void>();
 
-
     constructor(public petService: PetService, private route: ActivatedRoute, private adoptService: AdoptService,    
         private locationService: LocationService, private authService: AuthService, private messageService: MessageService) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.formAdopt = new FormGroup({
             province: new FormControl(null, Validators.required),
             district: new FormControl(null, Validators.required),
@@ -99,9 +97,9 @@ export class AdoptPetComponent implements OnInit {
 
     getPets(): void {
         let petSearchKey = {
-            limit: petSearch.limitDefault,
+            limit: petConfig.search.limitDefault,
             page: 1,
-            status: petStatusKey.waiting.toString()
+            status: petConfig.statusKey.waiting.toString()
         };
         this.petService.getPets(petSearchKey)
         .pipe(takeUntil(this.subscribes$))
@@ -116,7 +114,7 @@ export class AdoptPetComponent implements OnInit {
         if (this.authService.isAuthenticated()) {
             this.visibleCreateModal = true;
             if(!this.userInfo) {
-                this.userInfo = this.authService.getInfoUser();
+                this.userInfo = this.authService.getCurrentUser();
             }
         } else {
             alert('Bạn cần đăng nhập để đăng ký nhận nuôi thú cưng');
@@ -156,19 +154,19 @@ export class AdoptPetComponent implements OnInit {
 
     onRegisterAdopt(): void {
         if (!this.formAdopt.valid) {
-            this.messageService.add({severity:'error', summary: title.error, detail: message.requiredInfo});
+            this.formAdopt.markAllAsTouched();
             return;
         }
-        let adopt = {
-            petAdopt: this.id,
-            province: this.formAdopt.value.province,
-            district: this.formAdopt.value.district,
-            ward: this.formAdopt.value.ward,
-            address: this.formAdopt.value.address,
-            reason: this.formAdopt.value.reason,
+        let body = {
+            petId: this.id,
+            provinceId: this.formAdopt.value.province,
+            districtId: this.formAdopt.value.district,
+            wardId: this.formAdopt.value.ward,
+            address: this.formAdopt.value.address.trim(),
+            reason: this.formAdopt.value.reason.trim(),
             registeredBy: this.userInfo.id
         };
-        this.adoptService.createAdopt(adopt)
+        this.adoptService.createAdopt(body)
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res) => {

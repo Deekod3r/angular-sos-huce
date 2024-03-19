@@ -13,16 +13,16 @@ export class AuthService {
 
     constructor(private encryptionService: EncryptionService, private commonService: CommonService) { }
 
-    login(form: any): Observable<any> {
+    private getProfile(): any {
+        return JSON.parse(this.encryptionService.decrypt(localStorage.getItem(CONFIG.KEY.TOKEN)) || '{}')
+    }
+
+    login(body: any): Observable<any> {
         const request = {
             function: 'login',
             method: CONFIG.KEY.METHOD_POST,
-            body: {
-                email: form.email.trim(),
-                password: form.password,
-            }
+            body: body
         }
-
         return this.commonService.callAPI(request).pipe(
             map((response: any) => {
                 localStorage.setItem(CONFIG.KEY.IS_LOGGED_IN, this.encryptionService.encrypt(CONFIG.KEY.IS_LOGGED_IN_VALUE));
@@ -33,21 +33,17 @@ export class AuthService {
         );
     }
 
-    getProfile(): any {
-        return JSON.parse(this.encryptionService.decrypt(localStorage.getItem(CONFIG.KEY.TOKEN)) || '{}')
-    }
-
-    getRole(): any {
-        if (this.getInfoUser()) {
-            return this.getInfoUser().role;
+    getCurrentUser(): any {
+        let profile = this.getProfile();
+        if (JSON.stringify(profile) != '{}') {
+            return profile.user;
         }
         return null;
     }
 
-    getInfoUser(): any {
-        let profile = this.getProfile();
-        if (JSON.stringify(profile) != '{}') {
-            return profile.user;
+    getRole(): any {
+        if (this.getCurrentUser()) {
+            return this.getCurrentUser().role;
         }
         return null;
     }
@@ -72,12 +68,12 @@ export class AuthService {
         return localStorage.getItem(CONFIG.KEY.IS_LOGGED_IN) === this.encryptionService.encrypt(CONFIG.KEY.IS_LOGGED_IN_VALUE);
     }
 
-    updateLastActiveTime() {
+    updateLastActiveTime(): void {
         localStorage.setItem(CONFIG.KEY.LAST_ACTIVE_TIME, Date.now().toString());
     }
 
     logout(): void {
-    localStorage.clear();
+        localStorage.clear();
         const request = {
             function: 'logout',
             method: CONFIG.KEY.METHOD_GET,

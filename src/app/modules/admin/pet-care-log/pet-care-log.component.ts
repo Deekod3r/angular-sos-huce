@@ -8,14 +8,13 @@ import { PetCareLogService } from 'src/app/services/pet-care-log.service';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { convertDateFormat } from 'src/app/shared/utils/data.util';
 import { AdoptService } from 'src/app/services/adopt.service';
-import { adoptStatusKey, typeAction } from 'src/app/common/constant';
+import { adoptConfig, typeAction } from 'src/app/common/constant';
 import { title, message, messageLog } from 'src/app/common/message';
 
 @Component({
     selector: 'app-pet-care-log',
     standalone: true,
     imports: [PetCareLogModule, ConfirmDialogModule, TableModule, TieredMenuModule],
-    providers: [ConfirmationService, MessageService],
     templateUrl: './pet-care-log.component.html',
     styleUrls: ['./pet-care-log.component.css']
 })
@@ -25,8 +24,8 @@ export class PetCareLogComponent implements OnInit {
     adopts: any[] = [];
     key = {
         adoptId: '',
-        fromDate: null,
-        toDate: null
+        fromDate: '',
+        toDate: ''
     }
     visibleCreateModal: boolean = false;
     visibleUpdateModal: boolean = false;
@@ -38,7 +37,7 @@ export class PetCareLogComponent implements OnInit {
     constructor(private petCateLogService: PetCareLogService, private adoptService: AdoptService, 
         private messageService: MessageService, private confirmationService: ConfirmationService) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.getLogs();
         this.getAdopts();
     }
@@ -48,11 +47,11 @@ export class PetCareLogComponent implements OnInit {
         this.subscribes$.complete();
     }
 
-    getLogs() {
+    getLogs(): void {
         let search = {
             adoptId: this.key.adoptId,
-            fromDate: this.key.fromDate ? convertDateFormat(this.key.fromDate) : this.key.fromDate,
-            toDate: this.key.toDate ? convertDateFormat(this.key.toDate) : this.key.toDate
+            fromDate: this.key.fromDate ? convertDateFormat(this.key.fromDate) : '',
+            toDate: this.key.toDate ? convertDateFormat(this.key.toDate) : ''
         }
         this.petCateLogService.getLogs(search)
         .pipe(takeUntil(this.subscribes$))
@@ -66,8 +65,8 @@ export class PetCareLogComponent implements OnInit {
         });
     }
 
-    getAdopts() {
-        this.adoptService.getAdopts({ status: adoptStatusKey.complete })
+    getAdopts(): void {
+        this.adoptService.getAdopts({ status: adoptConfig.statusKey.complete })
         .pipe(takeUntil(this.subscribes$))
         .subscribe(res => {
             if (res.success) {
@@ -76,7 +75,7 @@ export class PetCareLogComponent implements OnInit {
         });
     }
 
-    refresh() {
+    refresh(): void {
 
     }
 
@@ -120,16 +119,16 @@ export class PetCareLogComponent implements OnInit {
         }
     }
 
-    showCreateModal() {
+    showCreateModal(): void {
         this.visibleCreateModal = true;
     }
 
-    showUpdateModal(id: string) {
+    showUpdateModal(id: string): void {
         this.idLogUpdate = id;
         this.visibleUpdateModal = true;
     }
 
-    confirmDelete(event: any, id: string) {
+    confirmDelete(event: any, id: string): void {
         this.confirmationService.confirm({
             target: event.target as EventTarget,
             message: 'Bạn chắc chắn muốn xoá lịch sử này chứ?',

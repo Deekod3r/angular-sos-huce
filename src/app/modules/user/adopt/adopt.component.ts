@@ -6,7 +6,7 @@ import { PetService } from 'src/app/services/pet.service';
 import { DropdownModule } from 'primeng/dropdown';
 import { Subject, takeUntil } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
-import { petSearch, petStatusKey } from 'src/app/common/constant';
+import { petConfig } from 'src/app/common/constant';
 
 @Component({
     selector: 'app-adopt',
@@ -21,7 +21,7 @@ export class AdoptComponent implements OnInit {
     currentPage = 1;
     totalPages = 0;
     totalRecords = 0;
-    limit = petSearch.limitDefaultClient;
+    limit = petConfig.search.limitDefaultClient;
     first!: number;
     btnActive = null;
     key = {
@@ -29,17 +29,15 @@ export class AdoptComponent implements OnInit {
         page: this.currentPage,
         code: '',
         name: '',
-        status: petStatusKey.waiting,
-        type: null,
-        gender: null,
-        age: null,
+        type: '',
+        gender: '',
+        age: '',
     };
     private subscribes$: Subject<void> = new Subject<void>();
 
-
     constructor(public petService: PetService) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.getPets();
     }
 
@@ -50,7 +48,17 @@ export class AdoptComponent implements OnInit {
 
     getPets(): void {
         this.key.page = this.currentPage;
-        this.petService.getPets(this.key)
+        let search = {
+            limit: this.key.limit,
+            page: this.key.page,
+            code: this.key.code ? this.key.code.trim() : '',
+            name: this.key.name ? this.key.name.trim() : '',
+            status: petConfig.statusKey.waiting,
+            type: this.key.type ? this.key.type : '',
+            gender: this.key.gender ? this.key.gender : '',
+            age: this.key.age ? this.key.age : ''
+        }
+        this.petService.getPets(search)
         .pipe(takeUntil(this.subscribes$))
         .subscribe(res => {
             if (res.success) {
@@ -64,7 +72,7 @@ export class AdoptComponent implements OnInit {
         });
     }
 
-    onPageChange(event: any) {
+    onPageChange(event: any): void {
         this.currentPage = event.page + 1;
         this.first = event.first;
         this.getPets();
@@ -84,17 +92,15 @@ export class AdoptComponent implements OnInit {
             page: this.currentPage,
             code: '',
             name: '',
-            status: petStatusKey.waiting,
-            type: null,
-            gender: null,
-            age: null
+            type: '',
+            gender: '',
+            age: ''
         };
         this.getPets();
         this.btnActive = null;
-}
+    }
 
-
-    setType(type: any) {
+    setType(type: any): void {
         this.key.type = type;
         this.getPets();
         this.btnActive = type;

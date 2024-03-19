@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, ValidationErrors, ValidatorFn, AbstractControl } from '@angular/forms';
-import { Message } from 'primeng/api';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
-import { message, messageForgot, title } from 'src/app/common/message';
+import { message, messageUser, title } from 'src/app/common/message';
 import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
@@ -15,27 +15,24 @@ import { passwordMatchValidator } from 'src/app/shared/utils/data.util';
     selector: 'app-forgot-password',
     standalone: true,
     imports: [SharedModule, ConfirmDialogModule, PasswordModule],
-    providers: [ConfirmationService],
     templateUrl: './forgot-password.component.html',
     styleUrls: ['./forgot-password.component.css']
 })
 
-export class ForgotPasswordComponent implements OnInit, OnDestroy {
+export class ForgotPasswordComponent implements OnInit {
 
     forgotForm!: FormGroup;
     verifyForm!: FormGroup;
     resetPasswordForm!: FormGroup;
-    notifyForgotPassword: boolean = false;
-    msg: Message[] = [];
     id!: string;
     step: number = 1;
     email!: string;
 
     private readonly subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private userService: UserService, private confirmationService: ConfirmationService) { }
+    constructor(private userService: UserService, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.forgotForm = new FormGroup({
             'account': new FormControl('', [Validators.required, noWhitespaceValidator()])
         });
@@ -48,27 +45,25 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
         }, { validators: passwordMatchValidator });
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this.subscribes$.next();
         this.subscribes$.complete();
     }
 
-    onCheckExist() {
+    onCheckExist(): void {
         if (this.forgotForm.invalid) {
-            this.notify(message.requiredInfo, 'error', title.error);
+            this.forgotForm.markAllAsTouched();
             return;
         }
-
-        this.userService.checkExist(this.forgotForm.controls['account'].value).pipe(
-            takeUntil(this.subscribes$)
-        )
+        this.userService.checkExist(this.forgotForm.controls['account'].value.trim())
+        .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res: any) => {
                 if (res.success) {
                     if (res.data != "NOT_FOUND") {
                         this.email = res.data;
                         this.confirmationService.confirm({
-                            message: 'Tạo mã xác thực và gửi tới '+    this.email + '?',
+                            message: 'Tạo mã xác thực và gửi tới '+ this.email + '?',
                             header: 'ĐẶT LẠI MẬT KHẨU',
                             icon: 'fa fa-solid fa-triangle-exclamation',
                             acceptLabel: 'Đồng ý',
@@ -86,9 +81,9 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
                                     },
                                     error: (resForgot) => {
                                         if (resForgot.error) {
-                                            this.notify(resForgot.error.message, 'error', title.error);
+                                            this.messageService.add({ severity: 'error', summary: title.error, detail: resForgot.error.message });
                                         } else {
-                                            this.notify(message.error, 'error', title.error);
+                                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
                                         }
                                     }
                                 });
@@ -97,26 +92,30 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
                             }
                         });
                     } else {
-                        this.notify(res.message, 'error', title.error);
+                        this.messageService.add({ severity: 'error', summary: title.error, detail: messageUser.notFound });
                     }
                 }
             },
             error: (res) => {
                 if (res.error) {
-                    this.notify(res.error.message, 'error', title.error);
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
                 } else {
-                    this.notify(message.error, 'error', title.error);
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
                 }
             }
         });
     }
 
-    onVerify() {
+    onVerify(): void {
         if (this.verifyForm.invalid) {
-            this.notify(message.requiredInfo, 'error', title.error);
+            this.verifyForm.markAllAsTouched();
             return;
         }
-        this.userService.verifyForgotPassword(this.id, this.verifyForm.controls['code'].value.trim())
+        let data = {
+            id: this.id,
+            code: this.verifyForm.controls['code'].value.trim()
+        };
+        this.userService.verifyForgotPassword(data)
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res: any) => {
@@ -126,53 +125,45 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
             },
             error: (res: any) => {
                 if (res.error) {
-                    this.notify(res.error.message, 'error', title.error);
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
                 } else {
-                    this.notify(message.error, 'error', title.error);
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
                 }
             }
         });
     }
 
-    onResetPassword() {
+    onResetPassword(): void {
         if (this.resetPasswordForm.invalid) {
-            this.notify(message.requiredInfo, 'error', title.error);
+            this.resetPasswordForm.markAllAsTouched();
             return;
         }
-        this.userService.resetPassword(this.id, 
-            this.verifyForm.controls['code'].value.trim(),
-            this.email,
-            this.resetPasswordForm.controls['password'].value)
-            .pipe(takeUntil(this.subscribes$))
-            .subscribe({
-                next: (res: any) => {
-                    if (res.success) {
-                        this.resetPasswordForm.reset();
-                        this.notify(messageForgot.success, 'success', title.success);
-                        setTimeout(() => {
-                            window.location.href = '/dang-nhap';
-                        }, 2000);
-                    }
-                },
-                error: (res: any) => {
-                    if (res.error) {
-                        this.notify(res.error.message, 'error', title.error);
-                    } else {
-                        this.notify(message.error, 'error', title.error);
-                    }
+        let body = {
+            id: this.id,
+            code: this.verifyForm.controls['code'].value.trim(),
+            email: this.email,
+            newPassword: this.resetPasswordForm.controls['password'].value
+        }
+        this.userService.resetPassword(body)
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe({
+            next: (res: any) => {
+                if (res.success) {
+                    this.resetPasswordForm.reset();
+                    this.messageService.add({ severity: 'success', summary: title.success, detail: messageUser.updatePasswordSuccess });
+                    setTimeout(() => {
+                        window.location.href = '/dang-nhap';
+                    }, 2000);
                 }
-            });
-    }
-
-    notify(msg: string, type: string, title: string): void {
-        this.notifyForgotPassword = true;
-        this.msg = [
-            { severity: type, summary: title, detail: msg }
-        ];
-        setTimeout(() => {
-            this.notifyForgotPassword = false;
-            this.msg = [];
-        }, 3000);
+            },
+            error: (res: any) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
+            }
+        });
     }
 
 }

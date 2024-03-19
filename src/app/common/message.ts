@@ -21,12 +21,21 @@ export const message = {
     invalidInput: 'Dữ liệu không hợp lệ',
 }
 
-export const messageVerify = {
-    success: 'Xác thực tài khoản thành công',
-}
-
-export const messageForgot = {
-    success: 'Mật khẩu mới đã được cập nhật',
+export const messageUser = {
+    updateSuccess: 'Cập nhật thông tin tài khoản thành công',
+    updatePasswordSuccess: 'Cập nhật mật khẩu thành công',
+    updateEmailSuccess: 'Cập nhật email thành công',
+    updatePhoneSuccess: 'Cập nhật số điện thoại thành công',
+    updateNameSuccess: 'Cập nhật tên thành công',
+    updateImageSuccess: 'Cập nhật hình ảnh thành công',
+    deleteSuccess: 'Xoá tài khoản thành công',
+    verifySuccess: 'Xác thực tài khoản thành công',
+    registerSuccess: 'Đăng ký tài khoản thành công',
+    forgotSuccess: 'Quên mật khẩu thành công',
+    checkExist: 'Tài khoản đã tồn tại',
+    passwordDuplicate: 'Mật khẩu mới không được trùng với mật khẩu cũ',
+    tokenExpired: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại',
+    notFound: 'Thông tin tài khoản không tồn tại',
 }
 
 export const messagePet = {
@@ -45,22 +54,6 @@ export const messageAdopt = {
     cancelSuccess: 'Huỷ đơn nhận nuôi thành công',
     canelCancel: 'Huỷ quá trình huỷ đơn nhận nuôi',
     rejectReason: 'Vui lòng nhập lý do từ chối',
-}
-
-export const messageUser = {
-    updateSuccess: 'Cập nhật thông tin tài khoản thành công',
-    updatePasswordSuccess: 'Cập nhật mật khẩu thành công',
-    updateEmailSuccess: 'Cập nhật email thành công',
-    updatePhoneSuccess: 'Cập nhật số điện thoại thành công',
-    updateNameSuccess: 'Cập nhật tên thành công',
-    updateImageSuccess: 'Cập nhật hình ảnh thành công',
-    deleteSuccess: 'Xoá tài khoản thành công',
-    verifySuccess: 'Xác thực tài khoản thành công',
-    registerSuccess: 'Đăng ký tài khoản thành công',
-    forgotSuccess: 'Quên mật khẩu thành công',
-    checkExist: 'Tài khoản đã tồn tại',
-    passwordDuplicate: 'Mật khẩu mới không được trùng với mật khẩu cũ',
-    tokenExpired: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại',
 }
 
 export const messageLog = {

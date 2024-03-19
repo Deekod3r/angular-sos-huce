@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete/autocomplete.interface';
 import { Subject, takeUntil } from 'rxjs';
-import { petBreed, petColor, petType, petAge, petGender, petMoreInfor, petStatus, CALENDER_CONFIG, MIN_DATE, MAX_DATE } from 'src/app/common/constant';
+import { MIN_DATE, MAX_DATE } from 'src/app/common/constant';
 import { message, title } from 'src/app/common/message';
 import { PetService } from 'src/app/services/pet.service';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
@@ -12,7 +12,6 @@ import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 @Component({
     selector: 'app-pet-create',
     templateUrl: './pet-create.component.html',
-    providers: [MessageService],
     styleUrls: ['./pet-create.component.css']
 })
 export class PetCreateComponent implements OnInit {
@@ -20,21 +19,15 @@ export class PetCreateComponent implements OnInit {
     @Output() resultAction = new EventEmitter<boolean>();
     result: boolean = false;
     form!: FormGroup;
-    types: any[] = [];
-    age: any[] = [];
-    gender: any[] = [];
-    status: any[] = [];
-    moreInfor: any[] = [];
     filteredBreeds: any[] = [];
     filteredColors: any[] = [];
 
-    calendar_cf: any;
     min_date: any;
     max_date: any;
 
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private petService: PetService, private messageService: MessageService) { }
+    constructor(public petService: PetService, private messageService: MessageService) { }
 
     ngOnInit(): void {
         this.form = new FormGroup({
@@ -59,14 +52,8 @@ export class PetCreateComponent implements OnInit {
             petNote: new FormControl(''),
             intakeDate: new FormControl(null, Validators.required),
         });
-        this.calendar_cf = CALENDER_CONFIG;
         this.min_date = MIN_DATE;
         this.max_date = MAX_DATE;
-        this.types = petType;
-        this.age = petAge;
-        this.gender = petGender;
-        this.moreInfor = petMoreInfor;
-        this.status = petStatus;
     }
 
     ngOnDestroy(): void {
@@ -74,33 +61,15 @@ export class PetCreateComponent implements OnInit {
         this.subscribes$.complete();
     }
 
-    filterBreed(event: AutoCompleteCompleteEvent) {
-        let filtered: any[] = [];
-        let query = event.query.trim();
-
-        for (let i = 0; i < (petBreed as any[]).length; i++) {
-            let breed = (petBreed as any[])[i];
-            if (breed && breed.label && breed.label.toLowerCase().indexOf(query.toLowerCase()) != -1) {
-                filtered.push(breed);
-            }
-        }
-        this.filteredBreeds = filtered;
+    filterBreed(event: AutoCompleteCompleteEvent): void {
+        this.filteredBreeds = this.petService.filterBreed(event);
     }
 
-    filterColor(event: AutoCompleteCompleteEvent) {
-        let filtered: any[] = [];
-        let query = event.query.trim();
-
-        for (let i = 0; i < (petColor as any[]).length; i++) {
-            let color = (petColor as any[])[i];
-            if (color && color.label && color.label.toLowerCase().indexOf(query.toLowerCase()) != -1) {
-                filtered.push(color);
-            }
-        }
-        this.filteredColors = filtered;
+    filterColor(event: AutoCompleteCompleteEvent): void {
+        this.filteredColors = this.petService.filterColor(event);
     }
 
-    onImagePicked(event: any) {
+    onImagePicked(event: any): void {
         if (event && event.files && event.files.length > 0) {
             this.form.controls['petImage'].markAsDirty();
             const file = event.files[0];
@@ -108,9 +77,9 @@ export class PetCreateComponent implements OnInit {
         }
     }
     
-    onSavePet() {
+    onSavePet(): void {
         if (!this.form.valid) {
-            this.messageService.add({severity:'error', summary: title.error, detail: message.requiredInfo});
+            this.form.markAllAsTouched();
             return;
         }
         this.petService.createPet(this.form.value).pipe(takeUntil(this.subscribes$)).subscribe({
@@ -131,7 +100,7 @@ export class PetCreateComponent implements OnInit {
         });
     }
 
-    removePetImage() {
+    removePetImage(): void {
         this.form.patchValue({ petImage: null });
     } 
     

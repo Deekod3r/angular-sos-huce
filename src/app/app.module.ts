@@ -38,6 +38,7 @@ import { AccessDeninedComponent } from './modules/errors/access-denined/access-d
 import { NotFoundComponent } from './modules/errors/not-found/not-found.component';
 import { SpinnerInterceptor } from './shared/interceptors/spinner-interceptor';
 import { AuthenticationInterceptor } from './shared/interceptors/auth-interceptor';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
     declarations: [
@@ -76,7 +77,8 @@ import { AuthenticationInterceptor } from './shared/interceptors/auth-intercepto
         SidebarModule,
         RippleModule,
         FormsModule,
-        NgxSpinnerModule
+        NgxSpinnerModule,
+        ToastModule
     ],
     providers: [
         {

@@ -1,13 +1,12 @@
 <div class="card">
-    <p-toast></p-toast>
     <p-confirmDialog></p-confirmDialog>
     <p-dialog *ngIf="visibleCreateModal" header="Thêm thú cưng" [(visible)]="visibleCreateModal" [modal]="true"
         [style]="{ width: '90vw', height: '100vh' }" [draggable]="false" [resizable]="false">
-        <app-pet-create (resultAction)="receiveResult($event, 0)"></app-pet-create>
+        <app-pet-create (resultAction)="receiveResult($event, 1)"></app-pet-create>
     </p-dialog>
     <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa thú cưng" [(visible)]="visibleUpdateModal" [modal]="true"
         [style]="{ width: '90vw', height: '100vh' }" [draggable]="false" [resizable]="false">
-        <app-pet-update (resultAction)="receiveResult($event, 1)" [idPet]="idPetUpdate"></app-pet-update>
+        <app-pet-update (resultAction)="receiveResult($event, 2)" [idPet]="idPetUpdate"></app-pet-update>
     </p-dialog>
     <p-panel header="Công cụ" [toggleable]="true">
         <button pButton icon="fa fa-plus" label="Thêm mới" (click)="showCreateModal()"></button>

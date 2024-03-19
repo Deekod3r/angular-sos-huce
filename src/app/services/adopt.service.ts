@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { CommonService } from './common.service';
 import { AuthService } from './auth.service';
 import { CONFIG } from '../common/config';
-import { adoptStatus, adoptStatusKey } from '../common/constant';
+import { adoptConfig } from '../common/constant';
 import { HttpParams } from '@angular/common/http';
 
 @Injectable({
@@ -17,12 +17,6 @@ export class AdoptService {
     constructor(private commonService: CommonService, private authService: AuthService) { }
 
     getAdopts(search: any): Observable<any> {
-        let params = new HttpParams();
-        for (const key in search) {
-            if (search.hasOwnProperty(key)) {
-                params = params.set(key, search[key] != null ? search[key].toString() : '');
-            }
-        }
         const request = {
             function: this.API_URL,
             method: CONFIG.KEY.METHOD_GET,
@@ -30,7 +24,7 @@ export class AdoptService {
                 headers: {
                     'Authorization': 'Bearer ' + this.authService.getToken()
                 },
-                params: params
+                params: search
             }
         }
         return this.commonService.callAPI(request);
@@ -38,7 +32,7 @@ export class AdoptService {
 
     getAdoptsByUser(): Observable<any> {
       const request = {
-          function: this.API_URL + '/user' + '/' + this.authService.getInfoUser().id,
+          function: this.API_URL + '/user' + '/' + this.authService.getCurrentUser().id,
           method: CONFIG.KEY.METHOD_GET,
           options: {
               headers: {
@@ -65,19 +59,11 @@ export class AdoptService {
         return this.commonService.callAPI(request);
     }
 
-    createAdopt(form: any): Observable<any> {
+    createAdopt(body: any): Observable<any> {
         const request = {
             function: this.API_URL + '/create',
             method: CONFIG.KEY.METHOD_POST,
-            body: {
-                petId: form.petAdopt,
-                registeredBy: form.registeredBy,
-                address: form.address ? form.address.trim() : '',
-                wardId: form.ward,
-                districtId: form.district,
-                provinceId: form.province,
-                reason: form.reason ? form.reason.trim() : ''
-            },
+            body: body,
             options: {
                 headers: {
                     'Authorization': 'Bearer ' + this.authService.getToken()
@@ -91,15 +77,7 @@ export class AdoptService {
         const request = {
             function: this.API_URL + '/update/' + id,
             method: CONFIG.KEY.METHOD_PUT,
-            body: {
-                id: form.id,
-                address: form.address ? form.address.trim() : '',
-                wardId: form.ward,
-                districtId: form.district,
-                provinceId: form.province,
-                reason: form.reason ? form.reason.trim() : '',
-                fee: form.fee
-            },
+            body: form,
             options: {
                 headers: {
                     'Authorization': 'Bearer ' + this.authService.getToken()
@@ -154,7 +132,7 @@ export class AdoptService {
       }
 
     getStatus(status: number): string | undefined {
-        const statusOption = adoptStatus.find(option => option.value === status);
+        const statusOption = adoptConfig.status.find(option => option.value === status);
         return statusOption?.label;
     }
 
@@ -178,10 +156,11 @@ export class AdoptService {
     }
 
     isAvailableForCancelByUser(status: number): boolean {
-        return status === adoptStatusKey.waiting;
+        return status === adoptConfig.statusKey.waiting;
     }
 
-    optionStatus() {
-        return adoptStatus;
+    optionStatus(): any[] {
+        return adoptConfig.status;
     }
+    
 }

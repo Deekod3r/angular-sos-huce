@@ -9,7 +9,7 @@ import { AdoptionModule } from './adoption.module';
 import { Subject, takeUntil } from 'rxjs';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { PetService } from 'src/app/services/pet.service';
-import { adoptSearch, adoptStatusKey, petStatusKey, typeAction } from 'src/app/common/constant';
+import { adoptConfig, petConfig, typeAction } from 'src/app/common/constant';
 import { convertDateTimeFormat } from 'src/app/shared/utils/data.util';
 import { title, message, messageAdopt } from 'src/app/common/message';
 import { CONFIG } from 'src/app/common/config';
@@ -21,7 +21,6 @@ import { UserService } from 'src/app/services/user.service';
     standalone: true,
     imports: [AdoptionModule, TableModule, TagModule, TieredMenuModule, 
         PaginatorModule, ConfirmDialogModule, PaginatorModule],
-    providers: [ConfirmationService, MessageService],
     templateUrl: './adoption.component.html',
     styleUrls: ['./adoption.component.css']
 })
@@ -33,7 +32,7 @@ export class AdoptionComponent implements OnInit {
     dataReject = {
         id: '',
         message: '',
-        status: adoptStatusKey.reject,
+        status: adoptConfig.statusKey.reject,
         event: Event,
     };
     idAdoptionUpdate!: string;
@@ -43,17 +42,17 @@ export class AdoptionComponent implements OnInit {
     currentPage = 1;
     totalPages = 0;
     totalRecords = 0;
-    limit = adoptSearch.limitDefault;
+    limit = adoptConfig.search.limitDefault;
     first!: number;
     key = {
         limit: this.limit,
         page: this.currentPage,
-        status: null,
+        status: '',
         code: '',
-        fromDate: null,
-        fromDateTime: null,
-        toDate: null,
-        toDateTime: null,
+        fromDate: '',
+        fromDateTime: '',
+        toDate: '',
+        toDateTime: '',
         registeredBy: '',
         petAdopt: ''
     }
@@ -75,7 +74,7 @@ export class AdoptionComponent implements OnInit {
         this.subscribes$.complete();
     }
 
-    getAdopts() {
+    getAdopts(): void {
         this.key.limit = this.limit;
         this.key.page = this.currentPage;
         this.key.fromDate = this.key.fromDateTime ? convertDateTimeFormat(this.key.fromDateTime, true) : this.key.fromDateTime;
@@ -83,12 +82,12 @@ export class AdoptionComponent implements OnInit {
         let search = {
             limit: this.limit,
             page: this.currentPage,
-            status: this.key.status,
+            status: this.key.status ? this.key.status : '',
             code: this.key.code ? this.key.code.trim() : '',
-            fromDate: this.key.fromDate,
-            toDate: this.key.toDate,
-            registeredBy: this.key.registeredBy,
-            petAdopt: this.key.petAdopt
+            fromDate: this.key.fromDate ? this.key.fromDate : '',
+            toDate: this.key.toDate ? this.key.toDate : '',
+            registeredBy: this.key.registeredBy ? this.key.registeredBy : '',
+            petAdopt: this.key.petAdopt ? this.key.petAdopt : ''
         }
         this.adoptService.getAdopts(search)
         .pipe(takeUntil(this.subscribes$))
@@ -116,20 +115,20 @@ export class AdoptionComponent implements OnInit {
             {
                 label: 'Trạng thái',
                 icon: 'fa fa-signal',
-                visible: adopt.status === adoptStatusKey.waiting || adopt.status === adoptStatusKey.inProgress,
+                visible: adopt.status === adoptConfig.statusKey.waiting || adopt.status === adoptConfig.statusKey.inProgress,
                 items: [
                     {
                         label: 'Đã tiếp nhận',
                         icon: 'fa fa-check',
-                        visible: adopt.status === adoptStatusKey.waiting,
+                        visible: adopt.status === adoptConfig.statusKey.waiting,
                         command: (event: any) => {
-                            this.updateStatusAdopt({ id: adopt.id , status: adoptStatusKey.inProgress }, adopt.id);
+                            this.updateStatusAdopt({ id: adopt.id , status: adoptConfig.statusKey.inProgress }, adopt.id);
                         }
                     },
                     {
                         label: 'Từ chối',
                         icon: 'fa fa-ban',
-                        visible: adopt.status === adoptStatusKey.waiting || adopt.status === adoptStatusKey.inProgress,
+                        visible: adopt.status === adoptConfig.statusKey.waiting || adopt.status === adoptConfig.statusKey.inProgress,
                         command: (event: any) => {
                             this.dataReject.id = adopt.id;
                             this.dataReject.event = event;
@@ -139,40 +138,40 @@ export class AdoptionComponent implements OnInit {
                     {
                         label: 'Hủy',
                         icon: 'fa fa-times',
-                        visible: adopt.status === adoptStatusKey.waiting || adopt.status === adoptStatusKey.inProgress,
+                        visible: adopt.status === adoptConfig.statusKey.waiting || adopt.status === adoptConfig.statusKey.inProgress,
                         command: (event: any) => {
-                            this.confirmUpdateStatus(event, { id: adopt.id, status: adoptStatusKey.cancel, action: 'hủy', message: null });
+                            this.confirmUpdateStatus(event, { id: adopt.id, status: adoptConfig.statusKey.cancel, action: 'hủy', message: null });
                         }
                     },
                     {
                         label: 'Hoàn thành',
                         icon: 'fa fa-check-circle',
-                        visible: adopt.status === adoptStatusKey.inProgress,
+                        visible: adopt.status === adoptConfig.statusKey.inProgress,
                         command: (event: any) => {
-                            this.confirmUpdateStatus(event, { id: adopt.id, status: adoptStatusKey.complete, action: 'hoàn thành', message: null });
+                            this.confirmUpdateStatus(event, { id: adopt.id, status: adoptConfig.statusKey.complete, action: 'hoàn thành', message: null });
                         }
                     }
                 ]
             },
             {
-                    separator: true,
-                    visible: adopt.status === adoptStatusKey.waiting || adopt.status === adoptStatusKey.inProgress
+                separator: true,
+                visible: adopt.status === adoptConfig.statusKey.waiting || adopt.status === adoptConfig.statusKey.inProgress
             },
             {
-                label: adopt.status === adoptStatusKey.waiting || adopt.status === adoptStatusKey.inProgress ? 'Chỉnh sửa' : 'Xem chi tiết',
-                icon: adopt.status === adoptStatusKey.waiting || adopt.status === adoptStatusKey.inProgress ? 'fa fa-edit' : 'fa fa-photo',
+                label: adopt.status === adoptConfig.statusKey.waiting || adopt.status === adoptConfig.statusKey.inProgress ? 'Chỉnh sửa' : 'Xem chi tiết',
+                icon: adopt.status === adoptConfig.statusKey.waiting || adopt.status === adoptConfig.statusKey.inProgress ? 'fa fa-edit' : 'fa fa-photo',
                 command: () => {
                     this.showUpdateModal(adopt.id);
                 }
             },
             {
-                    separator: true,
-                    visible: adopt.status !== adoptStatusKey.complete
+                separator: true,
+                visible: adopt.status !== adoptConfig.statusKey.complete
             },
             {
                 label: 'Xoá',
                 icon: 'fa fa-trash',
-                visible: adopt.status !== adoptStatusKey.complete,
+                visible: adopt.status !== adoptConfig.statusKey.complete,
                 command: (event: any) => {
                     this.confirmDelete(event, adopt.id);
                 }
@@ -197,7 +196,7 @@ export class AdoptionComponent implements OnInit {
     getPets(): void {
         this.petService.getPets(
             {
-                status: petStatusKey.waiting
+                status: petConfig.statusKey.waiting
             }
         )
         .pipe(takeUntil(this.subscribes$))
@@ -223,35 +222,35 @@ export class AdoptionComponent implements OnInit {
         }
     }
     
-    showCreateModal() {
+    showCreateModal(): void {
         this.visibleCreateModal = true;
     }
 
-    showUpdateModal(id: string) {
+    showUpdateModal(id: string): void {
         this.idAdoptionUpdate = id;
         this.visibleUpdateModal = true;
     }
 
     refresh(): void {
         this.currentPage = 1;
-        this.limit = adoptSearch.limitDefault;
+        this.limit = adoptConfig.search.limitDefault;
         this.first = 0;
         this.key = {
             limit: this.limit,
             page: this.currentPage,
-            status: null,
+            status: '',
             code: '',
-            fromDate: null,
-            fromDateTime: null,
-            toDate: null,
-            toDateTime: null,
+            fromDate: '',
+            fromDateTime: '',
+            toDate: '',
+            toDateTime: '',
             registeredBy: '',
             petAdopt: ''
         };
         this.getAdopts();
     }
 
-    onPageChange(event: any) {
+    onPageChange(event: any): void {
         this.currentPage = event.page + 1;
         this.limit = event.rows;
         this.first = event.first;
@@ -277,7 +276,7 @@ export class AdoptionComponent implements OnInit {
         });
     }
 
-    confirmUpdateStatus(event: any, data: any) {
+    confirmUpdateStatus(event: any, data: any): void {
         this.confirmationService.confirm({
             target: event.target as EventTarget,
             message: 'Bạn chắc chắn muốn ' + data.action + ' đơn nhận nuôi này chứ?',
@@ -307,21 +306,21 @@ export class AdoptionComponent implements OnInit {
                 });
             },
             reject: () => {
-                this.messageService.add({ severity: 'error', summary: title.cancel, detail: messageAdopt.cancelUpdateStatus, life: 3000 });
+                this.messageService.add({ severity: 'error', summary: title.cancel, detail: messageAdopt.cancelUpdateStatus });
             }
         });
     }
 
-    rejectAdopt() {
+    rejectAdopt(): void {
         if (!this.dataReject.message) {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: messageAdopt.rejectReason, life: 3000 });
+            this.messageService.add({ severity: 'error', summary: title.error, detail: messageAdopt.rejectReason });
             return;
         }
         this.visibleDeleteModal = false; 
-        this.confirmUpdateStatus(this.dataReject.event, { id: this.dataReject.id, status: adoptStatusKey.reject, action: 'từ chối', message: this.dataReject.message });
+        this.confirmUpdateStatus(this.dataReject.event, { id: this.dataReject.id, status: adoptConfig.statusKey.reject, action: 'từ chối', message: this.dataReject.message });
     }
 
-    confirmDelete(event: any, id: string) {
+    confirmDelete(event: any, id: string): void {
         this.confirmationService.confirm({
             target: event.target as EventTarget,
             message: 'Bạn chắc chắn muốn xoá đơn nhận nuôi này chứ?',
@@ -343,7 +342,7 @@ export class AdoptionComponent implements OnInit {
                 });
             },
             reject: () => {
-                this.messageService.add({ severity: 'error', summary: title.cancel, detail: message.cancelDelete, life: 3000 });
+                this.messageService.add({ severity: 'error', summary: title.cancel, detail: message.cancelDelete });
             }
         });
     }

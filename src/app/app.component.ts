@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { PrimeNGConfig } from 'primeng/api';
-import { TranslateService } from '@ngx-translate/core';
+import { Component } from '@angular/core';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
     selector: 'app-root',
+    providers: [MessageService, ConfirmationService],
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })

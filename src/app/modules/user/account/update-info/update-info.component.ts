@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
 import { title, message, messageUser } from 'src/app/common/message';
 import { AuthService } from 'src/app/services/auth.service';
@@ -25,14 +26,12 @@ export class UpdateInfoComponent implements OnInit {
     formEmailConfirm!: FormGroup;
     onConfirmEmail: boolean = false;
     formPassword!: FormGroup;
-    notify: boolean = false;
-    message: any;
 
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private userService: UserService, private authService: AuthService) { }
+    constructor(private userService: UserService, private authService: AuthService, private messageService: MessageService) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         if (this.infoKey === 'name') {
             this.formName = new FormGroup({
                 'currentPassword': new FormControl('', [Validators.required]),
@@ -69,7 +68,7 @@ export class UpdateInfoComponent implements OnInit {
         this.subscribes$.complete();
     }
 
-    updateName() {
+    updateName(): void {
         if (this.formName.invalid) {
             this.formName.markAllAsTouched();
             return;
@@ -90,15 +89,15 @@ export class UpdateInfoComponent implements OnInit {
             },
             error: (res) => {
                 if (res.error) {
-                        this.notifyResponse(res.error.message, 'error', title.error);
+                    this.messageService.add({severity:'error', summary: title.error, detail: res.error.message});
                 } else {
-                    this.notifyResponse(message.error, 'error', title.error);
+                    this.messageService.add({severity:'error', summary: title.error, detail: message.error});
                 }
             }
         });
     }
 
-    updatePhone() {
+    updatePhone(): void {
         if (this.formPhone.invalid) {
             this.formPhone.markAllAsTouched();
             return;
@@ -119,15 +118,15 @@ export class UpdateInfoComponent implements OnInit {
             },
             error: (res) => {
                 if (res.error) {
-                        this.notifyResponse(res.error.message, 'error', title.error);
+                    this.messageService.add({severity:'error', summary: title.error, detail: res.error.message});
                 } else {
-                    this.notifyResponse(message.error, 'error', title.error);
+                    this.messageService.add({severity:'error', summary: title.error, detail: message.error});
                 }
             }
         });
     }
 
-    updateEmail() {
+    updateEmail(): void {
         if (this.formEmail.invalid) {
             this.formEmail.markAllAsTouched();
             return;
@@ -148,20 +147,24 @@ export class UpdateInfoComponent implements OnInit {
             },
             error: (res) => {
                 if (res.error) {
-                        this.notifyResponse(res.error.message, 'error', title.error);
+                    this.messageService.add({severity:'error', summary: title.error, detail: res.error.message});
                 } else {
-                    this.notifyResponse(message.error, 'error', title.error);
+                    this.messageService.add({severity:'error', summary: title.error, detail: message.error});
                 }
             }
         });
     }
 
-    verifyUpdateEmail() {
+    verifyUpdateEmail(): void {
         if (this.formEmailConfirm.invalid) {
             this.formEmailConfirm.markAllAsTouched();
             return;
         }
-        this.userService.verifyUpdateEmail(this.formEmailConfirm.value.id, this.formEmailConfirm.value.code.trim())
+        let data = {
+            id: this.formEmailConfirm.value.id,
+            code: this.formEmailConfirm.value.code.trim()
+        }
+        this.userService.verifyUpdateEmail(data)
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res) => {
@@ -170,20 +173,20 @@ export class UpdateInfoComponent implements OnInit {
                         this.authService.logout();
                         window.location.reload();
                     }, 2000);
-                    this.notifyResponse(messageUser.updateSuccess + ". Vui lòng đăng nhập lại!", 'success', title.success);
+                    this.messageService.add({severity:'success', summary: title.success, detail: messageUser.updateEmailSuccess});
                 }
             },
             error: (res) => {
                 if (res.error) {
-                        this.notifyResponse(res.error.message, 'error', title.error);
+                    this.messageService.add({severity:'error', summary: title.error, detail: res.error.message});
                 } else {
-                    this.notifyResponse(message.error, 'error', title.error);
+                    this.messageService.add({severity:'error', summary: title.error, detail: message.error});
                 }
             }
         });
     }
 
-    updatePassword() {
+    updatePassword(): void {
         if (this.formPassword.invalid) {
             this.formPassword.markAllAsTouched();
             return;
@@ -204,28 +207,17 @@ export class UpdateInfoComponent implements OnInit {
                         this.authService.logout();
                         window.location.reload();
                     }, 2000);
-                    this.notifyResponse(messageUser.updateSuccess + ". Vui lòng đăng nhập lại!", 'success', title.success);
+                    this.messageService.add({severity:'success', summary: title.success, detail: messageUser.updateSuccess + ". Vui lòng đăng nhập lại!"});
                 }
             },
             error: (res) => {
                 if (res.error) {
-                        this.notifyResponse(res.error.message, 'error', title.error);
+                    this.messageService.add({severity:'error', summary: title.error, detail: res.error.message});
                 } else {
-                    this.notifyResponse(message.error, 'error', title.error);
+                    this.messageService.add({severity:'error', summary: title.error, detail: message.error});
                 }
             }
         });
-    }
-
-    notifyResponse(msg: string, type: string, title: string): void {
-        this.notify = true;
-        this.message = [
-            { severity: type, summary: title, detail: msg }
-        ];
-        setTimeout(() => {
-            this.notify = false;
-            this.message = [];
-        }, 3000);
     }
 
 }

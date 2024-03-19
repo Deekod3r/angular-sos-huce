@@ -8,7 +8,7 @@ import { CarouselModule } from 'primeng/carousel';
 import { CardNewsModule } from 'src/app/shared/components/card-news/card-news.module';
 import { NewsService } from 'src/app/services/news.service';
 import { Subject, takeUntil } from 'rxjs';
-import { petSearch, petStatusKey } from 'src/app/common/constant';
+import { petConfig } from 'src/app/common/constant';
 
 @Component({
     selector: 'app-home',
@@ -93,34 +93,34 @@ export class HomeComponent implements OnInit {
     }
 
     subscribeAndGetData() {
-        let petSearchKey = {
-            limit: petSearch.limitDefault,
+        let petSearch = {
+            limit: petConfig.search.limitDefault,
             page: 1,
-            status: petStatusKey.waiting.toString(),
+            status: petConfig.statusKey.waiting,
         };
         this.petService
-            .getPets(petSearchKey)
-            .pipe(takeUntil(this.subscribes$))
-            .subscribe((res: any) => {
-                if (res.success) {
-                    this.pets = res.data.pets;
-                }
-            });
+        .getPets(petSearch)
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe((res: any) => {
+            if (res.success) {
+                this.pets = res.data.pets;
+            }
+        });
 
         this.newsService
-            .getNews()
-            .pipe(takeUntil(this.subscribes$))
-            .subscribe((news: any) => {
-                this.news = news;
-            });
+        .getNews()
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe((news: any) => {
+            this.news = news;
+        });
 
         this.petService
-            .getStatisticCases()
-            .pipe(takeUntil(this.subscribes$))
-            .subscribe((res: any) => {
-                if (res.success) {
-                    this.statisticCases = res.data;
-                }
-            });
+        .getStatisticCases()
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe((res: any) => {
+            if (res.success) {
+                this.statisticCases = res.data;
+            }
+        });
     }
 }

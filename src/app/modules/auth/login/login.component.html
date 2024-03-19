@@ -19,7 +19,7 @@
                     </span>
                     <input pInputText type="text" formControlName="email" class="form-control" name="email">
                 </div>
-                <div [hidden]="loginForm.controls['email'].valid || !loginForm.controls['email'].dirty"
+                <div [hidden]="loginForm.controls['email'].valid || !loginForm.controls['email'].touched"
                     class="text-red-500 mt-1">
                     Vui lòng nhập email
                 </div>
@@ -34,7 +34,7 @@
                     </span>
                     <input pInputText type="password" formControlName="password" class="form-control" name="password">
                 </div>
-                <div [hidden]="loginForm.controls['password'].valid || !loginForm.controls['password'].dirty"
+                <div [hidden]="loginForm.controls['password'].valid || !loginForm.controls['password'].touched"
                     class="text-red-500 mt-1">
                     Vui lòng nhập mật khẩu
                 </div>
@@ -48,15 +48,10 @@
                 <a class="font-bold" routerLink="/quen-mat-khau">Quên mật khẩu?</a>
             </div>            
             <div class="col-12 mt-2">
-                <button pButton label="Đăng nhập" type="submit" [disabled]="!loginForm.valid || isSubmitted"
-                    class="btn-login">
-                </button>
+                <button pButton label="Đăng nhập" type="submit" class="btn-login"></button>
                 <div class="mt-1" [hidden]="!isSubmitted">
                     <p-progressBar mode="indeterminate" [style]="{ height: '3px' }"></p-progressBar>
                 </div>
-            </div>
-            <div class="col-12" [hidden]="!loginError">
-                <p-messages [(value)]="loginMsg" [enableService]="false" [closable]="false"></p-messages>
             </div>
             <p-divider align="center" type="solid" class="col-12">
                 <b>Hoặc</b>

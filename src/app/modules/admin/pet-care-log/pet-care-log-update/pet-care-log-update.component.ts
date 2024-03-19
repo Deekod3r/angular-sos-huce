@@ -2,10 +2,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
-import { adoptStatusKey } from 'src/app/common/constant';
+import { adoptConfig } from 'src/app/common/constant';
 import { title, message } from 'src/app/common/message';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { PetCareLogService } from 'src/app/services/pet-care-log.service';
+import { convertDateFormat } from 'src/app/shared/utils/data.util';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 
 @Component({
@@ -27,7 +28,7 @@ export class PetCareLogUpdateComponent {
 
     constructor(private petCareLogService: PetCareLogService, private messageService: MessageService, private adoptService: AdoptService) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.form = new FormGroup({
             id: new FormControl('', [Validators.required]),
             adoptId: new FormControl({value: '', disabled: true}, [Validators.required]),
@@ -38,13 +39,13 @@ export class PetCareLogUpdateComponent {
         this.getLog();
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this.subscribes$.next();
         this.subscribes$.complete();
     }
 
-    getAdopts() {
-        this.adoptService.getAdopts({ status: adoptStatusKey.complete })
+    getAdopts(): void {
+        this.adoptService.getAdopts({ status: adoptConfig.statusKey.complete })
         .pipe(takeUntil(this.subscribes$))
         .subscribe(res => {
             if (res.success) {
@@ -53,7 +54,7 @@ export class PetCareLogUpdateComponent {
         });
     }
 
-    getLog() {
+    getLog(): void {
         this.petCareLogService.getLogById(this.idLog)
         .pipe(takeUntil(this.subscribes$))
         .subscribe(res => {
@@ -69,9 +70,15 @@ export class PetCareLogUpdateComponent {
         });
     }
 
-    onSaveLog() {
+    onSaveLog(): void {
         if (this.form.valid) {
-            this.petCareLogService.updateLog(this.form.value, this.idLog)
+            let body = {
+                id: this.form.value.id,
+                adoptId: this.form.value.adoptId,
+                date: convertDateFormat(this.form.value.date),
+                note: this.form.value.note.trim()
+            }
+            this.petCareLogService.updateLog(body, this.idLog)
             .pipe(takeUntil(this.subscribes$))
             .subscribe({
                 next: (res) => {
@@ -90,7 +97,7 @@ export class PetCareLogUpdateComponent {
                 }
             });
         } else {
-            this.messageService.add({severity:'error', summary: 'Lỗi', detail: message.requiredInfo});
+            this.form.markAllAsTouched();
         }
     }
     

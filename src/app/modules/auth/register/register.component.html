@@ -20,7 +20,7 @@
                     <input pInputText type="text" formControlName="name" class="form-control" name="name">
                 </div>
                 <div class="text-red-500 mt-1"
-                    *ngIf="registerForm.controls['name'].hasError('required') && registerForm.controls['name'].dirty">
+                    *ngIf="registerForm.controls['name'].hasError('required') && registerForm.controls['name'].touched">
                     Vui lòng nhập họ tên
                 </div>
                 <div class="text-red-500 mt-1"
@@ -44,7 +44,7 @@
                     <input pInputText type="text" formControlName="phoneNumber" class="form-control" name="phone-number">
                 </div>
                 <div class="text-red-500 mt-1"
-                    *ngIf="registerForm.controls['phoneNumber'].hasError('required') && registerForm.controls['phoneNumber'].dirty">
+                    *ngIf="registerForm.controls['phoneNumber'].hasError('required') && registerForm.controls['phoneNumber'].touched">
                     Vui lòng nhập số điện thoại
                 </div>
                 <div class="text-red-500 mt-1"
@@ -68,7 +68,7 @@
                     <input pInputText type="email" formControlName="email" class="form-control" name="email">
                 </div>
                 <div class="text-red-500 mt-1"
-                    *ngIf="registerForm.controls['email'].hasError('required') && registerForm.controls['email'].dirty">
+                    *ngIf="registerForm.controls['email'].hasError('required') && registerForm.controls['email'].touched">
                     Vui lòng nhập email
                 </div>
                 <div class="text-red-500 mt-1"
@@ -110,7 +110,7 @@
                     </span>
                 </div>
                 <div class="text-red-500 mt-1"
-                    *ngIf="registerForm.controls['password'].hasError('required') && registerForm.controls['password'].dirty">
+                    *ngIf="registerForm.controls['password'].hasError('required') && registerForm.controls['password'].touched">
                     Vui lòng nhập mật khẩu
                 </div>
                 <div class="text-red-500 mt-1"
@@ -123,15 +123,10 @@
                 </div>
             </div>
             <div class="col-12 mt-2">
-                <button pButton label="Đăng ký" type="submit" [disabled]="!registerForm.valid || isSubmitted"
-                    class="btn-register">
-                </button>
+                <button pButton label="Đăng ký" type="submit" class="btn-register"></button>
                 <div class="mt-1" [hidden]="!isSubmitted">
                     <p-progressBar mode="indeterminate" [style]="{ height: '3px' }"></p-progressBar>
                 </div>
-            </div>
-            <div [hidden]="!registerNotify" class="col-12">
-                <p-messages [(value)]="registerMsg" [enableService]="false" [closable]="false"></p-messages>
             </div>
             <div class="col-12 mt-2" align="center">
                 <span>Đã có tài khoản? <a class="btn-register font-bold" routerLink="/dang-nhap"
@@ -161,7 +156,7 @@
                             class="form-control text-center font-bold text-3xl" name="code" maxlength="6">
                     </div>
                     <div class="text-red-500 mt-1"
-                        *ngIf="verifyForm.controls['code'].hasError('required') && verifyForm.controls['code'].dirty">
+                        *ngIf="verifyForm.controls['code'].hasError('required') && verifyForm.controls['code'].touched">
                         Vui lòng nhập mã xác thực
                     </div>
                 </div>
@@ -172,18 +167,13 @@
                 </button>
             </div>
             <div class="col-6 mt-2">
-                <button pButton label="Kiểm tra" type="submit" [disabled]="!verifyForm.valid || isSubmitted"
-                    class="btn-register">
-                </button>
+                <button pButton label="Kiểm tra" type="submit" class="btn-register"></button>
             </div>
             <div class="col-12 text-center mt-1">
                 <p class="font-semibold">Chưa nhận được mã? <a class="cursor-pointer" (click)="onRegister()">Gửi lại</a></p>
             </div>
             <div class="col-12" [hidden]="!isSubmitted">
                 <p-progressBar mode="indeterminate" [style]="{ height: '3px' }"></p-progressBar>
-            </div>
-            <div class="col-12" [hidden]="!registerNotify">
-                <p-messages [(value)]="registerMsg" [enableService]="false" [closable]="false"></p-messages>
             </div>
         </div>
     </p-panel>

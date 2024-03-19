@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Message } from 'primeng/api';
+import { Message, MessageService } from 'primeng/api';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { finalize, takeUntil } from 'rxjs/operators'; 
 import { AuthService } from 'src/app/services/auth.service';
@@ -21,15 +21,13 @@ import { CONFIG } from 'src/app/common/config';
 export class LoginComponent implements OnInit, OnDestroy {
 
     loginForm!: FormGroup;
-    loginError: boolean = false;
-    loginMsg: Message[] = [];
     isSubmitted: boolean = false;
 
     private readonly subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private authService: AuthService) { }
+    constructor(private authService: AuthService, private messageService: MessageService) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.loginForm = new FormGroup({
             'email': new FormControl('', [Validators.required, noWhitespaceValidator()]),
             'password': new FormControl('', [Validators.required, noWhitespaceValidator()]),
@@ -37,24 +35,29 @@ export class LoginComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngAfterViewInit() {
+    ngAfterViewInit(): void {
         if (sessionStorage.getItem(CONFIG.KEY.TOKEN_EXPIRED)) {
-            this.errorLogin(messageUser.tokenExpired)
+            this.messageService.add({severity:'error', summary: title.error, detail: messageUser.tokenExpired});
+            sessionStorage.removeItem(CONFIG.KEY.TOKEN_EXPIRED);
         }
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this.subscribes$.next();
         this.subscribes$.complete();
     }
 
-    onLogin() {
+    onLogin(): void {
         if (this.loginForm.invalid) {
-            this.errorLogin(message.requiredInfo)
+            this.loginForm.markAllAsTouched();
             return;
         }
+        let body = {
+            email: this.loginForm.controls['email'].value.trim(),
+            password: this.loginForm.controls['password'].value,
+        }
         this.isSubmitted = true;
-        this.authService.login(this.loginForm.value).pipe(
+        this.authService.login(body).pipe(
             takeUntil(this.subscribes$),
             finalize(() => {
                 this.isSubmitted = false;
@@ -68,24 +71,13 @@ export class LoginComponent implements OnInit, OnDestroy {
             },
             error: (res: any) => {
                 if (res.error) {
-                    this.errorLogin(res.error.message);
+                    this.messageService.add({severity:'error', summary: title.error, detail: res.error.message});
                 } else {
-                    this.errorLogin(message.error);
+                    this.messageService.add({severity:'error', summary: title.error, detail: message.error});
                 }
                 this.loginForm.controls['password'].setValue('');
             }
         });
-    }
-
-    errorLogin(msg: string): void {
-        this.loginError = true;
-        this.loginMsg = [
-            { severity: 'error', summary: title.error, detail: msg }
-        ];
-        setTimeout(() => {
-            this.loginError = false;
-            this.loginMsg = [];
-        }, 3000);
     }
 
 }

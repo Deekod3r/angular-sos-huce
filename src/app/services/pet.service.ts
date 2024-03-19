@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CommonService } from './common.service';
 import { CONFIG } from '../common/config';
 import { AuthService } from './auth.service';
-import { HttpParams } from '@angular/common/http';
-import { petStatus, petGender, petType, petAge, petMoreInfor, moreInfor, petStatusKey } from '../common/constant';
+import { petConfig } from '../common/constant';
 import { upcaseAllFirstLetters, upcaseFirstLetter } from '../shared/utils/string.util';
 import { convertDateFormat } from '../shared/utils/data.util';
+import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 
 @Injectable({
     providedIn: 'root'
@@ -18,17 +18,11 @@ export class PetService {
     constructor(private commonService: CommonService, private authService: AuthService) { }
 
     getPets(search: any): Observable<any> {
-        let params = new HttpParams();
-        for (const key in search) {
-            if (search.hasOwnProperty(key)) {
-                params = params.set(key, search[key] != null ? search[key].toString() : '');
-            }
-        }
         const request = {
             function: this.API_URL,
             method: CONFIG.KEY.METHOD_GET,
             options: {
-                params: params
+                params: search
             }
         }
         return this.commonService.callAPI(request);
@@ -49,19 +43,19 @@ export class PetService {
         formData.append('color', upcaseFirstLetter((form.petColor.label ? form.petColor.label : form.petColor).trim()));
         formData.append('description', form.petDescription.trim());
         formData.append('note', form.petNote ? form.petNote.trim() : form.petNote);
-        formData.append('diet', form.petDiet != null ? form.petDiet : moreInfor.undefined);
-        formData.append('friendlyToCats', form.petFriendlyToCats != null ? form.petFriendlyToCats : moreInfor.undefined);
-        formData.append('friendlyToDogs', form.petFriendlyToDogs != null ? form.petFriendlyToDogs : moreInfor.undefined);
-        formData.append('friendlyToHuman', form.petFriendlyToHuman != null ? form.petFriendlyToHuman : moreInfor.undefined);
+        formData.append('diet', form.petDiet ? form.petDiet : petConfig.moreInforKey.undefined);
+        formData.append('friendlyToCats', form.petFriendlyToCats ? form.petFriendlyToCats : petConfig.moreInforKey.undefined);
+        formData.append('friendlyToDogs', form.petFriendlyToDogs ? form.petFriendlyToDogs : petConfig.moreInforKey.undefined);
+        formData.append('friendlyToHuman', form.petFriendlyToHuman ? form.petFriendlyToHuman : petConfig.moreInforKey.undefined);
         formData.append('gender', form.petGender);
         formData.append('image', form.petImage);
         formData.append('name', upcaseAllFirstLetters(form.petName.trim()));
-        formData.append('rabies', form.petRabies != null ? form.petRabies : moreInfor.undefined);
+        formData.append('rabies', form.petRabies ? form.petRabies : petConfig.moreInforKey.undefined);
         formData.append('status', form.petStatus);
-        formData.append('sterilization', form.petSterilization != null ? form.petSterilization : moreInfor.undefined);
-        formData.append('toilet', form.petToilet != null ? form.petToilet : moreInfor.undefined);
+        formData.append('sterilization', form.petSterilization ? form.petSterilization : petConfig.moreInforKey.undefined);
+        formData.append('toilet', form.petToilet ? form.petToilet : petConfig.moreInforKey.undefined);
         formData.append('type', form.petType);
-        formData.append('vaccine', form.petVaccine != null ? form.petVaccine : moreInfor.undefined);
+        formData.append('vaccine', form.petVaccine ? form.petVaccine : petConfig.moreInforKey.undefined);
         formData.append('weight', form.petWeight);
         formData.append('intakeDate', convertDateFormat(form.intakeDate));
         const request = {
@@ -78,31 +72,31 @@ export class PetService {
     }
 
     updatePet(form: any, id: string): Observable<any> {
+        const formData = new FormData();
+        formData.append('id', form.petId);
+        formData.append('age', form.petAge);
+        formData.append('breed', upcaseFirstLetter((form.petBreed.label ? form.petBreed.label : form.petBreed).trim()));
+        formData.append('color', upcaseFirstLetter((form.petColor.label ? form.petColor.label : form.petColor).trim()));
+        formData.append('description', form.petDescription.trim());
+        formData.append('note', form.petNote ? form.petNote.trim() : form.petNote);
+        formData.append('diet', form.petDiet ? form.petDiet : petConfig.moreInforKey.undefined);
+        formData.append('friendlyToCats', form.petFriendlyToCats ? form.petFriendlyToCats : petConfig.moreInforKey.undefined);
+        formData.append('friendlyToDogs', form.petFriendlyToDogs ? form.petFriendlyToDogs : petConfig.moreInforKey.undefined);
+        formData.append('friendlyToHuman', form.petFriendlyToHuman ? form.petFriendlyToHuman : petConfig.moreInforKey.undefined);
+        formData.append('gender', form.petGender);
+        formData.append('name', upcaseAllFirstLetters(form.petName.trim()));
+        formData.append('rabies', form.petRabies ? form.petRabies : petConfig.moreInforKey.undefined);
+        formData.append('status', form.petStatus);
+        formData.append('sterilization', form.petSterilization ? form.petSterilization : petConfig.moreInforKey.undefined);
+        formData.append('toilet', form.petToilet ? form.petToilet : petConfig.moreInforKey.undefined);
+        formData.append('type', form.petType);
+        formData.append('vaccine', form.petVaccine ? form.petVaccine : petConfig.moreInforKey.undefined);
+        formData.append('weight', form.petWeight);
+        formData.append('intakeDate', convertDateFormat(form.intakeDate));
         const request = {
             function: this.API_URL + '/update/' + id,
             method: CONFIG.KEY.METHOD_PUT,
-            body: {
-                id: form.petId,
-                age: form.petAge,
-                breed: upcaseFirstLetter((form.petBreed.label ? form.petBreed.label : form.petBreed).trim()),
-                color: upcaseFirstLetter((form.petColor.label ? form.petColor.label : form.petColor).trim()),
-                description: form.petDescription.trim(),
-                note: form.petNote ? form.petNote.trim() : form.petNote,
-                diet: form.petDiet != null ? form.petDiet : moreInfor.undefined,
-                friendlyToCats: form.petFriendlyToCats != null ? form.petFriendlyToCats : moreInfor.undefined,
-                friendlyToDogs: form.petFriendlyToDogs != null ? form.petFriendlyToDogs : moreInfor.undefined,
-                friendlyToHuman: form.petFriendlyToHuman != null ? form.petFriendlyToHuman : moreInfor.undefined,
-                gender: form.petGender,
-                name: upcaseAllFirstLetters(form.petName.trim()),
-                rabies: form.petRabies != null ? form.petRabies : moreInfor.undefined,
-                status: form.petStatus,
-                sterilization: form.petSterilization != null ? form.petSterilization : moreInfor.undefined,
-                toilet: form.petToilet != null ? form.petToilet : moreInfor.undefined,
-                type: form.petType,
-                vaccine: form.petVaccine != null ? form.petVaccine : moreInfor.undefined,
-                weight: form.petWeight != null ? form.petWeight : null,
-                intakeDate: convertDateFormat(form.intakeDate)
-            },
+            body: formData,
             options: {
                 headers: {
                     'Authorization': 'Bearer ' + this.authService.getToken()
@@ -150,32 +144,57 @@ export class PetService {
         return this.commonService.callAPI(request);
     }
 
-    isAvailable(status: number): boolean {
-        return status === petStatusKey.waiting;
+    filterBreed(event: AutoCompleteCompleteEvent): any[] {
+        let filtered: any[] = [];
+        let query = event.query.trim();
+        for (let i = 0; i < (petConfig.breed as any[]).length; i++) {
+            let breed = (petConfig.breed as any[])[i];
+            if (breed && breed.label && breed.label.toLowerCase().indexOf(query.toLowerCase()) != -1) {
+                filtered.push(breed);
+            }
+        }
+        return filtered;
+    }
+
+    filterColor(event: AutoCompleteCompleteEvent): any[] {
+        let filtered: any[] = [];
+        let query = event.query.trim();
+
+        for (let i = 0; i < (petConfig.color as any[]).length; i++) {
+            let color = (petConfig.color as any[])[i];
+            if (color && color.label && color.label.toLowerCase().indexOf(query.toLowerCase()) != -1) {
+                filtered.push(color);
+            }
+        }
+        return filtered;
+    }
+    
+    isAvailableForAdopt(status: number): boolean {
+        return status === petConfig.statusKey.waiting;
     }
 
     getStatus(status: number): string | undefined {
-        const statusOption = petStatus.find(option => option.value === status);
+        const statusOption = petConfig.status.find(option => option.value === status);
         return statusOption ? statusOption.label : undefined;
     }
 
     getGender(gender: number): string | undefined {
-        const genderObject = petGender.find(g => g.value === gender);
+        const genderObject = petConfig.gender.find(g => g.value === gender);
         return genderObject?.label;
     }
 
     getType(type: number): string | undefined {
-        const typeObject = petType.find(t => t.value === type);
+        const typeObject = petConfig.type.find(t => t.value === type);
         return typeObject?.label;
     }
 
     getAge(age: number): string | undefined {
-        const ageObject = petAge.find(a => a.value === age);
+        const ageObject = petConfig.age.find(a => a.value === age);
         return ageObject?.label;
     }
 
     getVaccine(vaccine: number): string | undefined {
-        const vaccineObject = petMoreInfor.find(i => i.value === vaccine);
+        const vaccineObject = petConfig.moreInfor.find(i => i.value === vaccine);
         return vaccineObject?.label;
     }
 
@@ -223,33 +242,33 @@ export class PetService {
     }
 
     getMoreInfor(moreInfor: number): string | undefined {
-        const moreInforObject = petMoreInfor.find(i => i.value === moreInfor);
+        const moreInforObject = petConfig.moreInfor.find(i => i.value === moreInfor);
         return moreInforObject?.label;
     }
 
     getMoreInforValue(moreInfor: string): number | undefined {
-        const moreInforObject = petMoreInfor.find(i => i.label === moreInfor);
+        const moreInforObject = petConfig.moreInfor.find(i => i.label === moreInfor);
         return moreInforObject?.value;
     }
 
     optionMoreInfor(): any[] {
-        return petMoreInfor;
+        return petConfig.moreInfor;
     }
 
     optionStatus(): any[] {
-        return petStatus;
+        return petConfig.status;
     }
 
     optionGender(): any[] {
-        return petGender;
+        return petConfig.gender;
     }
 
     optionType(): any[] {
-        return petType;
+        return petConfig.type;
     }
 
     optionAge(): any[] {
-        return petAge;
+        return petConfig.age;
     }
 
 }

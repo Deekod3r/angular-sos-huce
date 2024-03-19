@@ -13,7 +13,6 @@ export class NavbarComponent implements OnInit {
 
     items!: MenuItem[];
     userTools!: MenuItem[];
-    userInfo!: any;
     userOptions!: any[];
     currentRoute: string = '';
     
@@ -21,7 +20,7 @@ export class NavbarComponent implements OnInit {
 
     constructor(public authService: AuthService, private router: Router) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.items = [
             {
                 label: 'Trang chủ',
@@ -113,9 +112,6 @@ export class NavbarComponent implements OnInit {
                 command: () => { window.location.href = '/dang-nhap' }
             }
         ];
-
-        this.userInfo = this.authService.getProfile();
-
         this.router.events.pipe(takeUntil(this.subscribes$)).subscribe(event => {
             if (event instanceof NavigationEnd) {
                 this.currentRoute = this.router.routerState.snapshot.url;
@@ -125,16 +121,16 @@ export class NavbarComponent implements OnInit {
 
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this.subscribes$.next();
         this.subscribes$.complete();
     }
 
-    ngAfterViewInit() {
+    ngAfterViewInit(): void {
         this.activeMenu(this.router.url);
     }
 
-    activeMenu(href: string) {
+    activeMenu(href: string): void {
         if (href != '/') {
             if (href.startsWith('/cuu-tro')) {
                 href = '/cuu-tro';
@@ -160,11 +156,12 @@ export class NavbarComponent implements OnInit {
         this.setActiveMenu(href);
     }
 
-    setActiveMenu(href: string) {
+    setActiveMenu(href: string): void {
         const menuItem = document.querySelector('.p-menuitem-link[href="' + href + '"]') as HTMLElement;
         if (menuItem) {
             menuItem.classList.add('bg-cyan-100', 'border-round');
         }
     }
+    
 }
 

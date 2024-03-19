@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Message } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
 import { PasswordModule } from 'primeng/password';
 import { ProgressBarModule } from 'primeng/progressbar';
@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
-import { message, messageVerify, title } from 'src/app/common/message';
+import { message, messageUser, title } from 'src/app/common/message';
 
 @Component({
     selector: 'app-register',
@@ -21,18 +21,16 @@ import { message, messageVerify, title } from 'src/app/common/message';
 export class RegisterComponent implements OnInit, OnDestroy {
 
     registerForm!: FormGroup;
-    registerNotify: boolean = false;
-    registerMsg: Message[] = [];
+    verifyForm!: FormGroup;
     isSubmitted: boolean = false;
     step: number = 1;
-    verifyForm!: FormGroup;
     id: string = '';
 
     private readonly subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private userService: UserService) { }
+    constructor(private userService: UserService, private messageService: MessageService) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.registerForm = new FormGroup({
             'phoneNumber': new FormControl('', [Validators.required, Validators.pattern(/^\d+$/), Validators.minLength(10), Validators.maxLength(15)]),
             'password': new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/)]),
@@ -44,18 +42,24 @@ export class RegisterComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this.subscribes$.next();
         this.subscribes$.complete();
     }
 
-    onRegister() {
+    onRegister(): void {
         if (this.registerForm.invalid) {
-            this.notify(message.requiredInfo, 'error', title.error);
+            this.registerForm.markAllAsTouched();
             return;
         }
+        let body = {
+            phoneNumber: this.registerForm.value.phoneNumber.trim(),
+            password: this.registerForm.value.password,
+            name: this.registerForm.value.name.trim(),
+            email: this.registerForm.value.email.trim()
+        }
         this.isSubmitted = true;
-        this.userService.register(this.registerForm).pipe(
+        this.userService.register(body).pipe(
             takeUntil(this.subscribes$),
             finalize(() => {
                 this.isSubmitted = false;
@@ -70,21 +74,25 @@ export class RegisterComponent implements OnInit, OnDestroy {
             },
             error: (res) => {
                 if (res.error) {
-                    this.notify(res.error.message, 'error', title.error);
+                    this.messageService.add({severity:'error', summary: title.error, detail: res.error.message});
                 } else {
-                    this.notify(message.error, 'error', title.error);
+                    this.messageService.add({severity:'error', summary: title.error, detail: message.error});
                 }
             }
         });
     }
 
-    onVerify() {
+    onVerify(): void {
         if (this.verifyForm.invalid) {
-            this.notify(message.requiredInfo, 'error', title.error)
+            this.verifyForm.markAllAsTouched();
             return;
         }
+        let data = {
+            id: this.id,
+            code: this.verifyForm.value.code.trim()
+        }
         this.isSubmitted = true;
-        this.userService.verifyRegister(this.id, this.verifyForm.controls['code'].value).pipe(
+        this.userService.verifyRegister(data).pipe(
             takeUntil(this.subscribes$),
             finalize(() => {
                 this.isSubmitted = false;
@@ -93,7 +101,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         .subscribe({
             next: (res) => {
                 if (res.success) {
-                    this.notify(messageVerify.success, 'success', title.success);
+                    this.messageService.add({severity:'success', summary: title.success, detail: messageUser.verifySuccess});
                     this.verifyForm.reset();
                     setTimeout(() => {
                         window.location.href = '/dang-nhap';
@@ -102,23 +110,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
             },
             error: (res) => {
                 if (res.error) {
-                        this.notify(res.error.message, 'error', title.error);
+                    this.messageService.add({severity:'error', summary: title.error, detail: res.error.message});
                 } else {
-                    this.notify(message.error, 'error', title.error);
+                    this.messageService.add({severity:'error', summary: title.error, detail: message.error});
                 }
             }
         });
-    }
-
-    notify(msg: string, type: string, title: string): void {
-        this.registerNotify = true;
-        this.registerMsg = [
-            { severity: type, summary: title, detail: msg }
-        ];
-        setTimeout(() => {
-            this.registerNotify = false;
-            this.registerMsg = [];
-        }, 3000);
     }
     
 }

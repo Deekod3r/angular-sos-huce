@@ -50,7 +50,7 @@ export class LayoutService {
 
     overlayOpen$ = this.overlayOpen.asObservable();
 
-    onMenuToggle() {
+    onMenuToggle(): void {
         if (this.isOverlay()) {
             this.state.overlayMenuActive = !this.state.overlayMenuActive;
             if (this.state.overlayMenuActive) {
@@ -70,30 +70,30 @@ export class LayoutService {
         }
     }
 
-    showProfileSidebar() {
+    showProfileSidebar(): void {
         this.state.profileSidebarVisible = !this.state.profileSidebarVisible;
         if (this.state.profileSidebarVisible) {
             this.overlayOpen.next(null);
         }
     }
 
-    showConfigSidebar() {
+    showConfigSidebar(): void {
         this.state.configSidebarVisible = true;
     }
 
-    isOverlay() {
+    isOverlay(): boolean {
         return this.config.menuMode === 'overlay';
     }
 
-    isDesktop() {
+    isDesktop(): boolean {
         return window.innerWidth > 991;
     }
 
-    isMobile() {
+    isMobile(): boolean {
         return !this.isDesktop();
     }
 
-    onConfigUpdate() {
+    onConfigUpdate(): void {
         this.configUpdate.next(this.config);
     }
 

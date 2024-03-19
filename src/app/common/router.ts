@@ -102,8 +102,18 @@ export let ROUTES_ADMIN: Routes = [
     { path: 'tin-tuc', component: NewsMedeiaComponent },
     { path: 'danh-muc-tin-tuc', component: NewsCategoryComponent },
     { path: 'nguoi-dung', component: UsersComponent },
-    { path: 'quan-tri-vien', component: AdminsComponent },
+    { 
+        path: 'quan-tri-vien',
+        canActivate: [PermissionGuard],
+        data: { expectedRole: ["MANAGER"] },
+        component: AdminsComponent 
+    },
     { path: 'galleria', component: GalleriaComponent },
-    { path: 'cau-hinh', component: ConfigComponent },
+    { 
+        path: 'cau-hinh',
+        canActivate: [PermissionGuard],
+        data: { expectedRole: ["MANAGER"] },
+        component: ConfigComponent 
+    },
     { path: '', redirectTo: 'trang-chu', pathMatch: 'full'}
 ];

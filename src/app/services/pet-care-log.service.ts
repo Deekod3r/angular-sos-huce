@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { CONFIG } from '../common/config';
 import { AuthService } from './auth.service';
-import { convertDateFormat } from '../shared/utils/data.util';
 
 @Injectable({
   providedIn: 'root'
@@ -48,15 +47,11 @@ export class PetCareLogService {
         return this.commonService.callAPI(request);
     }
 
-    createLog(form: any): Observable<any> {
+    createLog(body: any): Observable<any> {
         const request = {
             function: this.API_URL + '/create',
             method: CONFIG.KEY.METHOD_POST,
-            body: {
-                adoptId: form.adoptId,
-                date: convertDateFormat(form.date),
-                note: form.note.trim()
-            },
+            body: body,
             options: {
                 headers: {
                     'Authorization': 'Bearer ' + this.authService.getToken()
@@ -66,16 +61,11 @@ export class PetCareLogService {
         return this.commonService.callAPI(request);
     }
 
-    updateLog(form: any, id: string): Observable<any> {
+    updateLog(body: any, id: string): Observable<any> {
         const request = {
             function: this.API_URL + '/update/' + id,
             method: CONFIG.KEY.METHOD_PUT,
-            body: {
-                id: form.id,
-                adoptId: form.adoptId,
-                date: convertDateFormat(form.date),
-                note: form.note.trim()
-            },
+            body: body,
             options: {
                 headers: {
                     'Authorization': 'Bearer ' + this.authService.getToken()

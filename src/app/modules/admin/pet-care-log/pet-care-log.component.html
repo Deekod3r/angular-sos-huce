@@ -1,13 +1,12 @@
 <div class="card">
-    <p-toast></p-toast>
     <p-confirmDialog></p-confirmDialog>
     <p-dialog *ngIf="visibleCreateModal" header="Thêm lịch sử kiểm tra đơn nhận nuôi" [(visible)]="visibleCreateModal" [modal]="true"
         [style]="{ width: '90vw', height: '60vh' }" [draggable]="false" [resizable]="false">
-        <app-pet-care-log-create (resultAction)="receiveResult($event, 0)"></app-pet-care-log-create>
+        <app-pet-care-log-create (resultAction)="receiveResult($event, 1)"></app-pet-care-log-create>
     </p-dialog>
     <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa lịch sử kiểm tra đơn nhận nuôi" [(visible)]="visibleUpdateModal" [modal]="true"
         [style]="{ width: '90vw', height: '60vh' }" [draggable]="false" [resizable]="false">
-        <app-pet-care-log-update (resultAction)="receiveResult($event, 1)" [idLog]="idLogUpdate"></app-pet-care-log-update>
+        <app-pet-care-log-update (resultAction)="receiveResult($event, 2)" [idLog]="idLogUpdate"></app-pet-care-log-update>
     </p-dialog>
     <p-panel header="Công cụ" [toggleable]="true">
         <button pButton icon="fa fa-plus" label="Thêm mới" (click)="showCreateModal()"></button>

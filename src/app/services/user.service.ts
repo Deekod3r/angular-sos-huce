@@ -15,19 +15,11 @@ export class UserService {
 
     constructor(private commonService: CommonService, private authService: AuthService) { }
 
-    register(form: FormGroup): Observable<any> {
-
-        const { phoneNumber, password, name, email } = form.value;
-
+    register(body: any): Observable<any> {
         const request = {
             function: this.API_URL + '/register',
             method: CONFIG.KEY.METHOD_POST,
-            body: {
-                phoneNumber: phoneNumber.trim(),
-                password: password,
-                name: name.trim(),
-                email: email.trim()
-            }
+            body: body
         }
         return this.commonService.callAPI(request);
     }
@@ -38,7 +30,7 @@ export class UserService {
             method: CONFIG.KEY.METHOD_GET,
             options: {
                 params: {
-                    account: account.trim()
+                    account: account
                 }
             }
         }
@@ -51,49 +43,44 @@ export class UserService {
             method: CONFIG.KEY.METHOD_GET,
             options: {
                 params: {
-                    email: email.trim()
+                    email: email
                 }
             }
         }
         return this.commonService.callAPI(request);
     }
 
-    verifyRegister(id: string, code: string): Observable<any> {
+    verifyRegister(data: any): Observable<any> {
         const request = {
-            function: this.API_URL + '/verify-register/' + id,
+            function: this.API_URL + '/verify-register/' + data.id,
             method: CONFIG.KEY.METHOD_GET,
             options: {
                 params: {
-                    code: code.trim()
+                    code: data.code
                 }
             }
         }
         return this.commonService.callAPI(request);
     }
 
-    verifyForgotPassword(id: string, code: string): Observable<boolean> {
+    verifyForgotPassword(data: any): Observable<boolean> {
         const request = {
-            function: this.API_URL + '/verify-forgot-password/' + id,
+            function: this.API_URL + '/verify-forgot-password/' + data.id,
             method: CONFIG.KEY.METHOD_GET,
             options: {
                 params: {
-                    code: code.trim()
+                    code: data.code
                 }
             }
         }
         return this.commonService.callAPI(request);
     }
 
-    resetPassword(id: string, code: string, email: string, password: string): Observable<boolean> {
+    resetPassword(body: any): Observable<boolean> {
         const request = {
             function: this.API_URL + '/reset-password',
             method: CONFIG.KEY.METHOD_PUT,
-            body: {
-                id: id,
-                code: code.trim(),
-                email: email.trim(),
-                newPassword: password
-            }
+            body: body
         }
         return this.commonService.callAPI(request);
     }
@@ -115,12 +102,6 @@ export class UserService {
     }
 
     getUsers(search: any): Observable<any> {
-        let params = new HttpParams();
-        for (const key in search) {
-            if (search.hasOwnProperty(key)) {
-                params = params.set(key, search[key] != null ? search[key].toString() : '');
-            }
-        }
         const request = {
             function: this.API_URL,
             method: CONFIG.KEY.METHOD_GET,
@@ -128,7 +109,7 @@ export class UserService {
                 headers: {
                     'Authorization': 'Bearer ' + this.authService.getToken()
                 },
-                params: params
+                params: search
             }
         }
         return this.commonService.callAPI(request);
@@ -148,16 +129,16 @@ export class UserService {
         return this.commonService.callAPI(request);
     }
 
-    verifyUpdateEmail(id: string, code: string): Observable<any> {
+    verifyUpdateEmail(data: any): Observable<any> {
         const request = {
-            function: this.API_URL + '/update/verify-email/' + id,
+            function: this.API_URL + '/update/verify-email/' + data.id,
             method: CONFIG.KEY.METHOD_GET,
             options: {
                 headers: {
                     'Authorization': 'Bearer ' + this.authService.getToken()
                 },
                 params: {
-                    code: code.trim()
+                    code: data.code
                 }
             }
         }

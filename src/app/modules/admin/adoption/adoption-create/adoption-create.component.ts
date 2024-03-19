@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
 import { CONFIG } from 'src/app/common/config';
-import { petStatusKey } from 'src/app/common/constant';
+import { petConfig } from 'src/app/common/constant';
 import { title, message } from 'src/app/common/message';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -14,7 +14,6 @@ import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 
 @Component({
     selector: 'app-adoption-create',
-    providers: [MessageService],
     templateUrl: './adoption-create.component.html',
     styleUrls: ['./adoption-create.component.css']
 })
@@ -29,12 +28,13 @@ export class AdoptionCreateComponent implements OnInit {
     provinces: any[] = [];
     districts: any[] = [];
     wards: any[] = [];
+
     private subscribes$: Subject<void> = new Subject<void>();
 
     constructor(public petService: PetService, private authService: AuthService, private adoptService: AdoptService,    
         private locationService: LocationService, private messageService: MessageService, private userService: UserService) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.formAdopt = new FormGroup({
             province: new FormControl(null, Validators.required),
             district: new FormControl(null, Validators.required),
@@ -71,7 +71,7 @@ export class AdoptionCreateComponent implements OnInit {
     getPets(): void {
         this.petService.getPets(
             {
-                status: petStatusKey.waiting
+                status: petConfig.statusKey.waiting
             }
         )
         .pipe(takeUntil(this.subscribes$))
@@ -114,19 +114,19 @@ export class AdoptionCreateComponent implements OnInit {
 
     onRegisterAdopt(): void {
         if (!this.formAdopt.valid) {
-            this.messageService.add({severity:'error', summary: title.error, detail: message.requiredInfo});
+            this.formAdopt.markAllAsTouched();
             return;
         }
-        let adopt = {
-            province: this.formAdopt.value.province, 
-            district: this.formAdopt.value.district,
-            ward: this.formAdopt.value.ward,
-            address: this.formAdopt.value.address,
-            reason: this.formAdopt.value.reason,
-            petAdopt: this.formAdopt.value.petAdopt.id,
+        let body = {
+            provinceId: this.formAdopt.value.province, 
+            districtId: this.formAdopt.value.district,
+            wardId: this.formAdopt.value.ward,
+            address: this.formAdopt.value.address.trim(),
+            reason: this.formAdopt.value.reason.trim(),
+            petId: this.formAdopt.value.petAdopt.id,
             registeredBy: this.formAdopt.value.registeredBy.id
         };
-        this.adoptService.createAdopt(adopt)
+        this.adoptService.createAdopt(body)
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res) => {

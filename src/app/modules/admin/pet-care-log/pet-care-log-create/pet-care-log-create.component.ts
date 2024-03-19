@@ -2,15 +2,15 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
-import { adoptStatusKey } from 'src/app/common/constant';
+import { adoptConfig } from 'src/app/common/constant';
 import { message, title } from 'src/app/common/message';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { PetCareLogService } from 'src/app/services/pet-care-log.service';
+import { convertDateFormat } from 'src/app/shared/utils/data.util';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 
 @Component({
     selector: 'app-pet-care-log-create',
-    providers: [MessageService],
     templateUrl: './pet-care-log-create.component.html',
     styleUrls: ['./pet-care-log-create.component.css']
 })
@@ -25,7 +25,7 @@ export class PetCareLogCreateComponent implements OnInit {
 
     constructor(private petCareLogService: PetCareLogService, private messageService: MessageService, private adoptService: AdoptService) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.form = new FormGroup({
             adoptId: new FormControl('', [Validators.required]),
             date: new FormControl(null, [Validators.required]),
@@ -34,13 +34,13 @@ export class PetCareLogCreateComponent implements OnInit {
         this.getAdopts();
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this.subscribes$.next();
         this.subscribes$.complete();
     }
 
-    getAdopts() {
-        this.adoptService.getAdopts({ status: adoptStatusKey.complete })
+    getAdopts(): void {
+        this.adoptService.getAdopts({ status: adoptConfig.statusKey.complete })
         .pipe(takeUntil(this.subscribes$))
         .subscribe(res => {
             if (res.success) {
@@ -49,9 +49,14 @@ export class PetCareLogCreateComponent implements OnInit {
         });
     }
 
-    onCreateLog() {
+    onCreateLog(): void {
         if (this.form.valid) {
-            this.petCareLogService.createLog(this.form.value)
+            let body = {
+                adoptId: this.form.value.adoptId,
+                date: convertDateFormat(this.form.value.date),
+                note: this.form.value.note.trim()
+            }
+            this.petCareLogService.createLog(body)
             .pipe(takeUntil(this.subscribes$))
             .subscribe({
                 next: (res) => {
@@ -70,7 +75,7 @@ export class PetCareLogCreateComponent implements OnInit {
                 }
             });
         } else {
-            this.messageService.add({severity:'error', summary: 'Lỗi', detail: message.requiredInfo});
+            this.form.markAllAsTouched();
         }
     }
 

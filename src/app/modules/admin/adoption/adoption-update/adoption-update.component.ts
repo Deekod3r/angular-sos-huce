@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
-import { adoptStatusKey, petStatusKey } from 'src/app/common/constant';
+import { adoptConfig } from 'src/app/common/constant';
 import { title, message } from 'src/app/common/message';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { LocationService } from 'src/app/services/location.service';
@@ -11,7 +11,6 @@ import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 
 @Component({
     selector: 'app-adoption-update',
-    providers: [MessageService],
     templateUrl: './adoption-update.component.html',
     styleUrls: ['./adoption-update.component.css']
 })
@@ -27,13 +26,13 @@ export class AdoptionUpdateComponent implements OnInit {
     provinces: any[] = [];
     districts: any[] = [];
     wards: any[] = [];
-    adoptStatus = adoptStatusKey
+    adoptStatus = adoptConfig.statusKey
     private subscribes$: Subject<void> = new Subject<void>();
 
     constructor(public petService: PetService, public adoptService: AdoptService,    
         private locationService: LocationService, private messageService: MessageService) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.getAdopt();
         this.getProvinces();
     }
@@ -65,7 +64,7 @@ export class AdoptionUpdateComponent implements OnInit {
         });
     }
 
-    initForm() {
+    initForm(): void {
         this.formAdopt.patchValue({
             province: this.adopt.provinceId,
             district: this.adopt.districtId,
@@ -107,25 +106,25 @@ export class AdoptionUpdateComponent implements OnInit {
     }
 
     isNotAvailableForUpdate(): boolean {
-        return this.adopt.status === adoptStatusKey.cancel || this.adopt.status === adoptStatusKey.complete 
-        || this.adopt.status === adoptStatusKey.reject;
+        return this.adopt.status === adoptConfig.statusKey.cancel || this.adopt.status === adoptConfig.statusKey.complete 
+        || this.adopt.status === adoptConfig.statusKey.reject;
     }
 
-    onSaveAdopt() {
+    onSaveAdopt(): void {
         if (!this.formAdopt.valid) {
-            this.messageService.add({severity:'error', summary: title.error, detail: message.requiredInfo});
+            this.formAdopt.markAllAsTouched();
             return;
         }
-        let adopt = {
+        let body = {
             id: this.adopt.id,
-            province: this.formAdopt.value.province, 
-            district: this.formAdopt.value.district,
-            ward: this.formAdopt.value.ward,
-            address: this.formAdopt.value.address,
-            reason: this.formAdopt.value.reason,
+            provinceId: this.formAdopt.value.province, 
+            districtId: this.formAdopt.value.district,
+            wardId: this.formAdopt.value.ward,
+            address: this.formAdopt.value.address.trim(),
+            reason: this.formAdopt.value.reason.trim(),
             fee: this.formAdopt.value.fee,
         };
-        this.adoptService.updateAdopt(adopt, this.idAdoption)
+        this.adoptService.updateAdopt(body, this.idAdoption)
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res) => {
