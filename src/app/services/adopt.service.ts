@@ -59,6 +59,20 @@ export class AdoptService {
         return this.commonService.callAPI(request);
     }
 
+    getAdoptStatistic(search: any): Observable<any> {
+        const request = {
+            function: this.API_URL + '/statistic',
+            method: CONFIG.KEY.METHOD_GET,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                },
+                params: search
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
     createAdopt(body: any): Observable<any> {
         const request = {
             function: this.API_URL + '/create',

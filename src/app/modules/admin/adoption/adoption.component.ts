@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { PaginatorModule } from 'primeng/paginator';
@@ -24,7 +24,7 @@ import { UserService } from 'src/app/services/user.service';
     templateUrl: './adoption.component.html',
     styleUrls: ['./adoption.component.css']
 })
-export class AdoptionComponent implements OnInit {
+export class AdoptionComponent implements OnInit, OnDestroy {
 
     adopts: any[] = [];
     users: any[] = [];
@@ -57,7 +57,7 @@ export class AdoptionComponent implements OnInit {
         petAdopt: ''
     }
 
-    constructor(public adoptService: AdoptService, public petService: PetService, private userService: UserService, private authService: AuthService,
+    constructor(public adoptService: AdoptService, public petService: PetService, private userService: UserService,
         private messageService: MessageService, private confirmationService: ConfirmationService) { }
 
     private subscribes$: Subject<void> = new Subject<void>();
@@ -182,8 +182,7 @@ export class AdoptionComponent implements OnInit {
     getUsers(): void {
         this.userService.getUsers({
             isActivated: true,
-            role: CONFIG.ROLE.USER,
-            roleRequest: this.authService.getRole()
+            role: CONFIG.ROLE.USER
         })
         .pipe(takeUntil(this.subscribes$))
         .subscribe(res => {
@@ -288,7 +287,7 @@ export class AdoptionComponent implements OnInit {
             rejectIcon: "none",
             rejectButtonStyleClass: "p-button-text",
             accept: () => {
-                this.adoptService.updateStatusAdopt({id: data.id, status: data.status, message: data.message ? data.message : null }, data.id)
+                this.adoptService.updateStatusAdopt({id: data.id, status: data.status, message: data.message ? data.message.trim() : '' }, data.id)
                 .pipe(takeUntil(this.subscribes$)).subscribe({
                     next: (res) => {
                         if (res.success) {
@@ -306,7 +305,6 @@ export class AdoptionComponent implements OnInit {
                 });
             },
             reject: () => {
-                this.messageService.add({ severity: 'error', summary: title.cancel, detail: messageAdopt.cancelUpdateStatus });
             }
         });
     }
@@ -342,7 +340,6 @@ export class AdoptionComponent implements OnInit {
                 });
             },
             reject: () => {
-                this.messageService.add({ severity: 'error', summary: title.cancel, detail: message.cancelDelete });
             }
         });
     }

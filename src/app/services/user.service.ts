@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { CONFIG } from '../common/config';
 import { CommonService } from './common.service';
 import { AuthService } from './auth.service';
+import { userConfig } from '../common/constant';
 
 @Injectable({
     providedIn: 'root'
@@ -20,6 +21,48 @@ export class UserService {
             function: this.API_URL + '/register',
             method: CONFIG.KEY.METHOD_POST,
             body: body
+        }
+        return this.commonService.callAPI(request);
+    }
+
+    createAdmin(body: any): Observable<any> {
+        const request = {
+            function: this.API_URL + '/create/admin',
+            method: CONFIG.KEY.METHOD_POST,
+            body: body,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
+    updateAdmin(id:string, body: any): Observable<any> {
+        const request = {
+            function: this.API_URL + '/update/admin' + '/' + id,
+            method: CONFIG.KEY.METHOD_PUT,
+            body: body,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
+    updatePasswordAdmin(id: string, body: any): Observable<any> {
+        const request = {
+            function: this.API_URL + '/update/password/admin' + '/' + id,
+            method: CONFIG.KEY.METHOD_PUT,
+            body: body,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
         }
         return this.commonService.callAPI(request);
     }
@@ -102,6 +145,7 @@ export class UserService {
     }
 
     getUsers(search: any): Observable<any> {
+        Object.assign(search, { roleRequest: this.authService.getRole() });
         const request = {
             function: this.API_URL,
             method: CONFIG.KEY.METHOD_GET,
@@ -145,4 +189,16 @@ export class UserService {
         return this.commonService.callAPI(request);
     }
 
+    getStatus(status: boolean): string | undefined {
+        const statusObject = userConfig.status.find(i => i.value === status);
+        return statusObject ? statusObject.label : '';
+    }
+
+    isActivated(status: boolean): any {
+        if(!status) return 'p-button-danger';
+    }
+    
+    optionStatus(): any {
+        return userConfig.status
+    }
 }

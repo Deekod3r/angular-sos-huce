@@ -36,6 +36,8 @@ export const messageUser = {
     passwordDuplicate: 'Mật khẩu mới không được trùng với mật khẩu cũ',
     tokenExpired: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại',
     notFound: 'Thông tin tài khoản không tồn tại',
+    crateAccountAdminSuccess: 'Tạo tài khoản quản trị viên thành công',
+    updateAccountAdminSuccess: 'Cập nhật tài khoản quản trị viên thành công',
 }
 
 export const messagePet = {

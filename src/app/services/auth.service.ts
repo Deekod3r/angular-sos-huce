@@ -11,6 +11,8 @@ import { CommonService } from './common.service';
 })
 export class AuthService {
 
+    isRemember: boolean = localStorage.getItem(CONFIG.KEY.REMEMBER) == 'true' ? true : false;
+
     constructor(private encryptionService: EncryptionService, private commonService: CommonService) { }
 
     private getProfile(): any {
@@ -25,6 +27,9 @@ export class AuthService {
         }
         return this.commonService.callAPI(request).pipe(
             map((response: any) => {
+                if (body.remember) {
+                    localStorage.setItem(CONFIG.KEY.REMEMBER, 'true');
+                }
                 localStorage.setItem(CONFIG.KEY.IS_LOGGED_IN, this.encryptionService.encrypt(CONFIG.KEY.IS_LOGGED_IN_VALUE));
                 localStorage.setItem(CONFIG.KEY.TOKEN, this.encryptionService.encrypt(JSON.stringify(response.data)));
                 this.updateLastActiveTime();

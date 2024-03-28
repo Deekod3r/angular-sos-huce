@@ -13,9 +13,9 @@
         <div class="card grid mt-3">
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="adopt">Đơn nhận nuôi</label>
+                    <label for="adoption">Đơn nhận nuôi</label>
                     <p-dropdown [options]="adopts" optionLabel="code" optionValue="id" [filter]="true" filterBy="code" 
-                    emptyMessage="Không có dữ liệu" filterPlaceholder="Mã đơn nhận nuôi"
+                    emptyMessage="Không có dữ liệu" filterPlaceholder="Mã đơn nhận nuôi" id="adoption"
                     [showClear]="true" placeholder="--Tất cả--" styleClass="mat-form-field" [(ngModel)]="key.adoptId">
                         <ng-template let-adopt pTemplate="item">
                             <div class="flex align-items-center">
@@ -27,16 +27,14 @@
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="log-from-date">Từ ngày</label>
-                    <p-calendar 
-                    [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.fromDate"></p-calendar>
+                    <label for="log-from">Từ ngày</label>
+                    <p-calendar id="log-from" [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.fromDate"></p-calendar>
                 </div>
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="log-to-date">Đến ngày</label>
-                    <p-calendar 
-                    [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.toDate"></p-calendar>
+                    <label for="log-to">Đến ngày</label>
+                    <p-calendar id="log-to" [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.toDate"></p-calendar>
                 </div>
             </div>
             <div class="col-12">

@@ -126,6 +126,12 @@ export class MenuAdminComponent implements OnInit {
             {
                 label: 'Tài khoản',
                 items: [
+                    { 
+                        label: 'Đổi mật khẩu', 
+                        icon: 'fa fa-fw fa-lock',
+                        routerLink: ['/admin/doi-mat-khau'],
+                        visible: CONFIG.ROLE.MANAGER.includes(this.authService.getRole())
+                    },
                     {
                         label: 'Đăng xuất',
                         icon: 'fa-solid fa-right-from-bracket text-red-600', 

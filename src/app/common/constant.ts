@@ -1,3 +1,5 @@
+import { CONFIG } from "./config";
+
 export const typeAction = {
     create: 1,
     update: 2,
@@ -234,6 +236,56 @@ export const adoptConfig = {
         complete: 5
     }
 
+}
+
+export const userConfig = {
+    search: {
+        limitDefault: 5,
+    },
+    role: [
+        {
+            label: "Quản trị viên",
+            value: CONFIG.ROLE.ADMIN
+        },
+        {
+            label: "Người dùng",
+            value: CONFIG.ROLE.USER
+        }
+    ],
+    status: [
+        {
+            label: "Đang kích hoạt",
+            value: true
+        },
+        {
+            label: "Bị khóa",
+            value: false
+        }
+    ],
+}
+
+export const newsConfig = {
+
+}
+
+export const galleriaConfig = {
+    search: {
+        limitDefault: 5,
+    },
+    status: [
+        {
+            label: "Đang hiển thị",
+            value: true
+        },
+        {
+            label: "Đã ẩn",
+            value: false
+        }
+    ],
+    statusKey: {
+        active: true,
+        inactive: false
+    }
 }
 
 export const CALENDER_CONFIG = {

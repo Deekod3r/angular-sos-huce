@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
@@ -13,7 +13,7 @@ import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
     templateUrl: './update-info.component.html',
     styleUrls: ['./update-info.component.css']
 })
-export class UpdateInfoComponent implements OnInit {
+export class UpdateInfoComponent implements OnInit, OnDestroy {
 
     @Input() infoKey: any;
     @Input() userId: any;

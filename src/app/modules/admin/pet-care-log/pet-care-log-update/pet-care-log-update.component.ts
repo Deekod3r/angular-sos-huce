@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
@@ -14,7 +14,7 @@ import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
     templateUrl: './pet-care-log-update.component.html',
     styleUrls: ['./pet-care-log-update.component.css']
 })
-export class PetCareLogUpdateComponent {
+export class PetCareLogUpdateComponent implements OnInit, OnDestroy {
 
     @Input() idLog!: string;
     @Output() resultAction = new EventEmitter<boolean>();

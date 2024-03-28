@@ -241,16 +241,6 @@ export class PetService {
         }
     }
 
-    getMoreInfor(moreInfor: number): string | undefined {
-        const moreInforObject = petConfig.moreInfor.find(i => i.value === moreInfor);
-        return moreInforObject?.label;
-    }
-
-    getMoreInforValue(moreInfor: string): number | undefined {
-        const moreInforObject = petConfig.moreInfor.find(i => i.label === moreInfor);
-        return moreInforObject?.value;
-    }
-
     optionMoreInfor(): any[] {
         return petConfig.moreInfor;
     }

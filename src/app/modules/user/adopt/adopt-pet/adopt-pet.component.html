@@ -22,20 +22,20 @@
                             <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
                                 <div class="flex flex-column gap-2">
                                 <label for="adopt-province">Tỉnh/thành phố <span class="text-red-500 font-bold">*</span></label>
-                                <p-dropdown [options]="provinces" optionLabel="name" optionValue="id"
+                                <p-dropdown [options]="provinces" optionLabel="name" optionValue="id" id="adopt-province"
                                     styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                                     emptyMessage="Không có dữ liệu" formControlName="province" (onChange)="getDistricts(); wards = []" (onClear)="districts = []; wards = []"></p-dropdown>
                                 </div>
                                 <div class="col-6"
-                                [hidden]="formAdopt.controls['province'].valid || !formAdopt.controls['province'].touched"
-                                class="text-red-500 mt-2 ml-1">
-                                Vui lòng chọn tỉnh/thành phố 
+                                    [hidden]="formAdopt.controls['province'].valid || !formAdopt.controls['province'].touched"
+                                    class="text-red-500 mt-2 ml-1">
+                                    Vui lòng chọn tỉnh/thành phố 
                                 </div>
                             </div>
                             <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
                                 <div class="flex flex-column gap-2">
                                 <label for="pet-district">Quận/huyện/thị xã <span class="text-red-500 font-bold">*</span></label>
-                                <p-dropdown [options]="districts" id="pet-district" optionLabel="name" optionValue="id"
+                                <p-dropdown [options]="districts" optionLabel="name" optionValue="id" id="pet-district"
                                     styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                                     emptyMessage="Không có dữ liệu" (onChange)="getWards()" formControlName="district" (onClear)="wards = []"></p-dropdown>
                                 </div>
@@ -48,7 +48,7 @@
                             <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
                                 <div class="flex flex-column gap-2">
                                 <label for="pet-ward">Xã/phường/thị trấn <span class="text-red-500 font-bold">*</span></label>
-                                <p-dropdown [options]="wards" id="pet-ward" optionLabel="name" optionValue="id"
+                                <p-dropdown [options]="wards" optionLabel="name" optionValue="id" id="pet-ward"
                                     styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                                     emptyMessage="Không có dữ liệu" formControlName="ward"></p-dropdown>
                                 </div>
@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <p-checkbox formControlName="confirm" [binary]="true" inputId="confirm"></p-checkbox>
+                                <p-checkbox formControlName="confirm" [binary]="true" inputId="confirm" id="confirm"></p-checkbox>
                                 <label for="confirm" class="ml-2 font-semibold">Tôi xác nhận đã đủ hành vi, điều kiện và hoàn toàn chịu mọi trách nhiệm cho việc nhận nuôi thú cưng</label>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Message, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { finalize, takeUntil } from 'rxjs/operators'; 
 import { AuthService } from 'src/app/services/auth.service';
@@ -55,6 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         let body = {
             email: this.loginForm.controls['email'].value.trim(),
             password: this.loginForm.controls['password'].value,
+            remember: this.loginForm.controls['remember'].value
         }
         this.isSubmitted = true;
         this.authService.login(body).pipe(

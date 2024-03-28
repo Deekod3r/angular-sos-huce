@@ -27,14 +27,14 @@
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-code">Mã đơn</label>
-                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.code">
+                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.code" id="pet-code">
                 </div>
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="adopt-user">Người nhận nuôi</label>
                     <p-dropdown [options]="users" optionLabel="name" optionValue="id" [filter]="true" filterBy="name" 
-                    filterPlaceholder="Họ và tên" emptyMessage="Không có dữ liệu"
+                    filterPlaceholder="Họ và tên" emptyMessage="Không có dữ liệu" id="adopt-user"
                     [showClear]="true" placeholder="--Tất cả--" styleClass="mat-form-field" [(ngModel)]="key.registeredBy">
                         <ng-template let-user pTemplate="item">
                             <div class="flex align-items-center">
@@ -48,7 +48,7 @@
                 <div class="flex flex-column gap-2">
                     <label for="adopt-pet">Thú cưng</label>
                         <p-dropdown [options]="pets" optionLabel="name" optionValue="id" [filter]="true" filterBy="code" 
-                        filterPlaceholder="Mã thú cưng" emptyMessage="Không có dữ liệu"
+                        filterPlaceholder="Mã thú cưng" emptyMessage="Không có dữ liệu" id="adopt-pet"
                         [showClear]="true" placeholder="--Tất cả--" styleClass="mat-form-field"  [(ngModel)]="key.petAdopt">
                             <ng-template let-pet pTemplate="item">
                                 <div class="flex align-items-center">
@@ -68,15 +68,15 @@
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="pet-name">Từ ngày</label>
-                    <p-calendar [showClear]="true"
+                    <label for="pet-from">Từ ngày</label>
+                    <p-calendar [showClear]="true" id="pet-from"
                     [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.fromDateTime"></p-calendar>
                 </div>
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="pet-color">Đến ngày</label>
-                    <p-calendar [showClear]="true"
+                    <label for="pet-to">Đến ngày</label>
+                    <p-calendar [showClear]="true" id="pet-to"
                     [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.toDateTime"></p-calendar>
                 </div>
             </div>

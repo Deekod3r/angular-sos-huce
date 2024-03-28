@@ -34,6 +34,7 @@ import { UsersComponent } from '../modules/admin/users/users.component';
 import { GalleriaComponent } from '../modules/admin/galleria/galleria.component';
 import { ConfigComponent } from '../modules/admin/config/config.component';
 import { AdminsComponent } from '../modules/admin/admins/admins.component';
+import { ChangePasswordManagerComponent } from '../modules/admin/change-password-manager/change-password-manager.component';
 
 export let ROUTES_ROOT: Routes = [
     {
@@ -114,6 +115,12 @@ export let ROUTES_ADMIN: Routes = [
         canActivate: [PermissionGuard],
         data: { expectedRole: ["MANAGER"] },
         component: ConfigComponent 
+    },
+    {
+        path: 'doi-mat-khau',
+        canActivate: [PermissionGuard],
+        data: { expectedRole: ["MANAGER"] },
+        component: ChangePasswordManagerComponent
     },
     { path: '', redirectTo: 'trang-chu', pathMatch: 'full'}
 ];

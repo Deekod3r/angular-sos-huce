@@ -14,6 +14,7 @@ export const CONFIG = {
         TOKEN_EXPIRED: 'TE',
         DEFAULT_REDIRECT: '/trang-chu',
         ROOT_PAGE: '',
+        REMEMBER: 'RM',
     },
     ROUTES: {
         ROOT_ROUTES: 'ROOT_ROUTES',

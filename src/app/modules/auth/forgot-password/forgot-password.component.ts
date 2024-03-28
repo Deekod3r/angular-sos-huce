@@ -19,7 +19,7 @@ import { passwordMatchValidator } from 'src/app/shared/utils/data.util';
     styleUrls: ['./forgot-password.component.css']
 })
 
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
     forgotForm!: FormGroup;
     verifyForm!: FormGroup;

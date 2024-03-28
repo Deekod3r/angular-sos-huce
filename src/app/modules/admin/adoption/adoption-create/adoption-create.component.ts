@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
@@ -17,7 +17,7 @@ import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
     templateUrl: './adoption-create.component.html',
     styleUrls: ['./adoption-create.component.css']
 })
-export class AdoptionCreateComponent implements OnInit {
+export class AdoptionCreateComponent implements OnInit, OnDestroy {
 
     @Output() resultAction = new EventEmitter<boolean>();
     result: boolean = false;
@@ -31,7 +31,7 @@ export class AdoptionCreateComponent implements OnInit {
 
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public petService: PetService, private authService: AuthService, private adoptService: AdoptService,    
+    constructor(public petService: PetService, private adoptService: AdoptService,    
         private locationService: LocationService, private messageService: MessageService, private userService: UserService) { }
 
     ngOnInit(): void {
@@ -57,8 +57,7 @@ export class AdoptionCreateComponent implements OnInit {
     getUsers(): void {
         this.userService.getUsers({
             isActivated: true,
-            role: CONFIG.ROLE.USER,
-            roleRequest: this.authService.getRole()
+            role: CONFIG.ROLE.USER
         })
         .pipe(takeUntil(this.subscribes$))
         .subscribe(res => {

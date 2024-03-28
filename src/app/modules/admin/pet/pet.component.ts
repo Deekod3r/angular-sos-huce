@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Table, TableModule } from 'primeng/table';
 import { PetService } from 'src/app/services/pet.service';
 import { TagModule } from 'primeng/tag';
@@ -20,7 +20,7 @@ import { message, messagePet, title } from 'src/app/common/message';
     styleUrls: ['./pet.component.css']
 })
 
-export class PetComponent implements OnInit {
+export class PetComponent implements OnInit, OnDestroy {
 
     @ViewChild("table") table!: Table;
 
@@ -217,7 +217,6 @@ export class PetComponent implements OnInit {
                 });
             },
             reject: () => {
-                this.messageService.add({ severity: 'error', summary: title.cancel, detail: message.cancelDelete });
             }
         });
     }

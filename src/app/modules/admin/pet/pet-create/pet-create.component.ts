@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete/autocomplete.interface';
@@ -14,7 +14,7 @@ import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
     templateUrl: './pet-create.component.html',
     styleUrls: ['./pet-create.component.css']
 })
-export class PetCreateComponent implements OnInit {
+export class PetCreateComponent implements OnInit, OnDestroy {
 
     @Output() resultAction = new EventEmitter<boolean>();
     result: boolean = false;

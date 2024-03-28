@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PetCareLogModule } from './pet-care-log.module';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TableModule } from 'primeng/table';
@@ -18,7 +18,7 @@ import { title, message, messageLog } from 'src/app/common/message';
     templateUrl: './pet-care-log.component.html',
     styleUrls: ['./pet-care-log.component.css']
 })
-export class PetCareLogComponent implements OnInit {
+export class PetCareLogComponent implements OnInit, OnDestroy {
 
     logs: any[] = [];
     adopts: any[] = [];
@@ -30,7 +30,6 @@ export class PetCareLogComponent implements OnInit {
     visibleCreateModal: boolean = false;
     visibleUpdateModal: boolean = false;
     idLogUpdate!: string;
-
 
     private subscribes$: Subject<void> = new Subject<void>();
 
@@ -150,7 +149,6 @@ export class PetCareLogComponent implements OnInit {
                 });
             },
             reject: () => {
-                this.messageService.add({ severity: 'error', summary: title.cancel, detail: message.cancelDelete, life: 3000 });
             }
         });
     }

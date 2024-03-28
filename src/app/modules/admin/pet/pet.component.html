@@ -14,25 +14,25 @@
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-code">Mã</label>
-                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.code">
+                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.code" id="pet-code">
                 </div>
             </div>
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-name">Tên</label>
-                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.name">
+                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.name" id="pet-name">
                 </div>
             </div>
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-color">Màu</label>
-                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.color">
+                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.color" id="pet-color">
                 </div>
             </div>
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-breed">Giống</label>
-                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.breed">
+                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.breed" id="pet-breed">
                 </div>
             </div>
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
@@ -69,32 +69,32 @@
             </div>
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="pet-status">Chế độ ăn riêng</label>
-                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-status" optioLabel="label"
+                    <label for="pet-diet">Chế độ ăn riêng</label>
+                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-diet" optioLabel="label"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.diet"></p-dropdown>
                 </div>            
             </div>
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="pet-status">Triệt sản</label>
-                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-status" optioLabel="label"
+                    <label for="pet-sterilization">Triệt sản</label>
+                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-sterilization" optioLabel="label"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.sterilization"></p-dropdown>
                 </div>            
             </div>
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="pet-status">Tiêm phòng tổng hợp</label>
-                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-status" optioLabel="label"
+                    <label for="pet-vaccine">Tiêm phòng tổng hợp</label>
+                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-vaccine" optioLabel="label"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.vaccine"></p-dropdown>
                 </div>            
             </div>
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="pet-status">Tiêm dại</label>
-                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-status" optioLabel="label"
+                    <label for="pet-rabies">Tiêm dại</label>
+                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-rabies" optioLabel="label"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.rabies"></p-dropdown>
                 </div>            

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TabView, TabViewModule } from 'primeng/tabview';
 import { Subject, takeUntil } from 'rxjs';
@@ -22,7 +22,7 @@ import { TagModule } from 'primeng/tag';
     templateUrl: './account.component.html',
     styleUrls: ['./account.component.css']
 })
-export class AccountComponent implements OnInit {
+export class AccountComponent implements OnInit, OnDestroy {
 
     @ViewChild("tabView") tabView!: TabView;
 
@@ -33,8 +33,8 @@ export class AccountComponent implements OnInit {
         userId: '',
         userInfo: ''
     }
-    pets: any[] = [];
-    adopts: any[] = [];
+    pets!: any;
+    adopts!: any;
     detailAdopt: any;
     detailAdoptData: any;
     visibleDetailAdopt: boolean = false;
@@ -49,7 +49,13 @@ export class AccountComponent implements OnInit {
 
     ngOnInit(): void {
         this.getUser();
+        this.getAdoptStatistic();
         this.adoptStatus = adoptConfig.statusKey;
+    }
+
+    ngOnDestroy(): void {
+        this.subscribes$.next();
+        this.subscribes$.complete();
     }
 
     getUser(): void {
@@ -57,13 +63,24 @@ export class AccountComponent implements OnInit {
         .pipe(takeUntil(this.subscribes$))
         .subscribe((response: any) => {
             if (response.success) {
-                this.user = response.data.user;
-                this.user.countWaiting = response.data.statistic.countWaiting;
-                this.user.countInProgress = response.data.statistic.countInProgress;
-                this.user.countCancel = response.data.statistic.countCancel;
-                this.user.countReject = response.data.statistic.countReject;
-                this.user.countComplete = response.data.statistic.countComplete;
-                this.user.total = response.data.statistic.total;
+                this.user = response.data;
+            }
+        });
+    }
+
+    getAdoptStatistic(): void {
+        this.adoptService.getAdoptStatistic({ 
+            user: this.authService.getCurrentUser().id 
+        })
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe((response: any) => {
+            if (response.success) {
+                this.user.countWaiting = response.data.countWaiting;
+                this.user.countInProgress = response.data.countInProgress;
+                this.user.countCancel = response.data.countCancel;
+                this.user.countReject = response.data.countReject;
+                this.user.countComplete = response.data.countComplete;
+                this.user.total = response.data.total;
             }
         });
     }
@@ -106,11 +123,16 @@ export class AccountComponent implements OnInit {
     changeTabView(event: any): void {
         let indexTab = event.index;
         if (indexTab === 0) {
-            this.getUser();
+            // this.getUser();
+            // this.getAdoptStatistic();
         } else if (indexTab === 1) {
-            this.getAdopts();
+            if(!this.adopts) {
+                this.getAdopts();
+            }
         } else if (indexTab === 2) {
-            this.getPets();
+            if(!this.pets) {
+                this.getPets();
+            }
         }
     }
 
@@ -163,7 +185,6 @@ export class AccountComponent implements OnInit {
                 });
             },
             reject: () => {
-                this.messageService.add({ severity: 'error', summary: title.cancel, detail: messageAdopt.canelCancel });
             }
         });
     }

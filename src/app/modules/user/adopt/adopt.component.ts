@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CardPetModule } from 'src/app/shared/components/card-pet/card-pet.module';
@@ -15,7 +15,7 @@ import { petConfig } from 'src/app/common/constant';
     templateUrl: './adopt.component.html',
     styleUrls: ['./adopt.component.css']
 })
-export class AdoptComponent implements OnInit {
+export class AdoptComponent implements OnInit, OnDestroy {
 
     pets: any[] = [];
     currentPage = 1;

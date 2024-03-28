@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 import { Subject, takeUntil } from 'rxjs';
 import { MAX_DATE, MIN_DATE, petConfig } from 'src/app/common/constant';
-import { message, messagePet, title } from 'src/app/common/message';
+import { message, title } from 'src/app/common/message';
 import { PetService } from 'src/app/services/pet.service';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 
@@ -13,7 +13,7 @@ import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
     templateUrl: './pet-update.component.html',
     styleUrls: ['./pet-update.component.css']
 })
-export class PetUpdateComponent {
+export class PetUpdateComponent implements OnInit, OnDestroy {
 
     @Input() idPet!: string;
     @Output() resultAction = new EventEmitter<boolean>();

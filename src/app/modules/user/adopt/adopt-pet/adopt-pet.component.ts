@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CardPetModule } from 'src/app/shared/components/card-pet/card-pet.module';
@@ -30,7 +30,7 @@ import { AdoptService } from 'src/app/services/adopt.service';
     templateUrl: './adopt-pet.component.html',
     styleUrls: ['./adopt-pet.component.css']
 })
-export class AdoptPetComponent implements OnInit {
+export class AdoptPetComponent implements OnInit, OnDestroy {
 
     visibleCreateModal: boolean = false;
     alertRequiredLogin: boolean = false;

@@ -1,1 +1,34 @@
-<p>galleria works!</p>
+<div class="card">
+    <p-confirmDialog></p-confirmDialog>
+    <p-dialog *ngIf="visibleUpdateModal" [(visible)]="visibleUpdateModal">
+        <p-dialog *ngIf="visibleUpdateImageModal" header="Cập nhật hình ảnh" [(visible)]="visibleUpdateImageModal" [modal]="true"
+            [style]="{ width: '60vw', height: 'fit-content' }" [draggable]="false" [resizable]="false">
+            <p-fileUpload chooseLabel="Chọn hình ảnh" uploadLabel="Tải" accept="image/**" [maxFileSize]="100000000" [customUpload]="true"
+                        [showUploadButton]="true" [showCancelButton]="false"
+                        (uploadHandler)="upload($event)"
+                        invalidFileSizeMessageSummary="Lỗi kích thước" invalidFileSizeMessageDetail="Kích thước file quá lớn"
+                        invalidFileTypeMessageSummary="Lỗi định dạng" invalidFileTypeMessageDetail="Chỉ chấp nhận file có định dạng hình ảnh: .jpg .jpge .png .gif"> 
+            </p-fileUpload>
+        </p-dialog>
+    </p-dialog>
+    <button pButton icon="fa fa-plus" label="Thêm mới" (click)="showCreateModal()" class="m-3"></button>
+    <p-accordion [multiple]="true">
+        <p-accordionTab *ngFor="let galleria of galleiras" [header]="galleria.title">
+            <div class="grid">
+                <div class="col-12 mx-auto">
+                    <p-image src="{{ galleria.image }}" alt="Image" width="250" [preview]="true"></p-image>
+                </div>
+                <div class="col-12">
+                    <p class="font-semibold">Tiêu đề: <span class="font-normal">{{ galleria.title }}</span></p>
+                    <p class="font-semibold">Mô tả: <span class="font-normal">{{ galleria.description }}</span></p>
+                    <p class="font-semibold">Đường dẫn: <span class="font-normal"><a target="_blank" href="{{ galleria.link }}">{{ galleria.link }}</a></span></p>
+                    <p class="font-semibold">Thứ tự: <span class="font-normal">{{ galleria.index }}</span></p>
+                    <p class="font-semibold">Trạng thái: <span class="font-normal">{{ galleria.status ? 'Đang hiển thị' : 'Đã ẩn' }}</span></p>
+                </div>
+                <div class="col-12">
+                    <button pButton icon="fa fa-edit" label="Cập nhật" (click)="showUpdateModal()"></button>
+                </div>
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+</div>

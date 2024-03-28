@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
@@ -14,7 +14,7 @@ import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
     templateUrl: './adoption-update.component.html',
     styleUrls: ['./adoption-update.component.css']
 })
-export class AdoptionUpdateComponent implements OnInit {
+export class AdoptionUpdateComponent implements OnInit, OnDestroy {
 
     @Input() idAdoption!: string;
     @Output() resultAction = new EventEmitter<boolean>();
