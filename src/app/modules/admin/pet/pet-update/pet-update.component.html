@@ -55,7 +55,7 @@
                         <div class="flex flex-column gap-2">
                             <label for="pet-type">Loại <span class="text-red-500 font-bold">*</span></label>
                             <p-dropdown formControlName="petType" [options]="petService.optionType()" 
-                                id="pet-type" optioLabel="label" optionValue="value"
+                                id="pet-type" optionLabel="label" optionValue="value"
                                 styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                                 emptyMessage="Không có dữ liệu"></p-dropdown>
                         </div>
@@ -95,7 +95,7 @@
                         <div class="flex flex-column gap-2">
                             <label for="pet-age">Tuổi <span class="text-red-500 font-bold">*</span></label>
                             <p-dropdown formControlName="petAge" [options]="petService.optionAge()" 
-                                id="pet-age" optioLabel="label" optionValue="value"
+                                id="pet-age" optionLabel="label" optionValue="value"
                                 styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                                 emptyMessage="Không có dữ liệu"></p-dropdown>
                         </div>
@@ -109,7 +109,7 @@
                         <div class="flex flex-column gap-2">
                             <label for="pet-gender">Giới tính <span class="text-red-500 font-bold">*</span></label>
                             <p-dropdown formControlName="petGender" [options]="petService.optionGender()" 
-                                id="pet-gender" optioLabel="label" optionValue="value"
+                                id="pet-gender" optionLabel="label" optionValue="value"
                                 styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                                 emptyMessage="Không có dữ liệu"></p-dropdown>
                         </div>
@@ -123,7 +123,7 @@
                         <div class="flex flex-column gap-2">
                             <label for="pet-status">Trạng thái <span class="text-red-500 font-bold">*</span></label>
                             <p-dropdown formControlName="petStatus" [options]="petService.optionStatus()" 
-                                id="pet-status" optioLabel="label" optionValue="value"
+                                id="pet-status" optionLabel="label" optionValue="value"
                                 styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                                 emptyMessage="Không có dữ liệu"></p-dropdown>
                         </div>
@@ -143,7 +143,7 @@
                         <div class="flex flex-column gap-2">
                             <label for="pet-vaccine">Tiêm phòng tổng hợp</label>
                             <p-dropdown formControlName="petVaccine" [options]="petService.optionMoreInfor()" 
-                                id="pet-vaccine" optioLabel="label" optionValue="value"
+                                id="pet-vaccine" optionLabel="label" optionValue="value"
                                 styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                                 emptyMessage="Không có dữ liệu"></p-dropdown>
                         </div>
@@ -152,7 +152,7 @@
                         <div class="flex flex-column gap-2">
                             <label for="pet-rabies">Tiêm phòng dại</label>
                             <p-dropdown formControlName="petRabies" [options]="petService.optionMoreInfor()" 
-                                id="pet-rabies" optioLabel="label" optionValue="value"
+                                id="pet-rabies" optionLabel="label" optionValue="value"
                                 styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                                 emptyMessage="Không có dữ liệu"></p-dropdown>
                         </div>
@@ -162,7 +162,7 @@
                             <label for="pet-sterilization">Triệt sản</label>
                             <p-dropdown formControlName="petSterilization" [options]="petService.optionMoreInfor()" 
                                 id="pet-sterilization" optionValue="value"
-                                optioLabel="label" styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
+                                optionLabel="label" styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                                 emptyMessage="Không có dữ liệu"></p-dropdown>
                         </div>
                     </div>
@@ -170,7 +170,7 @@
                         <div class="flex flex-column gap-2">
                             <label for="pet-diet">Chế độ ăn riêng</label>
                             <p-dropdown formControlName="petDiet" [options]="petService.optionMoreInfor()" 
-                                id="pet-diet" optioLabel="label" optionValue="value"
+                                id="pet-diet" optionLabel="label" optionValue="value"
                                 styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                                 emptyMessage="Không có dữ liệu"></p-dropdown>
                         </div>
@@ -179,7 +179,7 @@
                         <div class="flex flex-column gap-2">
                             <label for="pet-toilet">Đi vệ sinh đúng chỗ</label>
                             <p-dropdown formControlName="petToilet" [options]="petService.optionMoreInfor()" 
-                                id="pet-toilet" optioLabel="label" optionValue="value"
+                                id="pet-toilet" optionLabel="label" optionValue="value"
                                 styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                                 emptyMessage="Không có dữ liệu"></p-dropdown>
                         </div>
@@ -189,7 +189,7 @@
                             <label for="pet-friendlyToHuman">Thân thiện với người</label>
                             <p-dropdown formControlName="petFriendlyToHuman" [options]="petService.optionMoreInfor()" 
                                 id="pet-friendlyToHuman" optionValue="value"
-                                optioLabel="label" styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
+                                optionLabel="label" styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                                 emptyMessage="Không có dữ liệu"></p-dropdown>
                         </div>
                     </div>
@@ -198,7 +198,7 @@
                             <label for="pet-friendlyToCats">Thân thiện với mèo</label>
                             <p-dropdown formControlName="petFriendlyToCats" [options]="petService.optionMoreInfor()" 
                                 id="pet-friendlyToCats" optionValue="value"
-                                optioLabel="label" styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
+                                optionLabel="label" styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                                 emptyMessage="Không có dữ liệu"></p-dropdown>
                         </div>
                     </div>
@@ -207,7 +207,7 @@
                             <label for="pet-friendlyToDogs">Thân thiện với chó</label>
                             <p-dropdown formControlName="petFriendlyToDogs" [options]="petService.optionMoreInfor()" 
                                 id="pet-friendlyToDogs" optionValue="value"
-                                optioLabel="label" styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
+                                optionLabel="label" styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                                 emptyMessage="Không có dữ liệu"></p-dropdown>
                         </div>
                     </div>

@@ -64,7 +64,8 @@ export class PetService {
             body: formData,
             options: {
                 headers: {
-                    'Authorization': 'Bearer ' + this.authService.getToken()
+                    'Authorization': 'Bearer ' + this.authService.getToken(),
+                    'Content-Type': 'application/json'
                 }
             }
         }
@@ -72,31 +73,31 @@ export class PetService {
     }
 
     updatePet(form: any, id: string): Observable<any> {
-        const formData = new FormData();
-        formData.append('id', form.petId);
-        formData.append('age', form.petAge);
-        formData.append('breed', upcaseFirstLetter((form.petBreed.label ? form.petBreed.label : form.petBreed).trim()));
-        formData.append('color', upcaseFirstLetter((form.petColor.label ? form.petColor.label : form.petColor).trim()));
-        formData.append('description', form.petDescription.trim());
-        formData.append('note', form.petNote ? form.petNote.trim() : form.petNote);
-        formData.append('diet', form.petDiet ? form.petDiet : petConfig.moreInforKey.undefined);
-        formData.append('friendlyToCats', form.petFriendlyToCats ? form.petFriendlyToCats : petConfig.moreInforKey.undefined);
-        formData.append('friendlyToDogs', form.petFriendlyToDogs ? form.petFriendlyToDogs : petConfig.moreInforKey.undefined);
-        formData.append('friendlyToHuman', form.petFriendlyToHuman ? form.petFriendlyToHuman : petConfig.moreInforKey.undefined);
-        formData.append('gender', form.petGender);
-        formData.append('name', upcaseAllFirstLetters(form.petName.trim()));
-        formData.append('rabies', form.petRabies ? form.petRabies : petConfig.moreInforKey.undefined);
-        formData.append('status', form.petStatus);
-        formData.append('sterilization', form.petSterilization ? form.petSterilization : petConfig.moreInforKey.undefined);
-        formData.append('toilet', form.petToilet ? form.petToilet : petConfig.moreInforKey.undefined);
-        formData.append('type', form.petType);
-        formData.append('vaccine', form.petVaccine ? form.petVaccine : petConfig.moreInforKey.undefined);
-        formData.append('weight', form.petWeight);
-        formData.append('intakeDate', convertDateFormat(form.intakeDate));
         const request = {
             function: this.API_URL + '/update/' + id,
             method: CONFIG.KEY.METHOD_PUT,
-            body: formData,
+            body: {
+                id: form.petId,
+                age: form.petAge,
+                breed: upcaseFirstLetter((form.petBreed.label ? form.petBreed.label : form.petBreed).trim()),
+                color: upcaseFirstLetter((form.petColor.label ? form.petColor.label : form.petColor).trim()),
+                description: form.petDescription.trim(),
+                note: form.petNote ? form.petNote.trim() : form.petNote,
+                diet: form.petDiet ? form.petDiet : petConfig.moreInforKey.undefined,
+                friendlyToCats: form.petFriendlyToCats ? form.petFriendlyToCats : petConfig.moreInforKey.undefined,
+                friendlyToDogs: form.petFriendlyToDogs ? form.petFriendlyToDogs : petConfig.moreInforKey.undefined,
+                friendlyToHuman: form.petFriendlyToHuman ? form.petFriendlyToHuman : petConfig.moreInforKey.undefined,
+                gender: form.petGender,
+                name: upcaseAllFirstLetters(form.petName.trim()),
+                rabies: form.petRabies ? form.petRabies : petConfig.moreInforKey.undefined,
+                status: form.petStatus,
+                sterilization: form.petSterilization ? form.petSterilization : petConfig.moreInforKey.undefined,
+                toilet: form.petToilet ? form.petToilet : petConfig.moreInforKey.undefined,
+                type: form.petType,
+                vaccine: form.petVaccine ? form.petVaccine : petConfig.moreInforKey.undefined,
+                weight: form.petWeight,
+                intakeDate: convertDateFormat(form.intakeDate)
+            },
             options: {
                 headers: {
                     'Authorization': 'Bearer ' + this.authService.getToken()
@@ -123,7 +124,7 @@ export class PetService {
         return this.commonService.callAPI(request);
     }
 
-    deleteSoftPet(id: string): Observable<any> {
+    deletePet(id: string): Observable<any> {
         const request = {
             function: this.API_URL + '/delete/' + id,
             method: CONFIG.KEY.METHOD_DELETE,

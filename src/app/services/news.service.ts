@@ -1,87 +1,167 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CommonService } from './common.service';
+import { AuthService } from './auth.service';
+import { CONFIG } from '../common/config';
+import { newsConfig } from '../common/constant';
 
 @Injectable({
     providedIn: 'root'
 })
 export class NewsService {
 
-    constructor() { }
+    private API_URL = 'news';
 
-    getNews(): Observable<any> {
-        return new Observable<any>(observer => {
-            observer.next([
-                {
-                    id: 1,
-                    title: 'Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1',
-                    description: 'Descrição da notícia 1 Descrição da notícia 1 Descrição da notícia 1 Descrição da notícia 1 Descrição da notícia 1 Descrição da notícia 1 Descrição da notícia 1',
-                    image: 'https://www.hanoipetadoption.com/admin/user-content/News/119adaac-de1f-4e8b-b53f-1bd1057611c2.jpg',
-                    date: '2021-08-01'
-                },
-                {
-                    id: 2,
-                    title: 'Notícia 2',
-                    description: 'Descrição da notícia 2',
-                    image: 'https://www.hanoipetadoption.com/admin/user-content/News/119adaac-de1f-4e8b-b53f-1bd1057611c2.jpg',
-                    date: '2021-08-01'
-                },
-                {
-                    id: 3,
-                    title: 'Notícia 3Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1',
-                    description: 'Descrição da notícia 3 Descrição da notícia 1Descrição da notícia 1Descrição da notícia 1Descrição da notícia 1Descrição da notícia 1Descrição da notícia 1Descrição da notícia 1Descrição da notícia 1Descrição da notícia 1',
-                    image: 'https://www.hanoipetadoption.com/admin/user-content/News/119adaac-de1f-4e8b-b53f-1bd1057611c2.jpg',
-                    date: '2021-08-01'
-                },
-                {
-                    id: 4,
-                    title: 'Notícia 4',
-                    description: 'Descrição da notícia 4',
-                    image: 'https://www.hanoipetadoption.com/admin/user-content/News/119adaac-de1f-4e8b-b53f-1bd1057611c2.jpg',
-                    date: '2021-08-01'
-                },
-                {
-                    id: 5,
-                    title: 'Notícia 5Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1Notícia 1',
-                    description: 'Descrição da notícia 5Descrição da notícia 1Descrição da notícia 1Descrição da notícia 1Descrição da notícia 1Descrição da notícia 1Descrição da notícia 1Descrição da notícia 1',
-                    image: 'https://www.hanoipetadoption.com/admin/user-content/News/119adaac-de1f-4e8b-b53f-1bd1057611c2.jpg',
-                    date: '2021-08-01'
-                },
-                {
-                    id: 6,
-                    title: 'Notícia 6',
-                    description: 'Descrição da notícia 6',
-                    image: 'https://www.hanoipetadoption.com/admin/user-content/News/119adaac-de1f-4e8b-b53f-1bd1057611c2.jpg',
-                    date: '2021-08-01'
-                }
-            ]);
-        });
+    constructor(private commonService: CommonService, private authService: AuthService) { }
+
+    getNews(search: any): Observable<any> {
+        const request = {
+            function: this.API_URL,
+            method: CONFIG.KEY.METHOD_GET,
+            options: {
+                params: search
+            }
+        }
+        return this.commonService.callAPI(request);
     }
     
-    getNewsCategory(): Observable<any> {
-        return new Observable<any>(observer => {
-            observer.next([
-                {
-                    id: 1,
-                    name: "Chăm sóc và nuôi dưỡng"
-                },
-                {
-                    id: 2,
-                    name: "Giáo dục và huấn luyện"
-                },
-                {
-                    id: 3,
-                    name: "Sức khỏe và y tế"
-                },
-                {
-                    id: 4,
-                    name: "Thú cưng quốc tế"
-                },
-                {
-                    id: 5,
-                    name: "Phong cách sống và thời trang"
+    getNewsCategories(): Observable<any> {
+        const request = {
+            function: this.API_URL + '/categories',
+            method: CONFIG.KEY.METHOD_GET
+        }
+        return this.commonService.callAPI(request);
+    }
+
+    getNewsCategoryById(id: string): Observable<any> {
+        const request = {
+            function: this.API_URL + '/categories/' + id,
+            method: CONFIG.KEY.METHOD_GET,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
                 }
-            ]);
-        });
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
+    getNewsById(id: string): Observable<any> {
+        const request = {
+            function: this.API_URL + '/' + id,
+            method: CONFIG.KEY.METHOD_GET
+        }
+        return this.commonService.callAPI(request);
+    }
+
+    createNewsCategory(body: any): Observable<any> {
+        const request = {
+            function: this.API_URL + '/categories/create',
+            method: CONFIG.KEY.METHOD_POST,
+            body: body,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
+    updateNewsCategory(body: any, id: string): Observable<any> {
+        const request = {
+            function: this.API_URL + '/categories/update/' + id,
+            method: CONFIG.KEY.METHOD_PUT,
+            body: body,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
+    deleteNewsCategory(id: string): Observable<any> {
+        const request = {
+            function: this.API_URL + '/categories/delete/' + id,
+            method: CONFIG.KEY.METHOD_DELETE,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
+
+    createNews(body: any): Observable<any> {
+        const request = {
+            function: this.API_URL + '/create',
+            method: CONFIG.KEY.METHOD_POST,
+            body: body,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
+    updateNews(body: any, id: string): Observable<any> {
+        const request = {
+            function: this.API_URL + '/update/' + id,
+            method: CONFIG.KEY.METHOD_PUT,
+            body: body,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
+    deleteNews(id: string): Observable<any> {
+        const request = {
+            function: this.API_URL + '/delete/' + id,
+            method: CONFIG.KEY.METHOD_DELETE,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
+    getNewsByCategory(id: string): Observable<any> {
+        const request = {
+            function: this.API_URL + '/category/' + id,
+            method: CONFIG.KEY.METHOD_GET
+        }
+        return this.commonService.callAPI(request);
+    }
+
+    getStatus(status: boolean): string | undefined {
+        return newsConfig.status.find(item => item.value === status)?.label;
+    }
+
+    getStatusBadge(status: boolean): string | undefined {
+        switch (status) {
+            case false:
+                return 'danger';
+            case true:
+                return 'success';
+            default:
+                return 'success';
+        }
+    }
+
+    optionStatus(): any[] {
+        return newsConfig.status;
     }
 
 }

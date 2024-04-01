@@ -63,3 +63,25 @@ export const messageLog = {
     updateSuccess: 'Cập nhật thông tin nhật ký thành công',
     deleteSuccess: 'Xoá thông tin nhật ký thành công',
 }
+
+export const messageConfig = {
+    updateSuccess: 'Cập nhật thông tin cấu hình thành công',
+}
+
+export const messageBank = {
+    createSuccess: 'Tạo thông tin nhận hỗ trợ thành công',
+    updateSuccess: 'Cập nhật thông tin nhận hỗ trợ thành công',
+    deleteSuccess: 'Xoá thông tin nhận hỗ trợ thành công',
+}
+
+export const messageNewsCategory = {
+    createSuccess: 'Tạo thông tin danh mục tin tức thành công',
+    updateSuccess: 'Cập nhật thông tin danh mục tin tức thành công',
+    deleteSuccess: 'Xoá thông tin danh mục tin tức thành công',
+}
+
+export const messageNews = {
+    createSuccess: 'Tạo thông tin tin tức thành công',
+    updateSuccess: 'Cập nhật thông tin tin tức thành công',
+    deleteSuccess: 'Xoá thông tin tin tức thành công',
+}

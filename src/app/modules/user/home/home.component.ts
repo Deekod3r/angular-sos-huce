@@ -8,8 +8,9 @@ import { CarouselModule } from 'primeng/carousel';
 import { CardNewsModule } from 'src/app/shared/components/card-news/card-news.module';
 import { NewsService } from 'src/app/services/news.service';
 import { Subject, takeUntil } from 'rxjs';
-import { galleriaConfig, petConfig } from 'src/app/common/constant';
+import { galleriaConfig, petConfig, systemConfig } from 'src/app/common/constant';
 import { GalleriaService } from 'src/app/services/galleria.service';
+import { ConfigService } from 'src/app/services/config.service';
 
 @Component({
     selector: 'app-home',
@@ -31,6 +32,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     pets!: any[];
     news!: any[];
     statisticCases: any;
+    introductions!: any;
 
     private subscribes$: Subject<void> = new Subject<void>();
 
@@ -55,7 +57,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     constructor(
         public petService: PetService,
         private newsService: NewsService,
-        private galleriaService: GalleriaService
+        private galleriaService: GalleriaService,
+        private configService: ConfigService
     ) {}
 
     ngOnInit() {
@@ -79,6 +82,14 @@ export class HomeComponent implements OnInit, OnDestroy {
             }
         });
 
+        this.configService.getConfigs(systemConfig.ORD_INTRODUCTION)
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe(res => {
+            if (res.success) {
+                this.introductions = res.data.values;
+            }
+        });
+
         let petSearch = {
             limit: petConfig.search.limitDefault,
             page: 1,
@@ -88,23 +99,26 @@ export class HomeComponent implements OnInit, OnDestroy {
         .getPets(petSearch)
         .pipe(takeUntil(this.subscribes$))
         .subscribe((res: any) => {
-            if (res.success) {
+            if(res.success) {
                 this.pets = res.data.pets;
             }
         });
 
         this.newsService
-        .getNews()
+        .getNews({
+            status: 1
+        })
         .pipe(takeUntil(this.subscribes$))
-        .subscribe((news: any) => {
-            this.news = news;
+        .subscribe((res: any) => {
+            if(res.success) {
+                this.news = res.data;
+            }
         });
-
         this.petService
         .getStatisticCases()
         .pipe(takeUntil(this.subscribes$))
         .subscribe((res: any) => {
-            if (res.success) {
+            if(res.success) {
                 this.statisticCases = res.data;
             }
         });

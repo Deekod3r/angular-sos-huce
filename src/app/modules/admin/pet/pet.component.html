@@ -38,7 +38,7 @@
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-type">Loại</label>
-                    <p-dropdown [options]="petService.optionType()" id="pet-type" optioLabel="label"
+                    <p-dropdown [options]="petService.optionType()" id="pet-type" optionLabel="label" optionValue="value"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.type"></p-dropdown>
                 </div>
@@ -46,7 +46,7 @@
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-gender">Giới tính</label>
-                    <p-dropdown [options]="petService.optionGender()" id="pet-gender" optioLabel="label"
+                    <p-dropdown [options]="petService.optionGender()" id="pet-gender" optionLabel="label" optionValue="value"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.gender"></p-dropdown>
                 </div>            
@@ -54,7 +54,7 @@
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-age">Tuổi</label>
-                    <p-dropdown [options]="petService.optionAge()" id="pet-age" optioLabel="label"
+                    <p-dropdown [options]="petService.optionAge()" id="pet-age" optionLabel="label" optionValue="value"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.age"></p-dropdown>
                 </div>            
@@ -62,7 +62,7 @@
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-status">Trạng thái</label>
-                    <p-dropdown [options]="petService.optionStatus()" id="pet-status" optioLabel="label"
+                    <p-dropdown [options]="petService.optionStatus()" id="pet-status" optionLabel="label" optionValue="value"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.status"></p-dropdown>
                 </div>            
@@ -70,7 +70,7 @@
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-diet">Chế độ ăn riêng</label>
-                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-diet" optioLabel="label"
+                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-diet" optionLabel="label" optionValue="value"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.diet"></p-dropdown>
                 </div>            
@@ -78,7 +78,7 @@
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-sterilization">Triệt sản</label>
-                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-sterilization" optioLabel="label"
+                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-sterilization" optionLabel="label" optionValue="value"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.sterilization"></p-dropdown>
                 </div>            
@@ -86,7 +86,7 @@
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-vaccine">Tiêm phòng tổng hợp</label>
-                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-vaccine" optioLabel="label"
+                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-vaccine" optionLabel="label" optionValue="value"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.vaccine"></p-dropdown>
                 </div>            
@@ -94,7 +94,7 @@
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-rabies">Tiêm dại</label>
-                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-rabies" optioLabel="label"
+                    <p-dropdown [options]="petService.optionMoreInfor()" id="pet-rabies" optionLabel="label" optionValue="value"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.rabies"></p-dropdown>
                 </div>            
@@ -132,14 +132,14 @@
                 <td><img [src]="pet.image" [alt]="pet.name" width="60" class="shadow-4" height="60" /></td>
                 <td>{{pet.code}}</td>
                 <td>{{pet.name}}</td>
-                <td>{{this.petService.getType(pet.type)}}</td>
+                <td>{{petService.getType(pet.type)}}</td>
                 <td>{{pet.breed}}</td>
                 <td>{{pet.color}}</td>
-                <td>{{this.petService.getAge(pet.age)}}</td>
-                <td>{{this.petService.getGender(pet.gender)}}</td>
+                <td>{{petService.getAge(pet.age)}}</td>
+                <td>{{petService.getGender(pet.gender)}}</td>
                 <td>{{pet.weight}} kg</td>
-                <td><p-tag [value]="this.petService.getStatus(pet.status)"
-                        [severity]="this.petService.getSeverityStatus(pet.status)"></p-tag></td>
+                <td><p-tag [value]="petService.getStatus(pet.status)"
+                        [severity]="petService.getSeverityStatus(pet.status)"></p-tag></td>
                 <td>
                     <p-button #btn type="button" icon="fa fa-solid fa-sliders" (click)="menu.toggle($event)"></p-button>
                     <p-tieredMenu #menu [model]="pet.menuItems" [popup]="true" appendTo="body" class="p-0"

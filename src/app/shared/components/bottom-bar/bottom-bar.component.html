@@ -1,19 +1,12 @@
 <footer class="new_footer_area">
     <div class="new_footer_top">
         <div class="container">
-            <div class="grid">
+            <div *ngIf="introductions && contacts && socials" class="grid">
                 <div class="lg:col-4 md:col-12 sm:col-12 col-12 mt-3">
                     <div class="f_widget company_widget wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
                         <h3 class="f-title f_600 t_color f_size_18 mb-0">Về chúng tôi</h3>
                         <p-divider></p-divider>
-                        <p class="mb-0">Tổ chức phi lợi nhuận, hoạt động vì tình yêu thương chó và mèo.</p>
-                        <p>
-                            🐾 Bước vào một thế giới nơi của những chiếc đuôi và trái tim kết nối. 
-                            <b>"HUCE Pet"</b> không chỉ là một cái tên; đó là một cam kết. 
-                            Với chúng tôi, mỗi cuộc nhận nuôi là một chương trong câu chuyện tình yêu đang chờ được viết. 
-                            Khám phá gia đình bốn chân của chúng tôi và cùng nhau, hãy làm đầy những ngôi nhà với tiếng cười, 
-                            sự ấm áp, hạnh phúc và tiếng chân của các bé.
-                        </p>
+                        <p [innerHTML]="introductions[1].value"></p>
                     </div>
                 </div>
                 <div class="lg:col-3 md:col-4 sm:col-12 col-12 mt-3">
@@ -23,20 +16,20 @@
                         <ul class="f_list">
                             <li>
                                 <a href="#">
-                                    <i class="fa fa-map-marker mr-2"></i> 
-                                    Hai Bà Trưng, Hà Nội
+                                    <i class="fa fa-phone mr-2"></i> 
+                                    <span [innerHTML]="contacts[0].value"></span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#">
-                                    <i class="fa fa-phone mr-2"></i> 
-                                    0987654xxx
+                                    <i class="fa fa-map-marker mr-2"></i> 
+                                    <span [innerHTML]="contacts[1].value"></span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#">
                                     <i class="fa fa-envelope mr-2"></i> 
-                                    hucepet@gmail.com
+                                    <span [innerHTML]="contacts[2].value"></span>
                                 </a>
                             </li>
                         </ul>
@@ -59,10 +52,10 @@
                         <h3 class="f-title f_600 t_color f_size_18 mb-0">Mạng xã hội</h3>
                         <p-divider></p-divider>
                         <div class="f_social_icon">
-                            <a href="https://www.facebook.com/carepet.nhom2" class="fa fa-facebook" target="_blank"></a>
-                            <a href="https://www.instagram.com/trtieensdungx" class="fa fa-instagram" target="_blank"></a>
-                            <a href="https://twitter.com" class="fa fa-twitter" target="_blank"></a>
-                            <a href="https://discord.gg/BhY9WqEk" class="fa-brands fa-discord" target="_blank"></a>
+                            <a [href]="socials[0].value" class="fa fa-facebook" target="_blank"></a>
+                            <a [href]="socials[1].value" class="fa fa-instagram" target="_blank"></a>
+                            <a [href]="socials[2].value" class="fa fa-twitter" target="_blank"></a>
+                            <a [href]="socials[3].value" class="fa-brands fa-discord" target="_blank"></a>
                         </div>
                     </div>
                 </div>

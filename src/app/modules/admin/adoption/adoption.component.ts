@@ -13,7 +13,6 @@ import { adoptConfig, petConfig, typeAction } from 'src/app/common/constant';
 import { convertDateTimeFormat } from 'src/app/shared/utils/data.util';
 import { title, message, messageAdopt } from 'src/app/common/message';
 import { CONFIG } from 'src/app/common/config';
-import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -330,7 +329,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
             rejectIcon: "none",
             rejectButtonStyleClass: "p-button-text",
             accept: () => {
-                this.adoptService.deleteSoftAdopt(id)
+                this.adoptService.deleteAdopt(id)
                 .pipe(takeUntil(this.subscribes$))
                 .subscribe(res => {
                     if (res.success) {

@@ -68,7 +68,7 @@ export class MenuAdminComponent implements OnInit {
                                 label: 'Tài khoản',
                                 icon: 'fa fa-bank',
                                 routerLink: ['/admin/tai-khoan-ung-ho'],
-                                visible: CONFIG.ROLE.MANAGER.includes(this.authService.getRole())
+                                // visible: CONFIG.ROLE.MANAGER.includes(this.authService.getRole())
                             }
 
                         ]
@@ -119,7 +119,8 @@ export class MenuAdminComponent implements OnInit {
                     { 
                         label: 'Thông tin web', 
                         icon: 'fa fa-fw fa-solid fa-circle-info', 
-                        routerLink: ['/admin/cau-hinh']
+                        routerLink: ['/admin/cau-hinh'],
+                        visible: CONFIG.ROLE.MANAGER.includes(this.authService.getRole())
                     },
                 ]
             },

@@ -7,6 +7,15 @@
                     *ngIf="formName.controls['name'].hasError('required') && formName.controls['name'].touched">
                     Vui lòng nhập họ tên
                 </div>
+                <div class="text-red-500 mt-1"
+                    *ngIf="(
+                        formName.controls['name'].hasError('pattern')
+                        || formName.controls['name'].hasError('minLength')
+                        || formName.controls['name'].hasError('maxLength')
+                        )
+                        && formName.controls['name'].dirty">
+                    Họ tên không hợp lệ
+                </div>
             </div>
             <div class="col-12 mt-2">
                 <div class="font-bold mb-1">
@@ -35,6 +44,15 @@
                     *ngIf="formPhone.controls['phoneNumber'].hasError('required') && formPhone.controls['phoneNumber'].touched">
                     Vui lòng nhập số điện thoại
                 </div>
+                <div class="text-red-500 mt-1"
+                    *ngIf="(
+                        formPhone.controls['phoneNumber'].hasError('pattern') ||
+                        formPhone.controls['phoneNumber'].hasError('minLength') ||
+                        formPhone.controls['phoneNumber'].hasError('maxLength')
+                        )
+                        && formPhone.controls['phoneNumber'].dirty">
+                    Số điện thoại không hợp lệ
+                </div>
             </div>
             <div class="col-12 mt-2">
                 <div class="font-bold mb-1">
@@ -62,6 +80,15 @@
                 <div class="text-red-500 mt-1"
                     *ngIf="formEmail.controls['email'].hasError('required') && formEmail.controls['email'].touched">
                     Vui lòng nhập email
+                </div>
+                <div class="text-red-500 mt-1"
+                    *ngIf="(
+                        formEmail.controls['email'].hasError('email') ||
+                        formEmail.controls['email'].hasError('minLength') ||
+                        formEmail.controls['email'].hasError('maxLength')
+                        )
+                        && formEmail.controls['email'].dirty">
+                    Email không hợp lệ
                 </div>
             </div>
             <div class="col-12 mt-2">

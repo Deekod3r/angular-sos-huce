@@ -1,3 +1,6 @@
-<div class="container mt-5">
-    <p>news works!</p> 
+<div *ngIf="news" class="container mt-5 mb-5 card">
+    <h2 class="my-2">{{news.title}}</h2>
+    <p><i class="fa fa-paw text-primary"></i> Ngày đăng: {{news.createdAt | date: 'dd/MM/yyyy'}}</p>
+    <p-divider></p-divider>
+    <p class="pb-5" [innerHTML]="news.content"></p>
 </div>

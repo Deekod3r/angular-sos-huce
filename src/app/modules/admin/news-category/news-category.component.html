@@ -1,1 +1,111 @@
-<p>news-category works!</p>
+<div class="card">
+    <p-confirmDialog></p-confirmDialog>
+    <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa danh mục tin tức" [(visible)]="visibleUpdateModal" 
+        [modal]="true" [style]="{ width: '90vw' }" [draggable]="false" [resizable]="false">
+        <form [formGroup]="formUpdate">
+            <div class="card grid mt-3">
+                <div class="col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="name">Tên danh mục <span class="text-red-500">*</span></label>
+                        <input pInputText type="text" formControlName="name" id="name">
+                    </div>
+                    <div class="col-12"
+                        [hidden]="formAdd.controls['name'].valid || !formAdd.controls['name'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng điền tên danh mục
+                    </div>            
+                </div>
+                <div class="col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="description">Mô tả <span class="text-red-500">*</span></label>
+                        <textarea pInputTextarea type="text" formControlName="description" id="description"></textarea>
+                    </div>
+                    <div class="col-12"
+                        [hidden]="formAdd.controls['description'].valid || !formAdd.controls['description'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng điền mô tả danh mục
+                    </div>          
+                </div>
+                <div class="col-12 mt-5 grid justify-content-center" align="center">
+                    <div class="md:col-3 col-6">
+                        <button pButton label="LƯU" class="mat-form-button" (click)="updateNewsCategory()"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </p-dialog>
+    <p-panel header="Công cụ" [toggleable]="true" styleClass="mb-3">
+        <form [formGroup]="formAdd">
+            <div class="card grid">
+                <div class="col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="name">Tên danh mục <span class="text-red-500">*</span></label>
+                        <input pInputText type="text" formControlName="name" id="name">
+                    </div>
+                    <div class="col-12"
+                        [hidden]="formAdd.controls['name'].valid || !formAdd.controls['name'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng điền tên danh mục
+                    </div>            
+                </div>
+                <div class="col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="description">Mô tả <span class="text-red-500">*</span></label>
+                        <textarea pInputTextarea type="text" formControlName="description" id="description"></textarea>
+                    </div>
+                    <div class="col-12"
+                        [hidden]="formAdd.controls['description'].valid || !formAdd.controls['description'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng điền mô tả danh mục
+                    </div>          
+                </div>
+                <div class="col-12">
+                    <button pButton icon="fa fa-plus" label="Thêm mới" (click)="createNewsCategory()"></button>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+    <p-table #table [value]="categories" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines"
+        selectionMode="single" [paginator]="false" [rows]="5" dataKey="id"
+        [globalFilterFields]="['name']">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                Danh mục tin tức
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr class="">
+                <th class="col-3">Tên danh mục</th>
+                <th class="col-9">Mô tả</th>
+                <th></th>
+            </tr>
+            <tr>
+                <th>
+                    <p-columnFilter type="text" field="name"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="description"></p-columnFilter>
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-category>
+        <tr>
+            <td>{{category.name}}</td>
+            <td>{{category.description}}</td>
+            <td>
+                <div>
+                    <p-button #btn type="button" icon="fa fa-solid fa-sliders" (click)="menu.toggle($event)"></p-button>
+                    <p-tieredMenu #menu [model]="category.menuItems" [popup]="true" appendTo="body" class="p-0"
+                        styleClass="menucus"></p-tieredMenu>
+                </div>
+            </td>
+        </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+            <p-button type="button" icon="fa fa-cloud" styleClass="p-button-text"></p-button>
+        </ng-template>
+    </p-table>
+</div>

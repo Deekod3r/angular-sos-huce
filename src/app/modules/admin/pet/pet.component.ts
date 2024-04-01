@@ -200,7 +200,8 @@ export class PetComponent implements OnInit, OnDestroy {
             rejectIcon: "none",
             rejectButtonStyleClass: "p-button-text",
             accept: () => {
-                this.petService.deleteSoftPet(pet.id).pipe(takeUntil(this.subscribes$)).subscribe({
+                this.petService.deletePet(pet.id).pipe(takeUntil(this.subscribes$))
+                .subscribe({
                     next: (res) => {
                         if (res.success) {
                             this.getPets();

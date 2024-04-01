@@ -29,7 +29,7 @@
             <div class="lg:col-4 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-gender" class="font-semibold">Giới tính</label>
-                    <p-dropdown [options]="petService.optionGender()" id="pet-gender" optioLabel="label"
+                    <p-dropdown [options]="petService.optionGender()" id="pet-gender" optionLabel="label"
                         styleClass="mat-form-field border-primary-500" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.gender"></p-dropdown>
                 </div>            
@@ -37,7 +37,7 @@
             <div class="lg:col-4 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-age" class="font-semibold">Tuổi</label>
-                    <p-dropdown [options]="petService.optionAge()" id="pet-age" optioLabel="label"
+                    <p-dropdown [options]="petService.optionAge()" id="pet-age" optionLabel="label"
                         styleClass="mat-form-field border-primary-500" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.age"></p-dropdown>
                 </div>            
@@ -45,7 +45,7 @@
             <div class="lg:col-4 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-status" class="font-semibold">Trạng thái</label>
-                    <p-dropdown [options]="petService.optionStatus()" id="pet-status" optioLabel="label"
+                    <p-dropdown [options]="petService.optionStatus()" id="pet-status" optionLabel="label"
                         styleClass="mat-form-field border-primary-500" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.status"></p-dropdown>
                 </div>            

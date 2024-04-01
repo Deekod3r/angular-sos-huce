@@ -6,7 +6,6 @@ import { CONFIG } from 'src/app/common/config';
 import { petConfig } from 'src/app/common/constant';
 import { title, message } from 'src/app/common/message';
 import { AdoptService } from 'src/app/services/adopt.service';
-import { AuthService } from 'src/app/services/auth.service';
 import { LocationService } from 'src/app/services/location.service';
 import { PetService } from 'src/app/services/pet.service';
 import { UserService } from 'src/app/services/user.service';

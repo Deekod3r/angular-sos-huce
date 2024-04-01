@@ -1,12 +1,14 @@
 <div class="card px-0 pt-0">
-    <a [routerLink]="['/tin-tuc', news.id]"><img src="{{news.image}}" class="border-round"></a>
+    <div class="col-12">
+        <a [routerLink]="['/tin-tuc', news.id]"><img src="{{news.image}}" class="border-round"></a>
+    </div>
     <div class="text-card mb-1 px-3">
         <a [routerLink]="['/tin-tuc', news.id]" class="title">
             <h4 class="text-card-news-title">{{news.title}}</h4>
         </a>
-        <p class="m-0 font-semibold"><i class="fa-solid fa-calendar-days mr-2 text-cyan-500"></i>Ngày đăng: {{news.date}}</p>
-        <p-divider></p-divider>
-        <p class="text-overflow-ellipsis text-card-news">{{news.description}}</p>
+        <p class="m-0 font-semibold"><i class="fa-solid fa-calendar-days mr-2 text-cyan-500"></i>Ngày đăng: {{news.createdAt | date:'HH:mm - dd/MM/yyyy' }}</p>
+        <p-divider *ngIf="visibleDetail"></p-divider>
+        <p *ngIf="visibleDetail" class="text-overflow-ellipsis text-card-news w-full" [innerHTML]="news.content"></p>
     </div>
     <div *ngIf="visibleDetail" align="center">
         <p-divider></p-divider>

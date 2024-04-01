@@ -132,7 +132,7 @@ export class AdoptService {
         return this.commonService.callAPI(request);
     }
 
-    deleteSoftAdopt(id: string): Observable<any> {
+    deleteAdopt(id: string): Observable<any> {
         const request = {
           function: this.API_URL + '/delete/' + id,
           method: CONFIG.KEY.METHOD_DELETE,

@@ -6,6 +6,7 @@ export const typeAction = {
     delete: 3,
     view: 4
 }
+
 export const petConfig = {
     search: {
         limitDefault: 5,
@@ -265,7 +266,23 @@ export const userConfig = {
 }
 
 export const newsConfig = {
-
+    search: {
+        limitDefault: 5,
+    },
+    status: [
+        {
+            label: "Đang hiển thị",
+            value: true
+        },
+        {
+            label: "Đã ẩn",
+            value: false
+        }
+    ],
+    statusKey: {
+        active: true,
+        inactive: false
+    }
 }
 
 export const galleriaConfig = {
@@ -286,6 +303,15 @@ export const galleriaConfig = {
         active: true,
         inactive: false
     }
+}
+
+export const systemConfig = {
+    ORG_INFO_CONTACT: 'ORG_INFO_CONTACT',
+    ORG_INFO_SOCIAL: 'ORG_INFO_SOCIAL',
+    ORD_INTRODUCTION: 'ORD_INTRODUCTION',
+    ADOPT_PROCESS: 'ADOPT_PROCESS',
+    DONATE: 'DONATE',
+    ADOPT_CONDITON: 'ADOPT_CONDITON'
 }
 
 export const CALENDER_CONFIG = {

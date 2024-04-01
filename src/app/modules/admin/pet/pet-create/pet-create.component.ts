@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete/autocomplete.interface';
@@ -82,7 +82,9 @@ export class PetCreateComponent implements OnInit, OnDestroy {
             this.form.markAllAsTouched();
             return;
         }
-        this.petService.createPet(this.form.value).pipe(takeUntil(this.subscribes$)).subscribe({
+        this.petService.createPet(this.form.value)
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe({
             next: (res) => {
                 if (res.success) {
                     this.form.reset();

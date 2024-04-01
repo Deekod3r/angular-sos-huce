@@ -8,7 +8,7 @@
                 </div>
             </ng-template>
             <div *ngIf="news && news.length > 0; else noDataTemplate" class="grid">
-                <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12 mx-auto" *ngFor="let item of news">
+                <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12 mx-auto" style="max-width: 400px;" *ngFor="let item of news">
                     <app-card-news [news]="item" [visibleDetail]="true"></app-card-news>
                 </div>
             </div>
@@ -22,10 +22,10 @@
                 <p-divider></p-divider>
                 <div class="my-3">
                     <div class="card mx-2 py-3 border-cyan-100 hover:bg-cyan-100">
-                        <p class="text-lg font-bold text-primary cursor-pointer">Tất cả</p>
+                        <p class="text-lg font-bold text-primary cursor-pointer" (click)="setCategory('')">Tất cả</p>
                     </div>
                     <div *ngFor="let item of newsCategory" class="card mx-2 py-3 border-cyan-100 hover:bg-cyan-100">
-                        <p class="text-lg font-bold text-primary cursor-pointer">{{item.name}}</p>
+                        <p class="text-lg font-bold text-primary cursor-pointer" (click)="setCategory(item.id)">{{item.name}}</p>
                     </div>
                 </div>
             </div>

@@ -1,17 +1,19 @@
 <div class="top-bar">
     <div class="ml-3 inline info mb-2">
-        <a class="mr-3" href="/">
-            <i class="fa fa-map mx-2"></i>
-            <span class="mr-3">Hai Bà Trưng, Hà Nội</span>
-        </a>
-        <a class="mr-3" href="/">
-            <i class="fa fa-envelope mx-2"></i>
-            <span class="mr-3">hucepet@gmail.com</span>
-        </a>
-        <a class="mr-3" href="/">
-            <i class="fa fa-phone mx-2"></i>
-            <span>0987654xxx</span>
-        </a>
+        <div *ngIf="contacts">
+            <a class="mr-3" href="/">
+                <i class="fa fa-phone mx-2"></i>
+                <span>{{contacts[0].value}}</span>
+            </a>
+            <a class="mr-3" href="/">
+                <i class="fa fa-envelope mx-2"></i>
+                <span>{{contacts[1].value}}</span>
+            </a>
+            <a class="mr-3" href="/">
+                <i class="fa fa-map mx-2"></i>
+                <span class="mr-3">{{contacts[2].value}}</span>
+            </a>
+        </div>
     </div>
     <div class="mr-4 inline locate mb-1">
         <a href="/">

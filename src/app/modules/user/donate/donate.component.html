@@ -21,7 +21,7 @@
                     <b class="text-red-500">Lưu ý</b>: Nhóm <b>không dùng Zalo</b> và <b>KHÔNG BAO GIỜ</b> yêu cầu mạnh thường quân cung cấp thông tin thẻ hoặc mã OTP.
                     <br>
                     <br>
-                    <span><b>Danh sách mạnh thường quân và thông tin viện phí sẽ được cập nhật tại đây:<a href="/danh-sach-ung-ho"> Xem thêm</a></b></span>
+                    <span><b>Danh sách mạnh thường quân và thông tin viện phí sẽ được cập nhật tại đây:<a routerLink="/danh-sach-ung-ho"> Xem thêm</a></b></span>
                 </p>
             </div>
             <div class="xl:col-3 lg:col-3 md:col-4 sm:col-12 col-12 text-center" style="height: fit-content;">
@@ -31,9 +31,9 @@
                             <span class="font-semibold text-2xl">Thông tin ủng hộ</span>
                         </div>
                     </ng-template>
-                    <p class="font-semibold"><i class="fa fa-bank text-primary mr-1"></i> TPBank: <br> 04118445401 <br> TRINH TIEN DUNG </p>
-                    <p class="font-semibold"><i class="fa fa-bank text-primary mr-1"></i> TPBank: <br> 04118445401 <br> TRINH TIEN DUNG </p>
-                    <p class="font-semibold"><i class="fa fa-paypal text-primary mr-1"></i> Paypal: <br> 04118445401 <br> TRINH TIEN DUNG </p>
+                    <p *ngFor="let bank of banks" class="font-semibold">
+                        <i class="text-primary mr-1" [ngClass]="bank.logo"></i> {{bank.name}}: <br> {{bank.accountNumber}} <br> {{bank.owner}} 
+                    </p>
                 </p-panel>
             </div>
         </div>

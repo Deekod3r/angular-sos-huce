@@ -75,7 +75,6 @@ export class PetCareLogComponent implements OnInit, OnDestroy {
     }
 
     refresh(): void {
-
     }
 
     getMenuItems(log: any): MenuItem[] {
