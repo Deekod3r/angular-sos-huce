@@ -1,7 +1,7 @@
 <div class="position-relative">
     <form [formGroup]="form">
         <div class="grid">
-            <div class="col-12">
+            <div class="md:col-6 col-12">
                 <div class="font-bold mb-1">
                     Họ và tên <span class="text-red-500">*</span>
                 </div>
@@ -11,11 +11,11 @@
                     </span>
                     <input pInputText type="text" formControlName="name" class="form-control" name="name">
                 </div>
-                <div class="text-red-500 mt-1"
+                <div class="text-red-500 mt-1 ml-1"
                     *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched">
                     Vui lòng nhập họ tên
                 </div>
-                <div class="text-red-500 mt-1"
+                <div class="text-red-500 mt-1 ml-1"
                     *ngIf="(
                         form.controls['name'].hasError('pattern')
                         || form.controls['name'].hasError('minLength')
@@ -25,7 +25,7 @@
                     Họ tên không hợp lệ
                 </div>
             </div>
-            <div class="col-12 mt-2">
+            <div class="md:col-6 col-12">
                 <div class="font-bold mb-1">
                     Số điện thoại <span class="text-red-500">*</span>
                 </div>
@@ -35,11 +35,11 @@
                     </span>
                     <input pInputText type="text" formControlName="phoneNumber" class="form-control" name="phone-number">
                 </div>
-                <div class="text-red-500 mt-1"
+                <div class="text-red-500 mt-1 ml-1"
                     *ngIf="form.controls['phoneNumber'].hasError('required') && form.controls['phoneNumber'].touched">
                     Vui lòng nhập số điện thoại
                 </div>
-                <div class="text-red-500 mt-1"
+                <div class="text-red-500 mt-1 ml-1"
                     *ngIf="(
                         form.controls['phoneNumber'].hasError('pattern') ||
                         form.controls['phoneNumber'].hasError('minLength') ||
@@ -49,7 +49,7 @@
                     Số điện thoại không hợp lệ
                 </div>
             </div>
-            <div class="col-12 mt-2">
+            <div class="md:col-6 col-12">
                 <div class="font-bold mb-1">
                     Email <span class="text-red-500">*</span>
                 </div>
@@ -59,11 +59,11 @@
                     </span>
                     <input pInputText type="email" formControlName="email" class="form-control" name="email">
                 </div>
-                <div class="text-red-500 mt-1"
+                <div class="text-red-500 mt-1 ml-1"
                     *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched">
                     Vui lòng nhập email
                 </div>
-                <div class="text-red-500 mt-1"
+                <div class="text-red-500 mt-1 ml-1"
                     *ngIf="(
                         form.controls['email'].hasError('email') ||
                         form.controls['email'].hasError('minLength') ||
@@ -73,11 +73,11 @@
                     Email không hợp lệ
                 </div>
             </div>
-            <div class="col-12 mt-2">
+            <div class="md:col-6 col-12">
                 <div class="font-bold mb-1" #password>
                     Trạng thái <span class="text-red-500">*</span>
                 </div>
-                <p-dropdown [options]="userService.optionStatus()" id="status" optionLabel="label"
+                <p-dropdown [options]="userService.optionStatus()" id="status" optionLabel="label" optionValue="value"
                     styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                     emptyMessage="Không có dữ liệu" formControlName="status"></p-dropdown>
                 <div class="text-red-500 mt-1"
@@ -86,20 +86,20 @@
                 </div>
             </div>
             <div class="col-12 mt-5 grid justify-content-center" align="center">
-                <div class="md:col-3 col-12">
-                    <p-button label="LÀM MỚI" styleClass="mat-form-button p-button-outlined" label="Đổi mật khẩu" (onClick)="visibleUpdatePasswordModal = true"></p-button>
+                <div class="lg:col-3 md:col-4 col-8 mx-auto">
+                    <p-button styleClass="mat-form-button p-button-outlined" label="Đổi mật khẩu" (onClick)="visibleUpdatePasswordModal = true"></p-button>
                 </div>
-                <div class="md:col-3 col-12">
-                    <p-button label="LÀM MỚI" styleClass="mat-form-button p-button-outlined" [disabled]="!form.dirty" (onClick)="fillData()"></p-button>
+                <div class="lg:col-3 md:col-4 col-8 mx-auto">
+                    <p-button label="Hoàn tác" styleClass="mat-form-button p-button-outlined" [disabled]="!form.dirty" (onClick)="onInitForm()"></p-button>
                 </div>
-                <div class="md:col-3 col-12">
-                    <p-button label="LƯU" type="button" styleClass="mat-form-button" (click)="onUpdateAccountAdmin()"></p-button>
+                <div class="lg:col-3 md:col-4 col-8 mx-auto">
+                    <p-button label="Lưu" type="button" styleClass="mat-form-button" (click)="onSaveAccountAdmin($event)"></p-button>
                 </div>
             </div>
         </div>
     </form>
     <p-dialog *ngIf="visibleUpdatePasswordModal" header="Thay mật khẩu tài khoản quản trị viên" [(visible)]="visibleUpdatePasswordModal" [modal]="true"
-        [style]="{ }" [draggable]="false" [resizable]="false">
+        [style]="{}" [draggable]="false" [resizable]="false">
         <form [formGroup]="formPassword">
             <div class="col-12 mt-2">
                 <div class="font-bold mb-1" #password>
@@ -119,11 +119,11 @@
                         <i class="fa fa-key"></i>
                     </span>
                 </div>
-                <div class="text-red-500 mt-1"
+                <div class="text-red-500 mt-1 ml-1"
                     *ngIf="formPassword.controls['password'].hasError('required') && formPassword.controls['password'].touched">
                     Vui lòng nhập mật khẩu
                 </div>
-                <div class="text-red-500 mt-1"
+                <div class="text-red-500 mt-1 ml-1"
                     *ngIf="(
                         formPassword.controls['password'].hasError('pattern') ||
                         formPassword.controls['password'].hasError('maxLength')
@@ -134,7 +134,7 @@
             </div>
             <div class="col-12 mt-5 grid justify-content-center" align="center">
                 <div class="col-8">
-                    <p-button label="LƯU" type="button" styleClass="mat-form-button"  (click)="onUpdatePassword()"></p-button>
+                    <p-button label="Lưu" type="button" styleClass="mat-form-button"  (click)="onSavePassword($event)"></p-button>
                 </div>
             </div>
         </form>

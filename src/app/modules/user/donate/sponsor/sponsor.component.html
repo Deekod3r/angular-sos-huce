@@ -1,3 +1,46 @@
 <div class="container mt-5">
-   <p>sponsor works!</p> 
+    <div class="grid mb-3 w-full">
+        <div class="md:col-4 col-12">
+            <p-dropdown [options]="monthNames" [(ngModel)]="month" styleClass="mat-form-field" [showClear]="true"
+                optionLabel="label" optionValue="value" placeholder="--Chọn tháng--"></p-dropdown>
+        </div>
+        <div class="md:col-4 col-12">
+            <p-calendar [(ngModel)]="year" view="year" placeholder="--Chọn năm--" dataType="string" [showClear]="true"
+                dateFormat="yy" inputId="yearPicker" styleClass="mat-form-field"></p-calendar>
+        </div>
+        <div class="md:col-4 col-12">
+            <button pButton label="Xem thông tin ủng hộ" class="mat-form-button" (click)="onSearchDonations()"></button>
+        </div>
+    </div>
+    <p-table *ngIf="donates != null && donates.length > 0" #table [value]="donates"
+        [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines my-3" selectionMode="single"
+        [paginator]="true" [rows]="limit">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                Thông tin ủng hộ
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr class="">
+                <th class="col-2">Người gửi</th>
+                <th class="col-2">Nguồn nhận</th>
+                <th class="col-2">Thời gian</th>
+                <th class="col-4">Nội dung</th>
+                <th class="col-2">Số tiền</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-donate>
+            <tr>
+                <td>{{donate.remitter}}</td>
+                <td>{{donate.payee}}</td>
+                <td>{{donate.date | date:'dd/MM/yyyy'}}</td>
+                <td>{{donate.detail}}</td>
+                <td>{{donate.amount | currency: ' ' }} VNĐ</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+        </ng-template>
+    </p-table>
 </div>

@@ -1,12 +1,11 @@
 <div class="card">
-    <p-confirmDialog></p-confirmDialog>
     <p-dialog *ngIf="visibleCreateModal" header="Thêm đơn nhận nuôi" [(visible)]="visibleCreateModal" [modal]="true"
         [style]="{ width: '90vw' }" [draggable]="false" [resizable]="false">
-        <app-adoption-create (resultAction)="receiveResult($event, 1)"></app-adoption-create>
+        <app-adoption-create (resultAction)="onReceiveResult($event, 1)"></app-adoption-create>
     </p-dialog>
     <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa đơn nhận nuôi" [(visible)]="visibleUpdateModal" [modal]="true"
         [style]="{ width: '90vw', height: '100vh' }" [draggable]="false" [resizable]="false">
-        <app-adoption-update (resultAction)="receiveResult($event, 2)" [idAdoption]="idAdoptionUpdate"></app-adoption-update>
+        <app-adoption-update (resultAction)="onReceiveResult($event, 2)" [idAdoption]="idAdoptionUpdate"></app-adoption-update>
     </p-dialog>
     <p-dialog header="Header" [(visible)]="visibleDeleteModal" (onHide)="dataReject.message = ''" [draggable]="false" [style]="{ width: '60vw' }">
         <ng-template pTemplate="header">
@@ -18,16 +17,16 @@
             </div>
         </ng-template>
         <ng-template pTemplate="footer">
-            <p-button (click)="rejectAdopt()" label="Tiếp tục"></p-button>
+            <p-button (click)="onReject()" label="Tiếp tục"></p-button>
         </ng-template>
     </p-dialog>
     <p-panel header="Công cụ" [toggleable]="true">
-        <button pButton icon="fa fa-plus" label="Thêm mới" (click)="showCreateModal()"></button>
+        <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onShowCreateModal()"></button>
         <div class="card grid mt-3">
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="pet-code">Mã đơn</label>
-                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.code" id="pet-code">
+                    <label for="adopt-code">Mã đơn</label>
+                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.code" id="adopt-code">
                 </div>
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
@@ -60,28 +59,28 @@
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="pet-status">Trạng thái</label>
-                    <p-dropdown [options]="adoptService.optionStatus()" id="pet-status" optionLabel="label" optionValue="value"
+                    <label for="adopt-status">Trạng thái</label>
+                    <p-dropdown [options]="adoptService.optionStatus()" id="adopt-status" optionLabel="label" optionValue="value"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--" [(ngModel)]="key.status"
                         emptyMessage="Không có dữ liệu"></p-dropdown>
                 </div>            
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="pet-from">Từ ngày</label>
-                    <p-calendar [showClear]="true" id="pet-from"
+                    <label for="adopt-from">Từ ngày</label>
+                    <p-calendar [showClear]="true" id="adopt-from" [readonlyInput]="true"
                     [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.fromDateTime"></p-calendar>
                 </div>
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="pet-to">Đến ngày</label>
-                    <p-calendar [showClear]="true" id="pet-to"
+                    <label for="adopt-to">Đến ngày</label>
+                    <p-calendar [showClear]="true" id="adopt-to" [readonlyInput]="true"
                     [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.toDateTime"></p-calendar>
                 </div>
             </div>
             <div class="col-12">
-                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="search()"></button>
+                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="onSearch()"></button>
             </div>
         </div>
     </p-panel>
@@ -90,7 +89,7 @@
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Đơn nhận nuôi
-                <p-button icon="fa fa-refresh" (onClick)="refresh()"></p-button>
+                <p-button icon="fa fa-refresh" (onClick)="onRefresh()"></p-button>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -131,7 +130,7 @@
             <p-button type="button" icon="fa fa-cloud" styleClass="p-button-text"></p-button>
         </ng-template>
     </p-table>
-    <p-paginator [rows]="limit" [showCurrentPageReport]="false" [totalRecords]="totalRecords" [first]="first"
+    <p-paginator [rows]="limit" [showCurrentPageReport]="false" [totalRecords]="totalElements" [first]="first"
         [rowsPerPageOptions]="[5, 10, 25, 50]" [style]="{'margin-top': '1rem'}"
         (onPageChange)="onPageChange($event)"></p-paginator>
 </div>

@@ -11,6 +11,8 @@ import { Subject, takeUntil } from 'rxjs';
 import { galleriaConfig, petConfig, systemConfig } from 'src/app/common/constant';
 import { GalleriaService } from 'src/app/services/galleria.service';
 import { ConfigService } from 'src/app/services/config.service';
+import { title, message } from 'src/app/common/message';
+import { MessageService } from 'primeng/api';
 
 @Component({
     selector: 'app-home',
@@ -58,7 +60,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         public petService: PetService,
         private newsService: NewsService,
         private galleriaService: GalleriaService,
-        private configService: ConfigService
+        private configService: ConfigService,
+        private messageService: MessageService
     ) {}
 
     ngOnInit() {
@@ -71,55 +74,95 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     subscribeAndGetData() {
-
-        this.galleriaService.getGallerias({
-            status: galleriaConfig.statusKey.active
-        })
+        this.galleriaService.getGallerias({})
         .pipe(takeUntil(this.subscribes$))
-        .subscribe((res: any) => {
-            if (res.success) {
-                this.gallerias = res.data;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.gallerias = res.data;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
 
         this.configService.getConfigs(systemConfig.ORD_INTRODUCTION)
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.introductions = res.data.values;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.introductions = res.data.values;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
 
-        let petSearch = {
+        this.petService.getStatisticCases()
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe({
+            next: (res) => {
+                if(res.success) {
+                    this.statisticCases = res.data;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
+            }
+        });
+
+        this.petService.getPets({
             limit: petConfig.search.limitDefault,
             page: 1,
-            status: petConfig.statusKey.waiting,
-        };
-        this.petService
-        .getPets(petSearch)
+            status: petConfig.statusKey.waiting
+        })
         .pipe(takeUntil(this.subscribes$))
-        .subscribe((res: any) => {
-            if(res.success) {
-                this.pets = res.data.pets;
+        .subscribe({
+            next: (res) => {
+                if(res.success) {
+                    this.pets = res.data.pets;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
 
-        this.newsService
-        .getNews({
-            status: 1
+        this.newsService.getNews({
+            limit: 5,
+            page: 1
         })
         .pipe(takeUntil(this.subscribes$))
-        .subscribe((res: any) => {
-            if(res.success) {
-                this.news = res.data;
-            }
-        });
-        this.petService
-        .getStatisticCases()
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe((res: any) => {
-            if(res.success) {
-                this.statisticCases = res.data;
+        .subscribe({
+            next: (res) => {
+                if(res.success) {
+                    this.news = res.data.news;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }

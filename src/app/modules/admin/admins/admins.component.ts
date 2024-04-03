@@ -9,6 +9,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { message, messageUser, title } from 'src/app/common/message';
 import { typeAction } from 'src/app/common/constant';
 import { MessageService } from 'primeng/api';
+import { filteredSearch } from 'src/app/shared/utils/data.util';
 
 @Component({
     selector: 'app-admins',
@@ -20,11 +21,10 @@ import { MessageService } from 'primeng/api';
 export class AdminsComponent implements OnInit, OnDestroy {
     
     admins: any[] = [];
-    adminCount: number = 0;
     visibleCreateModal: boolean = false;
     visibleUpdateModal: boolean = false;
     idAdminUpdate: string = '';
-    search = {
+    key = {
         name: '',
         phoneNumber: '',
         email: '',
@@ -45,23 +45,33 @@ export class AdminsComponent implements OnInit, OnDestroy {
     }
 
     getUsers(): void {
-        this.userService.getUsers({
+        let search = {
             role: CONFIG.ROLE.ADMIN,
-            name: this.search.name.trim(),
-            phoneNumber: this.search.phoneNumber.trim(),
-            email: this.search.email.trim(),
-            isActivated: this.search.isActivated != null ? this.search.isActivated : ''
-        })
+            name: this.key.name.trim(),
+            phoneNumber: this.key.phoneNumber.trim(),
+            email: this.key.email.trim(),
+            isActivated: this.key.isActivated != null ? this.key.isActivated : ''
+        }
+        this.userService.getUsers(filteredSearch(search))
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.admins = res.data.users;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.admins = res.data.users;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
 
-    refresh(): void {
-        this.search = {
+    onRefresh(): void {
+        this.key = {
             name: '',
             phoneNumber: '',
             email: '',
@@ -70,16 +80,16 @@ export class AdminsComponent implements OnInit, OnDestroy {
         this.getUsers();
     }
 
-    showCreateModal(): void {
+    onShowCreateModal(): void {
         this.visibleCreateModal = true;
     }
 
-    showUpdateModal(id: string): void {
+    onShowUpdateModal(id: string): void {
         this.idAdminUpdate = id;
         this.visibleUpdateModal = true;
     }
 
-    receiveResult(result: boolean, type: number): void {
+    onReceiveResult(result: boolean, type: number): void {
         if (result) {
             if (type === typeAction.create) {
                 this.visibleCreateModal = false;
@@ -92,10 +102,6 @@ export class AdminsComponent implements OnInit, OnDestroy {
         } else {
             this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
         }
-    }
-
-    incrementAdminCount(): void {
-        this.adminCount++;
     }
 
 }

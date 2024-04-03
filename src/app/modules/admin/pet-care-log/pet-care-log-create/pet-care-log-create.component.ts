@@ -42,14 +42,23 @@ export class PetCareLogCreateComponent implements OnInit, OnDestroy {
     getAdopts(): void {
         this.adoptService.getAdopts({ status: adoptConfig.statusKey.complete })
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.adopts = res.data.adopts;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.adopts = res.data.adopts;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
 
-    onCreateLog(): void {
+    onSaveLog(): void {
         if (this.form.valid) {
             let body = {
                 adoptId: this.form.value.adoptId,

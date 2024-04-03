@@ -36,7 +36,7 @@ export class AdminCreateComponent implements OnInit, OnDestroy  {
         this.subscribes$.complete();
     }
 
-    onCreateAccountAdmin(): void {
+    onSaveAccountAdmin(): void {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
             return;

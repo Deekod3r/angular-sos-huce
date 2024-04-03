@@ -1,15 +1,14 @@
 <div class="card">
-    <p-confirmDialog></p-confirmDialog>
     <p-dialog *ngIf="visibleCreateModal" header="Thêm tin tức" [(visible)]="visibleCreateModal" [modal]="true"
         [style]="{ width: '95vw', height: '100vh' }" [draggable]="false" [resizable]="false">
-        <app-new-media-create (resultAction)="receiveResult($event, 1)" [categories]="categories"></app-new-media-create>
+        <app-new-media-create (resultAction)="onReceiveResult($event, 1)" [categories]="categories"></app-new-media-create>
     </p-dialog>
     <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa tin tức" [(visible)]="visibleUpdateModal" [modal]="true"
         [style]="{ width: '95vw', height: '100vh' }" [draggable]="false" [resizable]="false">
-        <app-new-media-update (resultAction)="receiveResult($event, 2)" [idNews]="idNewsUpdate" [categories]="categories"></app-new-media-update>
+        <app-new-media-update (resultAction)="onReceiveResult($event, 2)" [idNews]="idNewsUpdate" [categories]="categories"></app-new-media-update>
     </p-dialog>
     <p-panel header="Công cụ" [toggleable]="true">
-        <button pButton icon="fa fa-plus" label="Thêm mới" (click)="showCreateModal()"></button>
+        <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onShowCreateModal()"></button>
         <div class="card grid mt-3">
             <div class="xl:col-8 lg:col-12 md:col-12 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
@@ -42,19 +41,19 @@
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="news-from">Từ ngày</label>
-                    <p-calendar [showClear]="true" id="news-from"
+                    <p-calendar [showClear]="true" id="news-from" [readonlyInput]="true"
                     [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.fromDateTime"></p-calendar>
                 </div>
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="news-to">Đến ngày</label>
-                    <p-calendar [showClear]="true" id="news-to"
+                    <p-calendar [showClear]="true" id="news-to" [readonlyInput]="true"
                     [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.toDateTime"></p-calendar>
                 </div>
             </div>
             <div class="col-12">
-                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="getNews()"></button>
+                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="onSearch()"></button>
             </div>
         </div>
     </p-panel>
@@ -63,7 +62,7 @@
     <ng-template pTemplate="caption">
         <div class="flex align-items-center justify-content-between">
             Đơn nhận nuôi
-            <p-button icon="fa fa-refresh" (onClick)="refresh()"></p-button>
+            <p-button icon="fa fa-refresh" (onClick)="onRefresh()"></p-button>
         </div>
     </ng-template>
     <ng-template pTemplate="header">
@@ -94,10 +93,12 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="paginatorleft">
-        <p-button type="button" icon="fa fa-plus" styleClass="p-button-text"></p-button>
+        <p-button type="button" icon="fa fa-plus" styleClass="p-button-text" (onClick)="onShowCreateModal()"></p-button>
     </ng-template>
     <ng-template pTemplate="paginatorright">
-        <p-button type="button" icon="fa fa-cloud" styleClass="p-button-text"></p-button>
     </ng-template>
-</p-table>
+    </p-table>
+    <p-paginator [rows]="limit" [showCurrentPageReport]="false" [totalRecords]="totalElements" [first]="first"
+            [rowsPerPageOptions]="[1, 5, 10, 25]" [style]="{'margin-top': '1rem'}"
+            (onPageChange)="onPageChange($event)"></p-paginator>
 </div>

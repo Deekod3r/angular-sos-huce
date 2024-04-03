@@ -21,6 +21,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 export class NewsCategoryComponent implements OnInit, OnDestroy {
 
     categories!: any;
+    //clonedCategories: { [s: string]: any } = {};
+    isAdd: boolean = false;
     formAdd!: FormGroup;
     formUpdate!: FormGroup;
     visibleUpdateModal: boolean = false;
@@ -50,12 +52,21 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
     getNewsCategories(): void {
         this.newsService.getNewsCategories()
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.categories = res.data;
-                this.categories.forEach((category: any) => {
-                    category.menuItems = this.getMenuItems(category);
-                })
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.categories = res.data;
+                    this.categories.forEach((category: any) => {
+                        category.menuItems = this.getMenuItems(category);
+                    })
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
@@ -69,7 +80,7 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
                 label: 'Chỉnh sửa',
                 icon: 'fa fa-edit',
                 command: () => {
-                    this.showUpdateModal(category.id);
+                    this.onShowUpdateModal(category.id);
                 }
             },
             {
@@ -79,13 +90,18 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
                 label: 'Xoá',
                 icon: 'fa fa-trash',
                 command: (event: any) => {
-                    this.confirmDelete(event, category.id);
+                    this.onConfirmDelete(event, category.id);
                 }
             },
         ];
     }
 
-    createNewsCategory(): void {
+    onCreateNewsCategory(): void {
+        if(!this.isAdd) {
+            this.isAdd = true;
+            this.formAdd.enable();
+            return;
+        }
         if(this.formAdd.invalid) {
             this.formAdd.markAllAsTouched();
             return;
@@ -114,41 +130,19 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
         });
     }
 
-    showUpdateModal(id: string): void {
+    onShowUpdateModal(id: string): void {
         this.visibleUpdateModal = true;
         this.newsService.getNewsCategoryById(id)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                let categoryUpdate = res.data;
-                this.formUpdate.setValue({
-                    id: categoryUpdate.id,
-                    name: categoryUpdate.name,
-                    description: categoryUpdate.description
-                });
-            }
-        });
-    }
-
-    updateNewsCategory(): void {
-        if(this.formUpdate.invalid) {
-            this.formUpdate.markAllAsTouched();
-            return;
-        }
-        let body = {
-            id: this.formUpdate.value.id,
-            name: this.formUpdate.value.name.trim(),
-            description: this.formUpdate.value.description.trim()
-        }
-        this.newsService.updateNewsCategory(body, this.formUpdate.value.id)
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res) => {
                 if (res.success) {
-                    this.getNewsCategories();
-                    this.formUpdate.reset();
-                    this.visibleUpdateModal = false;
-                    this.messageService.add({ severity: 'success', summary: title.success, detail: messageNewsCategory.updateSuccess });
+                    let categoryUpdate = res.data;
+                    this.formUpdate.setValue({
+                        id: categoryUpdate.id,
+                        name: categoryUpdate.name,
+                        description: categoryUpdate.description
+                    });
                 }
             },
             error: (res) => {
@@ -161,7 +155,57 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
         });
     }
 
-    confirmDelete(event: any, id: string): void {
+    onUpdateNewsCategory(event: any): void {
+        if(this.formUpdate.invalid) {
+            this.formUpdate.markAllAsTouched();
+            return;
+        }
+        if (!this.formUpdate.dirty) {
+            this.messageService.add({ severity: 'info', summary: title.info, detail: message.noChange });
+            return;
+        }
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Bạn chắc chắn muốn cập nhật thông tin chứ?',
+            header: 'XÁC NHẬN',
+            icon: 'fa fa-solid fa-triangle-exclamation',
+            acceptLabel: 'Có',
+            rejectLabel: 'Hủy',
+            acceptIcon: "none",
+            rejectIcon: "none",
+            rejectButtonStyleClass: "p-button-text",
+            accept: () => {
+                let body = {
+                    id: this.formUpdate.value.id,
+                    name: this.formUpdate.value.name.trim(),
+                    description: this.formUpdate.value.description.trim()
+                }
+                this.newsService.updateNewsCategory(body, this.formUpdate.value.id)
+                .pipe(takeUntil(this.subscribes$))
+                .subscribe({
+                    next: (res) => {
+                        if (res.success) {
+                            this.getNewsCategories();
+                            this.formUpdate.reset();
+                            this.visibleUpdateModal = false;
+                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageNewsCategory.updateSuccess });
+                        }
+                    },
+                    error: (res) => {
+                        if (res.error) {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        }
+                    }
+                });
+            },
+            reject: () => {
+            }
+        });
+    }
+
+    onConfirmDelete(event: any, id: string): void {
         this.confirmationService.confirm({
             target: event.target as EventTarget,
             message: 'Khi xóa danh mục, các tin tức liên quan cũng sẽ bị xóa. </br> Bạn chắc chắn muốn xoá danh mục tin tức này chứ?',
@@ -175,10 +219,19 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
             accept: () => {
                 this.newsService.deleteNewsCategory(id)
                 .pipe(takeUntil(this.subscribes$))
-                .subscribe(res => {
-                    if (res.success) {
-                        this.getNewsCategories();
-                        this.messageService.add({ severity: 'success', summary: title.success, detail: messageNewsCategory.deleteSuccess });
+                .subscribe({
+                    next: (res) => {
+                        if (res.success) {
+                            this.getNewsCategories();
+                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageNewsCategory.deleteSuccess });
+                        }
+                    },
+                    error: (res) => {
+                        if (res.error) {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        }
                     }
                 });
             },

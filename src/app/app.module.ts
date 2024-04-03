@@ -39,6 +39,7 @@ import { NotFoundComponent } from './modules/errors/not-found/not-found.componen
 import { SpinnerInterceptor } from './shared/interceptors/spinner-interceptor';
 import { AuthenticationInterceptor } from './shared/interceptors/auth-interceptor';
 import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
     declarations: [
@@ -78,7 +79,8 @@ import { ToastModule } from 'primeng/toast';
         RippleModule,
         FormsModule,
         NgxSpinnerModule,
-        ToastModule
+        ToastModule,
+        ConfirmDialogModule
     ],
     providers: [
         {

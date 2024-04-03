@@ -37,7 +37,11 @@ a {
         display: block !important;
     }
 
-    .info > a {
+    .info {
         display: none !important;
+    }
+
+    .locate {
+        margin-left: 3rem;
     }
 }

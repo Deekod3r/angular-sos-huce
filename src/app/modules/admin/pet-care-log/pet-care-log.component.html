@@ -1,22 +1,21 @@
 <div class="card">
-    <p-confirmDialog></p-confirmDialog>
     <p-dialog *ngIf="visibleCreateModal" header="Thêm lịch sử kiểm tra đơn nhận nuôi" [(visible)]="visibleCreateModal" [modal]="true"
-        [style]="{ width: '90vw', height: '60vh' }" [draggable]="false" [resizable]="false">
-        <app-pet-care-log-create (resultAction)="receiveResult($event, 1)"></app-pet-care-log-create>
+        [style]="{}" [draggable]="false" [resizable]="false">
+        <app-pet-care-log-create (resultAction)="onReceiveResult($event, 1)"></app-pet-care-log-create>
     </p-dialog>
     <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa lịch sử kiểm tra đơn nhận nuôi" [(visible)]="visibleUpdateModal" [modal]="true"
-        [style]="{ width: '90vw', height: '60vh' }" [draggable]="false" [resizable]="false">
-        <app-pet-care-log-update (resultAction)="receiveResult($event, 2)" [idLog]="idLogUpdate"></app-pet-care-log-update>
+        [style]="{}" [draggable]="false" [resizable]="false">
+        <app-pet-care-log-update (resultAction)="onReceiveResult($event, 2)" [idLog]="idLogUpdate"></app-pet-care-log-update>
     </p-dialog>
     <p-panel header="Công cụ" [toggleable]="true">
-        <button pButton icon="fa fa-plus" label="Thêm mới" (click)="showCreateModal()"></button>
+        <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onShowCreateModal()"></button>
         <div class="card grid mt-3">
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="adoption">Đơn nhận nuôi</label>
                     <p-dropdown [options]="adopts" optionLabel="code" optionValue="id" [filter]="true" filterBy="code" 
-                    emptyMessage="Không có dữ liệu" filterPlaceholder="Mã đơn nhận nuôi" id="adoption"
-                    [showClear]="true" placeholder="--Tất cả--" styleClass="mat-form-field" [(ngModel)]="key.adoptId">
+                        emptyMessage="Không có dữ liệu" filterPlaceholder="Mã đơn nhận nuôi" id="adoption"
+                        [showClear]="true" placeholder="--Tất cả--" styleClass="mat-form-field" [(ngModel)]="key.adoptId">
                         <ng-template let-adopt pTemplate="item">
                             <div class="flex align-items-center">
                                 <div>{{ adopt.code }} - [ {{ adopt.petName }} ]</div>
@@ -28,13 +27,13 @@
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="log-from">Từ ngày</label>
-                    <p-calendar id="log-from" [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.fromDate"></p-calendar>
+                    <p-calendar id="log-from" [showIcon]="true" [readonlyInput]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.fromDate"></p-calendar>
                 </div>
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="log-to">Đến ngày</label>
-                    <p-calendar id="log-to" [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.toDate"></p-calendar>
+                    <p-calendar id="log-to" [showIcon]="true" [readonlyInput]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.toDate"></p-calendar>
                 </div>
             </div>
             <div class="col-12">
@@ -47,7 +46,7 @@
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Lịch sử kiểm tra
-                <p-button icon="fa fa-refresh" (onClick)="refresh()"></p-button>
+                <p-button icon="fa fa-refresh" (onClick)="onRefresh()"></p-button>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -73,7 +72,7 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="paginatorleft">
-            <p-button type="button" icon="fa fa-plus" styleClass="p-button-text" (click)="showCreateModal()"></p-button>
+            <p-button type="button" icon="fa fa-plus" styleClass="p-button-text" (click)="onShowCreateModal()"></p-button>
         </ng-template>
         <ng-template pTemplate="paginatorright">
         </ng-template>

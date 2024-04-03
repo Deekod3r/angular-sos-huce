@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete/autocomplete.interface';
 import { Subject, takeUntil } from 'rxjs';
-import { MIN_DATE, MAX_DATE } from 'src/app/common/constant';
+import { MIN_DATE, MAX_DATE, petConfig } from 'src/app/common/constant';
 import { message, title } from 'src/app/common/message';
 import { PetService } from 'src/app/services/pet.service';
-import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
+import { convertDateFormat } from 'src/app/shared/utils/data.util';
+import { noWhitespaceValidator, upcaseAllFirstLetters, upcaseFirstLetter } from 'src/app/shared/utils/string.util';
 
 
 @Component({
@@ -61,11 +62,11 @@ export class PetCreateComponent implements OnInit, OnDestroy {
         this.subscribes$.complete();
     }
 
-    filterBreed(event: AutoCompleteCompleteEvent): void {
+    onFilterBreed(event: AutoCompleteCompleteEvent): void {
         this.filteredBreeds = this.petService.filterBreed(event);
     }
 
-    filterColor(event: AutoCompleteCompleteEvent): void {
+    onFilterColor(event: AutoCompleteCompleteEvent): void {
         this.filteredColors = this.petService.filterColor(event);
     }
 
@@ -82,7 +83,28 @@ export class PetCreateComponent implements OnInit, OnDestroy {
             this.form.markAllAsTouched();
             return;
         }
-        this.petService.createPet(this.form.value)
+        const formData = new FormData();
+        formData.append('age', this.form.value.petAge);
+        formData.append('breed', upcaseFirstLetter((this.form.value.petBreed.label ? this.form.value.petBreed.label : this.form.value.petBreed).trim()));
+        formData.append('color', upcaseFirstLetter((this.form.value.petColor.label ? this.form.value.petColor.label : this.form.value.petColor).trim()));
+        formData.append('description', this.form.value.petDescription.trim());
+        formData.append('note', this.form.value.petNote ? this.form.value.petNote.trim() : this.form.value.petNote);
+        formData.append('diet', this.form.value.petDiet ? this.form.value.petDiet : petConfig.moreInforKey.undefined);
+        formData.append('friendlyToCats', this.form.value.petFriendlyToCats ? this.form.value.petFriendlyToCats : petConfig.moreInforKey.undefined);
+        formData.append('friendlyToDogs', this.form.value.petFriendlyToDogs ? this.form.value.petFriendlyToDogs : petConfig.moreInforKey.undefined);
+        formData.append('friendlyToHuman', this.form.value.petFriendlyToHuman ? this.form.value.petFriendlyToHuman : petConfig.moreInforKey.undefined);
+        formData.append('gender', this.form.value.petGender);
+        formData.append('image', this.form.value.petImage);
+        formData.append('name', upcaseAllFirstLetters(this.form.value.petName.trim()));
+        formData.append('rabies', this.form.value.petRabies ? this.form.value.petRabies : petConfig.moreInforKey.undefined);
+        formData.append('status', this.form.value.petStatus);
+        formData.append('sterilization', this.form.value.petSterilization ? this.form.value.petSterilization : petConfig.moreInforKey.undefined);
+        formData.append('toilet', this.form.value.petToilet ? this.form.value.petToilet : petConfig.moreInforKey.undefined);
+        formData.append('type', this.form.value.petType);
+        formData.append('vaccine', this.form.value.petVaccine ? this.form.value.petVaccine : petConfig.moreInforKey.undefined);
+        formData.append('weight', this.form.value.petWeight);
+        formData.append('intakeDate', convertDateFormat(this.form.value.intakeDate));
+        this.petService.createPet(formData)
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res) => {
@@ -102,7 +124,7 @@ export class PetCreateComponent implements OnInit, OnDestroy {
         });
     }
 
-    removePetImage(): void {
+    onRemovePetImage(): void {
         this.form.patchValue({ petImage: null });
     } 
     

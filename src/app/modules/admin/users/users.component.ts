@@ -8,6 +8,7 @@ import { CONFIG } from 'src/app/common/config';
 import { message, messageUser, title } from 'src/app/common/message';
 import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { filteredSearch } from 'src/app/shared/utils/data.util';
 
 @Component({
     selector: 'app-users',
@@ -19,8 +20,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 export class UsersComponent implements OnInit, OnDestroy {
 
     users: any[] = [];
-    userCount: number = 0;
-    search = {
+    key = {
         name: '',
         phoneNumber: '',
         email: '',
@@ -41,23 +41,33 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
 
     getUsers(): void {
-        this.userService.getUsers({
+        let search = {
             role: CONFIG.ROLE.USER,
-            name: this.search.name.trim(),
-            phoneNumber: this.search.phoneNumber.trim(),
-            email: this.search.email.trim(),
-            isActivated: this.search.isActivated != null ? this.search.isActivated : ''
-        })
+            name: this.key.name.trim(),
+            phoneNumber: this.key.phoneNumber.trim(),
+            email: this.key.email.trim(),
+            isActivated: this.key.isActivated != null ? this.key.isActivated : ''
+        }
+        this.userService.getUsers(filteredSearch(search))
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.users = res.data.users;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.users = res.data.users;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
 
-    refresh(): void {
-        this.search = {
+    onRefresh(): void {
+        this.key = {
             name: '',
             phoneNumber: '',
             email: '',
@@ -66,15 +76,11 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.getUsers();
     }
 
-    iconStatus(isActivated: boolean): string {
+    getIconStatus(isActivated: boolean): string {
         return isActivated ? 'fa fa-lock-open' : 'fa fa-lock';
     }
 
-    incrementUserCount(): void {
-        this.userCount++;
-    }
-
-    confirmUpdateStatus(event: any, user: any): void {
+    onConfirmUpdateStatus(event: any, user: any): void {
         let object = '';
         if (user.isActivated) {
             object = 'khóa tài khoản';
@@ -96,7 +102,9 @@ export class UsersComponent implements OnInit, OnDestroy {
                     id: user.id,
                     status: !user.isActivated,
                     role: user.role
-                }, 'status').pipe(takeUntil(this.subscribes$)).subscribe({
+                }, 'status')
+                .pipe(takeUntil(this.subscribes$))
+                .subscribe({
                     next: (res) => {
                         if (res.success) {
                             this.getUsers();

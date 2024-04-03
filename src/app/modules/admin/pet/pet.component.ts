@@ -11,6 +11,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { message, messagePet, title } from 'src/app/common/message';
+import { filteredSearch } from 'src/app/shared/utils/data.util';
 
 @Component({
     selector: 'app-pet',
@@ -30,7 +31,7 @@ export class PetComponent implements OnInit, OnDestroy {
     visibleUpdateModal: boolean = false;
     currentPage = 1;
     totalPages = 0;
-    totalRecords = 0;
+    totalElements = 0;
     limit = petConfig.search.limitDefault;
     first!: number;
     key = {
@@ -56,7 +57,6 @@ export class PetComponent implements OnInit, OnDestroy {
     constructor(public petService: PetService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
 
     ngOnInit(): void {
-        this.first = (this.currentPage - 1) * this.limit;
         this.getPets();
     }
 
@@ -85,19 +85,32 @@ export class PetComponent implements OnInit, OnDestroy {
             rabies: this.key.rabies ? this.key.rabies : '',
             adoptedBy: this.key.adoptedBy ? this.key.adoptedBy : ''
         }
-        this.petService.getPets(search)
+        this.petService.getPets(filteredSearch(search))
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                let data = res.data;
-                this.currentPage = data.page;
-                this.first = (this.currentPage - 1) * this.limit;
-                this.totalPages = data.totalPages;
-                this.totalRecords = data.total;
-                this.pets = data.pets;
-                this.pets.forEach(pet => {
-                    pet.menuItems = this.getMenuItems(pet);
-                })
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    let data = res.data;
+                    this.currentPage = data.currentPage;
+                    this.first = (this.currentPage - 1) * this.limit;
+                    this.totalPages = data.totalPages;
+                    this.totalElements = data.totalElements;
+                    this.pets = data.pets;
+                    if(this.pets.length == 0) {
+                        this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });
+                    } else {
+                        this.pets.forEach(pet => {
+                            pet.menuItems = this.getMenuItems(pet);
+                        });
+                    }
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
@@ -111,7 +124,7 @@ export class PetComponent implements OnInit, OnDestroy {
                 label: pet.status === petConfig.statusKey.adopted || pet.status === petConfig.statusKey.dead ? 'Xem chi tiết' : 'Chỉnh sửa',
                 icon: pet.status === petConfig.statusKey.adopted || pet.status === petConfig.statusKey.dead ? 'fa fa-photo' : 'fa fa-edit',
                 command: () => {
-                    this.showUpdateModal(pet.id);
+                    this.onShowUpdateModal(pet.id);
                 }
             },
             {
@@ -121,22 +134,22 @@ export class PetComponent implements OnInit, OnDestroy {
                 label: 'Xoá',
                 icon: 'fa fa-trash',
                 command: (event: any) => {
-                    this.confirmDelete(event, pet);
+                    this.onConfirmDelete(event, pet);
                 }
             },
         ];
     }
 
-    showCreateModal(): void {
+    onShowCreateModal(): void {
         this.visibleCreateModal = true;
     }
 
-    showUpdateModal(id: string): void {
+    onShowUpdateModal(id: string): void {
         this.idPetUpdate = id;
         this.visibleUpdateModal = true;
     }
 
-    receiveResult(result: boolean, type: number): void {
+    onReceiveResult(result: boolean, type: number): void {
         if (result) {
             if (type === typeAction.create) {
                 this.visibleCreateModal = false;
@@ -151,7 +164,7 @@ export class PetComponent implements OnInit, OnDestroy {
         }
     }
 
-    refresh(): void {
+    onRefresh(): void {
         this.currentPage = 1;
         this.limit = petConfig.search.limitDefault;
         this.first = 0;
@@ -182,13 +195,13 @@ export class PetComponent implements OnInit, OnDestroy {
         this.getPets();
     }
 
-    search(): void {
+    onSearch(): void {
         this.currentPage = 1;
         this.first = 0;
         this.getPets();
     }
 
-    confirmDelete(event: any, pet: any): void {
+    onConfirmDelete(event: any, pet: any): void {
         this.confirmationService.confirm({
             target: event.target as EventTarget,
             message: 'Bạn chắc chắn muốn xoá thú cưng này chứ?',

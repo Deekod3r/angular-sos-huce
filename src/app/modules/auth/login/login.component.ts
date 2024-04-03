@@ -65,12 +65,12 @@ export class LoginComponent implements OnInit, OnDestroy {
             })
         )
         .subscribe({
-            next: (res: any) => {
+            next: (res) => {
                 if (res.success) {
                     window.location.reload();            
                 }
             },
-            error: (res: any) => {
+            error: (res) => {
                 if (res.error) {
                     this.messageService.add({severity:'error', summary: title.error, detail: res.error.message});
                 } else {

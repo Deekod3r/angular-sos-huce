@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
 import { adoptConfig } from 'src/app/common/constant';
 import { title, message } from 'src/app/common/message';
@@ -29,7 +29,7 @@ export class AdoptionUpdateComponent implements OnInit, OnDestroy {
     adoptStatus = adoptConfig.statusKey
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public petService: PetService, public adoptService: AdoptService,    
+    constructor(public petService: PetService, public adoptService: AdoptService, private confirmationService: ConfirmationService,    
         private locationService: LocationService, private messageService: MessageService) { }
 
     ngOnInit(): void {
@@ -45,93 +45,20 @@ export class AdoptionUpdateComponent implements OnInit, OnDestroy {
     getAdopt(): void {
         this.adoptService.getAdoptById(this.idAdoption)
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.adopt = res.data.adopt;
-                this.pet = res.data.pet;
-                this.formAdopt = new FormGroup({
-                    province: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, Validators.required),
-                    district: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, Validators.required),
-                    ward: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, Validators.required),
-                    fee: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, [Validators.required, Validators.min(0)]),
-                    address: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
-                    reason: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
-                });
-                this.initForm();
-                this.getDistricts();
-                this.getWards();
-            }
-        });
-    }
-
-    initForm(): void {
-        this.formAdopt.patchValue({
-            province: this.adopt.provinceId,
-            district: this.adopt.districtId,
-            ward: this.adopt.wardId,
-            address: this.adopt.address,
-            fee: this.adopt.fee,
-            reason: this.adopt.reason
-        });
-    }
-
-    getProvinces(): void {
-        this.locationService.getPronvinces()
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res) {
-                this.provinces = res;
-            }
-        });
-    }
-
-    getDistricts(): void {
-        this.locationService.getDistricts(this.formAdopt.value.province)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res) {
-                this.districts = res;
-            }
-        });
-    }
-
-    getWards(): void {
-        this.locationService.getWards(this.formAdopt.value.district)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res) {
-                this.wards = res;
-            }
-        });
-    }
-
-    isNotAvailableForUpdate(): boolean {
-        return this.adopt.status === adoptConfig.statusKey.cancel || this.adopt.status === adoptConfig.statusKey.complete 
-        || this.adopt.status === adoptConfig.statusKey.reject;
-    }
-
-    onSaveAdopt(): void {
-        if (!this.formAdopt.valid) {
-            this.formAdopt.markAllAsTouched();
-            return;
-        }
-        let body = {
-            id: this.adopt.id,
-            provinceId: this.formAdopt.value.province, 
-            districtId: this.formAdopt.value.district,
-            wardId: this.formAdopt.value.ward,
-            address: this.formAdopt.value.address.trim(),
-            reason: this.formAdopt.value.reason.trim(),
-            fee: this.formAdopt.value.fee,
-        };
-        this.adoptService.updateAdopt(body, this.idAdoption)
-        .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res) => {
                 if (res.success) {
-                    this.formAdopt.reset();
-                    this.result = true;
-                    this.resultAction.emit(this.result); 
+                    this.adopt = res.data.adopt;
+                    this.pet = res.data.pet;
+                    this.formAdopt = new FormGroup({
+                        province: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, Validators.required),
+                        district: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, Validators.required),
+                        ward: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, Validators.required),
+                        fee: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, [Validators.required, Validators.min(0)]),
+                        address: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
+                        reason: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
+                    });
+                    this.onInitForm();
                 }
             },
             error: (res) => {
@@ -141,6 +68,133 @@ export class AdoptionUpdateComponent implements OnInit, OnDestroy {
                     this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
                 }
             }
+        });
+    }
+
+    onInitForm(): void {
+        this.formAdopt.patchValue({
+            province: this.adopt.provinceId,
+            district: this.adopt.districtId,
+            ward: this.adopt.wardId,
+            address: this.adopt.address,
+            fee: this.adopt.fee,
+            reason: this.adopt.reason
+        });
+        this.getDistricts();
+        this.getWards();
+    }
+
+    getProvinces(): void {
+        this.locationService.getPronvinces()
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe({
+            next: (res) => {
+                if (res) {
+                    this.provinces = res;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
+            }
+        });
+    }
+
+    getDistricts(): void {
+        this.locationService.getDistricts(this.formAdopt.value.province)
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe({
+            next: (res) => {
+                if (res) {
+                    this.districts = res;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
+            }
+        });
+    }
+
+    getWards(): void {
+        this.locationService.getWards(this.formAdopt.value.district)
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe({
+            next: (res) => {
+                if (res) {
+                    this.wards = res;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
+            }
+        });
+    }
+
+    isNotAvailableForUpdate(): boolean {
+        return this.adopt.status === adoptConfig.statusKey.cancel || this.adopt.status === adoptConfig.statusKey.complete 
+        || this.adopt.status === adoptConfig.statusKey.reject;
+    }
+
+    onSaveAdopt(event: any): void {
+        if (!this.formAdopt.valid) {
+            this.formAdopt.markAllAsTouched();
+            return;
+        }
+        if (!this.formAdopt.dirty) {
+            this.messageService.add({ severity: 'info', summary: title.info, detail: message.noChange });
+            return;
+        }
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Bạn chắc chắn muốn cập nhật thông tin chứ?',
+            header: 'XÁC NHẬN',
+            icon: 'fa fa-solid fa-triangle-exclamation',
+            acceptLabel: 'Có',
+            rejectLabel: 'Hủy',
+            acceptIcon: "none",
+            rejectIcon: "none",
+            rejectButtonStyleClass: "p-button-text",
+            accept: () => {
+                let body = {
+                    id: this.adopt.id,
+                    provinceId: this.formAdopt.value.province, 
+                    districtId: this.formAdopt.value.district,
+                    wardId: this.formAdopt.value.ward,
+                    address: this.formAdopt.value.address.trim(),
+                    reason: this.formAdopt.value.reason.trim(),
+                    fee: this.formAdopt.value.fee,
+                };
+                this.adoptService.updateAdopt(body, this.idAdoption)
+                .pipe(takeUntil(this.subscribes$))
+                .subscribe({
+                    next: (res) => {
+                        if (res.success) {
+                            this.formAdopt.reset();
+                            this.result = true;
+                            this.resultAction.emit(this.result); 
+                        }
+                    },
+                    error: (res) => {
+                        if (res.error) {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        }
+                    }
+                });
+            },
+            reject: () => {}
         });
     }
 }

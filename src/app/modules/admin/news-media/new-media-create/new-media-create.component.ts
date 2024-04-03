@@ -26,6 +26,7 @@ export class NewMediaCreateComponent implements OnInit, OnDestroy {
             title: new FormControl(null, [Validators.required, noWhitespaceValidator(), Validators.maxLength(100)]),
             content: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
             categoryId: new FormControl(null, Validators.required),
+            description: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
             image: new FormControl(null, Validators.required),
         });
     }
@@ -35,14 +36,15 @@ export class NewMediaCreateComponent implements OnInit, OnDestroy {
         this.subscribes$.complete();
     }
 
-    createNews(): void {
+    onSaveNews(): void {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
             return;
         }
         const formData = new FormData();
-        formData.append('title', this.form.value.title);
-        formData.append('content', this.form.value.content);
+        formData.append('title', this.form.value.title.trim());
+        formData.append('content', this.form.value.content.trim());
+        formData.append('description', this.form.value.description.trim());
         formData.append('categoryId', this.form.value.categoryId);
         formData.append('image', this.form.value.image);
         this.newsService.createNews(formData)
@@ -73,7 +75,7 @@ export class NewMediaCreateComponent implements OnInit, OnDestroy {
         }
     }
 
-    removeImage(): void {
+    onRemoveImage(): void {
         this.form.patchValue({ image: null });
     } 
     

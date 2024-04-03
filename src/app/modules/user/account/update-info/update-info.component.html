@@ -1,5 +1,5 @@
 <div *ngIf="infoKey == 'name'">
-    <form [formGroup]="formName" (ngSubmit)="updateName()">
+    <form [formGroup]="formName" (ngSubmit)="onUpdateName()">
         <div class="grid">
             <div class="col-12 mt-1">
                 <input type="text" pInputText formControlName="name" class="mat-form-field" placeholder="Họ và tên"/>
@@ -36,7 +36,7 @@
     </form>
 </div>
 <div *ngIf="infoKey == 'phoneNumber'">
-    <form [formGroup]="formPhone" (ngSubmit)="updatePhone()">
+    <form [formGroup]="formPhone" (ngSubmit)="onUpdatePhone()">
         <div class="grid">
             <div class="col-12 mt-1">
                 <input type="text" pInputText formControlName="phoneNumber" class="mat-form-field" placeholder="Số điện thoại"/>
@@ -73,7 +73,7 @@
     </form>
 </div>
 <div *ngIf="infoKey == 'email'">
-    <form *ngIf="!onConfirmEmail" [formGroup]="formEmail" (ngSubmit)="updateEmail()">
+    <form *ngIf="!onConfirmEmail" [formGroup]="formEmail" (ngSubmit)="onUpdateEmail()">
         <div class="grid">
             <div class="col-12 mt-1">
                 <input type="text" pInputText formControlName="email" class="mat-form-field" placeholder="Email"/>
@@ -108,7 +108,7 @@
             </div>
         </div>
     </form>
-    <form *ngIf="onConfirmEmail" [formGroup]="formEmailConfirm" (ngSubmit)="verifyUpdateEmail()">
+    <form *ngIf="onConfirmEmail" [formGroup]="formEmailConfirm" (ngSubmit)="onVerifyUpdateEmail()">
         <div class="grid">
             <div class="col-12 mt-1 justify-content-center">
                 <label for="code">Nhập mã xác thực được gửi về email mới của bạn</label>
@@ -125,13 +125,13 @@
                 <button pButton label="Lưu" type="submit" class="w-5"></button>
             </div>
             <div class="col-12 text-center mt-1">
-                <p class="font-semibold">Chưa nhận được mã? <a class="cursor-pointer" (click)="updateEmail()">Gửi lại</a></p>
+                <p class="font-semibold">Chưa nhận được mã? <a class="cursor-pointer" (click)="onUpdateEmail()">Gửi lại</a></p>
             </div>
         </div>
     </form>
 </div>
 <div *ngIf="infoKey == 'password'">
-    <form [formGroup]="formPassword" (ngSubmit)="updatePassword()">
+    <form [formGroup]="formPassword" (ngSubmit)="onUpdatePassword()">
         <div class="grid">
             <div class="col-12">
                 <div class="font-bold mb-1">

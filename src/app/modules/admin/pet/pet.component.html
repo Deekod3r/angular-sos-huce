@@ -1,15 +1,14 @@
 <div class="card">
-    <p-confirmDialog></p-confirmDialog>
     <p-dialog *ngIf="visibleCreateModal" header="Thêm thú cưng" [(visible)]="visibleCreateModal" [modal]="true"
         [style]="{ width: '90vw', height: '100vh' }" [draggable]="false" [resizable]="false">
-        <app-pet-create (resultAction)="receiveResult($event, 1)"></app-pet-create>
+        <app-pet-create (resultAction)="onReceiveResult($event, 1)"></app-pet-create>
     </p-dialog>
     <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa thú cưng" [(visible)]="visibleUpdateModal" [modal]="true"
         [style]="{ width: '90vw', height: '100vh' }" [draggable]="false" [resizable]="false">
-        <app-pet-update (resultAction)="receiveResult($event, 2)" [idPet]="idPetUpdate"></app-pet-update>
+        <app-pet-update (resultAction)="onReceiveResult($event, 2)" [idPet]="idPetUpdate"></app-pet-update>
     </p-dialog>
     <p-panel header="Công cụ" [toggleable]="true">
-        <button pButton icon="fa fa-plus" label="Thêm mới" (click)="showCreateModal()"></button>
+        <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onShowCreateModal()"></button>
         <div class="card grid mt-3">
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
@@ -100,7 +99,7 @@
                 </div>            
             </div>
             <div class="col-12">
-                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="search()"></button>
+                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="onSearch()"></button>
             </div>
         </div>
     </p-panel>
@@ -109,7 +108,7 @@
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Thú cưng
-                <p-button icon="fa fa-refresh" (onClick)="refresh()"></p-button>
+                <p-button icon="fa fa-refresh" (onClick)="onRefresh()"></p-button>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -148,13 +147,13 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="paginatorleft">
-            <p-button type="button" icon="fa fa-plus" styleClass="p-button-text" (click)="showCreateModal()"></p-button>
+            <p-button type="button" icon="fa fa-plus" styleClass="p-button-text" (click)="onShowCreateModal()"></p-button>
         </ng-template>
         <ng-template pTemplate="paginatorright">
             <p-button type="button" icon="fa fa-cloud" styleClass="p-button-text"></p-button>
         </ng-template>
     </p-table>
-    <p-paginator [rows]="limit" [showCurrentPageReport]="false" [totalRecords]="totalRecords" [first]="first"
-        [rowsPerPageOptions]="[5, 10, 25, 50]" [style]="{'margin-top': '1rem'}"
+    <p-paginator [rows]="limit" [showCurrentPageReport]="false" [totalRecords]="totalElements" [first]="first"
+        [rowsPerPageOptions]="[5, 10, 25, 40]" [style]="{'margin-top': '1rem'}"
         (onPageChange)="onPageChange($event)"></p-paginator>
 </div>

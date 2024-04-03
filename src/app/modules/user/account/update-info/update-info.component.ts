@@ -68,7 +68,7 @@ export class UpdateInfoComponent implements OnInit, OnDestroy {
         this.subscribes$.complete();
     }
 
-    updateName(): void {
+    onUpdateName(): void {
         if (this.formName.invalid) {
             this.formName.markAllAsTouched();
             return;
@@ -97,7 +97,7 @@ export class UpdateInfoComponent implements OnInit, OnDestroy {
         });
     }
 
-    updatePhone(): void {
+    onUpdatePhone(): void {
         if (this.formPhone.invalid) {
             this.formPhone.markAllAsTouched();
             return;
@@ -126,7 +126,7 @@ export class UpdateInfoComponent implements OnInit, OnDestroy {
         });
     }
 
-    updateEmail(): void {
+    onUpdateEmail(): void {
         if (this.formEmail.invalid) {
             this.formEmail.markAllAsTouched();
             return;
@@ -155,7 +155,7 @@ export class UpdateInfoComponent implements OnInit, OnDestroy {
         });
     }
 
-    verifyUpdateEmail(): void {
+    onVerifyUpdateEmail(): void {
         if (this.formEmailConfirm.invalid) {
             this.formEmailConfirm.markAllAsTouched();
             return;
@@ -186,7 +186,7 @@ export class UpdateInfoComponent implements OnInit, OnDestroy {
         });
     }
 
-    updatePassword(): void {
+    onUpdatePassword(): void {
         if (this.formPassword.invalid) {
             this.formPassword.markAllAsTouched();
             return;

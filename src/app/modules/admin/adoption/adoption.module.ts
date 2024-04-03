@@ -23,7 +23,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
         InputTextareaModule,
         DropdownModule,
         AutoCompleteModule,
-        ImageModule,
         CalendarModule,
         BadgeModule,
         InputNumberModule

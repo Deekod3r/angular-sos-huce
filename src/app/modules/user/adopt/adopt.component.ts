@@ -7,6 +7,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { Subject, takeUntil } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
 import { petConfig } from 'src/app/common/constant';
+import { MessageService } from 'primeng/api';
+import { title, message } from 'src/app/common/message';
+import { filteredSearch } from 'src/app/shared/utils/data.util';
 
 @Component({
     selector: 'app-adopt',
@@ -20,7 +23,7 @@ export class AdoptComponent implements OnInit, OnDestroy {
     pets: any[] = [];
     currentPage = 1;
     totalPages = 0;
-    totalRecords = 0;
+    totalElements = 0;
     limit = petConfig.search.limitDefaultClient;
     first!: number;
     btnActive = null;
@@ -35,7 +38,7 @@ export class AdoptComponent implements OnInit, OnDestroy {
     };
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public petService: PetService) { }
+    constructor(public petService: PetService, private messageService: MessageService) { }
 
     ngOnInit(): void {
         this.getPets();
@@ -58,16 +61,25 @@ export class AdoptComponent implements OnInit, OnDestroy {
             gender: this.key.gender ? this.key.gender : '',
             age: this.key.age ? this.key.age : ''
         }
-        this.petService.getPets(search)
+        this.petService.getPets(filteredSearch(search))
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                let data = res.data;
-                this.currentPage = data.page;
-                this.first = (this.currentPage - 1) * this.limit;
-                this.totalPages = data.totalPages;
-                this.totalRecords = data.total;
-                this.pets = data.pets;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    let data = res.data;
+                    this.currentPage = data.currentPage;
+                    this.first = (this.currentPage - 1) * this.limit;
+                    this.totalPages = data.totalPages;
+                    this.totalElements = data.totalElements;
+                    this.pets = data.pets;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
@@ -78,13 +90,13 @@ export class AdoptComponent implements OnInit, OnDestroy {
         this.getPets();
     }
 
-    search(): void {
+    onSearch(): void {
         this.currentPage = 1;
         this.first = 0;
         this.getPets();
     }
 
-    refresh(): void {
+    onRefresh(): void {
         this.currentPage = 1;
         this.first = 0;
         this.key = {
@@ -100,7 +112,7 @@ export class AdoptComponent implements OnInit, OnDestroy {
         this.btnActive = null;
     }
 
-    setType(type: any): void {
+    onChangeType(type: any): void {
         this.key.type = type;
         this.getPets();
         this.btnActive = type;

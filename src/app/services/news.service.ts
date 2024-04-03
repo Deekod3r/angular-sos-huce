@@ -19,7 +19,10 @@ export class NewsService {
             function: this.API_URL,
             method: CONFIG.KEY.METHOD_GET,
             options: {
-                params: search
+                params: search,
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
             }
         }
         return this.commonService.callAPI(request);
@@ -49,7 +52,12 @@ export class NewsService {
     getNewsById(id: string): Observable<any> {
         const request = {
             function: this.API_URL + '/' + id,
-            method: CONFIG.KEY.METHOD_GET
+            method: CONFIG.KEY.METHOD_GET,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
         }
         return this.commonService.callAPI(request);
     }
@@ -124,6 +132,20 @@ export class NewsService {
         return this.commonService.callAPI(request);
     }
 
+    updateImageNews(body: any, id: string): Observable<any> {
+        const request = {
+            function: this.API_URL + '/update-image/' + id,
+            method: CONFIG.KEY.METHOD_PUT,
+            body: body,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
     deleteNews(id: string): Observable<any> {
         const request = {
             function: this.API_URL + '/delete/' + id,
@@ -163,5 +185,6 @@ export class NewsService {
     optionStatus(): any[] {
         return newsConfig.status;
     }
+
 
 }

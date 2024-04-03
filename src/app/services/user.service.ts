@@ -106,7 +106,7 @@ export class UserService {
         return this.commonService.callAPI(request);
     }
 
-    verifyForgotPassword(data: any): Observable<boolean> {
+    verifyForgotPassword(data: any): Observable<any> {
         const request = {
             function: this.API_URL + '/verify-forgot-password/' + data.id,
             method: CONFIG.KEY.METHOD_GET,
@@ -119,7 +119,7 @@ export class UserService {
         return this.commonService.callAPI(request);
     }
 
-    resetPassword(body: any): Observable<boolean> {
+    resetPassword(body: any): Observable<any> {
         const request = {
             function: this.API_URL + '/reset-password',
             method: CONFIG.KEY.METHOD_PUT,

@@ -8,7 +8,7 @@
         </a>
         <p class="m-0 font-semibold"><i class="fa-solid fa-calendar-days mr-2 text-cyan-500"></i>Ngày đăng: {{news.createdAt | date:'HH:mm - dd/MM/yyyy' }}</p>
         <p-divider *ngIf="visibleDetail"></p-divider>
-        <p *ngIf="visibleDetail" class="text-overflow-ellipsis text-card-news w-full" [innerHTML]="news.content"></p>
+        <p *ngIf="visibleDetail" class="text-overflow-ellipsis text-card-news w-full">{{news.description}}</p>
     </div>
     <div *ngIf="visibleDetail" align="center">
         <p-divider></p-divider>

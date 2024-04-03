@@ -26,8 +26,12 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     -webkit-line-clamp: 3;
-    min-height: 4.5em;
     line-height: 1.5;
+    height: 4.5em;
+}
+
+::ng-deep .text-card-news p {
+    margin-bottom: 0px !important;
 }
 
 .text-card-news-title {

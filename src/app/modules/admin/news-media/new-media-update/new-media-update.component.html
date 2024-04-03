@@ -1,44 +1,50 @@
 <div class="position-relative">
     <form [formGroup]="form" enctype="multipart/form-data">
         <div class="grid">
-            <!-- <div class="col-12">
-                <div class="flex flex-column gap-2">
-                    <label for="image">Hình ảnh <span class="text-red-500 font-bold">*</span></label>
-                    <p-fileUpload name="image" chooseLabel="Chọn hình ảnh" accept="image/**" [maxFileSize]="100000000" [customUpload]="true"
-                        [showUploadButton]="false" [showCancelButton]="false" id="image"
-                        invalidFileSizeMessageSummary="Lỗi kích thước" invalidFileSizeMessageDetail="Kích thước file quá lớn"
-                        invalidFileTypeMessageSummary="Lỗi định dạng" invalidFileTypeMessageDetail="Chỉ chấp nhận file có định dạng hình ảnh: .jpg .jpge .png .gif" 
-                        (onSelect)="onImagePicked($event)">
-                        <ng-template pTemplate="file">
-                                <div *ngIf="form.controls['image'].value">
-                                    <div class="p-fileupload-row grid">
-                                        <div class="lg:col-3 md:col-6 sm:col-12 col-12"><img [src]="form.controls['image'].value.objectURL" width="50"/></div>
-                                        <div class="lg:col-3 md:col-6 sm:col-12 col-12">{{form.controls['image'].value.name}}</div>
-                                        <div class="lg:col-3 md:col-6 sm:col-12 col-12">{{form.controls['image'].value.size}} bytes</div>
-                                        <div class="lg:col-3 md:col-6 sm:col-12 col-12"><button type="button" icon="fa fa-close" pButton (click)="removeImage()"></button></div>
-                                    </div>
-                                </div>
-                        </ng-template>
-                    </p-fileUpload>
-                </div>
-                <div class="col-6"
-                    [hidden]="form.controls['image'].valid || !form.controls['image'].touched"
-                    class="text-red-500 mt-2 ml-1">
-                    Vui lòng tải hình ảnh
-                </div>
-            </div> -->
+            <div *ngIf="news" class="col-12 mx-auto">
+                <p-image [src]="news.image" alt="{{news.title}}" width="250" [preview]="true" [style]="{'border-radius':'50%'}"></p-image>
+                <p-dialog *ngIf="visibleUpdateImageModal" header="Cập nhật hình ảnh" [(visible)]="visibleUpdateImageModal" [modal]="true"
+                        [style]="{ width: '60vw', height: 'fit-content' }" [draggable]="false" [resizable]="false">
+                        <p-fileUpload name="image" chooseLabel="Chọn hình ảnh" uploadLabel="Tải" accept="image/**" [maxFileSize]="100000000" [customUpload]="true"
+                                    [showUploadButton]="true" [showCancelButton]="false"
+                                    (uploadHandler)="onUploadImage($event)"
+                                    invalidFileSizeMessageSummary="Lỗi kích thước" invalidFileSizeMessageDetail="Kích thước file quá lớn"
+                                    invalidFileTypeMessageSummary="Lỗi định dạng" invalidFileTypeMessageDetail="Chỉ chấp nhận file có định dạng hình ảnh: .jpg .jpge .png .gif"> 
+                                    <!-- <ng-template pTemplate="file">
+                                            <div *ngIf="form.controls['petImage'].value">
+                                            <div class="p-fileupload-row grid">
+                                                    <div class="col-3"><img [src]="form.controls['petImage'].value.objectURL" width="50"/></div>
+                                                    <div class="col-3">{{form.controls['petImage'].value.name}}</div>
+                                                    <div class="col-3">{{form.controls['petImage'].value.size}} bytes</div>
+                                                    <div class="col-3"><button type="button" icon="fa fa-close" pButton (click)="removePetImage()"></button></div>
+                                            </div>
+                                            </div>
+                                    </ng-template> -->
+                        </p-fileUpload>
+                </p-dialog>
+                <button pButton icon="fa fa-upload" label="Cập nhật hình ảnh" class="ml-3" (click)="onShowUpdateImageModal()"></button>
+            </div>
             <div class="col-12">
                 <div class="flex flex-column gap-2">
                     <label for="title">Tiêu đề <span class="text-red-500 font-bold">*</span></label>
                     <textarea pInputTextarea formControlName="title" id="title"></textarea>
                 </div>
-                <div class="col-6"
-                    [hidden]="form.controls['title'].valid || !form.controls['title'].touched"
+                <div [hidden]="form.controls['title'].valid || !form.controls['title'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng nhập tiêu đề
                 </div>
             </div>
             <div class="col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="description">Mô tả <span class="text-red-500 font-bold">*</span></label>
+                    <textarea pInputTextarea formControlName="description" id="description"></textarea>
+                </div>
+                <div [hidden]="form.controls['description'].valid || !form.controls['description'].touched"
+                    class="text-red-500 mt-2 ml-1">
+                    Vui lòng nhập mô tả
+                </div>
+            </div>
+            <div class="md:col-6 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="category">Danh mục <span class="text-red-500 font-bold">*</span></label>
                     <p-dropdown [options]="categories" optionLabel="name" optionValue="id" [filter]="true" filterBy="name" 
@@ -51,8 +57,19 @@
                         </ng-template>
                     </p-dropdown>
                 </div>      
-                <div class="col-6"
-                    [hidden]="form.controls['categoryId'].valid || !form.controls['categoryId'].touched"
+                <div [hidden]="form.controls['categoryId'].valid || !form.controls['categoryId'].touched"
+                    class="text-red-500 mt-2 ml-1">
+                    Vui lòng chọn danh mục
+                </div>      
+            </div>
+            <div class="md:col-6 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="status">Trạng thái <span class="text-red-500 font-bold">*</span></label>
+                    <p-dropdown [options]="newsService.optionStatus()" optionLabel="label" optionValue="value" [filter]="false" emptyMessage="Không có dữ liệu" 
+                    id="status" [showClear]="true" placeholder="--Chọn--" styleClass="mat-form-field" formControlName="status">
+                    </p-dropdown>
+                </div>      
+                <div [hidden]="form.controls['categoryId'].valid || !form.controls['categoryId'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng chọn danh mục
                 </div>      
@@ -62,18 +79,17 @@
                     <label for="content">Nội dung <span class="text-red-500 font-bold">*</span></label>
                     <p-editor [style]="{ height: '500px' }" id="content" formControlName="content"></p-editor>
                 </div>      
-                <div class="col-6"
-                    [hidden]="form.controls['content'].valid || !form.controls['content'].touched"
+                <div [hidden]="form.controls['content'].valid || !form.controls['content'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng nhập nội dung
                 </div>      
             </div>
             <div class="col-12 mt-5 grid justify-content-center" align="center">
                 <div class="md:col-3 col-6">
-                    <p-button label="LÀM MỚI" styleClass="mat-form-button p-button-outlined" class="mt-3" [disabled]="!form.dirty" (onClick)="form.reset()"></p-button>
+                    <p-button label="Hoàn tác" styleClass="mat-form-button p-button-outlined" class="mt-3" [disabled]="!form.dirty" (onClick)="onInitForm()"></p-button>
                 </div>
                 <div class="md:col-3 col-6">
-                    <p-button label="LƯU" styleClass="mat-form-button" class="mt-3" (onClick)="updateNews()"></p-button>
+                    <p-button label="Lưu" styleClass="mat-form-button" class="mt-3" (onClick)="onSaveNews($event)"></p-button>
                 </div>
             </div>
         </div>

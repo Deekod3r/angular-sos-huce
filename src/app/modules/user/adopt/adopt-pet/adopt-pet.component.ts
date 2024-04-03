@@ -78,7 +78,6 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
             this.getPet();
             this.getPets();
         });
-        this.getProvinces();
     }
     
     ngOnDestroy(): void {
@@ -89,9 +88,18 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
     getPet(): void {
         this.petService.getPetById(this.id)
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.pet = res.data;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.pet = res.data;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
@@ -104,16 +112,28 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
         };
         this.petService.getPets(petSearchKey)
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.pets = res.data.pets;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.pets = res.data.pets;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
 
-    showCreateModal(): void {
+    onShowCreateModal(): void {
         if (this.authService.isAuthenticated()) {
             this.visibleCreateModal = true;
+            if(this.provinces.length == 0 || this.provinces == null) {
+                this.getProvinces();
+            }
             if(!this.userInfo) {
                 this.userInfo = this.authService.getCurrentUser();
             }
@@ -125,9 +145,18 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
     getProvinces(): void {
         this.locationService.getPronvinces()
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res) {
-                this.provinces = res;
+        .subscribe({
+            next: (res) => {
+                if (res) {
+                    this.provinces = res;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
@@ -135,9 +164,18 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
     getDistricts(): void {
         this.locationService.getDistricts(this.formAdopt.value.province)
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res) {
-                this.districts = res;
+        .subscribe({
+            next: (res) => {
+                if (res) {
+                    this.districts = res;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
@@ -145,9 +183,18 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
     getWards(): void {
         this.locationService.getWards(this.formAdopt.value.district)
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res) {
-                this.wards = res;
+        .subscribe({
+            next: (res) => {
+                if (res) {
+                    this.wards = res;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }

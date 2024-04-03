@@ -1,1 +1,85 @@
-<p>donation works!</p>
+<div class="card">
+    <p-dialog *ngIf="visibleCreateModal" header="Thêm thông tin ủng hộ" [(visible)]="visibleCreateModal" [modal]="true"
+        [style]="{}" [draggable]="false" [resizable]="false">
+        <app-donation-create (resultAction)="onReceiveResult($event, 1)"></app-donation-create>
+    </p-dialog>
+    <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa thông tin ủng hộ" [(visible)]="visibleUpdateModal" [modal]="true"
+        [style]="{}" [draggable]="false" [resizable]="false">
+        <app-donation-update (resultAction)="onReceiveResult($event, 2)" [idDonation]="idDonationUpdate"></app-donation-update>
+    </p-dialog>
+    <p-panel header="Công cụ" [toggleable]="true">
+        <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onShowCreateModal()"></button>
+        <div class="card grid mt-3">
+            <div class="xl:col-3 lg:col-6 md:col-6 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="donate-remitter">Mạnh thường quân</label>
+                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.remitter" id="donate-remitter">
+                </div>
+            </div>
+            <div class="xl:col-3 lg:col-6 md:col-6 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="donate-payee">Nguồn nhận</label>
+                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.payee" id="donate-payee">
+                </div>
+            </div>
+            <div class="xl:col-3 lg:col-6 md:col-6 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="donate-from">Từ ngày</label>
+                    <p-calendar [showClear]="true" id="donate-from"
+                    [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.fromDate"></p-calendar>
+                </div>
+            </div>
+            <div class="xl:col-3 lg:col-6 md:col-6 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="donate-to">Đến ngày</label>
+                    <p-calendar [showClear]="true" id="donate-to"
+                    [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.toDate"></p-calendar>
+                </div>
+            </div>
+            <div class="col-12">
+                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="onSearch()"></button>
+            </div>
+        </div>
+    </p-panel>
+    <p-table #table [value]="donates" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines mt-3"
+        selectionMode="single" [paginator]="false">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                Thông tin ủng hộ
+                <p-button icon="fa fa-refresh" (onClick)="onRefresh()"></p-button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr class="">
+                <th class="col-2">Người gửi</th>
+                <th class="col-2">Nguồn nhận</th>
+                <th class="col-2">Thời gian</th>
+                <th class="col-4">Nội dung</th>
+                <th class="col-2">Số tiền</th>
+                <th class=""></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-donate>
+            <tr>
+                <td>{{donate.remitter}}</td>
+                <td>{{donate.payee}}</td>
+                <td>{{donate.date | date:'dd/MM/yyyy'}}</td>
+                <td>{{donate.detail}}</td>
+                <td>{{donate.amount | currency: ' ' }} VNĐ</td>
+                <td>
+                    <p-button #btn type="button" icon="fa fa-solid fa-sliders" (click)="menu.toggle($event)"></p-button>
+                    <p-tieredMenu #menu [model]="donate.menuItems" [popup]="true" appendTo="body" class="p-0"
+                        styleClass="menucus"></p-tieredMenu>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+            <p-button type="button" icon="fa fa-plus" styleClass="p-button-text" (onClick)="onShowCreateModal()"></p-button>
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+        </ng-template>
+    </p-table>
+    <p-paginator [rows]="limit" [showCurrentPageReport]="false" [totalRecords]="totalElements" [first]="first"
+            [style]="{'margin-top': '1rem'}"
+            (onPageChange)="onPageChange($event)"></p-paginator>
+</div>

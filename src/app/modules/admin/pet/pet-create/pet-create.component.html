@@ -15,44 +15,41 @@
                                         <div class="lg:col-3 md:col-6 sm:col-12 col-12"><img [src]="form.controls['petImage'].value.objectURL" width="50"/></div>
                                         <div class="lg:col-3 md:col-6 sm:col-12 col-12">{{form.controls['petImage'].value.name}}</div>
                                         <div class="lg:col-3 md:col-6 sm:col-12 col-12">{{form.controls['petImage'].value.size}} bytes</div>
-                                        <div class="lg:col-3 md:col-6 sm:col-12 col-12"><button type="button" icon="fa fa-close" pButton (click)="removePetImage()"></button></div>
+                                        <div class="lg:col-3 md:col-6 sm:col-12 col-12"><button type="button" icon="fa fa-close" pButton (click)="onRemovePetImage()"></button></div>
                                     </div>
                                 </div>
                         </ng-template>
                     </p-fileUpload>
                 </div>
-                <div class="col-6"
-                    [hidden]="form.controls['petImage'].valid || !form.controls['petImage'].touched"
+                <div [hidden]="form.controls['petImage'].valid || !form.controls['petImage'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng tải hình ảnh
                 </div>
             </div>
-            <div class="lg:col-4 md:col-4 sm:col-12 col-12">
+            <div class="xl:col-4 lg:col-4 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-name">Tên thú cưng <span class="text-red-500 font-bold">*</span></label>
                     <input pInputText formControlName="petName" id="pet-name"/>
                 </div>
-                <div class="col-6"
-                    [hidden]="form.controls['petName'].valid || !form.controls['petName'].touched"
+                <div [hidden]="form.controls['petName'].valid || !form.controls['petName'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng nhập tên
                 </div>
             </div>
-            <div class="lg:col-2 md:col-2 sm:col-12 col-12">
+            <div class="xl:col-2 lg:col-4 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="intake-date">Ngày tiếp nhận <span class="text-red-500 font-bold">*</span></label>
                     <p-calendar formControlName="intakeDate" id="intake-date" 
                     [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" 
-                    [minDate]="min_date" [maxDate]="max_date"
+                    [minDate]="min_date" [maxDate]="max_date" [readonlyInput]="true"
                     [showButtonBar]="true"></p-calendar>
                 </div>
-                <div class="col-6"
-                    [hidden]="form.controls['intakeDate'].valid || !form.controls['intakeDate'].touched"
+                <div [hidden]="form.controls['intakeDate'].valid || !form.controls['intakeDate'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng chọn ngày tiếp nhận
                 </div>
             </div>
-            <div class="xl:col-2 lg:col-6 md:col-6 sm:col-12 col-12">
+            <div class="xl:col-2 lg:col-4 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-type">Loại <span class="text-red-500 font-bold">*</span></label>
                     <p-dropdown formControlName="petType" [options]="petService.optionType()" id="pet-type" 
@@ -60,8 +57,7 @@
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                         emptyMessage="Không có dữ liệu"></p-dropdown>
                 </div>
-                <div class="col-6"
-                    [hidden]="form.controls['petType'].valid || !form.controls['petType'].touched"
+                <div [hidden]="form.controls['petType'].valid || !form.controls['petType'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng chọn loại
                 </div>
@@ -70,11 +66,10 @@
                 <div class="flex flex-column gap-2">
                     <label for="pet-breed">Giống <span class="text-red-500 font-bold">*</span></label>
                     <p-autoComplete formControlName="petBreed" [suggestions]="filteredBreeds"
-                        (completeMethod)="filterBreed($event)" field="label" styleClass="mat-form-field"
+                        (completeMethod)="onFilterBreed($event)" field="label" styleClass="mat-form-field"
                         [dropdown]="true" id="pet-breed"></p-autoComplete>
                 </div>
-                <div class="col-6"
-                    [hidden]="form.controls['petBreed'].valid || !form.controls['petBreed'].touched"
+                <div [hidden]="form.controls['petBreed'].valid || !form.controls['petBreed'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng điền giống
                 </div>
@@ -83,11 +78,10 @@
                 <div class="flex flex-column gap-2">
                     <label for="pet-color">Màu <span class="text-red-500 font-bold">*</span></label>
                     <p-autoComplete formControlName="petColor" [suggestions]="filteredColors"
-                        (completeMethod)="filterColor($event)" field="label" styleClass="mat-form-field"
+                        (completeMethod)="onFilterColor($event)" field="label" styleClass="mat-form-field"
                         [dropdown]="true" id="pet-color"></p-autoComplete>
                 </div>
-                <div class="col-6"
-                    [hidden]="form.controls['petColor'].valid || !form.controls['petColor'].touched"
+                <div [hidden]="form.controls['petColor'].valid || !form.controls['petColor'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng điền màu
                 </div>
@@ -100,8 +94,7 @@
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                         emptyMessage="Không có dữ liệu"></p-dropdown>
                 </div>
-                <div class="col-6"
-                    [hidden]="form.controls['petAge'].valid || !form.controls['petAge'].touched"
+                <div [hidden]="form.controls['petAge'].valid || !form.controls['petAge'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng chọn tuổi
                 </div>
@@ -114,8 +107,7 @@
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                         emptyMessage="Không có dữ liệu"></p-dropdown>
                 </div>
-                <div class="col-6"
-                    [hidden]="form.controls['petGender'].valid || !form.controls['petGender'].touched"
+                <div [hidden]="form.controls['petGender'].valid || !form.controls['petGender'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng chọn giới tính 
                 </div>
@@ -123,13 +115,12 @@
             <div class="xl:col-2 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-status">Trạng thái <span class="text-red-500 font-bold">*</span></label>
-                    <p-dropdown formControlName="petStatus" [options]="petService.optionStatus()" 
+                    <p-dropdown formControlName="petStatus" [options]="petService.optionStatusModify()" 
                         id="pet-status" optionLabel="label" optionValue="value"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                         emptyMessage="Không có dữ liệu"></p-dropdown>
                 </div>
-                <div class="col-6"
-                    [hidden]="form.controls['petStatus'].valid || !form.controls['petStatus'].touched"
+                <div [hidden]="form.controls['petStatus'].valid || !form.controls['petStatus'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng chọn trạng thái 
                 </div>
@@ -217,8 +208,7 @@
                     <label for="pet-description">Mô tả <span class="text-red-500 font-bold">*</span></label>
                     <textarea formControlName="petDescription" pInputTextarea id="pet-description" [rows]="5"></textarea> 
                 </div>
-                <div class="col-6"
-                    [hidden]="form.controls['petDescription'].valid || !form.controls['petDescription'].touched"
+                <div [hidden]="form.controls['petDescription'].valid || !form.controls['petDescription'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng điền mô tả
                 </div>
@@ -230,11 +220,11 @@
                 </div>
             </div>
             <div class="col-12 mt-5 grid justify-content-center" align="center">
-                <div class="md:col-3 col-6">
-                    <p-button label="LÀM MỚI" styleClass="mat-form-button p-button-outlined" class="mt-3" [disabled]="!form.dirty" (onClick)="form.reset()"></p-button>
+                <div class="lg:col-3 md:col-4 col-6">
+                    <p-button label="Làm mới" styleClass="mat-form-button p-button-outlined" class="mt-3" [disabled]="!form.dirty" (onClick)="form.reset()"></p-button>
                 </div>
-                <div class="md:col-3 col-6">
-                    <p-button label="LƯU" styleClass="mat-form-button" class="mt-3" (onClick)="onSavePet()"></p-button>
+                <div class="lg:col-3 md:col-4 col-6">
+                    <p-button label="Lưu" styleClass="mat-form-button" class="mt-3" (onClick)="onSavePet()"></p-button>
                 </div>
             </div>
         </div>

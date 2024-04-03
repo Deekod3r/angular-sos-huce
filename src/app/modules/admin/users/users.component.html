@@ -1,31 +1,30 @@
 <div class="card">
-    <p-confirmDialog></p-confirmDialog>
     <p-panel header="Công cụ" [toggleable]="true">
         <div class="card grid mt-3">
             <div class="xl:col-3 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="name">Họ và tên</label>
-                    <input pInputText type="text" id="name" [(ngModel)]="search.name">
+                    <input pInputText type="text" id="name" [(ngModel)]="key.name">
                 </div>            
             </div>
             <div class="xl:col-3 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="phone">Số điện thoại</label>
-                    <input pInputText type="text" id="phone" [(ngModel)]="search.phoneNumber">
+                    <input pInputText type="text" id="phone" [(ngModel)]="key.phoneNumber">
                 </div>
             </div>
             <div class="xl:col-3 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="email">Email</label>
-                    <input pInputText type="text" id="email" [(ngModel)]="search.email">
+                    <input pInputText type="text" id="email" [(ngModel)]="key.email">
                 </div>
             </div>
             <div class="xl:col-3 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="status">Trạng thái</label>
-                    <p-dropdown [options]="userService.optionStatus()" id="pet-age" optioLabel="label"
+                    <p-dropdown [options]="userService.optionStatus()" id="status" optionLabel="label" optionValue="value"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--"
-                        emptyMessage="Không có dữ liệu" [(ngModel)]="search.isActivated"></p-dropdown>
+                        emptyMessage="Không có dữ liệu" [(ngModel)]="key.isActivated"></p-dropdown>
                 </div>
             </div>
             <div class="col-12">
@@ -38,7 +37,7 @@
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Tài khoản người dùng
-                <p-button icon="fa fa-refresh" (onClick)="refresh()"></p-button>
+                <p-button icon="fa fa-refresh" (onClick)="onRefresh()"></p-button>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -57,7 +56,7 @@
                 <td>{{user.email}}</td>
                 <td>{{userService.getStatus(user.isActivated)}}</td>
                 <td>
-                    <button pButton [icon]="iconStatus(user.isActivated)" [ngClass]="userService.isActivated(user.isActivated)" (click)="confirmUpdateStatus($event, user)"></button>
+                    <button pButton [icon]="getIconStatus(user.isActivated)" [ngClass]="userService.isActivated(user.isActivated)" (click)="onConfirmUpdateStatus($event, user)"></button>
                 </td>
             </tr>
         </ng-template>

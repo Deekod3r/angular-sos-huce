@@ -1,7 +1,6 @@
 <div class="card">
-    <p-confirmDialog></p-confirmDialog>
     <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa danh mục tin tức" [(visible)]="visibleUpdateModal" 
-        [modal]="true" [style]="{ width: '90vw' }" [draggable]="false" [resizable]="false">
+        [modal]="true" [style]="{}" [draggable]="false" [resizable]="false">
         <form [formGroup]="formUpdate">
             <div class="card grid mt-3">
                 <div class="col-12">
@@ -9,8 +8,7 @@
                         <label for="name">Tên danh mục <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="name" id="name">
                     </div>
-                    <div class="col-12"
-                        [hidden]="formAdd.controls['name'].valid || !formAdd.controls['name'].touched"
+                    <div [hidden]="formUpdate.controls['name'].valid || !formUpdate.controls['name'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền tên danh mục
                     </div>            
@@ -18,17 +16,16 @@
                 <div class="col-12">
                     <div class="flex flex-column gap-2">
                         <label for="description">Mô tả <span class="text-red-500">*</span></label>
-                        <textarea pInputTextarea type="text" formControlName="description" id="description"></textarea>
+                        <textarea pInputTextarea type="text" formControlName="description" id="description" rows="5"></textarea>
                     </div>
-                    <div class="col-12"
-                        [hidden]="formAdd.controls['description'].valid || !formAdd.controls['description'].touched"
+                    <div [hidden]="formUpdate.controls['description'].valid || !formUpdate.controls['description'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền mô tả danh mục
                     </div>          
                 </div>
                 <div class="col-12 mt-5 grid justify-content-center" align="center">
-                    <div class="md:col-3 col-6">
-                        <button pButton label="LƯU" class="mat-form-button" (click)="updateNewsCategory()"></button>
+                    <div class="col-6">
+                        <button pButton label="Lưu" class="mat-form-button" (click)="onUpdateNewsCategory($event)"></button>
                     </div>
                 </div>
             </div>
@@ -37,36 +34,35 @@
     <p-panel header="Công cụ" [toggleable]="true" styleClass="mb-3">
         <form [formGroup]="formAdd">
             <div class="card grid">
-                <div class="col-12">
+                <div *ngIf="isAdd" class="col-12">
                     <div class="flex flex-column gap-2">
                         <label for="name">Tên danh mục <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="name" id="name">
                     </div>
-                    <div class="col-12"
-                        [hidden]="formAdd.controls['name'].valid || !formAdd.controls['name'].touched"
+                    <div [hidden]="formAdd.controls['name'].valid || !formAdd.controls['name'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền tên danh mục
                     </div>            
                 </div>
-                <div class="col-12">
+                <div *ngIf="isAdd" class="col-12">
                     <div class="flex flex-column gap-2">
                         <label for="description">Mô tả <span class="text-red-500">*</span></label>
                         <textarea pInputTextarea type="text" formControlName="description" id="description"></textarea>
                     </div>
-                    <div class="col-12"
-                        [hidden]="formAdd.controls['description'].valid || !formAdd.controls['description'].touched"
+                    <div [hidden]="formAdd.controls['description'].valid || !formAdd.controls['description'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền mô tả danh mục
                     </div>          
                 </div>
                 <div class="col-12">
-                    <button pButton icon="fa fa-plus" label="Thêm mới" (click)="createNewsCategory()"></button>
+                    <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onCreateNewsCategory()"></button>
+                    <button *ngIf="isAdd" pButton icon="fa fa-close" class="ml-3 p-button-outlined" label="Hủy" (click)="isAdd = false"></button>
                 </div>
             </div>
         </form>
     </p-panel>
     <p-table #table [value]="categories" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines"
-        selectionMode="single" [paginator]="false" [rows]="5" dataKey="id"
+        selectionMode="single"  [paginator]="true" [rows]="5" [rowsPerPageOptions]="[1,5,10,20]" dataKey="id"
         [globalFilterFields]="['name']">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
@@ -101,11 +97,6 @@
                 </div>
             </td>
         </tr>
-        </ng-template>
-        <ng-template pTemplate="paginatorleft">
-        </ng-template>
-        <ng-template pTemplate="paginatorright">
-            <p-button type="button" icon="fa fa-cloud" styleClass="p-button-text"></p-button>
         </ng-template>
     </p-table>
 </div>

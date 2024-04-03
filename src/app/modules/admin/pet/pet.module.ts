@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { PetCreateComponent } from './pet-create/pet-create.component';
 import { PetUpdateComponent } from './pet-update/pet-update.component';
 import { SharedModule } from 'src/app/shared/shared.module';

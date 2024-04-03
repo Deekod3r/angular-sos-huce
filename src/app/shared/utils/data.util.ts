@@ -11,7 +11,7 @@ export function convertDateFormat(inputDate: any): string {
     } else {
         return inputDate.toISOString().split('T')[0]
     }
-}
+};
 
 export function convertDateTimeFormat(inputDate: any, type: boolean): any {
     const parts = inputDate.split('/');
@@ -25,7 +25,7 @@ export function convertDateTimeFormat(inputDate: any, type: boolean): any {
         formattedDate += `T23:59:59`;
     }
     return formattedDate;
-}
+};
 
 export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const password = control.get('password');
@@ -34,4 +34,10 @@ export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): V
       return { 'passwordMismatch': true };
     }
     return null;
-  };
+};
+
+export function filteredSearch(search: any): any {
+    return Object.fromEntries(
+        Object.entries(search).filter(([_, value]) => value !== '' && value !== null && value !== undefined)
+    );
+}

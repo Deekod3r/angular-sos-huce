@@ -1,53 +1,43 @@
 <div class="container mt-5 mb-5">
     <div class="grid">
-        <p-fieldset class="xl:col-9 lg:col-9 md:col-12 sm:col-12 col-12">
-            <ng-template pTemplate="header">
-                <div class="flex align-items-center">
-                    <span class="fa-solid fa-newspaper mr-2 text-primary"></span>
-                    <span class="font-bold text-lg">TIN TỨC</span>
+        <div class="xl:col-9 lg:col-9 md:col-12 sm:col-12 col-12 grid">
+            <p-fieldset class="col-12">
+                <ng-template pTemplate="header">
+                    <div class="flex align-items-center">
+                        <span class="fa-solid fa-newspaper mr-2 text-primary"></span>
+                        <span class="font-bold text-lg">TIN TỨC</span>
+                    </div>
+                </ng-template>
+                <div *ngIf="news && news.length > 0; else noDataTemplate" class="grid">
+                    <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12 mx-auto" style="max-width: 400px;" *ngFor="let item of news">
+                        <app-card-news [news]="item" [visibleDetail]="true"></app-card-news>
+                    </div>
                 </div>
-            </ng-template>
-            <div *ngIf="news && news.length > 0; else noDataTemplate" class="grid">
-                <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12 mx-auto" style="max-width: 400px;" *ngFor="let item of news">
-                    <app-card-news [news]="item" [visibleDetail]="true"></app-card-news>
-                </div>
+                <ng-template #noDataTemplate>
+                    <div class="text-center text-lg">Không có dữ liệu</div>
+                </ng-template>        
+            </p-fieldset>
+            <div class="col-12" *ngIf="news && news.length > 0">
+                <p-paginator [rows]="limit" [showCurrentPageReport]="false" [totalRecords]="totalElements" [first]="first"
+                    [style]="{'margin-top': '1rem'}"
+                    (onPageChange)="onPageChange($event)">
+                </p-paginator>
             </div>
-            <ng-template #noDataTemplate>
-                <div class="text-center mx-5 p-5 text-lg">Không có dữ liệu</div>
-            </ng-template>        
-        </p-fieldset>
+        </div>
         <div class="xl:col-3 lg:col-3 md:col-12 sm:col-12 col-12 lg:mt-5">
             <div class="card text-center">
                 <p class="text-2xl font-bold mb-0 pb-0">Danh mục</p>
                 <p-divider></p-divider>
-                <div class="my-3">
+                <div *ngIf="categories" class="my-3">
                     <div class="card mx-2 py-3 border-cyan-100 hover:bg-cyan-100">
-                        <p class="text-lg font-bold text-primary cursor-pointer" (click)="setCategory('')">Tất cả</p>
+                        <p class="text-lg font-bold text-primary cursor-pointer" (click)="onSearch('')">Tất cả</p>
                     </div>
-                    <div *ngFor="let item of newsCategory" class="card mx-2 py-3 border-cyan-100 hover:bg-cyan-100">
-                        <p class="text-lg font-bold text-primary cursor-pointer" (click)="setCategory(item.id)">{{item.name}}</p>
+                    <div *ngFor="let item of categories" class="card mx-2 py-3 border-cyan-100 hover:bg-cyan-100">
+                        <p class="text-lg font-bold text-primary cursor-pointer" (click)="onSearch(item.id)">{{item.name}}</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- <p-fieldset styleClass="mt-5">
-        <ng-template pTemplate="header">
-            <div class="flex align-items-center">
-                <span class="fa-solid fa-calendar-check mr-2 text-primary"></span>
-                <span class="font-bold text-lg">SỰ KIỆN</span>
-            </div>
-        </ng-template>
-        <div>
-            <div *ngIf="events && events.length > 0; else noDataTemplate" class="grid">
-                <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12 mx-auto" *ngFor="let item of events">
-                    <app-card-event [event]="item" [visibleDetail]="true"></app-card-event>
-                </div>
-            </div>
-            <ng-template #noDataTemplate>
-                <div class="text-center mx-5 p-5 text-lg">Không có dữ liệu</div>
-            </ng-template>        
-        </div>
-    </p-fieldset> -->
 </div>
 <app-card-footer [title]="'BẠN ĐÃ SẴN SÀNG GIÚP ĐỠ?'" [action]="'ỦNG HỘ NGAY'" [actionLink]="'/ung-ho'"></app-card-footer>

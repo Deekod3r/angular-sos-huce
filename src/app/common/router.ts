@@ -34,7 +34,8 @@ import { UsersComponent } from '../modules/admin/users/users.component';
 import { GalleriaComponent } from '../modules/admin/galleria/galleria.component';
 import { ConfigComponent } from '../modules/admin/config/config.component';
 import { AdminsComponent } from '../modules/admin/admins/admins.component';
-import { ChangePasswordManagerComponent } from '../modules/admin/change-password-manager/change-password-manager.component';
+import { ChangePasswordManagerComponent } from '../modules/admin/manager/change-password-manager.component';
+import { TreatmentComponent } from '../modules/admin/treatment/treatment.component';
 
 export let ROUTES_ROOT: Routes = [
     {
@@ -81,7 +82,7 @@ export let ROUTES_USER: Routes = [
     { path: 'tin-tuc', component: BlogComponent },
     { path: 'tin-tuc/:id', component: NewsComponent},
     { path: 'ung-ho', component: DonateComponent },
-    { path: 'danh-sach-ung-ho', component: SponsorComponent },
+    { path: 'ung-ho/danh-sach', component: SponsorComponent },
     { path: 'gioi-thieu', component: IntroComponent },
     { path: 'lien-he', component: ContactComponent },
     { 
@@ -98,7 +99,8 @@ export let ROUTES_ADMIN: Routes = [
     { path: 'don-nhan-nuoi', component: AdoptionComponent },
     { path: 'kiem-tra-sau-nhan-nuoi', component: PetCareLogComponent},
     { path: 'ung-ho', component: DonationComponent },
-    { path: 'chi-tieu', component: LivingCostComponent },
+    { path: 'phi-sinh-hoat', component: LivingCostComponent },
+    { path: 'vien-phi', component: TreatmentComponent },
     { path: 'tai-khoan-ung-ho', component: BankComponent },
     { path: 'tin-tuc', component: NewsMedeiaComponent },
     { path: 'danh-muc-tin-tuc', component: NewsCategoryComponent },

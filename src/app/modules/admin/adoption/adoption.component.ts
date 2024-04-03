@@ -10,7 +10,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { PetService } from 'src/app/services/pet.service';
 import { adoptConfig, petConfig, typeAction } from 'src/app/common/constant';
-import { convertDateTimeFormat } from 'src/app/shared/utils/data.util';
+import { convertDateTimeFormat, filteredSearch } from 'src/app/shared/utils/data.util';
 import { title, message, messageAdopt } from 'src/app/common/message';
 import { CONFIG } from 'src/app/common/config';
 import { UserService } from 'src/app/services/user.service';
@@ -40,7 +40,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
     visibleDeleteModal: boolean = false;
     currentPage = 1;
     totalPages = 0;
-    totalRecords = 0;
+    totalElements = 0;
     limit = adoptConfig.search.limitDefault;
     first!: number;
     key = {
@@ -62,7 +62,6 @@ export class AdoptionComponent implements OnInit, OnDestroy {
     private subscribes$: Subject<void> = new Subject<void>();
 
     ngOnInit(): void {
-        this.first = (this.currentPage - 1) * this.limit;
         this.getAdopts();
         this.getUsers();
         this.getPets();
@@ -88,19 +87,32 @@ export class AdoptionComponent implements OnInit, OnDestroy {
             registeredBy: this.key.registeredBy ? this.key.registeredBy : '',
             petAdopt: this.key.petAdopt ? this.key.petAdopt : ''
         }
-        this.adoptService.getAdopts(search)
+        this.adoptService.getAdopts(filteredSearch(search))
         .pipe(takeUntil(this.subscribes$))
-        .subscribe((res: any) => {
-            if (res.success) {
-                let data = res.data;
-                this.currentPage = data.page;
-                this.first = (this.currentPage - 1) * this.limit;
-                this.totalPages = data.totalPages;
-                this.totalRecords = data.total;
-                this.adopts = data.adopts;
-                this.adopts.forEach(adopt => {
-                    adopt.menuItems = this.getMenuItems(adopt);
-                })
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    let data = res.data;
+                    this.currentPage = data.currentPage;
+                    this.first = (this.currentPage - 1) * this.limit;
+                    this.totalPages = data.totalPages;
+                    this.totalElements = data.totalElements;
+                    this.adopts = data.adopts;
+                    if(this.adopts.length == 0) {
+                        this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });
+                    } else {
+                        this.adopts.forEach(adopt => {
+                            adopt.menuItems = this.getMenuItems(adopt);
+                        })
+                    }
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
@@ -121,7 +133,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
                         icon: 'fa fa-check',
                         visible: adopt.status === adoptConfig.statusKey.waiting,
                         command: (event: any) => {
-                            this.updateStatusAdopt({ id: adopt.id , status: adoptConfig.statusKey.inProgress }, adopt.id);
+                            this.onUpdateStatus({ id: adopt.id , status: adoptConfig.statusKey.inProgress }, adopt.id);
                         }
                     },
                     {
@@ -139,7 +151,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
                         icon: 'fa fa-times',
                         visible: adopt.status === adoptConfig.statusKey.waiting || adopt.status === adoptConfig.statusKey.inProgress,
                         command: (event: any) => {
-                            this.confirmUpdateStatus(event, { id: adopt.id, status: adoptConfig.statusKey.cancel, action: 'hủy', message: null });
+                            this.onConfirmUpdate(event, { id: adopt.id, status: adoptConfig.statusKey.cancel, action: 'hủy', message: null });
                         }
                     },
                     {
@@ -147,7 +159,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
                         icon: 'fa fa-check-circle',
                         visible: adopt.status === adoptConfig.statusKey.inProgress,
                         command: (event: any) => {
-                            this.confirmUpdateStatus(event, { id: adopt.id, status: adoptConfig.statusKey.complete, action: 'hoàn thành', message: null });
+                            this.onConfirmUpdate(event, { id: adopt.id, status: adoptConfig.statusKey.complete, action: 'hoàn thành', message: null });
                         }
                     }
                 ]
@@ -160,7 +172,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
                 label: adopt.status === adoptConfig.statusKey.waiting || adopt.status === adoptConfig.statusKey.inProgress ? 'Chỉnh sửa' : 'Xem chi tiết',
                 icon: adopt.status === adoptConfig.statusKey.waiting || adopt.status === adoptConfig.statusKey.inProgress ? 'fa fa-edit' : 'fa fa-photo',
                 command: () => {
-                    this.showUpdateModal(adopt.id);
+                    this.onShowUpdateModal(adopt.id);
                 }
             },
             {
@@ -172,7 +184,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
                 icon: 'fa fa-trash',
                 visible: adopt.status !== adoptConfig.statusKey.complete,
                 command: (event: any) => {
-                    this.confirmDelete(event, adopt.id);
+                    this.onConfirmDelete(event, adopt.id);
                 }
             }
         ];
@@ -184,28 +196,44 @@ export class AdoptionComponent implements OnInit, OnDestroy {
             role: CONFIG.ROLE.USER
         })
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.users = res.data.users;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.users = res.data.users;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
 
     getPets(): void {
-        this.petService.getPets(
-            {
-                status: petConfig.statusKey.waiting
-            }
-        )
+        this.petService.getPets({
+            status: petConfig.statusKey.waiting
+        })
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.pets = res.data.pets;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.pets = res.data.pets;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
     
-    receiveResult(result: boolean, type: number): void {
+    onReceiveResult(result: boolean, type: number): void {
         if (result) {
             if (type === typeAction.create) {
                 this.visibleCreateModal = false;
@@ -220,16 +248,16 @@ export class AdoptionComponent implements OnInit, OnDestroy {
         }
     }
     
-    showCreateModal(): void {
+    onShowCreateModal(): void {
         this.visibleCreateModal = true;
     }
 
-    showUpdateModal(id: string): void {
+    onShowUpdateModal(id: string): void {
         this.idAdoptionUpdate = id;
         this.visibleUpdateModal = true;
     }
 
-    refresh(): void {
+    onRefresh(): void {
         this.currentPage = 1;
         this.limit = adoptConfig.search.limitDefault;
         this.first = 0;
@@ -255,26 +283,33 @@ export class AdoptionComponent implements OnInit, OnDestroy {
         this.getAdopts();
     }
 
-    search(): void {
+    onSearch(): void {
         this.currentPage = 1;
         this.first = 0;
         this.getAdopts();
     }
     
-    updateStatusAdopt(form: any, id: string): void {
+    onUpdateStatus(form: any, id: string): void {
         this.adoptService.updateStatusAdopt(form, id)
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.messageService.add({ severity: 'success', summary: title.success, detail: messageAdopt.updateStatusSuccess });
-                this.getAdopts();
-            } else {
-                this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.messageService.add({ severity: 'success', summary: title.success, detail: messageAdopt.updateStatusSuccess });
+                    this.getAdopts();
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
 
-    confirmUpdateStatus(event: any, data: any): void {
+    onConfirmUpdate(event: any, data: any): void {
         this.confirmationService.confirm({
             target: event.target as EventTarget,
             message: 'Bạn chắc chắn muốn ' + data.action + ' đơn nhận nuôi này chứ?',
@@ -308,16 +343,16 @@ export class AdoptionComponent implements OnInit, OnDestroy {
         });
     }
 
-    rejectAdopt(): void {
+    onReject(): void {
         if (!this.dataReject.message) {
             this.messageService.add({ severity: 'error', summary: title.error, detail: messageAdopt.rejectReason });
             return;
         }
         this.visibleDeleteModal = false; 
-        this.confirmUpdateStatus(this.dataReject.event, { id: this.dataReject.id, status: adoptConfig.statusKey.reject, action: 'từ chối', message: this.dataReject.message });
+        this.onConfirmUpdate(this.dataReject.event, { id: this.dataReject.id, status: adoptConfig.statusKey.reject, action: 'từ chối', message: this.dataReject.message });
     }
 
-    confirmDelete(event: any, id: string): void {
+    onConfirmDelete(event: any, id: string): void {
         this.confirmationService.confirm({
             target: event.target as EventTarget,
             message: 'Bạn chắc chắn muốn xoá đơn nhận nuôi này chứ?',
@@ -331,10 +366,19 @@ export class AdoptionComponent implements OnInit, OnDestroy {
             accept: () => {
                 this.adoptService.deleteAdopt(id)
                 .pipe(takeUntil(this.subscribes$))
-                .subscribe(res => {
-                    if (res.success) {
-                        this.getAdopts();
-                        this.messageService.add({ severity: 'success', summary: title.success, detail: messageAdopt.deleteSuccess });
+                .subscribe({
+                    next: (res) => {
+                        if (res.success) {
+                            this.getAdopts();
+                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageAdopt.deleteSuccess });
+                        }
+                    },
+                    error: (res) => {
+                        if (res.error) {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        }
                     }
                 });
             },

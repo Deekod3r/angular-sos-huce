@@ -33,6 +33,14 @@ export class AccountComponent implements OnInit, OnDestroy {
         userId: '',
         userInfo: ''
     }
+    statistic = {
+        countWaiting: '',
+        countInProgress: '',
+        countCancel: '',
+        countReject: '',
+        countComplete: '',
+        total: ''
+    };
     pets!: any;
     adopts!: any;
     detailAdopt: any;
@@ -61,9 +69,18 @@ export class AccountComponent implements OnInit, OnDestroy {
     getUser(): void {
         this.userService.getUserById(this.authService.getCurrentUser().id)
         .pipe(takeUntil(this.subscribes$))
-        .subscribe((response: any) => {
-            if (response.success) {
-                this.user = response.data;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.user = res.data;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
@@ -73,14 +90,23 @@ export class AccountComponent implements OnInit, OnDestroy {
             user: this.authService.getCurrentUser().id 
         })
         .pipe(takeUntil(this.subscribes$))
-        .subscribe((response: any) => {
-            if (response.success) {
-                this.user.countWaiting = response.data.countWaiting;
-                this.user.countInProgress = response.data.countInProgress;
-                this.user.countCancel = response.data.countCancel;
-                this.user.countReject = response.data.countReject;
-                this.user.countComplete = response.data.countComplete;
-                this.user.total = response.data.total;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.statistic.countWaiting = res.data.countWaiting;
+                    this.statistic.countInProgress = res.data.countInProgress;
+                    this.statistic.countCancel = res.data.countCancel;
+                    this.statistic.countReject = res.data.countReject;
+                    this.statistic.countComplete = res.data.countComplete;
+                    this.statistic.total = res.data.total;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
@@ -88,9 +114,18 @@ export class AccountComponent implements OnInit, OnDestroy {
     getAdopts(): void {
         this.adoptService.getAdoptsByUser()
         .pipe(takeUntil(this.subscribes$))
-        .subscribe((response: any) => {
-            if (response.success) {
-                this.adopts = response.data;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.adopts = res.data;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
@@ -98,29 +133,45 @@ export class AccountComponent implements OnInit, OnDestroy {
     getAdopt(adoptId: string): void {
         this.adoptService.getAdoptById(adoptId)
         .pipe(takeUntil(this.subscribes$))
-        .subscribe((response: any) => {
-            if (response.success) {
-                this.detailAdoptData = response.data;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.detailAdoptData = res.data;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
 
     getPets(): void {
-        this.petService.getPets(
-            {
-                status: petConfig.statusKey.adopted,
-                adoptedBy: this.authService.getCurrentUser().id
-            }
-        )
+        this.petService.getPets({
+            status: petConfig.statusKey.adopted,
+            adoptedBy: this.authService.getCurrentUser().id
+        })
         .pipe(takeUntil(this.subscribes$))
-        .subscribe((response: any) => {
-            if (response.success) {
-                this.pets = response.data.pets;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.pets = res.data.pets;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
 
-    changeTabView(event: any): void {
+    onChangeTabView(event: any): void {
         let indexTab = event.index;
         if (indexTab === 0) {
             // this.getUser();
@@ -136,13 +187,13 @@ export class AccountComponent implements OnInit, OnDestroy {
         }
     }
 
-    showDetailAdopt(adoptId: any): void {
+    onShowDetailAdopt(adoptId: any): void {
         this.detailAdopt = adoptId;
         this.visibleDetailAdopt = true;
         this.getAdopt(adoptId);
     }
 
-    showUpdateInfo(infoKey: string, title: string): void {
+    onShowUpdateInfo(infoKey: string, title: string): void {
         this.info.key = infoKey;
         this.info.userId = this.user.id;
         this.info.title = title;
@@ -150,13 +201,13 @@ export class AccountComponent implements OnInit, OnDestroy {
         this.visibleUpdateInfo = true;
     }
 
-    hideDetailAdopt(): void {
+    onHideDetailAdopt(): void {
         this.visibleDetailAdopt = false;
         this.detailAdopt = null;
         this.detailAdoptData = null;
     }
 
-    confirmCancel(event: any, adoptId: any): void {
+    onConfirmCancel(event: any, adoptId: any): void {
         this.confirmationService.confirm({
             target: event.target as EventTarget,
             message: 'Bạn chắc chắn muốn hủy đơn nhận nuôi này chứ?',
@@ -168,7 +219,9 @@ export class AccountComponent implements OnInit, OnDestroy {
             rejectIcon: "none",
             rejectButtonStyleClass: "p-button-text",
             accept: () => {
-                this.adoptService.cancelAdopt(adoptId).pipe(takeUntil(this.subscribes$)).subscribe({
+                this.adoptService.cancelAdopt(adoptId)
+                .pipe(takeUntil(this.subscribes$))
+                .subscribe({
                     next: (res) => {
                         if (res.success) {
                             this.getAdopts();
@@ -189,7 +242,7 @@ export class AccountComponent implements OnInit, OnDestroy {
         });
     }
 
-    receiveResult(result: boolean): void {
+    onReceiveResult(result: boolean): void {
         if (result) {
             this.getUser();
             this.visibleUpdateInfo = false;

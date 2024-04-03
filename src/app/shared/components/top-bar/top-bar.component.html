@@ -1,6 +1,6 @@
-<div class="top-bar">
+<div *ngIf="contacts" class="top-bar">
     <div class="ml-3 inline info mb-2">
-        <div *ngIf="contacts">
+        <div>
             <a class="mr-3" href="/">
                 <i class="fa fa-phone mx-2"></i>
                 <span>{{contacts[0].value}}</span>

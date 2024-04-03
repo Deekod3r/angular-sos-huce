@@ -23,6 +23,7 @@ import { CONFIG } from 'src/app/common/config';
 export class BankComponent implements OnInit, OnDestroy {
 
     isManager: boolean = false;
+    isAdd: boolean = false;
     banks!: any;
     formAdd!: FormGroup;
     formUpdate!: FormGroup;
@@ -35,10 +36,10 @@ export class BankComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.getBanks();
         this.formAdd = new FormGroup({
-            name: new FormControl('', Validators.required),
-            accountNumber: new FormControl('', Validators.required),
-            owner: new FormControl('', Validators.required),
-            logo: new FormControl('', Validators.required)
+            name: new FormControl({ value: '', disabled: !this.isAdd }, Validators.required),
+            accountNumber: new FormControl({ value: '', disabled: !this.isAdd }, Validators.required),
+            owner: new FormControl({ value: '', disabled: !this.isAdd }, Validators.required),
+            logo: new FormControl({ value: '', disabled: !this.isAdd }, Validators.required)
         });
         this.formUpdate = new FormGroup({
             id: new FormControl('', Validators.required),
@@ -57,20 +58,34 @@ export class BankComponent implements OnInit, OnDestroy {
     getBanks(): void {
         this.bankService.getBanks()
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.banks = res.data;
-                if(this.authService.getRole() == CONFIG.ROLE.MANAGER) {
-                    this.isManager = true;
-                    this.banks.forEach((bank: any) => {
-                        bank.menuItems = this.getMenuItems(bank);
-                    })
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.banks = res.data;
+                    if(this.authService.getRole() == CONFIG.ROLE.MANAGER) {
+                        this.isManager = true;
+                        this.banks.forEach((bank: any) => {
+                            bank.menuItems = this.getMenuItems(bank);
+                        })
+                    }
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
                 }
             }
         });
     }
 
     onCreateBank(): void {
+        if(!this.isAdd) {
+            this.isAdd = true;
+            this.formAdd.enable();
+            return;
+        }
         if(!this.isManager) {
             return;
         }
@@ -113,7 +128,7 @@ export class BankComponent implements OnInit, OnDestroy {
                 label: 'Chỉnh sửa',
                 icon: 'fa fa-edit',
                 command: () => {
-                    this.showUpdateModal(bank.id);
+                    this.onShowUpdateModal(bank.id);
                 }
             },
             {
@@ -123,57 +138,30 @@ export class BankComponent implements OnInit, OnDestroy {
                 label: 'Xoá',
                 icon: 'fa fa-trash',
                 command: (event: any) => {
-                    this.confirmDelete(event, bank.id);
+                    this.onConfirmDelete(event, bank.id);
                 }
             },
         ];
     }
 
-    showUpdateModal(id: string): void {
+    onShowUpdateModal(id: string): void {
         if(!this.isManager) {
             return;
         }
         this.visibleUpdateModal = true;
         this.bankService.getBankById(id)
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                let bankUpdate = res.data;
-                this.formUpdate.setValue({
-                    id: bankUpdate.id,
-                    name: bankUpdate.name,
-                    accountNumber: bankUpdate.accountNumber,
-                    owner: bankUpdate.owner,
-                    logo: bankUpdate.logo
-                });
-            }
-        });
-    }
-    
-    onUpdateBank(): void {
-        if(!this.isManager) {
-            return;
-        }
-        if(this.formUpdate.invalid) {
-            this.formUpdate.markAllAsTouched();
-            return;
-        }
-        let body = {
-            id: this.formUpdate.value.id,
-            name: this.formUpdate.value.name.trim(),
-            accountNumber: this.formUpdate.value.accountNumber.trim(),
-            owner: this.formUpdate.value.owner.trim(),
-            logo: this.formUpdate.value.logo.trim()
-        }
-        this.bankService.updateBank(body, this.formUpdate.value.id)
-        .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res) => {
                 if (res.success) {
-                    this.getBanks();
-                    this.formUpdate.reset();
-                    this.visibleUpdateModal = false;
-                    this.messageService.add({ severity: 'success', summary: title.success, detail: messageBank.updateSuccess });
+                    let bankUpdate = res.data;
+                    this.formUpdate.setValue({
+                        id: bankUpdate.id,
+                        name: bankUpdate.name,
+                        accountNumber: bankUpdate.accountNumber,
+                        owner: bankUpdate.owner,
+                        logo: bankUpdate.logo
+                    });
                 }
             },
             error: (res) => {
@@ -185,8 +173,63 @@ export class BankComponent implements OnInit, OnDestroy {
             }
         });
     }
+    
+    onUpdateBank(event: any): void {
+        if(!this.isManager) {
+            return;
+        }
+        if(this.formUpdate.invalid) {
+            this.formUpdate.markAllAsTouched();
+            return;
+        }
+        if (!this.formUpdate.dirty) {
+            this.messageService.add({ severity: 'info', summary: title.info, detail: message.noChange });
+            return;
+        }
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Bạn chắc chắn muốn cập nhật thông tin chứ?',
+            header: 'XÁC NHẬN',
+            icon: 'fa fa-solid fa-triangle-exclamation',
+            acceptLabel: 'Có',
+            rejectLabel: 'Hủy',
+            acceptIcon: "none",
+            rejectIcon: "none",
+            rejectButtonStyleClass: "p-button-text",
+            accept: () => {
+                let body = {
+                    id: this.formUpdate.value.id,
+                    name: this.formUpdate.value.name.trim(),
+                    accountNumber: this.formUpdate.value.accountNumber.trim(),
+                    owner: this.formUpdate.value.owner.trim(),
+                    logo: this.formUpdate.value.logo.trim()
+                }
+                this.bankService.updateBank(body, this.formUpdate.value.id)
+                .pipe(takeUntil(this.subscribes$))
+                .subscribe({
+                    next: (res) => {
+                        if (res.success) {
+                            this.getBanks();
+                            this.formUpdate.reset();
+                            this.visibleUpdateModal = false;
+                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageBank.updateSuccess });
+                        }
+                    },
+                    error: (res) => {
+                        if (res.error) {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        }
+                    }
+                });
+            },
+            reject: () => {
+            }
+        });
+    }
 
-    confirmDelete(event: any, id: string): void {
+    onConfirmDelete(event: any, id: string): void {
         if(!this.isManager) {
             return;
         }
@@ -203,10 +246,19 @@ export class BankComponent implements OnInit, OnDestroy {
             accept: () => {
                 this.bankService.deleteBank(id)
                 .pipe(takeUntil(this.subscribes$))
-                .subscribe(res => {
-                    if (res.success) {
-                        this.getBanks();
-                        this.messageService.add({ severity: 'success', summary: title.success, detail: messageBank.deleteSuccess });
+                .subscribe({
+                    next: (res) => {
+                        if (res.success) {
+                            this.getBanks();
+                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageBank.deleteSuccess });
+                        }
+                    },
+                    error: (res) => {
+                        if (res.error) {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        }
                     }
                 });
             },

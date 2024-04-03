@@ -1,40 +1,39 @@
 <div class="card">
-    <p-confirmDialog></p-confirmDialog>
     <p-dialog *ngIf="visibleCreateModal" header="Thêm tài khoản quản trị viên" [(visible)]="visibleCreateModal" [modal]="true"
-        [style]="{ }" [draggable]="false" [resizable]="false">
-        <app-admin-create (resultAction)="receiveResult($event, 1)"></app-admin-create>
+        [style]="{}" [draggable]="false" [resizable]="false">
+        <app-admin-create (resultAction)="onReceiveResult($event, 1)"></app-admin-create>
     </p-dialog>
     <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa tài khoản quản trị viên" [(visible)]="visibleUpdateModal" [modal]="true"
-        [style]="{ }" [draggable]="false" [resizable]="false">
-        <app-admin-update (resultAction)="receiveResult($event, 2)" [idAdmin]="idAdminUpdate"></app-admin-update>
+        [style]="{}" [draggable]="false" [resizable]="false">
+        <app-admin-update (resultAction)="onReceiveResult($event, 2)" [idAdmin]="idAdminUpdate"></app-admin-update>
     </p-dialog>
     <p-panel header="Công cụ" [toggleable]="true">
-        <button pButton icon="fa fa-plus" label="Thêm mới" (click)="showCreateModal()"></button>
+        <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onShowCreateModal()"></button>
         <div class="card grid mt-3">
             <div class="xl:col-3 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="name">Họ và tên</label>
-                    <input pInputText type="text" id="name" [(ngModel)]="search.name">
+                    <input pInputText type="text" id="name" [(ngModel)]="key.name">
                 </div>            
             </div>
             <div class="xl:col-3 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="phone">Số điện thoại</label>
-                    <input pInputText type="text" id="phone" [(ngModel)]="search.phoneNumber">
+                    <input pInputText type="text" id="phone" [(ngModel)]="key.phoneNumber">
                 </div>
             </div>
             <div class="xl:col-3 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="email">Email</label>
-                    <input pInputText type="text" id="email" [(ngModel)]="search.email">
+                    <input pInputText type="text" id="email" [(ngModel)]="key.email">
                 </div>
             </div>
             <div class="xl:col-3 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="status">Trạng thái</label>
-                    <p-dropdown [options]="userService.optionStatus()" id="status" optionLabel="label"
+                    <p-dropdown [options]="userService.optionStatus()" id="status" optionLabel="label" optionValue="value"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--"
-                        emptyMessage="Không có dữ liệu" [(ngModel)]="search.isActivated"></p-dropdown>
+                        emptyMessage="Không có dữ liệu" [(ngModel)]="key.isActivated"></p-dropdown>
                 </div>
             </div>
             <div class="col-12">
@@ -47,7 +46,7 @@
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Tài khoản quản trị viên
-                <p-button icon="fa fa-refresh" (onClick)="refresh()"></p-button>
+                <p-button icon="fa fa-refresh" (onClick)="onRefresh()"></p-button>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -66,12 +65,12 @@
                 <td>{{admin.email}}</td>
                 <td>{{userService.getStatus(admin.isActivated)}}</td>
                 <td>
-                    <button pButton icon="fa fa-solid fa-edit" [ngClass]="userService.isActivated(admin.isActivated)" (click)="showUpdateModal(admin.id)"></button>
+                    <button pButton icon="fa fa-solid fa-edit" [ngClass]="userService.isActivated(admin.isActivated)" (click)="onShowUpdateModal(admin.id)"></button>
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="paginatorleft">
-            <p-button type="button" icon="fa fa-plus" styleClass="p-button-text" (click)="showCreateModal()"></p-button>
+            <p-button type="button" icon="fa fa-plus" styleClass="p-button-text" (click)="onShowCreateModal()"></p-button>
         </ng-template>
         <ng-template pTemplate="paginatorright">
             <!-- <p-button type="button" icon="fa fa-cloud" styleClass="p-button-text"></p-button> -->

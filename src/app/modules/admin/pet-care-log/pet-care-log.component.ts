@@ -6,7 +6,7 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
 import { PetCareLogService } from 'src/app/services/pet-care-log.service';
 import { TieredMenuModule } from 'primeng/tieredmenu';
-import { convertDateFormat } from 'src/app/shared/utils/data.util';
+import { convertDateFormat, filteredSearch } from 'src/app/shared/utils/data.util';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { adoptConfig, typeAction } from 'src/app/common/constant';
 import { title, message, messageLog } from 'src/app/common/message';
@@ -52,14 +52,27 @@ export class PetCareLogComponent implements OnInit, OnDestroy {
             fromDate: this.key.fromDate ? convertDateFormat(this.key.fromDate) : '',
             toDate: this.key.toDate ? convertDateFormat(this.key.toDate) : ''
         }
-        this.petCateLogService.getLogs(search)
+        this.petCateLogService.getLogs(filteredSearch(search))
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.logs = res.data;
-                this.logs.forEach(log => {
-                    log.menuItems = this.getMenuItems(log);
-                })
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.logs = res.data;
+                    if(this.logs.length == 0) {
+                        this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });
+                    } else {
+                        this.logs.forEach(log => {
+                            log.menuItems = this.getMenuItems(log);
+                        })
+                    }
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
@@ -67,14 +80,29 @@ export class PetCareLogComponent implements OnInit, OnDestroy {
     getAdopts(): void {
         this.adoptService.getAdopts({ status: adoptConfig.statusKey.complete })
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.adopts = res.data.adopts;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.adopts = res.data.adopts;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
 
-    refresh(): void {
+    onRefresh(): void {
+        this.key = {
+            adoptId: '',
+            fromDate: '',
+            toDate: ''
+        }
+        this.getLogs();
     }
 
     getMenuItems(log: any): MenuItem[] {
@@ -86,7 +114,7 @@ export class PetCareLogComponent implements OnInit, OnDestroy {
                 label: 'Chỉnh sửa',
                 icon: 'fa fa-edit',
                 command: () => {
-                    this.showUpdateModal(log.id);
+                    this.onShowUpdateModal(log.id);
                 }
             },
             {
@@ -96,13 +124,13 @@ export class PetCareLogComponent implements OnInit, OnDestroy {
                 label: 'Xoá',
                 icon: 'fa fa-trash',
                 command: (event: any) => {
-                    this.confirmDelete(event, log.id);
+                    this.onConfirmDelete(event, log.id);
                 }
             },
         ];
     }
 
-    receiveResult(result: boolean, type: number): void {
+    onReceiveResult(result: boolean, type: number): void {
         if (result) {
             if (type === typeAction.create) {
                 this.visibleCreateModal = false;
@@ -117,16 +145,16 @@ export class PetCareLogComponent implements OnInit, OnDestroy {
         }
     }
 
-    showCreateModal(): void {
+    onShowCreateModal(): void {
         this.visibleCreateModal = true;
     }
 
-    showUpdateModal(id: string): void {
+    onShowUpdateModal(id: string): void {
         this.idLogUpdate = id;
         this.visibleUpdateModal = true;
     }
 
-    confirmDelete(event: any, id: string): void {
+    onConfirmDelete(event: any, id: string): void {
         this.confirmationService.confirm({
             target: event.target as EventTarget,
             message: 'Bạn chắc chắn muốn xoá lịch sử này chứ?',
@@ -140,10 +168,19 @@ export class PetCareLogComponent implements OnInit, OnDestroy {
             accept: () => {
                 this.petCateLogService.deleteLog(id)
                 .pipe(takeUntil(this.subscribes$))
-                .subscribe(res => {
-                    if (res.success) {
-                        this.getLogs();
-                        this.messageService.add({ severity: 'success', summary: title.success, detail: messageLog.deleteSuccess });
+                .subscribe({
+                    next: (res) => {
+                        if (res.success) {
+                            this.getLogs();
+                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageLog.deleteSuccess });
+                        }
+                    },
+                    error: (res) => {
+                        if (res.error) {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        }
                     }
                 });
             },

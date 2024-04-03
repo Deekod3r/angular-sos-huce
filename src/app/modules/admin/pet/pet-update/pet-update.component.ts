@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 import { Subject, takeUntil } from 'rxjs';
 import { MAX_DATE, MIN_DATE, petConfig } from 'src/app/common/constant';
 import { message, title } from 'src/app/common/message';
 import { PetService } from 'src/app/services/pet.service';
-import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
+import { convertDateFormat } from 'src/app/shared/utils/data.util';
+import { noWhitespaceValidator, upcaseAllFirstLetters, upcaseFirstLetter } from 'src/app/shared/utils/string.util';
 
 @Component({
     selector: 'app-pet-update',
@@ -29,7 +30,7 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
     
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public petService: PetService, private messageService: MessageService) { }
+    constructor(public petService: PetService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
 
     ngOnInit(): void {
         this.getPet();
@@ -69,13 +70,13 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
                         petNote: new FormControl({ value: '', disabled: this.isNotAvailableForUpdate() }),
                         intakeDate: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }, Validators.required),
                     });
-                    this.initForm();
+                    this.onInitForm();
                 }
             }
         });
     }
 
-    initForm(): void {
+    onInitForm(): void {
         this.form.patchValue({
             petId: this.pet.id,
             petName: this.pet.name,
@@ -104,47 +105,89 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
         });
     }
 
-    filterBreed(event: AutoCompleteCompleteEvent): void {
+    onFilterBreed(event: AutoCompleteCompleteEvent): void {
         this.filteredBreeds = this.petService.filterBreed(event);
     }
 
-    filterColor(event: AutoCompleteCompleteEvent): void {
+    onFilterColor(event: AutoCompleteCompleteEvent): void {
         this.filteredColors = this.petService.filterColor(event);
     }
     
-    onSavePet(): void {
-        if (!this.form.valid) {
+    onSavePet(event: any): void {
+        if (this.form.invalid) {
             this.form.markAllAsTouched();
             return;
         }
-        this.petService.updatePet(this.form.value, this.idPet)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.form.reset();
-                    this.result = true;
-                    this.resultAction.emit(this.result);        
+        if (!this.form.dirty) {
+            this.messageService.add({ severity: 'info', summary: title.info, detail: message.noChange });
+            return;
+        }
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Bạn chắc chắn muốn cập nhật thông tin chứ?',
+            header: 'XÁC NHẬN',
+            icon: 'fa fa-solid fa-triangle-exclamation',
+            acceptLabel: 'Có',
+            rejectLabel: 'Hủy',
+            acceptIcon: "none",
+            rejectIcon: "none",
+            rejectButtonStyleClass: "p-button-text",
+            accept: () => {
+                let body = {
+                    id: this.form.value.petId,
+                    age: this.form.value.petAge,
+                    breed: upcaseFirstLetter((this.form.value.petBreed.label ? this.form.value.petBreed.label : this.form.value.petBreed).trim()),
+                    color: upcaseFirstLetter((this.form.value.petColor.label ? this.form.value.petColor.label : this.form.value.petColor).trim()),
+                    description: this.form.value.petDescription.trim(),
+                    note: this.form.value.petNote ? this.form.value.petNote.trim() : this.form.value.petNote,
+                    diet: this.form.value.petDiet ? this.form.value.petDiet : petConfig.moreInforKey.undefined,
+                    friendlyToCats: this.form.value.petFriendlyToCats ? this.form.value.petFriendlyToCats : petConfig.moreInforKey.undefined,
+                    friendlyToDogs: this.form.value.petFriendlyToDogs ? this.form.value.petFriendlyToDogs : petConfig.moreInforKey.undefined,
+                    friendlyToHuman: this.form.value.petFriendlyToHuman ? this.form.value.petFriendlyToHuman : petConfig.moreInforKey.undefined,
+                    gender: this.form.value.petGender,
+                    name: upcaseAllFirstLetters(this.form.value.petName.trim()),
+                    rabies: this.form.value.petRabies ? this.form.value.petRabies : petConfig.moreInforKey.undefined,
+                    status: this.form.value.petStatus,
+                    sterilization: this.form.value.petSterilization ? this.form.value.petSterilization : petConfig.moreInforKey.undefined,
+                    toilet: this.form.value.petToilet ? this.form.value.petToilet : petConfig.moreInforKey.undefined,
+                    type: this.form.value.petType,
+                    vaccine: this.form.value.petVaccine ? this.form.value.petVaccine : petConfig.moreInforKey.undefined,
+                    weight: this.form.value.petWeight,
+                    intakeDate: convertDateFormat(this.form.value.intakeDate)
                 }
+                this.petService.updatePet(body, this.idPet)
+                .pipe(takeUntil(this.subscribes$))
+                .subscribe({
+                    next: (res) => {
+                        if (res.success) {
+                            this.form.reset();
+                            this.result = true;
+                            this.resultAction.emit(this.result);        
+                        }
+                    },
+                    error: (res) => {
+                        if (res.error) {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        }
+                    }
+                });
             },
-            error: (res) => {
-                console.log(res);
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
+            reject: () => {}
         });
     }
     
-    showUpdateImageModal(): void {
+    onShowUpdateImageModal(): void {
         this.visibleUpdateImageModal = true;
     }
 
-    upload(event: any): void {
+    onUploadImage(event: any): void {
         const image = event.files[0];
-        this.petService.updatePetImage(image, this.idPet).pipe(takeUntil(this.subscribes$)).subscribe({
+        let formData = new FormData();
+        formData.append('id', this.idPet);
+        formData.append('image', image);
+        this.petService.updatePetImage(formData, this.idPet).pipe(takeUntil(this.subscribes$)).subscribe({
             next: (res: any) => {
                 if (res.success) {
                     this.visibleUpdateImageModal = false;

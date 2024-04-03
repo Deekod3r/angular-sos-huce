@@ -8,10 +8,10 @@
             Tìm kiếm thú cưng theo các tiêu chí như giống, tuổi, giới tính, tình trạng sức khỏe...
         </p>
         <div class="flex align-items-center justify-content-center grid">
-            <button pButton label="TẤT CẢ" class="p-button-lg btn-primary btn-type mx-3 mt-1 lg:col-2 md:col-2 sm:col-5 col-5" [ngClass]="{'btn-active': btnActive === null}" (click)="setType(null)"></button>
-            <button pButton label="CHÓ" class="p-button-lg btn-primary btn-type mt-1 lg:col-2 md:col-2 sm:col-5 col-5" [ngClass]="{'btn-active': btnActive === 1}" (click)="setType(1)"></button>
-            <button pButton label="MÈO" class="p-button-lg btn-primary btn-type mx-3 mt-1 lg:col-2 md:col-2 sm:col-5 col-5" [ngClass]="{'btn-active': btnActive === 2}" (click)="setType(2)"></button>
-            <button pButton label="KHÁC" class="p-button-lg btn-primary btn-type mt-1 lg:col-2 md:col-2 sm:col-5 col-5" [ngClass]="{'btn-active': btnActive === 3}" (click)="setType(3)"></button>            
+            <button pButton label="TẤT CẢ" class="p-button-lg btn-primary btn-type mx-3 mt-1 lg:col-2 md:col-2 sm:col-5 col-5" [ngClass]="{'btn-active': btnActive === null}" (click)="onChangeType('')"></button>
+            <button pButton label="CHÓ" class="p-button-lg btn-primary btn-type mt-1 lg:col-2 md:col-2 sm:col-5 col-5" [ngClass]="{'btn-active': btnActive === 1}" (click)="onChangeType(1)"></button>
+            <button pButton label="MÈO" class="p-button-lg btn-primary btn-type mx-3 mt-1 lg:col-2 md:col-2 sm:col-5 col-5" [ngClass]="{'btn-active': btnActive === 2}" (click)="onChangeType(2)"></button>
+            <button pButton label="KHÁC" class="p-button-lg btn-primary btn-type mt-1 lg:col-2 md:col-2 sm:col-5 col-5" [ngClass]="{'btn-active': btnActive === 3}" (click)="onChangeType(3)"></button>            
         </div>
         <div class="grid mt-3">
             <div class="lg:col-4 md:col-6 sm:col-12 col-12">
@@ -29,7 +29,7 @@
             <div class="lg:col-4 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-gender" class="font-semibold">Giới tính</label>
-                    <p-dropdown [options]="petService.optionGender()" id="pet-gender" optionLabel="label"
+                    <p-dropdown [options]="petService.optionGender()" id="pet-gender" optionLabel="label" optionValue="value"
                         styleClass="mat-form-field border-primary-500" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.gender"></p-dropdown>
                 </div>            
@@ -37,7 +37,7 @@
             <div class="lg:col-4 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-age" class="font-semibold">Tuổi</label>
-                    <p-dropdown [options]="petService.optionAge()" id="pet-age" optionLabel="label"
+                    <p-dropdown [options]="petService.optionAge()" id="pet-age" optionLabel="label" optionValue="value"
                         styleClass="mat-form-field border-primary-500" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.age"></p-dropdown>
                 </div>            
@@ -45,7 +45,7 @@
             <div class="lg:col-4 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet-status" class="font-semibold">Trạng thái</label>
-                    <p-dropdown [options]="petService.optionStatus()" id="pet-status" optionLabel="label"
+                    <p-dropdown [options]="petService.optionStatus()" id="pet-status" optionLabel="label" optionValue="value"
                         styleClass="mat-form-field border-primary-500" [showClear]="true" placeholder="--Tất cả--"
                         emptyMessage="Không có dữ liệu" [(ngModel)]="key.status"></p-dropdown>
                 </div>            
@@ -53,8 +53,8 @@
             <div class="lg:col-4 md:col-6 sm:col-12 col-12">
                 <div class="mt-4 p-1 w-100" align="center">
                     <div class="px-auto">
-                        <button pButton icon="fa fa-refresh" label="Làm mới" (click)="refresh()" class="mr-3"></button>
-                        <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="search()" class="ml-3"></button>
+                        <button pButton icon="fa fa-refresh" label="Làm mới" (click)="onRefresh()" class="mr-3"></button>
+                        <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="onSearch()" class="ml-3"></button>
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                 </app-card-pet>
             </div>
             <div class="col-12 mx-auto">
-                <p-paginator [rows]="limit" [showCurrentPageReport]="false" [totalRecords]="totalRecords" [first]="first"
+                <p-paginator [rows]="limit" [showCurrentPageReport]="false" [totalRecords]="totalElements" [first]="first"
                     [style]="{'margin-top': '1rem'}"
                     (onPageChange)="onPageChange($event)">
                 </p-paginator>

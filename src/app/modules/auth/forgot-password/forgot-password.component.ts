@@ -58,7 +58,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
         this.userService.checkExist(this.forgotForm.controls['account'].value.trim())
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
-            next: (res: any) => {
+            next: (res) => {
                 if (res.success) {
                     if (res.data != "NOT_FOUND") {
                         this.email = res.data;
@@ -118,12 +118,12 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
         this.userService.verifyForgotPassword(data)
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
-            next: (res: any) => {
+            next: (res) => {
                 if (res.success) {
                     this.step = 3;
                 }
             },
-            error: (res: any) => {
+            error: (res) => {
                 if (res.error) {
                     this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
                 } else {
@@ -147,7 +147,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
         this.userService.resetPassword(body)
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
-            next: (res: any) => {
+            next: (res) => {
                 if (res.success) {
                     this.resetPasswordForm.reset();
                     this.messageService.add({ severity: 'success', summary: title.success, detail: messageUser.updatePasswordSuccess });
@@ -156,7 +156,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
                     }, 2000);
                 }
             },
-            error: (res: any) => {
+            error: (res) => {
                 if (res.error) {
                     this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
                 } else {

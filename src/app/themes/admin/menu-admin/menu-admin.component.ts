@@ -60,17 +60,28 @@ export class MenuAdminComponent implements OnInit {
                                 routerLink: ['/admin/ung-ho']
                             },
                             {
-                                label: 'Chi tiêu',
-                                icon: 'fa fa-solid fa-circle-dollar-to-slot',
-                                routerLink: ['/admin/chi-tieu'],
-                            },
-                            {
                                 label: 'Tài khoản',
                                 icon: 'fa fa-bank',
                                 routerLink: ['/admin/tai-khoan-ung-ho'],
                                 // visible: CONFIG.ROLE.MANAGER.includes(this.authService.getRole())
                             }
 
+                        ]
+                    },
+                    {
+                        label: 'Chi tiêu', 
+                        icon: 'fa fa-dollar-sign',
+                        items: [
+                            {
+                                label: 'Viện phí',
+                                icon: 'fa fa-house-medical',
+                                routerLink: ['/admin/vien-phi']
+                            },
+                            {
+                                label: 'Sinh hoạt',
+                                icon: 'fa fa-solid fa-circle-dollar-to-slot',
+                                routerLink: ['/admin/phi-sinh-hoat'],
+                            }
                         ]
                     },
                     {

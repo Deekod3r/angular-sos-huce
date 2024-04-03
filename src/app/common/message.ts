@@ -19,6 +19,8 @@ export const message = {
     requiredInfo: 'Vui lòng nhập đầy đủ thông tin',
     cancelDelete: 'Từ chối quá trình xoá dữ liệu',
     invalidInput: 'Dữ liệu không hợp lệ',
+    waitingLoading: 'Đang tải dữ liệu',
+    noChange: 'Không có thông tin được thay đổi',
 }
 
 export const messageUser = {
@@ -84,4 +86,10 @@ export const messageNews = {
     createSuccess: 'Tạo thông tin tin tức thành công',
     updateSuccess: 'Cập nhật thông tin tin tức thành công',
     deleteSuccess: 'Xoá thông tin tin tức thành công',
+}
+
+export const messageDonation = {
+    createSuccess: 'Tạo thông tin quyên góp thành công',
+    updateSuccess: 'Cập nhật thông tin quyên góp thành công',
+    deleteSuccess: 'Xoá thông tin quyên góp thành công',
 }

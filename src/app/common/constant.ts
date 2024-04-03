@@ -49,6 +49,20 @@ export const petConfig = {
             value: 4 
         },
     ],
+    statusModify: [
+        { 
+            label: "Đã chết", 
+            value: 1 
+        },
+        { 
+            label: "Đang điều trị", 
+            value: 3 
+        },
+        { 
+            label: "Chờ nhận nuôi", 
+            value: 4 
+        },
+    ],
     statusKey: {
         dead: 1,
         adopted: 2,
@@ -268,14 +282,15 @@ export const userConfig = {
 export const newsConfig = {
     search: {
         limitDefault: 5,
+        limitDefaultClient: 4
     },
     status: [
         {
-            label: "Đang hiển thị",
+            label: "Hiển thị",
             value: true
         },
         {
-            label: "Đã ẩn",
+            label: "Ẩn",
             value: false
         }
     ],
@@ -302,6 +317,42 @@ export const galleriaConfig = {
     statusKey: {
         active: true,
         inactive: false
+    }
+}
+
+export const donateConfig = {
+    search: {
+        limitDefault: 5,
+        limitDefaultClient: 10
+    },
+    status: [
+        {
+            label: "Chờ xử lý",
+            value: 1
+        },
+        {
+            label: "Đang xử lý",
+            value: 2
+        },
+        {
+            label: "Từ chối",
+            value: 3
+        },
+        {
+            label: "Đã hủy",
+            value: 4
+        },
+        {
+            label: "Hoàn thành",
+            value: 5
+        }
+    ],
+    statusKey: {
+        waiting: 1,
+        inProgress: 2,
+        reject: 3,
+        cancel: 4,
+        complete: 5
     }
 }
 

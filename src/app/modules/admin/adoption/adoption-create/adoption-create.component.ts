@@ -59,9 +59,18 @@ export class AdoptionCreateComponent implements OnInit, OnDestroy {
             role: CONFIG.ROLE.USER
         })
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.users = res.data.users;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.users = res.data.users;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
@@ -73,9 +82,18 @@ export class AdoptionCreateComponent implements OnInit, OnDestroy {
             }
         )
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.pets = res.data.pets;
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.pets = res.data.pets;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
@@ -83,9 +101,18 @@ export class AdoptionCreateComponent implements OnInit, OnDestroy {
     getProvinces(): void {
         this.locationService.getPronvinces()
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res) {
-                this.provinces = res;
+        .subscribe({
+            next: (res) => {
+                if (res) {
+                    this.provinces = res;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
@@ -93,9 +120,18 @@ export class AdoptionCreateComponent implements OnInit, OnDestroy {
     getDistricts(): void {
         this.locationService.getDistricts(this.formAdopt.value.province)
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res) {
-                this.districts = res;
+        .subscribe({
+            next: (res) => {
+                if (res) {
+                    this.districts = res;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
@@ -103,14 +139,23 @@ export class AdoptionCreateComponent implements OnInit, OnDestroy {
     getWards(): void {
         this.locationService.getWards(this.formAdopt.value.district)
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res) {
-                this.wards = res;
+        .subscribe({
+            next: (res) => {
+                if (res) {
+                    this.wards = res;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
             }
         });
     }
 
-    onRegisterAdopt(): void {
+    onSaveAdopt(): void {
         if (!this.formAdopt.valid) {
             this.formAdopt.markAllAsTouched();
             return;

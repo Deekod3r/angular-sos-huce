@@ -1,0 +1,66 @@
+<div class="position-relative">
+    <form [formGroup]="form">
+        <div class="grid">
+            <div class="md:col-6 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="date">Ngày nhận  <span class="text-red-500 font-bold">*</span></label>
+                    <p-calendar id="date" [showIcon]="true" [readonlyInput]="true" styleClass="mat-form-field"
+                        dateFormat="dd/mm/yy" dataType="string" formControlName="date"></p-calendar>
+                </div>
+                <div [hidden]="form.controls['date'].valid || !form.controls['date'].touched"
+                    class="text-red-500 mt-2">
+                        Vui lòng chọn ngày nhận
+                </div>
+            </div>
+            <div class="md:col-6 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="remitter">Người ủng hộ <span class="text-red-500 font-bold">*</span></label>
+                    <input pInputText id="remitter" formControlName="remitter"/>
+                </div>
+                <div [hidden]="form.controls['remitter'].valid || !form.controls['remitter'].touched"
+                    class="text-red-500 mt-2">
+                        Vui lòng nhập người ủng hộ
+                </div>
+            </div>
+            <div class="md:col-6 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="payee">Nguồn nhận <span class="text-red-500 font-bold">*</span></label>
+                    <input pInputText id="payee" formControlName="payee"/>
+                </div>
+                <div [hidden]="form.controls['payee'].valid || !form.controls['payee'].touched"
+                    class="text-red-500 mt-2">
+                        Vui lòng nhập nguồn nhận
+                </div>
+            </div>
+            <div class="md:col-6 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="amount">Số tiền <span class="text-red-500 font-bold">*</span></label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon">
+                            ₫
+                        </span>
+                        <p-inputNumber formControlName="amount" inputId="amount"></p-inputNumber>
+                    </div>
+                </div>
+                <div [hidden]="form.controls['amount'].valid || !form.controls['amount'].touched"
+                    class="text-red-500 mt-2 ml-1">
+                        Vui lòng nhập số tiền
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="detail">Lời nhắn</label>
+                    <input pInputText id="detail" formControlName="detail"/>
+                </div>
+            </div>
+            <div class="col-12 mt-5 grid justify-content-center" align="center">
+                <div class="md:col-3 col-6">
+                    <p-button label="Làm mới" styleClass="mat-form-button p-button-outlined" [disabled]="!form.dirty" (onClick)="form.reset()"></p-button>
+                </div>
+                <div class="md:col-3 col-6">
+                    <p-button label="Lưu" styleClass="mat-form-button" (onClick)="onSaveDonate()"></p-button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -4,8 +4,6 @@ import { CommonService } from './common.service';
 import { CONFIG } from '../common/config';
 import { AuthService } from './auth.service';
 import { petConfig } from '../common/constant';
-import { upcaseAllFirstLetters, upcaseFirstLetter } from '../shared/utils/string.util';
-import { convertDateFormat } from '../shared/utils/data.util';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 
 @Injectable({
@@ -36,68 +34,26 @@ export class PetService {
         return this.commonService.callAPI(request);
     }
 
-    createPet(form: any): Observable<any> {
-        const formData = new FormData();
-        formData.append('age', form.petAge);
-        formData.append('breed', upcaseFirstLetter((form.petBreed.label ? form.petBreed.label : form.petBreed).trim()));
-        formData.append('color', upcaseFirstLetter((form.petColor.label ? form.petColor.label : form.petColor).trim()));
-        formData.append('description', form.petDescription.trim());
-        formData.append('note', form.petNote ? form.petNote.trim() : form.petNote);
-        formData.append('diet', form.petDiet ? form.petDiet : petConfig.moreInforKey.undefined);
-        formData.append('friendlyToCats', form.petFriendlyToCats ? form.petFriendlyToCats : petConfig.moreInforKey.undefined);
-        formData.append('friendlyToDogs', form.petFriendlyToDogs ? form.petFriendlyToDogs : petConfig.moreInforKey.undefined);
-        formData.append('friendlyToHuman', form.petFriendlyToHuman ? form.petFriendlyToHuman : petConfig.moreInforKey.undefined);
-        formData.append('gender', form.petGender);
-        formData.append('image', form.petImage);
-        formData.append('name', upcaseAllFirstLetters(form.petName.trim()));
-        formData.append('rabies', form.petRabies ? form.petRabies : petConfig.moreInforKey.undefined);
-        formData.append('status', form.petStatus);
-        formData.append('sterilization', form.petSterilization ? form.petSterilization : petConfig.moreInforKey.undefined);
-        formData.append('toilet', form.petToilet ? form.petToilet : petConfig.moreInforKey.undefined);
-        formData.append('type', form.petType);
-        formData.append('vaccine', form.petVaccine ? form.petVaccine : petConfig.moreInforKey.undefined);
-        formData.append('weight', form.petWeight);
-        formData.append('intakeDate', convertDateFormat(form.intakeDate));
+    createPet(body: any): Observable<any> {
+        console.log(body);
         const request = {
             function: this.API_URL + '/create',
             method: CONFIG.KEY.METHOD_POST,
-            body: formData,
+            body: body,
             options: {
                 headers: {
                     'Authorization': 'Bearer ' + this.authService.getToken(),
-                    'Content-Type': 'application/json'
                 }
             }
         }
         return this.commonService.callAPI(request);
     }
 
-    updatePet(form: any, id: string): Observable<any> {
+    updatePet(body: any, id: string): Observable<any> {
         const request = {
             function: this.API_URL + '/update/' + id,
             method: CONFIG.KEY.METHOD_PUT,
-            body: {
-                id: form.petId,
-                age: form.petAge,
-                breed: upcaseFirstLetter((form.petBreed.label ? form.petBreed.label : form.petBreed).trim()),
-                color: upcaseFirstLetter((form.petColor.label ? form.petColor.label : form.petColor).trim()),
-                description: form.petDescription.trim(),
-                note: form.petNote ? form.petNote.trim() : form.petNote,
-                diet: form.petDiet ? form.petDiet : petConfig.moreInforKey.undefined,
-                friendlyToCats: form.petFriendlyToCats ? form.petFriendlyToCats : petConfig.moreInforKey.undefined,
-                friendlyToDogs: form.petFriendlyToDogs ? form.petFriendlyToDogs : petConfig.moreInforKey.undefined,
-                friendlyToHuman: form.petFriendlyToHuman ? form.petFriendlyToHuman : petConfig.moreInforKey.undefined,
-                gender: form.petGender,
-                name: upcaseAllFirstLetters(form.petName.trim()),
-                rabies: form.petRabies ? form.petRabies : petConfig.moreInforKey.undefined,
-                status: form.petStatus,
-                sterilization: form.petSterilization ? form.petSterilization : petConfig.moreInforKey.undefined,
-                toilet: form.petToilet ? form.petToilet : petConfig.moreInforKey.undefined,
-                type: form.petType,
-                vaccine: form.petVaccine ? form.petVaccine : petConfig.moreInforKey.undefined,
-                weight: form.petWeight,
-                intakeDate: convertDateFormat(form.intakeDate)
-            },
+            body: body,
             options: {
                 headers: {
                     'Authorization': 'Bearer ' + this.authService.getToken()
@@ -107,14 +63,11 @@ export class PetService {
         return this.commonService.callAPI(request);
     }
 
-    updatePetImage(file: any, id: string): Observable<any> {
-        const formData = new FormData();
-        formData.append('id', id);
-        formData.append('image', file);
+    updatePetImage(body: any, id: string): Observable<any> {
         const request = {
             function: this.API_URL + '/update-image/' + id,
             method: CONFIG.KEY.METHOD_PUT,
-            body: formData,
+            body: body,
             options: {
                 headers: {
                     'Authorization': 'Bearer ' + this.authService.getToken()
@@ -160,7 +113,6 @@ export class PetService {
     filterColor(event: AutoCompleteCompleteEvent): any[] {
         let filtered: any[] = [];
         let query = event.query.trim();
-
         for (let i = 0; i < (petConfig.color as any[]).length; i++) {
             let color = (petConfig.color as any[])[i];
             if (color && color.label && color.label.toLowerCase().indexOf(query.toLowerCase()) != -1) {
@@ -248,6 +200,11 @@ export class PetService {
 
     optionStatus(): any[] {
         return petConfig.status;
+    }
+
+    optionStatusModify(): any[] {
+        return petConfig.statusModify;
+    
     }
 
     optionGender(): any[] {

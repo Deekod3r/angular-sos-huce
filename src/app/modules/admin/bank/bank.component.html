@@ -1,7 +1,6 @@
 <div class="card">
-    <p-confirmDialog></p-confirmDialog>
     <p-dialog *ngIf="visibleUpdateModal && isManager" header="Chỉnh sửa tài khoản nhận hỗ trợ" [(visible)]="visibleUpdateModal" 
-        [modal]="true" [style]="{ width: '90vw' }" [draggable]="false" [resizable]="false">
+        [modal]="true" [style]="{}" [draggable]="false" [resizable]="false">
         <div class="card flex align-items-center gap-2 flex-wrap">
             <p-chip label="fa-solid fa-building-columns"><i class="fa-solid fa-building-columns p-2"></i></p-chip>
             <p-chip label="fa-solid fa-money-check-dollar"><i class="fa-solid fa-money-check-dollar p-2"></i></p-chip>
@@ -17,8 +16,7 @@
                         <label for="name">Tên nguồn nhận <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="name" id="name">
                     </div>
-                    <div class="col-12"
-                        [hidden]="formUpdate.controls['name'].valid || !formUpdate.controls['name'].touched"
+                    <div [hidden]="formUpdate.controls['name'].valid || !formUpdate.controls['name'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền tên nguồn nhận
                     </div>            
@@ -28,8 +26,7 @@
                         <label for="account-number">Tài khoản <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="accountNumber" id="account-number">
                     </div>
-                    <div class="col-12"
-                        [hidden]="formUpdate.controls['accountNumber'].valid || !formUpdate.controls['accountNumber'].touched"
+                    <div [hidden]="formUpdate.controls['accountNumber'].valid || !formUpdate.controls['accountNumber'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền tài khoản
                     </div>          
@@ -39,8 +36,7 @@
                         <label for="owner">Chủ sở hữu <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="owner" id="owner">
                     </div>
-                    <div class="col-12"
-                        [hidden]="formUpdate.controls['owner'].valid || !formUpdate.controls['owner'].touched"
+                    <div [hidden]="formUpdate.controls['owner'].valid || !formUpdate.controls['owner'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền chủ sở hữu
                     </div>       
@@ -50,15 +46,14 @@
                         <label for="logo">Biểu tượng <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="logo" id="logo">
                     </div>
-                    <div class="col-12"
-                        [hidden]="formUpdate.controls['logo'].valid || !formUpdate.controls['logo'].touched"
+                    <div [hidden]="formUpdate.controls['logo'].valid || !formUpdate.controls['logo'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền biểu tượng
                     </div>          
                 </div>
                 <div class="col-12 mt-5 grid justify-content-center" align="center">
                     <div class="md:col-3 col-6">
-                        <button pButton label="LƯU" class="mat-form-button" (click)="onUpdateBank()"></button>
+                        <button pButton label="Lưu" class="mat-form-button" (click)="onUpdateBank($event)"></button>
                     </div>
                 </div>
             </div>
@@ -75,52 +70,49 @@
         </div>
         <form [formGroup]="formAdd">
             <div class="card grid mt-3">
-                <div class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
+                <div *ngIf="isAdd" class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
                     <div class="flex flex-column gap-2">
                         <label for="name">Tên nguồn nhận <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="name" id="name">
                     </div>
-                    <div class="col-12"
-                        [hidden]="formAdd.controls['name'].valid || !formAdd.controls['name'].touched"
+                    <div [hidden]="formAdd.controls['name'].valid || !formAdd.controls['name'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền tên nguồn nhận
                     </div>            
                 </div>
-                <div class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
+                <div *ngIf="isAdd" class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
                     <div class="flex flex-column gap-2">
                         <label for="account-number">Tài khoản <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="accountNumber" id="account-number">
                     </div>
-                    <div class="col-12"
-                        [hidden]="formAdd.controls['accountNumber'].valid || !formAdd.controls['accountNumber'].touched"
+                    <div [hidden]="formAdd.controls['accountNumber'].valid || !formAdd.controls['accountNumber'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền tài khoản
                     </div>          
                 </div>
-                <div class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
+                <div *ngIf="isAdd" class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
                     <div class="flex flex-column gap-2">
                         <label for="owner">Chủ sở hữu <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="owner" id="owner">
                     </div>
-                    <div class="col-12"
-                        [hidden]="formAdd.controls['owner'].valid || !formAdd.controls['owner'].touched"
+                    <div [hidden]="formAdd.controls['owner'].valid || !formAdd.controls['owner'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền chủ sở hữu
                     </div>       
                 </div>
-                <div class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
+                <div *ngIf="isAdd" class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
                     <div class="flex flex-column gap-2">
                         <label for="logo">Biểu tượng <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="logo" id="logo">
                     </div>
-                    <div class="col-12"
-                        [hidden]="formAdd.controls['logo'].valid || !formAdd.controls['logo'].touched"
+                    <div [hidden]="formAdd.controls['logo'].valid || !formAdd.controls['logo'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền biểu tượng
                     </div>          
                 </div>
                 <div class="col-12">
                     <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onCreateBank()"></button>
+                    <button *ngIf="isAdd" pButton icon="fa fa-close" class="ml-3 p-button-outlined" label="Hủy" (click)="isAdd = false"></button>
                 </div>
             </div>
         </form>
@@ -151,7 +143,7 @@
                     <p-columnFilter type="text" field="owner"></p-columnFilter>
                 </th>
                 <th></th>
-                <th></th>
+                <th *ngIf="isManager"></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-bank>
