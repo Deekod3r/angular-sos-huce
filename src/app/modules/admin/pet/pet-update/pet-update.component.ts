@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 import { Subject, takeUntil } from 'rxjs';
-import { MAX_DATE, MIN_DATE, petConfig } from 'src/app/common/constant';
+import { PET } from 'src/app/common/constant';
 import { message, title } from 'src/app/common/message';
 import { PetService } from 'src/app/services/pet.service';
 import { convertDateFormat } from 'src/app/shared/utils/data.util';
@@ -25,8 +25,6 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
     form!: FormGroup;
     filteredBreeds: any[] = [];
     filteredColors: any[] = [];
-    min_date: any;
-    max_date: any;
     
     private subscribes$: Subject<void> = new Subject<void>();
 
@@ -34,8 +32,6 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.getPet();
-        this.min_date = MIN_DATE;
-        this.max_date = MAX_DATE;
     }
 
     ngOnDestroy(): void {
@@ -140,18 +136,18 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
                     color: upcaseFirstLetter((this.form.value.petColor.label ? this.form.value.petColor.label : this.form.value.petColor).trim()),
                     description: this.form.value.petDescription.trim(),
                     note: this.form.value.petNote ? this.form.value.petNote.trim() : this.form.value.petNote,
-                    diet: this.form.value.petDiet ? this.form.value.petDiet : petConfig.moreInforKey.undefined,
-                    friendlyToCats: this.form.value.petFriendlyToCats ? this.form.value.petFriendlyToCats : petConfig.moreInforKey.undefined,
-                    friendlyToDogs: this.form.value.petFriendlyToDogs ? this.form.value.petFriendlyToDogs : petConfig.moreInforKey.undefined,
-                    friendlyToHuman: this.form.value.petFriendlyToHuman ? this.form.value.petFriendlyToHuman : petConfig.moreInforKey.undefined,
+                    diet: this.form.value.petDiet ? this.form.value.petDiet : PET.MORE_INFO_KEY.UNKNOWN,
+                    friendlyToCats: this.form.value.petFriendlyToCats ? this.form.value.petFriendlyToCats : PET.MORE_INFO_KEY.UNKNOWN,
+                    friendlyToDogs: this.form.value.petFriendlyToDogs ? this.form.value.petFriendlyToDogs : PET.MORE_INFO_KEY.UNKNOWN,
+                    friendlyToHuman: this.form.value.petFriendlyToHuman ? this.form.value.petFriendlyToHuman : PET.MORE_INFO_KEY.UNKNOWN,
                     gender: this.form.value.petGender,
                     name: upcaseAllFirstLetters(this.form.value.petName.trim()),
-                    rabies: this.form.value.petRabies ? this.form.value.petRabies : petConfig.moreInforKey.undefined,
+                    rabies: this.form.value.petRabies ? this.form.value.petRabies : PET.MORE_INFO_KEY.UNKNOWN,
                     status: this.form.value.petStatus,
-                    sterilization: this.form.value.petSterilization ? this.form.value.petSterilization : petConfig.moreInforKey.undefined,
-                    toilet: this.form.value.petToilet ? this.form.value.petToilet : petConfig.moreInforKey.undefined,
+                    sterilization: this.form.value.petSterilization ? this.form.value.petSterilization : PET.MORE_INFO_KEY.UNKNOWN,
+                    toilet: this.form.value.petToilet ? this.form.value.petToilet : PET.MORE_INFO_KEY.UNKNOWN,
                     type: this.form.value.petType,
-                    vaccine: this.form.value.petVaccine ? this.form.value.petVaccine : petConfig.moreInforKey.undefined,
+                    vaccine: this.form.value.petVaccine ? this.form.value.petVaccine : PET.MORE_INFO_KEY.UNKNOWN,
                     weight: this.form.value.petWeight,
                     intakeDate: convertDateFormat(this.form.value.intakeDate)
                 }
@@ -206,7 +202,7 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
     }
     
     isNotAvailableForUpdate(): boolean {
-        return this.pet.status === petConfig.statusKey.dead || this.pet.status === petConfig.statusKey.adopted;
+        return this.pet.status === PET.STATUS_KEY.DEAD || this.pet.status === PET.STATUS_KEY.ADOPTED;
     }
 
 }

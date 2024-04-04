@@ -3,18 +3,18 @@
         <div class="grid">
             <div class="col-12 mt-1">
                 <input type="text" pInputText formControlName="name" class="mat-form-field" placeholder="Họ và tên"/>
-                <div class="text-red-500 mt-1"
-                    *ngIf="formName.controls['name'].hasError('required') && formName.controls['name'].touched">
+                <div [hidden]="!formName.controls['name'].hasError('required') || !formName.controls['name'].touched"
+                    class="text-red-500 mt-1 ml-1">
                     Vui lòng nhập họ tên
                 </div>
-                <div class="text-red-500 mt-1"
-                    *ngIf="(
-                        formName.controls['name'].hasError('pattern')
-                        || formName.controls['name'].hasError('minLength')
-                        || formName.controls['name'].hasError('maxLength')
-                        )
-                        && formName.controls['name'].dirty">
+                <div [hidden]="!formName.controls['name'].hasError('pattern') || !formName.controls['name'].touched"
+                    class="text-red-500 mt-1 ml-1">
                     Họ tên không hợp lệ
+                </div>
+                <div [hidden]="(!formName.controls['name'].hasError('minlength') && !formName.controls['name'].hasError('maxlength')) 
+                    || !formName.controls['name'].touched"
+                    class="text-red-500 mt-1 ml-1">
+                    Độ dài thông tin không hợp lệ (tối thiểu 2 ký tự, tối đa 100 ký tự)
                 </div>
             </div>
             <div class="col-12 mt-2">
@@ -47,8 +47,8 @@
                 <div class="text-red-500 mt-1"
                     *ngIf="(
                         formPhone.controls['phoneNumber'].hasError('pattern') ||
-                        formPhone.controls['phoneNumber'].hasError('minLength') ||
-                        formPhone.controls['phoneNumber'].hasError('maxLength')
+                        formPhone.controls['phoneNumber'].hasError('minlength') ||
+                        formPhone.controls['phoneNumber'].hasError('maxlength')
                         )
                         && formPhone.controls['phoneNumber'].dirty">
                     Số điện thoại không hợp lệ
@@ -84,8 +84,8 @@
                 <div class="text-red-500 mt-1"
                     *ngIf="(
                         formEmail.controls['email'].hasError('email') ||
-                        formEmail.controls['email'].hasError('minLength') ||
-                        formEmail.controls['email'].hasError('maxLength')
+                        formEmail.controls['email'].hasError('minlength') ||
+                        formEmail.controls['email'].hasError('maxlength')
                         )
                         && formEmail.controls['email'].dirty">
                     Email không hợp lệ
@@ -151,7 +151,7 @@
                 </div>
                 <div class="p-inputgroup">
                     <p-password formControlName="password" class="form-control" promptLabel=" " weakLabel="Yếu" 
-                        strongRegex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$"
+                        strongRegex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,100}$"
                         mediumLabel="Trung bình" strongLabel="Mạnh" [style]="{'width':'100%'}" [toggleMask]="true"
                         [inputStyle]="{'width':'100%'}">
                         <ng-template pTemplate="header">
@@ -165,7 +165,7 @@
                                 <li>Tối thiểu 1 ký tự chữ thường</li>
                                 <li>Tối thiểu 1 ký tự chữ hoa</li>
                                 <li>Tối thiểu 1 ký tự số</li>
-                                <li>Độ dài tối thiểu 8 ký tự</li>
+                                <li>Độ dài tối thiểu 8, tối đa 100 ký tự</li>
                             </ul>
                         </ng-template>
                     </p-password>
@@ -180,7 +180,7 @@
                 <div class="text-red-500 mt-1"
                     *ngIf="(
                         formPassword.controls['password'].hasError('pattern') ||
-                        formPassword.controls['password'].hasError('maxLength')
+                        formPassword.controls['password'].hasError('maxlength')
                         )
                         && formPassword.controls['password'].touched">
                     Mật khẩu mới không hợp lệ

@@ -8,7 +8,7 @@ import { CarouselModule } from 'primeng/carousel';
 import { CardNewsModule } from 'src/app/shared/components/card-news/card-news.module';
 import { NewsService } from 'src/app/services/news.service';
 import { Subject, takeUntil } from 'rxjs';
-import { galleriaConfig, petConfig, systemConfig } from 'src/app/common/constant';
+import { PET } from 'src/app/common/constant';
 import { GalleriaService } from 'src/app/services/galleria.service';
 import { ConfigService } from 'src/app/services/config.service';
 import { title, message } from 'src/app/common/message';
@@ -91,21 +91,10 @@ export class HomeComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.configService.getConfigs(systemConfig.ORD_INTRODUCTION)
+        this.configService.introductions.asObservable()
         .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.introductions = res.data.values;
-                }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
+        .subscribe(data => {
+            this.introductions = data;
         });
 
         this.petService.getStatisticCases()
@@ -126,9 +115,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         });
 
         this.petService.getPets({
-            limit: petConfig.search.limitDefault,
+            limit: PET.SEARCH.LIMIT_DEFAULT,
             page: 1,
-            status: petConfig.statusKey.waiting
+            status: PET.STATUS_KEY.WAITING
         })
         .pipe(takeUntil(this.subscribes$))
         .subscribe({

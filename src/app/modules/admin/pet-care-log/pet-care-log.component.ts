@@ -8,7 +8,7 @@ import { PetCareLogService } from 'src/app/services/pet-care-log.service';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { convertDateFormat, filteredSearch } from 'src/app/shared/utils/data.util';
 import { AdoptService } from 'src/app/services/adopt.service';
-import { adoptConfig, typeAction } from 'src/app/common/constant';
+import { ADOPT, ACTION } from 'src/app/common/constant';
 import { title, message, messageLog } from 'src/app/common/message';
 
 @Component({
@@ -78,7 +78,7 @@ export class PetCareLogComponent implements OnInit, OnDestroy {
     }
 
     getAdopts(): void {
-        this.adoptService.getAdopts({ status: adoptConfig.statusKey.complete })
+        this.adoptService.getAdopts({ status: ADOPT.STATUS_KEY.COMPLETE })
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res) => {
@@ -132,10 +132,10 @@ export class PetCareLogComponent implements OnInit, OnDestroy {
 
     onReceiveResult(result: boolean, type: number): void {
         if (result) {
-            if (type === typeAction.create) {
+            if (type === ACTION.CREATE) {
                 this.visibleCreateModal = false;
                 this.messageService.add({ severity: 'success', summary: title.success, detail: messageLog.createSuccess });
-            } else if (type === typeAction.update) {
+            } else if (type === ACTION.UPDATE) {
                 this.visibleUpdateModal = false;
                 this.messageService.add({ severity: 'success', summary: title.success, detail: messageLog.updateSuccess });
             }

@@ -7,24 +7,7 @@
         </ng-template>
         <div class="grid">
             <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12">
-                <p class="m-0 text-lg line-height-3">
-                    Chúng tôi là một nhóm trẻ gồm tình nguyện viên Việt Nam và một số bạn nước ngoài, cùng hoạt động vì
-                    tình yêu chó mèo.
-                    <br>
-                    <br>
-                    Tôn chỉ hoạt động của chúng tôi là không từ bỏ nỗ lực với bất kỳ con vật nào, dù bé có ốm yếu hay
-                    tàn tật tới đâu, bởi mỗi thú cưng đều cần có cơ hội hi vọng vào một tương lai tốt đẹp.
-                    Chúng tôi cố gắng chăm sóc tốt nhất có thể, phần nào bù đắp lại những tổn thương cho các bé được cứu
-                    hộ về dù là hoang, lạc, bị bỏ rơi hay bạo hành.
-                    Ngoài ra, chúng tôi cũng luôn nỗ lực tìm mái ấm yêu thương các bé trọn đời.
-                    Và cuối cùng, chúng tôi giúp nâng cao nhận thức về trách nhiệm của chủ nuôi thông qua mạng xã hội và
-                    các hoạt động thiện nguyện.
-                    <br>
-                    <br>
-                    Là một trong những trạm cứu hộ thú cưng ít ỏi tại Hà Nội, hoạt động từ năm 2015 đến nay, nhóm đã góp
-                    phần cứu giúp trên 4.000 ca chó mèo bị bỏ rơi, hoang lạc, bị bạo hành, đồng thời tìm mái ấm mới cho
-                    hàng trăm bé.
-                </p>
+                <p *ngIf="introductions" class="m-0 text-lg line-height-3" [innerHTML]="introductions[0].value"></p>
             </div>
             <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12" style="height: fit-content;">
                 <img src="../../../../assets/medias/imgs/intro.png" alt="" class="w-full">

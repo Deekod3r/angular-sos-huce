@@ -10,6 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 import { message, messageUser, title } from 'src/app/common/message';
+import { REGEX } from 'src/app/common/constant';
 
 @Component({
     selector: 'app-register',
@@ -32,9 +33,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.registerForm = new FormGroup({
-            'phoneNumber': new FormControl('', [Validators.required, Validators.pattern(/^\d+$/), Validators.minLength(10), Validators.maxLength(15)]),
-            'password': new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/)]),
-            'name': new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáảẩẳâầẫấắằặạãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưỂỄỆẾỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪẹễệếỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ ]{2,}$/), noWhitespaceValidator(), Validators.maxLength(100)]),
+            'phoneNumber': new FormControl('', [Validators.required, Validators.pattern(REGEX.DIGIT), Validators.minLength(10), Validators.maxLength(15)]),
+            'password': new FormControl('', [Validators.required, Validators.pattern(REGEX.PASSWORD)]),
+            'name': new FormControl('', [Validators.required, Validators.pattern(REGEX.CHARACTER), 
+                                        noWhitespaceValidator(), Validators.minLength(2), Validators.maxLength(100)]),
             'email': new FormControl('', [Validators.required, Validators.email, Validators.minLength(5), Validators.maxLength(100)])
         });
         this.verifyForm = new FormGroup({

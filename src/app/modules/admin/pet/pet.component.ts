@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Table, TableModule } from 'primeng/table';
 import { PetService } from 'src/app/services/pet.service';
 import { TagModule } from 'primeng/tag';
-import { petConfig, typeAction } from 'src/app/common/constant';
+import { PET, ACTION } from 'src/app/common/constant';
 import { MenuItem } from 'primeng/api/menuitem';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -32,7 +32,7 @@ export class PetComponent implements OnInit, OnDestroy {
     currentPage = 1;
     totalPages = 0;
     totalElements = 0;
-    limit = petConfig.search.limitDefault;
+    limit = PET.SEARCH.LIMIT_DEFAULT;
     first!: number;
     key = {
         limit: this.limit,
@@ -121,8 +121,8 @@ export class PetComponent implements OnInit, OnDestroy {
                 visible: false
             },
             {
-                label: pet.status === petConfig.statusKey.adopted || pet.status === petConfig.statusKey.dead ? 'Xem chi tiết' : 'Chỉnh sửa',
-                icon: pet.status === petConfig.statusKey.adopted || pet.status === petConfig.statusKey.dead ? 'fa fa-photo' : 'fa fa-edit',
+                label: pet.status === PET.STATUS_KEY.ADOPTED || pet.status === PET.STATUS_KEY.DEAD ? 'Xem chi tiết' : 'Chỉnh sửa',
+                icon: pet.status === PET.STATUS_KEY.ADOPTED || pet.status === PET.STATUS_KEY.DEAD ? 'fa fa-photo' : 'fa fa-edit',
                 command: () => {
                     this.onShowUpdateModal(pet.id);
                 }
@@ -151,10 +151,10 @@ export class PetComponent implements OnInit, OnDestroy {
 
     onReceiveResult(result: boolean, type: number): void {
         if (result) {
-            if (type === typeAction.create) {
+            if (type === ACTION.CREATE) {
                 this.visibleCreateModal = false;
                 this.messageService.add({ severity: 'success', summary: title.success, detail: messagePet.createSuccess });
-            } else if (type === typeAction.update) {
+            } else if (type === ACTION.UPDATE) {
                 this.visibleUpdateModal = false;
                 this.messageService.add({ severity: 'success', summary: title.success, detail: messagePet.updateSuccess });
             }
@@ -166,7 +166,7 @@ export class PetComponent implements OnInit, OnDestroy {
 
     onRefresh(): void {
         this.currentPage = 1;
-        this.limit = petConfig.search.limitDefault;
+        this.limit = PET.SEARCH.LIMIT_DEFAULT;
         this.first = 0;
         this.key = {
             limit: this.limit,

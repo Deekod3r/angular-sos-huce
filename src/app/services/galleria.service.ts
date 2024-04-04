@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { galleriaConfig } from '../common/constant';
+import { GALLERIA } from '../common/constant';
 import { CommonService } from './common.service';
 import { CONFIG } from '../common/config';
 import { AuthService } from './auth.service';
@@ -49,7 +49,7 @@ export class GalleriaService {
     }
 
     optionStatus(): any[] {
-        return galleriaConfig.status;
+        return GALLERIA.STATUS;
     }
     
 }

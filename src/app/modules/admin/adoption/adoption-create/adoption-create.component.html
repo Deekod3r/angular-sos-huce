@@ -78,9 +78,13 @@
                     <label for="address">Số nhà, tên đường <span class="text-red-500 font-bold">*</span></label>
                     <input pInputText id="address" styleClass="mat-form-field" formControlName="address"/>
                 </div>
-                <div [hidden]="formAdopt.controls['address'].valid || !formAdopt.controls['address'].touched"
+                <div [hidden]="!formAdopt.controls['address'].hasError('required') || !formAdopt.controls['address'].touched"
                     class="text-red-500 mt-2 ml-1">
-                        Vui lòng nhập thông tin số nhà, tên đường
+                    Vui lòng nhập thông tin số nhà, tên đường
+                </div>
+                <div [hidden]="!formAdopt.controls['address'].hasError('maxlength') || !formAdopt.controls['address'].touched"
+                    class="text-red-500 mt-2 ml-1">
+                    Độ dài thông tin không hợp lệ (Tối đa 255 ký tự)
                 </div>
             </div>
             <div class="col-12">
@@ -88,9 +92,13 @@
                     <label for="reason">Lý do nhận nuôi <span class="text-red-500 font-bold">*</span></label>
                     <input pInputText id="reason" styleClass="mat-form-field" formControlName="reason"/>
                 </div>
-                <div [hidden]="formAdopt.controls['reason'].valid || !formAdopt.controls['reason'].touched"
+                <div [hidden]="!formAdopt.controls['reason'].hasError('required') || !formAdopt.controls['reason'].touched"
                     class="text-red-500 mt-2 ml-1">
-                        Vui lòng nhập lý do nhận nuôi
+                    Vui lòng nhập lý do nhận nuôi
+                </div>
+                <div [hidden]="!formAdopt.controls['reason'].hasError('maxlength') || !formAdopt.controls['reason'].touched"
+                    class="text-red-500 mt-2 ml-1">
+                    Độ dài thông tin không hợp lệ (Tối đa 255 ký tự)
                 </div>
             </div>
             <div class="col-12">

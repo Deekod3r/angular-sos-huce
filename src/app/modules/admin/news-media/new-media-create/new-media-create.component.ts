@@ -23,10 +23,10 @@ export class NewMediaCreateComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.form = new FormGroup({
-            title: new FormControl(null, [Validators.required, noWhitespaceValidator(), Validators.maxLength(100)]),
+            title: new FormControl(null, [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
             content: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
             categoryId: new FormControl(null, Validators.required),
-            description: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
+            description: new FormControl(null, [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
             image: new FormControl(null, Validators.required),
         });
     }

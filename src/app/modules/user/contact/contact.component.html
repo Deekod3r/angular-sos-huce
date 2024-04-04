@@ -6,47 +6,47 @@
                     <i class="fa fa-address-book mr-2"></i>
                     <span>Thông tin liên hệ</span>
                 </ng-template>
-                <div class="grid">
+                <div *ngIf="contacts && socials" class="grid">
                     <p class="font-bold text-3xl col-12 pb-0">Thông tin liên hệ</p>
                     <div class="md:col-4 sm:col-12 col-12 text-lg">
                         <i class="fa-solid fa-map-marker-alt text-primary mr-2"></i>
                         <span class="font-semibold">
-                            Hai Bà Trưng, Hà Nội
+                            {{contacts[2].value}}
                         </span>
                     </div>
                     <div class="md:col-4 sm:col-12 col-12 text-lg">
-                        <i class="fa-solid fa-phone text-primary mr-2"></i>
-                        <a class="font-semibold" href="tel:0987654xxx">
-                            0987654xxx
+                        <i class="fa-solid fa-envelope text-primary mr-2"></i>
+                        <a class="font-semibold" href="mailto:{{contacts[1].value}}">
+                            {{contacts[1].value}}
                         </a>
                     </div>
                     <div class="md:col-4 sm:col-12 col-12 text-lg">
-                        <i class="fa-solid fa-envelope text-primary mr-2"></i>
-                        <a class="font-semibold" href="mailto:hucepet@gmail.com">
-                            hucepet@gmail.com
+                        <i class="fa-solid fa-phone text-primary mr-2"></i>
+                        <a class="font-semibold" href="tel:{{contacts[0].value}}">
+                            {{contacts[0].value}}
                         </a>
                     </div>
                     <div class="md:col-4 sm:col-12 col-12 text-lg">
                         <i class="fa fa-facebook text-primary mr-2"></i>
-                        <a class="font-semibold" href="https://www.facebook.com/carepet.nhom2">
+                        <a class="font-semibold" href="{{socials[0].value}}" target="_blank">
                             HUCE Pet
                         </a>
                     </div>
                     <div class="md:col-4 sm:col-12 col-12 text-lg">
                         <i class="fa fa-instagram text-primary mr-2"></i>
-                        <a class="font-semibold" href="https://www.instagram.com/trtieensdungx">
+                        <a class="font-semibold" href="{{socials[1].value}}" target="_blank">
                             huce.pet
                         </a>
                     </div>
                     <div class="md:col-4 sm:col-12 col-12 text-lg">
                         <i class="fa fa-twitter text-primary mr-2"></i>
-                        <a class="font-semibold" href="https://twitter.com">
+                        <a class="font-semibold" href="{{socials[2].value}}" target="_blank">
                             huce.pet
                         </a>
                     </div>
                 </div>
                 <p-divider></p-divider>
-                <div class="grid mt-2 w-full text-lg">
+                <div *ngIf="banks" class="grid mt-2 w-full text-lg">
                     <div class="col-12">
                         <p class="font-bold text-3xl">Tài khoản ủng hộ</p>
                         <p>Chi phí sẽ được chia đều cho các bé khác đang điều trị và phục vụ xây dựng nhà chung để các bé sinh hoạt</p>

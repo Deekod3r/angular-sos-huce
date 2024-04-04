@@ -5,7 +5,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { PaginatorModule } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
-import { donateConfig } from 'src/app/common/constant';
+import { DONATION } from 'src/app/common/constant';
 import { title, message } from 'src/app/common/message';
 import { DonationService } from 'src/app/services/donation.service';
 import { SharedModule } from 'src/app/shared/shared.module';

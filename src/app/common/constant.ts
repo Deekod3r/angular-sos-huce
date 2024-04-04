@@ -1,18 +1,18 @@
 import { CONFIG } from "./config";
 
-export const typeAction = {
-    create: 1,
-    update: 2,
-    delete: 3,
-    view: 4
+export const ACTION = {
+    CREATE: 1,
+    UPDATE: 2,
+    DELETE: 3,
+    VIEW: 4
 }
 
-export const petConfig = {
-    search: {
-        limitDefault: 5,
-        limitDefaultClient: 24
+export const PET = {
+    SEARCH: {
+        LIMIT_DEFAULT: 5,
+        LIMIT_DEFAULT_CLIENT: 24
     },
-    moreInfor: [
+    MORE_INFO: [
         {
             label: "Không",
             value: 1
@@ -26,12 +26,12 @@ export const petConfig = {
             value: 3
         }
     ],
-    moreInforKey: {
-        no: 1,
-        yes: 2,
-        undefined: 3
+    MORE_INFO_KEY: {
+        NO: 1,
+        YES: 2,
+        UNKNOWN: 3
     },
-    status: [
+    STATUS: [
         { 
             label: "Đã chết", 
             value: 1 
@@ -49,7 +49,7 @@ export const petConfig = {
             value: 4 
         },
     ],
-    statusModify: [
+    STATUS_MODIFY: [
         { 
             label: "Đã chết", 
             value: 1 
@@ -63,13 +63,13 @@ export const petConfig = {
             value: 4 
         },
     ],
-    statusKey: {
-        dead: 1,
-        adopted: 2,
-        treating: 3,
-        waiting: 4
+    STATUS_KEY: {
+        DEAD: 1,
+        ADOPTED: 2,
+        TREATING: 3,
+        WAITING: 4
     },
-    type: [
+    TYPE: [
         {
             label: "Chó",
             value: 1
@@ -83,7 +83,7 @@ export const petConfig = {
             value: 3
         }
     ],
-    gender: [
+    GENDER: [
         {
             label: "Đực",
             value: 1
@@ -97,7 +97,7 @@ export const petConfig = {
             value: 3
         }
     ],
-    age: [
+    AGE: [
         {
             label: "Trẻ",
             value: 1
@@ -115,7 +115,7 @@ export const petConfig = {
             value: 4
         }
     ],
-    breed: [
+    BREED: [
         {
             label: "Retriever Vàng",
         },
@@ -165,7 +165,7 @@ export const petConfig = {
             label: "Mèo lai",
         }
     ],
-    color: [
+    COLOR: [
         {
             label: "Trắng",
         },
@@ -217,11 +217,11 @@ export const petConfig = {
     ]
 }
 
-export const adoptConfig = {
-    search: {
-        limitDefault: 5,
+export const ADOPT = {
+    SEARCH: {
+        LIMIT_DEFAULT: 5,
     },
-    status: [
+    STATUS: [
         {
             label: "Chờ xử lý",
             value: 1
@@ -243,21 +243,21 @@ export const adoptConfig = {
             value: 5
         }
     ],
-    statusKey: {
-        waiting: 1,
-        inProgress: 2,
-        reject: 3,
-        cancel: 4,
-        complete: 5
+    STATUS_KEY: {
+        WAITING: 1,
+        IN_PROGRESS: 2,
+        REJECT: 3,
+        CANCEL: 4,
+        COMPLETE: 5
     }
 
 }
 
-export const userConfig = {
-    search: {
-        limitDefault: 5,
+export const USER = {
+    SEARCH: {
+        LIMIT_DEFAULT: 5,
     },
-    role: [
+    ROLE: [
         {
             label: "Quản trị viên",
             value: CONFIG.ROLE.ADMIN
@@ -267,7 +267,7 @@ export const userConfig = {
             value: CONFIG.ROLE.USER
         }
     ],
-    status: [
+    STATUS: [
         {
             label: "Đang kích hoạt",
             value: true
@@ -280,11 +280,11 @@ export const userConfig = {
 }
 
 export const newsConfig = {
-    search: {
-        limitDefault: 5,
-        limitDefaultClient: 4
+    SEARCH: {
+        LIMIT_DEFAULT: 5,
+        LIMIT_DEFAULT_CLIENT: 4
     },
-    status: [
+    STATUS: [
         {
             label: "Hiển thị",
             value: true
@@ -294,17 +294,17 @@ export const newsConfig = {
             value: false
         }
     ],
-    statusKey: {
-        active: true,
-        inactive: false
+    STATUS_KEY: {
+        ACTIVE: true,
+        DEACTIVE: false
     }
 }
 
-export const galleriaConfig = {
-    search: {
-        limitDefault: 5,
+export const GALLERIA = {
+    SEARCH: {
+        LIMIT_DEFAULT: 5,
     },
-    status: [
+    STATUS: [
         {
             label: "Đang hiển thị",
             value: true
@@ -314,18 +314,18 @@ export const galleriaConfig = {
             value: false
         }
     ],
-    statusKey: {
-        active: true,
-        inactive: false
+    STATUS_KEY: {
+        ACTIVE: true,
+        DEACTIVE: false
     }
 }
 
-export const donateConfig = {
-    search: {
-        limitDefault: 5,
-        limitDefaultClient: 10
+export const DONATION = {
+    SEARCH: {
+        LIMIT_DEFAULT: 5,
+        LIMIT_DEFAULT_CLIENT: 10
     },
-    status: [
+    STATUS: [
         {
             label: "Chờ xử lý",
             value: 1
@@ -347,23 +347,29 @@ export const donateConfig = {
             value: 5
         }
     ],
-    statusKey: {
-        waiting: 1,
-        inProgress: 2,
-        reject: 3,
-        cancel: 4,
-        complete: 5
-    }
 }
 
-export const systemConfig = {
+export const SYSTEM = {
     ORG_INFO_CONTACT: 'ORG_INFO_CONTACT',
     ORG_INFO_SOCIAL: 'ORG_INFO_SOCIAL',
     ORD_INTRODUCTION: 'ORD_INTRODUCTION',
-    ADOPT_PROCESS: 'ADOPT_PROCESS',
     DONATE: 'DONATE',
-    ADOPT_CONDITON: 'ADOPT_CONDITON'
+    ADOPT_PROCESS: 'ADOPT_PROCESS',
+    ADOPT_CONDITON: 'ADOPT_CONDITON',
+    VOLUNTEER_CONDITION: 'VOLUNTEER_CONDITION',
+    VOLUNTEER_INTRODUCTION: 'VOLUNTEER_INTRODUCTION'
 }
+
+
+export const REGEX = {
+    DIGIT: /^\d+$/,
+    PASSWORD: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,100}$/,
+    CHARACTER: /^[a-zA-ZưứừữựửƯỨỪỮỰỬéèẽẹẻÉÈẼẸẺếềễệểẾỀỄỆỂýỳỹỵỷÝỲỸỴỶúùũụủÚÙŨỤỦíìĩịỉÍÌĨỊỈóòõọỏÓÒÕỌỎốồỗộổỐỒỖỘỔớờỡợởỚỜỠỢỞáàãạảÁÀÃẠẢấầẫậẩẤẦẪẬẨắằẵặẳẮẰẴẶẲđĐ ]{1,}$/,
+}
+
+export const MIN_DATE = new Date(2020, 0, 1);
+
+export const MAX_DATE = new Date();
 
 export const CALENDER_CONFIG = {
     firstDayOfWeek: 1,
@@ -376,7 +382,3 @@ export const CALENDER_CONFIG = {
     today: 'Hôm nay',
     clear: 'Xóa',
 };
-
-export const MIN_DATE = new Date(2020, 0, 1);
-
-export const MAX_DATE = new Date();

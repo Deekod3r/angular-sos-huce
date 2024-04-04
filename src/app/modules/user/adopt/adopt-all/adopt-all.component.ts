@@ -6,7 +6,7 @@ import { PetService } from 'src/app/services/pet.service';
 import { DropdownModule } from 'primeng/dropdown';
 import { Subject, takeUntil } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
-import { petConfig } from 'src/app/common/constant';
+import { PET } from 'src/app/common/constant';
 import { title, message } from 'src/app/common/message';
 import { MessageService } from 'primeng/api';
 import { filteredSearch } from 'src/app/shared/utils/data.util';
@@ -25,7 +25,7 @@ export class AdoptAllComponent implements OnInit, OnDestroy {
     currentPage = 1;
     totalPages = 0;
     totalElements = 0;
-    limit = petConfig.search.limitDefaultClient;
+    limit = PET.SEARCH.LIMIT_DEFAULT_CLIENT;
     first!: number;
     btnActive = null;
     key = {

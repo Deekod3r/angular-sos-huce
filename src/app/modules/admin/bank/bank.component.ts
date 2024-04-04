@@ -36,17 +36,17 @@ export class BankComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.getBanks();
         this.formAdd = new FormGroup({
-            name: new FormControl({ value: '', disabled: !this.isAdd }, Validators.required),
-            accountNumber: new FormControl({ value: '', disabled: !this.isAdd }, Validators.required),
-            owner: new FormControl({ value: '', disabled: !this.isAdd }, Validators.required),
-            logo: new FormControl({ value: '', disabled: !this.isAdd }, Validators.required)
+            name: new FormControl({ value: '', disabled: !this.isAdd }, [Validators.required, Validators.maxLength(100)]),
+            accountNumber: new FormControl({ value: '', disabled: !this.isAdd }, [Validators.required, Validators.maxLength(100)]),
+            owner: new FormControl({ value: '', disabled: !this.isAdd }, [Validators.required, Validators.maxLength(100)]),
+            logo: new FormControl({ value: '', disabled: !this.isAdd }, [Validators.required, Validators.maxLength(100)])
         });
         this.formUpdate = new FormGroup({
             id: new FormControl('', Validators.required),
-            name: new FormControl('', Validators.required),
-            accountNumber: new FormControl('', Validators.required),
-            owner: new FormControl('', Validators.required),
-            logo: new FormControl('', Validators.required)
+            name: new FormControl('', [Validators.required, Validators.maxLength(100)]),
+            accountNumber: new FormControl('', [Validators.required, Validators.maxLength(100)]),
+            owner: new FormControl('', [Validators.required, Validators.maxLength(100)]),
+            logo: new FormControl('', [Validators.required, Validators.maxLength(100)])
         });
     }
 

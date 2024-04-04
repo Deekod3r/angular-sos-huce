@@ -6,7 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { NewsService } from 'src/app/services/news.service';
 import { convertDateTimeFormat, filteredSearch } from 'src/app/shared/utils/data.util';
 import { NewsMediaModule } from './news-media.module';
-import { newsConfig, typeAction } from 'src/app/common/constant';
+import { newsConfig, ACTION } from 'src/app/common/constant';
 import { title, message, messageNews } from 'src/app/common/message';
 import { TagModule } from 'primeng/tag';
 import { PaginatorModule } from 'primeng/paginator';
@@ -28,7 +28,7 @@ export class NewsMedeiaComponent  implements OnInit, OnDestroy {
     currentPage = 1;
     totalPages = 0;
     totalElements = 0;
-    limit = newsConfig.search.limitDefault;
+    limit = newsConfig.SEARCH.LIMIT_DEFAULT;
     first!: number;
     key = {
         limit: this.limit,
@@ -158,7 +158,7 @@ export class NewsMedeiaComponent  implements OnInit, OnDestroy {
 
     onRefresh(): void {
         this.currentPage = 1;
-        this.limit = newsConfig.search.limitDefault;
+        this.limit = newsConfig.SEARCH.LIMIT_DEFAULT;
         this.first = 0;
         this.key = {
             limit: this.limit,
@@ -185,10 +185,10 @@ export class NewsMedeiaComponent  implements OnInit, OnDestroy {
 
     onReceiveResult(result: boolean, type: number): void {
         if (result) {
-            if (type === typeAction.create) {
+            if (type === ACTION.CREATE) {
                 this.visibleCreateModal = false;
                 this.messageService.add({ severity: 'success', summary: title.success, detail: messageNews.createSuccess });
-            } else if (type === typeAction.update) {
+            } else if (type === ACTION.UPDATE) {
                 this.visibleUpdateModal = false;
                 this.messageService.add({ severity: 'success', summary: title.success, detail: messageNews.updateSuccess });
             }

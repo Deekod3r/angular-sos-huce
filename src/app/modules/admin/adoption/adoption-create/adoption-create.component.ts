@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
 import { CONFIG } from 'src/app/common/config';
-import { petConfig } from 'src/app/common/constant';
+import { PET } from 'src/app/common/constant';
 import { title, message } from 'src/app/common/message';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { LocationService } from 'src/app/services/location.service';
@@ -78,7 +78,7 @@ export class AdoptionCreateComponent implements OnInit, OnDestroy {
     getPets(): void {
         this.petService.getPets(
             {
-                status: petConfig.statusKey.waiting
+                status: PET.STATUS_KEY.WAITING
             }
         )
         .pipe(takeUntil(this.subscribes$))

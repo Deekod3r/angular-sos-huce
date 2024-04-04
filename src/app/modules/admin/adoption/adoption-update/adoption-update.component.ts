@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
-import { adoptConfig } from 'src/app/common/constant';
+import { ADOPT } from 'src/app/common/constant';
 import { title, message } from 'src/app/common/message';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { LocationService } from 'src/app/services/location.service';
@@ -26,7 +26,7 @@ export class AdoptionUpdateComponent implements OnInit, OnDestroy {
     provinces: any[] = [];
     districts: any[] = [];
     wards: any[] = [];
-    adoptStatus = adoptConfig.statusKey
+    adoptStatus = ADOPT.STATUS_KEY
     private subscribes$: Subject<void> = new Subject<void>();
 
     constructor(public petService: PetService, public adoptService: AdoptService, private confirmationService: ConfirmationService,    
@@ -142,8 +142,8 @@ export class AdoptionUpdateComponent implements OnInit, OnDestroy {
     }
 
     isNotAvailableForUpdate(): boolean {
-        return this.adopt.status === adoptConfig.statusKey.cancel || this.adopt.status === adoptConfig.statusKey.complete 
-        || this.adopt.status === adoptConfig.statusKey.reject;
+        return this.adopt.status === ADOPT.STATUS_KEY.CANCEL || this.adopt.status === ADOPT.STATUS_KEY.COMPLETE 
+        || this.adopt.status === ADOPT.STATUS_KEY.REJECT;
     }
 
     onSaveAdopt(event: any): void {

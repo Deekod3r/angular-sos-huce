@@ -8,20 +8,28 @@
                         <label for="name">Tên danh mục <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="name" id="name">
                     </div>
-                    <div [hidden]="formUpdate.controls['name'].valid || !formUpdate.controls['name'].touched"
+                    <div [hidden]="!formUpdate.controls['name'].hasError('required') || !formUpdate.controls['name'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền tên danh mục
-                    </div>            
+                    </div>   
+                    <div [hidden]="!formUpdate.controls['name'].hasError('maxlength') || !formUpdate.controls['name'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Độ dài thông tin không hợp lệ (tối đa 100 ký tự)
+                    </div>          
                 </div>
                 <div class="col-12">
                     <div class="flex flex-column gap-2">
                         <label for="description">Mô tả <span class="text-red-500">*</span></label>
                         <textarea pInputTextarea type="text" formControlName="description" id="description" rows="5"></textarea>
                     </div>
-                    <div [hidden]="formUpdate.controls['description'].valid || !formUpdate.controls['description'].touched"
+                    <div [hidden]="!formUpdate.controls['description'].hasError('required') || !formUpdate.controls['description'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền mô tả danh mục
-                    </div>          
+                    </div>
+                    <div [hidden]="!formUpdate.controls['description'].hasError('maxlength') || !formUpdate.controls['description'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
+                    </div>      
                 </div>
                 <div class="col-12 mt-5 grid justify-content-center" align="center">
                     <div class="col-6">
@@ -39,9 +47,13 @@
                         <label for="name">Tên danh mục <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="name" id="name">
                     </div>
-                    <div [hidden]="formAdd.controls['name'].valid || !formAdd.controls['name'].touched"
+                    <div [hidden]="!formAdd.controls['name'].hasError('required') || !formAdd.controls['name'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền tên danh mục
+                    </div>
+                    <div [hidden]="!formAdd.controls['name'].hasError('maxlength') || !formAdd.controls['name'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Độ dài thông tin không hợp lệ (tối đa 100 ký tự)
                     </div>            
                 </div>
                 <div *ngIf="isAdd" class="col-12">
@@ -49,9 +61,13 @@
                         <label for="description">Mô tả <span class="text-red-500">*</span></label>
                         <textarea pInputTextarea type="text" formControlName="description" id="description"></textarea>
                     </div>
-                    <div [hidden]="formAdd.controls['description'].valid || !formAdd.controls['description'].touched"
+                    <div [hidden]="!formAdd.controls['description'].hasError('required') || !formAdd.controls['description'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền mô tả danh mục
+                    </div>
+                    <div [hidden]="!formAdd.controls['description'].hasError('maxlength') || !formAdd.controls['description'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
                     </div>          
                 </div>
                 <div class="col-12">

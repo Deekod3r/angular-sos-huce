@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TabView, TabViewModule } from 'primeng/tabview';
 import { Subject, takeUntil } from 'rxjs';
-import { adoptConfig, petConfig } from 'src/app/common/constant';
+import { ADOPT, PET } from 'src/app/common/constant';
 import { title, message, messageAdopt, messageUser } from 'src/app/common/message';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -58,7 +58,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.getUser();
         this.getAdoptStatistic();
-        this.adoptStatus = adoptConfig.statusKey;
+        this.adoptStatus = ADOPT.STATUS_KEY;
     }
 
     ngOnDestroy(): void {
@@ -151,7 +151,7 @@ export class AccountComponent implements OnInit, OnDestroy {
 
     getPets(): void {
         this.petService.getPets({
-            status: petConfig.statusKey.adopted,
+            status: PET.STATUS_KEY.ADOPTED,
             adoptedBy: this.authService.getCurrentUser().id
         })
         .pipe(takeUntil(this.subscribes$))

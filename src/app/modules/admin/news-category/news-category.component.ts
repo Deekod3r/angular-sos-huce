@@ -34,13 +34,13 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.getNewsCategories();
         this.formAdd = new FormGroup({
-            name: new FormControl('', Validators.required),
-            description: new FormControl('', Validators.required)
+            name: new FormControl('', [Validators.required, Validators.maxLength(100)]),
+            description: new FormControl('', [Validators.required, Validators.maxLength(255)])
         });
         this.formUpdate = new FormGroup({
             id: new FormControl('', Validators.required),
-            name: new FormControl('', Validators.required),
-            description: new FormControl('', Validators.required)
+            name: new FormControl('', [Validators.required, Validators.maxLength(100)]),
+            description: new FormControl('', [Validators.required, Validators.maxLength(255)])
         });
     }
 

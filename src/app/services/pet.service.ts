@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { CommonService } from './common.service';
 import { CONFIG } from '../common/config';
 import { AuthService } from './auth.service';
-import { petConfig } from '../common/constant';
+import { PET } from '../common/constant';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 
 @Injectable({
@@ -101,8 +101,8 @@ export class PetService {
     filterBreed(event: AutoCompleteCompleteEvent): any[] {
         let filtered: any[] = [];
         let query = event.query.trim();
-        for (let i = 0; i < (petConfig.breed as any[]).length; i++) {
-            let breed = (petConfig.breed as any[])[i];
+        for (let i = 0; i < (PET.BREED as any[]).length; i++) {
+            let breed = (PET.BREED as any[])[i];
             if (breed && breed.label && breed.label.toLowerCase().indexOf(query.toLowerCase()) != -1) {
                 filtered.push(breed);
             }
@@ -113,8 +113,8 @@ export class PetService {
     filterColor(event: AutoCompleteCompleteEvent): any[] {
         let filtered: any[] = [];
         let query = event.query.trim();
-        for (let i = 0; i < (petConfig.color as any[]).length; i++) {
-            let color = (petConfig.color as any[])[i];
+        for (let i = 0; i < (PET.COLOR as any[]).length; i++) {
+            let color = (PET.COLOR as any[])[i];
             if (color && color.label && color.label.toLowerCase().indexOf(query.toLowerCase()) != -1) {
                 filtered.push(color);
             }
@@ -123,31 +123,31 @@ export class PetService {
     }
     
     isAvailableForAdopt(status: number): boolean {
-        return status === petConfig.statusKey.waiting;
+        return status === PET.STATUS_KEY.WAITING;
     }
 
     getStatus(status: number): string | undefined {
-        const statusOption = petConfig.status.find(option => option.value === status);
+        const statusOption = PET.STATUS.find(option => option.value === status);
         return statusOption ? statusOption.label : undefined;
     }
 
     getGender(gender: number): string | undefined {
-        const genderObject = petConfig.gender.find(g => g.value === gender);
+        const genderObject = PET.GENDER.find(g => g.value === gender);
         return genderObject?.label;
     }
 
     getType(type: number): string | undefined {
-        const typeObject = petConfig.type.find(t => t.value === type);
+        const typeObject = PET.TYPE.find(t => t.value === type);
         return typeObject?.label;
     }
 
     getAge(age: number): string | undefined {
-        const ageObject = petConfig.age.find(a => a.value === age);
+        const ageObject = PET.AGE.find(a => a.value === age);
         return ageObject?.label;
     }
 
     getVaccine(vaccine: number): string | undefined {
-        const vaccineObject = petConfig.moreInfor.find(i => i.value === vaccine);
+        const vaccineObject = PET.MORE_INFO.find(i => i.value === vaccine);
         return vaccineObject?.label;
     }
 
@@ -195,28 +195,28 @@ export class PetService {
     }
 
     optionMoreInfor(): any[] {
-        return petConfig.moreInfor;
+        return PET.MORE_INFO;
     }
 
     optionStatus(): any[] {
-        return petConfig.status;
+        return PET.STATUS;
     }
 
     optionStatusModify(): any[] {
-        return petConfig.statusModify;
+        return PET.STATUS_MODIFY;
     
     }
 
     optionGender(): any[] {
-        return petConfig.gender;
+        return PET.GENDER;
     }
 
     optionType(): any[] {
-        return petConfig.type;
+        return PET.TYPE;
     }
 
     optionAge(): any[] {
-        return petConfig.age;
+        return PET.AGE;
     }
 
 }

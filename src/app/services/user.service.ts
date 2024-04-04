@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { CONFIG } from '../common/config';
 import { CommonService } from './common.service';
 import { AuthService } from './auth.service';
-import { userConfig } from '../common/constant';
+import { USER } from '../common/constant';
 
 @Injectable({
     providedIn: 'root'
@@ -190,7 +190,7 @@ export class UserService {
     }
 
     getStatus(status: boolean): string | undefined {
-        const statusObject = userConfig.status.find(i => i.value === status);
+        const statusObject = USER.STATUS.find(i => i.value === status);
         return statusObject ? statusObject.label : '';
     }
 
@@ -199,6 +199,6 @@ export class UserService {
     }
     
     optionStatus(): any {
-        return userConfig.status
+        return USER.STATUS
     }
 }

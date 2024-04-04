@@ -31,9 +31,13 @@
                     <label for="pet-name">Tên thú cưng <span class="text-red-500 font-bold">*</span></label>
                     <input pInputText formControlName="petName" id="pet-name"/>
                 </div>
-                <div [hidden]="form.controls['petName'].valid || !form.controls['petName'].touched"
+                <div [hidden]="!form.controls['petName'].hasError('required') || !form.controls['petName'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng nhập tên
+                </div>
+                <div [hidden]="(!form.controls['petName'].hasError('minlength') && !form.controls['petName'].hasError('maxlength')) || !form.controls['petName'].touched"
+                    class="text-red-500 mt-2 ml-1">
+                    Độ dài tên từ 2 đến 50 ký tự
                 </div>
             </div>
             <div class="xl:col-2 lg:col-4 md:col-6 sm:col-12 col-12">
@@ -41,8 +45,7 @@
                     <label for="intake-date">Ngày tiếp nhận <span class="text-red-500 font-bold">*</span></label>
                     <p-calendar formControlName="intakeDate" id="intake-date" 
                     [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" 
-                    [minDate]="min_date" [maxDate]="max_date" [readonlyInput]="true"
-                    [showButtonBar]="true"></p-calendar>
+                    [readonlyInput]="true" [showButtonBar]="true"></p-calendar>
                 </div>
                 <div [hidden]="form.controls['intakeDate'].valid || !form.controls['intakeDate'].touched"
                     class="text-red-500 mt-2 ml-1">

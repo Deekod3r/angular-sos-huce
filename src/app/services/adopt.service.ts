@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { CommonService } from './common.service';
 import { AuthService } from './auth.service';
 import { CONFIG } from '../common/config';
-import { adoptConfig } from '../common/constant';
+import { ADOPT } from '../common/constant';
 import { HttpParams } from '@angular/common/http';
 
 @Injectable({
@@ -146,7 +146,7 @@ export class AdoptService {
       }
 
     getStatus(status: number): string | undefined {
-        const statusOption = adoptConfig.status.find(option => option.value === status);
+        const statusOption = ADOPT.STATUS.find(option => option.value === status);
         return statusOption?.label;
     }
 
@@ -170,11 +170,11 @@ export class AdoptService {
     }
 
     isAvailableForCancelByUser(status: number): boolean {
-        return status === adoptConfig.statusKey.waiting;
+        return status === ADOPT.STATUS_KEY.WAITING;
     }
 
     optionStatus(): any[] {
-        return adoptConfig.status;
+        return ADOPT.STATUS;
     }
     
 }

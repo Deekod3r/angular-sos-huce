@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { systemConfig } from 'src/app/common/constant';
+import { SYSTEM } from 'src/app/common/constant';
 import { ConfigService } from 'src/app/services/config.service';
 
 @Component({
@@ -13,25 +13,19 @@ export class TopBarComponent implements OnInit, OnDestroy  {
     contacts!: any;
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private configService: ConfigService) { }
+    constructor(private configService: ConfigService) {}
 
     ngOnInit(): void {
-        this.getConfigs();
+        this.configService.contacts.asObservable()
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe(data => {
+            this.contacts = data;
+        });
     }
 
     ngOnDestroy(): void {
         this.subscribes$.next();
         this.subscribes$.complete();
-    }
-
-    getConfigs(): void {
-        this.configService.getConfigs(systemConfig.ORG_INFO_CONTACT)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.contacts = res.data.values;
-            }
-        });
     }
 
 }

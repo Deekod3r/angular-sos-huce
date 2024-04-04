@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CommonService } from './common.service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { CONFIG } from '../common/config';
 import { AuthService } from './auth.service';
-import { systemConfig } from '../common/constant';
 
 @Injectable({
     providedIn: 'root'
@@ -12,12 +11,14 @@ export class ConfigService {
 
     private API_URL = 'configs';
     
-    socials: any;
-    contacts: any;
-    introductions: any;
-    adoptProcess: any;
-    adoptConditions: any;
-    donates: any;
+    socials = new BehaviorSubject<any>(null);
+    contacts = new BehaviorSubject<any>(null);
+    introductions = new BehaviorSubject<any>(null);
+    adoptProcess = new BehaviorSubject<any>(null);
+    adoptConditions = new BehaviorSubject<any>(null);
+    donates = new BehaviorSubject<any>(null);
+    volunteerIntroduction = new BehaviorSubject<any>(null);
+    volunteerConditions = new BehaviorSubject<any>(null);
 
     constructor(private commonService: CommonService, private authService: AuthService) { }
 

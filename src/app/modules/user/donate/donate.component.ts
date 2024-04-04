@@ -5,6 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { CONFIG } from 'src/app/common/config';
 import { title, message } from 'src/app/common/message';
 import { BankService } from 'src/app/services/bank.service';
+import { ConfigService } from 'src/app/services/config.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
@@ -17,12 +18,30 @@ import { SharedModule } from 'src/app/shared/shared.module';
 export class DonateComponent implements OnInit, OnDestroy {
 
     banks!: any;
+    donationIntroductions: any;
+    volunteerIntroduction: any;
+    volunteerConditions: any;
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private bankService: BankService, private messageService: MessageService) { }
+    constructor(private bankService: BankService, private messageService: MessageService, private configService: ConfigService) { }
 
     ngOnInit(): void {
         this.getBanks();
+        this.configService.donates.asObservable()
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe(data => {
+            this.donationIntroductions = data;
+        });
+        this.configService.volunteerIntroduction.asObservable()
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe(data => {
+            this.volunteerIntroduction = data;
+        });
+        this.configService.volunteerConditions.asObservable()
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe(data => {
+            this.volunteerConditions = data;
+        });
     }
 
     ngOnDestroy(): void {

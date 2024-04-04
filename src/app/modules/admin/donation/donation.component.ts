@@ -3,7 +3,7 @@ import { DonationModule } from './donation.module';
 import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
 import { DonationService } from 'src/app/services/donation.service';
-import { donateConfig, typeAction } from 'src/app/common/constant';
+import { DONATION, ACTION } from 'src/app/common/constant';
 import { title, message, messageDonation } from 'src/app/common/message';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
@@ -26,7 +26,7 @@ export class DonationComponent implements OnInit, OnDestroy {
     currentPage = 1;
     totalPages = 0;
     totalElements = 0;
-    limit = donateConfig.search.limitDefault;
+    limit = DONATION.SEARCH.LIMIT_DEFAULT;
     first!: number;
     key = {
         limit: this.limit,
@@ -145,10 +145,10 @@ export class DonationComponent implements OnInit, OnDestroy {
 
     onReceiveResult(result: boolean, type: number): void {
         if (result) {
-            if (type === typeAction.create) {
+            if (type === ACTION.CREATE) {
                 this.visibleCreateModal = false;
                 this.messageService.add({ severity: 'success', summary: title.success, detail: messageDonation.createSuccess });
-            } else if (type === typeAction.update) {
+            } else if (type === ACTION.UPDATE) {
                 this.visibleUpdateModal = false;
                 this.messageService.add({ severity: 'success', summary: title.success, detail: messageDonation.updateSuccess });
             }

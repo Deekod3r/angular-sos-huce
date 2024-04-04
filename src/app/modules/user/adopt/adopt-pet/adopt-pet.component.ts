@@ -6,7 +6,7 @@ import { PetService } from 'src/app/services/pet.service';
 import { DropdownModule } from 'primeng/dropdown';
 import { Subject, takeUntil } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
-import { petConfig } from 'src/app/common/constant';
+import { PET } from 'src/app/common/constant';
 import { CarouselModule } from 'primeng/carousel';
 import { ActivatedRoute } from '@angular/router';
 import { BadgeModule } from 'primeng/badge';
@@ -20,6 +20,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { MessageService } from 'primeng/api';
 import { message, messageAdopt, title } from 'src/app/common/message';
 import { AdoptService } from 'src/app/services/adopt.service';
+import { ConfigService } from 'src/app/services/config.service';
 
 @Component({
     selector: 'app-adopt',
@@ -42,6 +43,8 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
     wards: any[] = [];
     formAdopt!: FormGroup;
     userInfo!: any;
+    adoptProcess: any;
+    adoptConditions: any;
     responsiveOptions = [
         {
             breakpoint: '1199px',
@@ -61,7 +64,7 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
     ];
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public petService: PetService, private route: ActivatedRoute, private adoptService: AdoptService,    
+    constructor(public petService: PetService, private route: ActivatedRoute, private adoptService: AdoptService, private configService: ConfigService,
         private locationService: LocationService, public authService: AuthService, private messageService: MessageService) { }
 
     ngOnInit(): void {
@@ -69,8 +72,8 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
             province: new FormControl(null, Validators.required),
             district: new FormControl(null, Validators.required),
             ward: new FormControl(null, Validators.required),
-            address: new FormControl(null, [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
-            reason: new FormControl(null, [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
+            address: new FormControl('', [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
+            reason: new FormControl('', [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
             confirm: new FormControl(false, Validators.requiredTrue)
         });
         this.route.params.pipe(takeUntil(this.subscribes$)).subscribe(params => {
@@ -78,6 +81,17 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
             this.getPet();
             this.getPets();
         });
+        this.configService.adoptProcess.asObservable()
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe(data => {
+            this.adoptProcess = data;
+        });
+        this.configService.adoptConditions.asObservable()
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe(data => {
+            this.adoptConditions = data;
+        });
+
     }
     
     ngOnDestroy(): void {
@@ -106,9 +120,9 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
 
     getPets(): void {
         let petSearchKey = {
-            limit: petConfig.search.limitDefault,
+            limit: PET.SEARCH.LIMIT_DEFAULT,
             page: 1,
-            status: petConfig.statusKey.waiting.toString()
+            status: PET.STATUS_KEY.WAITING.toString()
         };
         this.petService.getPets(petSearchKey)
         .pipe(takeUntil(this.subscribes$))

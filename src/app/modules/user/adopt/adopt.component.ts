@@ -6,10 +6,11 @@ import { PetService } from 'src/app/services/pet.service';
 import { DropdownModule } from 'primeng/dropdown';
 import { Subject, takeUntil } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
-import { petConfig } from 'src/app/common/constant';
+import { PET } from 'src/app/common/constant';
 import { MessageService } from 'primeng/api';
 import { title, message } from 'src/app/common/message';
 import { filteredSearch } from 'src/app/shared/utils/data.util';
+import { ConfigService } from 'src/app/services/config.service';
 
 @Component({
     selector: 'app-adopt',
@@ -20,11 +21,13 @@ import { filteredSearch } from 'src/app/shared/utils/data.util';
 })
 export class AdoptComponent implements OnInit, OnDestroy {
 
+    adoptConditions: any;
+    adoptProcess: any;
     pets: any[] = [];
     currentPage = 1;
     totalPages = 0;
     totalElements = 0;
-    limit = petConfig.search.limitDefaultClient;
+    limit = PET.SEARCH.LIMIT_DEFAULT_CLIENT;
     first!: number;
     btnActive = null;
     key = {
@@ -38,10 +41,20 @@ export class AdoptComponent implements OnInit, OnDestroy {
     };
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public petService: PetService, private messageService: MessageService) { }
+    constructor(public petService: PetService, private messageService: MessageService, private configService: ConfigService) { }
 
     ngOnInit(): void {
         this.getPets();
+        this.configService.adoptConditions.asObservable()
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe(data => {
+            this.adoptConditions = data;
+        });
+        this.configService.adoptProcess.asObservable()
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe(data => {
+            this.adoptProcess = data;
+        });
     }
 
     ngOnDestroy(): void {
@@ -56,7 +69,7 @@ export class AdoptComponent implements OnInit, OnDestroy {
             page: this.key.page,
             code: this.key.code ? this.key.code.trim() : '',
             name: this.key.name ? this.key.name.trim() : '',
-            status: petConfig.statusKey.waiting,
+            status: PET.STATUS_KEY.WAITING,
             type: this.key.type ? this.key.type : '',
             gender: this.key.gender ? this.key.gender : '',
             age: this.key.age ? this.key.age : ''

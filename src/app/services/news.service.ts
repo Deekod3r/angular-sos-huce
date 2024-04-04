@@ -168,7 +168,7 @@ export class NewsService {
     }
 
     getStatus(status: boolean): string | undefined {
-        return newsConfig.status.find(item => item.value === status)?.label;
+        return newsConfig.STATUS.find(item => item.value === status)?.label;
     }
 
     getStatusBadge(status: boolean): string | undefined {
@@ -183,7 +183,7 @@ export class NewsService {
     }
 
     optionStatus(): any[] {
-        return newsConfig.status;
+        return newsConfig.STATUS;
     }
 
 

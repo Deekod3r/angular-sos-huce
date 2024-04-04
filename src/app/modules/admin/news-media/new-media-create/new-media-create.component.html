@@ -31,9 +31,13 @@
                     <label for="title">Tiêu đề <span class="text-red-500 font-bold">*</span></label>
                     <textarea pInputTextarea formControlName="title" id="title"></textarea>
                 </div>
-                <div [hidden]="form.controls['title'].valid || !form.controls['title'].touched"
+                <div [hidden]="!form.controls['title'].hasError('required') || !form.controls['title'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng nhập tiêu đề
+                </div>
+                <div [hidden]="!form.controls['title'].hasError('maxlength') || !form.controls['title'].touched"
+                    class="text-red-500 mt-2 ml-1">
+                    Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
                 </div>
             </div>
             <div class="col-12">
@@ -41,9 +45,13 @@
                     <label for="description">Mô tả <span class="text-red-500 font-bold">*</span></label>
                     <textarea pInputTextarea formControlName="description" id="description"></textarea>
                 </div>
-                <div [hidden]="form.controls['description'].valid || !form.controls['description'].touched"
+                <div [hidden]="!form.controls['description'].hasError('required')  || !form.controls['description'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng nhập mô tả
+                </div>
+                <div [hidden]="!form.controls['description'].hasError('maxlength') || !form.controls['description'].touched"
+                    class="text-red-500 mt-2 ml-1">
+                    Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
                 </div>
             </div>
             <div class="col-12">

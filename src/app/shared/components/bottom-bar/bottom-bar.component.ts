@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { systemConfig } from 'src/app/common/constant';
+import { SYSTEM } from 'src/app/common/constant';
 import { ConfigService } from 'src/app/services/config.service';
 
 @Component({
@@ -27,26 +27,20 @@ export class BottomBarComponent implements OnInit, OnDestroy  {
     }
 
     getConfigs(): void {
-        this.configService.getConfigs(systemConfig.ORG_INFO_CONTACT)
+        this.configService.contacts.asObservable()
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.contacts = res.data.values;
-            }
+        .subscribe(data => {
+            this.contacts = data;
         });
-        this.configService.getConfigs(systemConfig.ORD_INTRODUCTION)
+        this.configService.introductions.asObservable()
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.introductions = res.data.values;
-            }
+        .subscribe(data => {
+            this.introductions = data;
         });
-        this.configService.getConfigs(systemConfig.ORG_INFO_SOCIAL)
+        this.configService.socials.asObservable()
         .pipe(takeUntil(this.subscribes$))
-        .subscribe(res => {
-            if (res.success) {
-                this.socials = res.data.values;
-            }
+        .subscribe(data => {
+            this.socials = data;
         });
     }
 

@@ -19,18 +19,18 @@
                     </span>
                     <input pInputText type="text" formControlName="name" class="form-control" name="name">
                 </div>
-                <div class="text-red-500 mt-1"
-                    *ngIf="registerForm.controls['name'].hasError('required') && registerForm.controls['name'].touched">
+                <div [hidden]="!registerForm.controls['name'].hasError('required') || !registerForm.controls['name'].touched"
+                    class="text-red-500 mt-1 ml-1">
                     Vui lòng nhập họ tên
                 </div>
-                <div class="text-red-500 mt-1"
-                    *ngIf="(
-                        registerForm.controls['name'].hasError('pattern')
-                        || registerForm.controls['name'].hasError('minLength')
-                        || registerForm.controls['name'].hasError('maxLength')
-                        )
-                        && registerForm.controls['name'].dirty">
+                <div [hidden]="!registerForm.controls['name'].hasError('pattern') || !registerForm.controls['name'].touched"
+                    class="text-red-500 mt-1 ml-1">
                     Họ tên không hợp lệ
+                </div>
+                <div [hidden]="(!registerForm.controls['name'].hasError('minlength') && !registerForm.controls['name'].hasError('maxlength')) 
+                    || !registerForm.controls['name'].touched"
+                    class="text-red-500 mt-1 ml-1">
+                    Độ dài thông tin không hợp lệ (tối thiểu 2 ký tự, tối đa 100 ký tự)
                 </div>
             </div>
             <div class="col-12 mt-2">
@@ -43,17 +43,17 @@
                     </span>
                     <input pInputText type="text" formControlName="phoneNumber" class="form-control" name="phone-number">
                 </div>
-                <div class="text-red-500 mt-1"
+                <div class="text-red-500 mt-1 ml-1"
                     *ngIf="registerForm.controls['phoneNumber'].hasError('required') && registerForm.controls['phoneNumber'].touched">
                     Vui lòng nhập số điện thoại
                 </div>
-                <div class="text-red-500 mt-1"
+                <div class="text-red-500 mt-1 ml-1"
                     *ngIf="(
                         registerForm.controls['phoneNumber'].hasError('pattern') ||
-                        registerForm.controls['phoneNumber'].hasError('minLength') ||
-                        registerForm.controls['phoneNumber'].hasError('maxLength')
+                        registerForm.controls['phoneNumber'].hasError('minlength') ||
+                        registerForm.controls['phoneNumber'].hasError('maxlength')
                         )
-                        && registerForm.controls['phoneNumber'].dirty">
+                        && registerForm.controls['phoneNumber'].touched">
                     Số điện thoại không hợp lệ
                 </div>
             </div>
@@ -67,17 +67,17 @@
                     </span>
                     <input pInputText type="email" formControlName="email" class="form-control" name="email">
                 </div>
-                <div class="text-red-500 mt-1"
+                <div class="text-red-500 mt-1 ml-1"
                     *ngIf="registerForm.controls['email'].hasError('required') && registerForm.controls['email'].touched">
                     Vui lòng nhập email
                 </div>
-                <div class="text-red-500 mt-1"
+                <div class="text-red-500 mt-1 ml-1"
                     *ngIf="(
                         registerForm.controls['email'].hasError('email') ||
-                        registerForm.controls['email'].hasError('minLength') ||
-                        registerForm.controls['email'].hasError('maxLength')
+                        registerForm.controls['email'].hasError('minlength') ||
+                        registerForm.controls['email'].hasError('maxlength')
                         )
-                        && registerForm.controls['email'].dirty">
+                        && registerForm.controls['email'].touched">
                     Email không hợp lệ
                 </div>
             </div>
@@ -87,7 +87,7 @@
                 </div>
                 <div class="p-inputgroup">
                     <p-password formControlName="password" class="form-control" promptLabel=" " 
-                        strongRegex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$"
+                        strongRegex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,100}$"
                         weakLabel="Yếu" mediumLabel="Trung bình" strongLabel="Mạnh" [style]="{'width':'100%'}" [toggleMask]="true"
                         [inputStyle]="{'width':'100%'}">
                         <ng-template pTemplate="header">
@@ -101,7 +101,7 @@
                                 <li>Tối thiểu 1 ký tự chữ thường</li>
                                 <li>Tối thiểu 1 ký tự chữ hoa</li>
                                 <li>Tối thiểu 1 ký tự số</li>
-                                <li>Độ dài tối thiểu 8 ký tự</li>
+                                <li>Độ dài tối thiểu 8, tối đa 100 ký tự</li>
                             </ul>
                         </ng-template>
                     </p-password>
@@ -109,16 +109,16 @@
                         <i class="fa fa-key"></i>
                     </span>
                 </div>
-                <div class="text-red-500 mt-1"
+                <div class="text-red-500 mt-1 ml-1"
                     *ngIf="registerForm.controls['password'].hasError('required') && registerForm.controls['password'].touched">
                     Vui lòng nhập mật khẩu
                 </div>
-                <div class="text-red-500 mt-1"
+                <div class="text-red-500 mt-1 ml-1"
                     *ngIf="(
                         registerForm.controls['password'].hasError('pattern') ||
-                        registerForm.controls['password'].hasError('maxLength')
+                        registerForm.controls['password'].hasError('maxlength')
                         )
-                        && registerForm.controls['password'].dirty">
+                        && registerForm.controls['password'].touched">
                     Mật khẩu không hợp lệ
                 </div>
             </div>
@@ -129,8 +129,9 @@
                 </div>
             </div>
             <div class="col-12 mt-2" align="center">
-                <span>Đã có tài khoản? <a class="btn-register font-bold" routerLink="/dang-nhap"
-                            icon="pi pi-microsoft">Đăng nhập ngay</a></span>
+                <span>Đã có tài khoản? 
+                    <a class="btn-register font-bold" routerLink="/dang-nhap" icon="pi pi-microsoft">Đăng nhập ngay</a>
+                </span>
             </div>
         </div>
     </p-panel>
@@ -155,7 +156,7 @@
                         <input pInputText type="text" formControlName="code"
                             class="form-control text-center font-bold text-3xl" name="code" maxlength="6">
                     </div>
-                    <div class="text-red-500 mt-1"
+                    <div class="text-red-500 mt-1 ml-1"
                         *ngIf="verifyForm.controls['code'].hasError('required') && verifyForm.controls['code'].touched">
                         Vui lòng nhập mã xác thực
                     </div>

@@ -16,9 +16,13 @@
                         <label for="name">Tên nguồn nhận <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="name" id="name">
                     </div>
-                    <div [hidden]="formUpdate.controls['name'].valid || !formUpdate.controls['name'].touched"
+                    <div [hidden]="!formUpdate.controls['name'].hasError('required') || !formUpdate.controls['name'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền tên nguồn nhận
+                    </div>
+                    <div [hidden]="!formUpdate.controls['name'].hasError('maxlength') || !formUpdate.controls['name'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
                     </div>            
                 </div>
                 <div class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
@@ -26,30 +30,42 @@
                         <label for="account-number">Tài khoản <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="accountNumber" id="account-number">
                     </div>
-                    <div [hidden]="formUpdate.controls['accountNumber'].valid || !formUpdate.controls['accountNumber'].touched"
+                    <div [hidden]="!formUpdate.controls['accountNumber'].hasError('required') || !formUpdate.controls['accountNumber'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền tài khoản
-                    </div>          
+                    </div>
+                    <div [hidden]="!formUpdate.controls['accountNumber'].hasError('maxlength') || !formUpdate.controls['accountNumber'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
+                    </div>   
                 </div>
                 <div class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
                     <div class="flex flex-column gap-2">
                         <label for="owner">Chủ sở hữu <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="owner" id="owner">
                     </div>
-                    <div [hidden]="formUpdate.controls['owner'].valid || !formUpdate.controls['owner'].touched"
+                    <div [hidden]="!formUpdate.controls['owner'].hasError('required') || !formUpdate.controls['owner'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền chủ sở hữu
-                    </div>       
+                    </div>
+                    <div [hidden]="!formUpdate.controls['owner'].hasError('maxlength') || !formUpdate.controls['owner'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
+                    </div>   
                 </div>
                 <div class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
                     <div class="flex flex-column gap-2">
                         <label for="logo">Biểu tượng <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="logo" id="logo">
                     </div>
-                    <div [hidden]="formUpdate.controls['logo'].valid || !formUpdate.controls['logo'].touched"
+                    <div [hidden]="!formUpdate.controls['logo'].hasError('required') || !formUpdate.controls['logo'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền biểu tượng
-                    </div>          
+                    </div>
+                    <div [hidden]="!formUpdate.controls['logo'].hasError('maxlength') || !formUpdate.controls['logo'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
+                    </div>       
                 </div>
                 <div class="col-12 mt-5 grid justify-content-center" align="center">
                     <div class="md:col-3 col-6">
@@ -75,40 +91,56 @@
                         <label for="name">Tên nguồn nhận <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="name" id="name">
                     </div>
-                    <div [hidden]="formAdd.controls['name'].valid || !formAdd.controls['name'].touched"
+                    <div [hidden]="!formAdd.controls['name'].hasError('required') || !formAdd.controls['name'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền tên nguồn nhận
-                    </div>            
+                    </div>
+                    <div [hidden]="!formAdd.controls['name'].hasError('maxlength') || !formAdd.controls['name'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
+                    </div>       
                 </div>
                 <div *ngIf="isAdd" class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
                     <div class="flex flex-column gap-2">
                         <label for="account-number">Tài khoản <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="accountNumber" id="account-number">
                     </div>
-                    <div [hidden]="formAdd.controls['accountNumber'].valid || !formAdd.controls['accountNumber'].touched"
+                    <div [hidden]="!formAdd.controls['accountNumber'].hasError('required') || !formAdd.controls['accountNumber'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền tài khoản
-                    </div>          
+                    </div>
+                    <div [hidden]="!formAdd.controls['accountNumber'].hasError('maxlength') || !formAdd.controls['accountNumber'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
+                    </div>   
                 </div>
                 <div *ngIf="isAdd" class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
                     <div class="flex flex-column gap-2">
                         <label for="owner">Chủ sở hữu <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="owner" id="owner">
                     </div>
-                    <div [hidden]="formAdd.controls['owner'].valid || !formAdd.controls['owner'].touched"
+                    <div [hidden]="!formAdd.controls['owner'].hasError('required') || !formAdd.controls['owner'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền chủ sở hữu
-                    </div>       
+                    </div>
+                    <div [hidden]="!formAdd.controls['owner'].hasError('maxlength') || !formAdd.controls['owner'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
+                    </div>    
                 </div>
                 <div *ngIf="isAdd" class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
                     <div class="flex flex-column gap-2">
                         <label for="logo">Biểu tượng <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="logo" id="logo">
                     </div>
-                    <div [hidden]="formAdd.controls['logo'].valid || !formAdd.controls['logo'].touched"
+                    <div [hidden]="!formAdd.controls['logo'].hasError('required') || !formAdd.controls['logo'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng điền biểu tượng
-                    </div>          
+                    </div>
+                    <div [hidden]="!formAdd.controls['logo'].hasError('maxlength') || !formAdd.controls['logo'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
+                    </div> 
                 </div>
                 <div class="col-12">
                     <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onCreateBank()"></button>

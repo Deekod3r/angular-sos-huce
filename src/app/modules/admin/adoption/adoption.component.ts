@@ -9,7 +9,7 @@ import { AdoptionModule } from './adoption.module';
 import { Subject, takeUntil } from 'rxjs';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { PetService } from 'src/app/services/pet.service';
-import { adoptConfig, petConfig, typeAction } from 'src/app/common/constant';
+import { ADOPT, PET, ACTION } from 'src/app/common/constant';
 import { convertDateTimeFormat, filteredSearch } from 'src/app/shared/utils/data.util';
 import { title, message, messageAdopt } from 'src/app/common/message';
 import { CONFIG } from 'src/app/common/config';
@@ -31,7 +31,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
     dataReject = {
         id: '',
         message: '',
-        status: adoptConfig.statusKey.reject,
+        status: ADOPT.STATUS_KEY.REJECT,
         event: Event,
     };
     idAdoptionUpdate!: string;
@@ -41,7 +41,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
     currentPage = 1;
     totalPages = 0;
     totalElements = 0;
-    limit = adoptConfig.search.limitDefault;
+    limit = ADOPT.SEARCH.LIMIT_DEFAULT;
     first!: number;
     key = {
         limit: this.limit,
@@ -126,20 +126,20 @@ export class AdoptionComponent implements OnInit, OnDestroy {
             {
                 label: 'Trạng thái',
                 icon: 'fa fa-signal',
-                visible: adopt.status === adoptConfig.statusKey.waiting || adopt.status === adoptConfig.statusKey.inProgress,
+                visible: adopt.status === ADOPT.STATUS_KEY.WAITING || adopt.status === ADOPT.STATUS_KEY.IN_PROGRESS,
                 items: [
                     {
                         label: 'Đã tiếp nhận',
                         icon: 'fa fa-check',
-                        visible: adopt.status === adoptConfig.statusKey.waiting,
+                        visible: adopt.status === ADOPT.STATUS_KEY.WAITING,
                         command: (event: any) => {
-                            this.onUpdateStatus({ id: adopt.id , status: adoptConfig.statusKey.inProgress }, adopt.id);
+                            this.onUpdateStatus({ id: adopt.id , status: ADOPT.STATUS_KEY.IN_PROGRESS }, adopt.id);
                         }
                     },
                     {
                         label: 'Từ chối',
                         icon: 'fa fa-ban',
-                        visible: adopt.status === adoptConfig.statusKey.waiting || adopt.status === adoptConfig.statusKey.inProgress,
+                        visible: adopt.status === ADOPT.STATUS_KEY.WAITING || adopt.status === ADOPT.STATUS_KEY.IN_PROGRESS,
                         command: (event: any) => {
                             this.dataReject.id = adopt.id;
                             this.dataReject.event = event;
@@ -149,40 +149,40 @@ export class AdoptionComponent implements OnInit, OnDestroy {
                     {
                         label: 'Hủy',
                         icon: 'fa fa-times',
-                        visible: adopt.status === adoptConfig.statusKey.waiting || adopt.status === adoptConfig.statusKey.inProgress,
+                        visible: adopt.status === ADOPT.STATUS_KEY.WAITING || adopt.status === ADOPT.STATUS_KEY.IN_PROGRESS,
                         command: (event: any) => {
-                            this.onConfirmUpdate(event, { id: adopt.id, status: adoptConfig.statusKey.cancel, action: 'hủy', message: null });
+                            this.onConfirmUpdate(event, { id: adopt.id, status: ADOPT.STATUS_KEY.CANCEL, action: 'hủy', message: null });
                         }
                     },
                     {
                         label: 'Hoàn thành',
                         icon: 'fa fa-check-circle',
-                        visible: adopt.status === adoptConfig.statusKey.inProgress,
+                        visible: adopt.status === ADOPT.STATUS_KEY.IN_PROGRESS,
                         command: (event: any) => {
-                            this.onConfirmUpdate(event, { id: adopt.id, status: adoptConfig.statusKey.complete, action: 'hoàn thành', message: null });
+                            this.onConfirmUpdate(event, { id: adopt.id, status: ADOPT.STATUS_KEY.COMPLETE, action: 'hoàn thành', message: null });
                         }
                     }
                 ]
             },
             {
                 separator: true,
-                visible: adopt.status === adoptConfig.statusKey.waiting || adopt.status === adoptConfig.statusKey.inProgress
+                visible: adopt.status === ADOPT.STATUS_KEY.WAITING || adopt.status === ADOPT.STATUS_KEY.IN_PROGRESS
             },
             {
-                label: adopt.status === adoptConfig.statusKey.waiting || adopt.status === adoptConfig.statusKey.inProgress ? 'Chỉnh sửa' : 'Xem chi tiết',
-                icon: adopt.status === adoptConfig.statusKey.waiting || adopt.status === adoptConfig.statusKey.inProgress ? 'fa fa-edit' : 'fa fa-photo',
+                label: adopt.status === ADOPT.STATUS_KEY.WAITING || adopt.status === ADOPT.STATUS_KEY.IN_PROGRESS ? 'Chỉnh sửa' : 'Xem chi tiết',
+                icon: adopt.status === ADOPT.STATUS_KEY.WAITING || adopt.status === ADOPT.STATUS_KEY.IN_PROGRESS ? 'fa fa-edit' : 'fa fa-photo',
                 command: () => {
                     this.onShowUpdateModal(adopt.id);
                 }
             },
             {
                 separator: true,
-                visible: adopt.status !== adoptConfig.statusKey.complete
+                visible: adopt.status !== ADOPT.STATUS_KEY.COMPLETE
             },
             {
                 label: 'Xoá',
                 icon: 'fa fa-trash',
-                visible: adopt.status !== adoptConfig.statusKey.complete,
+                visible: adopt.status !== ADOPT.STATUS_KEY.COMPLETE,
                 command: (event: any) => {
                     this.onConfirmDelete(event, adopt.id);
                 }
@@ -214,7 +214,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
 
     getPets(): void {
         this.petService.getPets({
-            status: petConfig.statusKey.waiting
+            status: PET.STATUS_KEY.WAITING
         })
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
@@ -235,10 +235,10 @@ export class AdoptionComponent implements OnInit, OnDestroy {
     
     onReceiveResult(result: boolean, type: number): void {
         if (result) {
-            if (type === typeAction.create) {
+            if (type === ACTION.CREATE) {
                 this.visibleCreateModal = false;
                 this.messageService.add({ severity: 'success', summary: title.success, detail: messageAdopt.createSuccess });
-            } else if (type === typeAction.update) {
+            } else if (type === ACTION.UPDATE) {
                 this.visibleUpdateModal = false;
                 this.messageService.add({ severity: 'success', summary: title.success, detail: messageAdopt.updateSuccess });
             }
@@ -259,7 +259,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
 
     onRefresh(): void {
         this.currentPage = 1;
-        this.limit = adoptConfig.search.limitDefault;
+        this.limit = ADOPT.SEARCH.LIMIT_DEFAULT;
         this.first = 0;
         this.key = {
             limit: this.limit,
@@ -349,7 +349,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
             return;
         }
         this.visibleDeleteModal = false; 
-        this.onConfirmUpdate(this.dataReject.event, { id: this.dataReject.id, status: adoptConfig.statusKey.reject, action: 'từ chối', message: this.dataReject.message });
+        this.onConfirmUpdate(this.dataReject.event, { id: this.dataReject.id, status: ADOPT.STATUS_KEY.REJECT, action: 'từ chối', message: this.dataReject.message });
     }
 
     onConfirmDelete(event: any, id: string): void {

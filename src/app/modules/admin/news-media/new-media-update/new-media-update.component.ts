@@ -27,9 +27,9 @@ export class NewMediaUpdateComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.form = new FormGroup({
             id: new FormControl(null, Validators.required),
-            title: new FormControl(null, [Validators.required, noWhitespaceValidator(), Validators.maxLength(100)]),
+            title: new FormControl(null, [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
             content: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
-            description: new FormControl(null, [Validators.required, noWhitespaceValidator()]),
+            description: new FormControl(null, [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
             status: new FormControl(null, Validators.required),
             categoryId: new FormControl(null, Validators.required),
         });

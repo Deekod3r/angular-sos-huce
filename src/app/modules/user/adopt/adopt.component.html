@@ -6,43 +6,17 @@
             </div>
         </ng-template>
         <div class="grid">
-            <div class="xl:col-8 lg:col-8 md:col-8 sm:col-12 col-12">
-                <p class="m-0 text-lg line-height-3">
-                    Trước khi quyết định nhận nuôi bé chó hay mèo nào, bạn hãy tự hỏi bản thân rằng mình đã sẵn sàng để
-                    chịu trách nhiệm cả đời cho bé chưa, cả về tài chính, nơi ở cũng như tinh thần. Việc nhận nuôi cần
-                    được sự đồng thuận lớn từ bản thân bạn cũng như gia đình và những người liên quan. Xin cân nhắc kỹ
-                    trước khi liên hệ với HUCE Pet về việc nhận nuôi.
-                    <br>
-                    Bạn đã sẵn sàng? Hãy thực hiện các bước sau đây nhé:
-                    <br>
-                    1️⃣ Tìm hiểu về thú cưng bạn muốn nhận nuôi trên trang web của HUCE Pet. <br>
-                    2️⃣ Liên hệ với quản trị viên để tìm hiểu thêm về bé. <br>
-                    3️⃣ Tham gia phỏng vấn nhận nuôi. <br>
-                    4️⃣ Chuẩn bị cơ sở vật chất, ký giấy tờ nhận nuôi và đóng tiền vía để đón bé về. <br>
-                    5️⃣ Thường xuyên cập nhật về tình hình của bé, đặc biệt là khi có sự cố để được tư vấn kịp thời.
-                    <br>
-                    ❗ <b>Lưu ý</b>: <br>
-                    - Phần phỏng vấn có thể có nhiều câu hỏi mang tính chất riêng tư, vì vậy mong bạn hãy kiên nhẫn nhé!
-                    <br>
-                    - Tiền vía mỗi bé sẽ khác nhau tùy thuộc vào tình trạng của bé khi cứu cũng như các dịch vụ y tế
-                    (tiêm phòng, triệt sản) đã thực hiện. <br>
-                    - Tiền vía dùng để trả các khoản chi về y tế trước đây cho bé, cũng như để hỗ trợ chi phí chăm sóc,
-                    nuôi dưỡng các bé khác tại nhà chung. <br>
-                    - Trường hợp không nuôi được tiếp cần trả lại cho HUCE Pet, không tự ý đem cho người khác.
-                </p>
+            <div *ngIf="adoptProcess" class="xl:col-8 lg:col-8 md:col-8 sm:col-12 col-12">
+                <div class="m-0 text-lg line-height-3 html" [innerHTML]="adoptProcess[0].value"></div>
             </div>
-            <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12" style="height: fit-content;">
+            <div *ngIf="adoptConditions" class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12" style="height: fit-content;">
                 <p-panel iconPos="start">
                     <ng-template pTemplate="header">
                         <div class="flex align-items-center text-center mx-auto">
                             <span class="font-semibold text-2xl">Điều kiện nhận nuôi</span>
                         </div>
                     </ng-template>
-                    <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Tài chính tự chủ và ổn định.</p>
-                    <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Chỗ ở cố định hoặc ít lưu động, ưu
-                        tiên ở Hà Nội.</p>
-                    <p class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i> Cam kết tiêm phòng và triệt sản.
-                    </p>
+                    <p *ngFor="let item of adoptConditions" class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i>{{item.value}}</p>
                 </p-panel>
             </div>
         </div>

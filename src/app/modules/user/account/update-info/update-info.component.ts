@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
+import { REGEX } from 'src/app/common/constant';
 import { title, message, messageUser } from 'src/app/common/message';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
@@ -26,6 +27,7 @@ export class UpdateInfoComponent implements OnInit, OnDestroy {
     formEmailConfirm!: FormGroup;
     onConfirmEmail: boolean = false;
     formPassword!: FormGroup;
+    REGEX_PASSWORD = REGEX.PASSWORD
 
     private subscribes$: Subject<void> = new Subject<void>();
 
@@ -35,13 +37,15 @@ export class UpdateInfoComponent implements OnInit, OnDestroy {
         if (this.infoKey === 'name') {
             this.formName = new FormGroup({
                 'currentPassword': new FormControl('', [Validators.required]),
-                'name': new FormControl(this.userInfo, [Validators.required, Validators.pattern(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáảẩẳâầẫấắằặạãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưỂỄỆẾỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪẹễệếỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ ]{2,}$/), noWhitespaceValidator(), Validators.maxLength(100)]),
+                'name': new FormControl(this.userInfo, [Validators.required, 
+                    Validators.pattern(REGEX.CHARACTER), 
+                    noWhitespaceValidator(), Validators.minLength(2) , Validators.maxLength(100)]),
             });
         }
         if (this.infoKey === 'phoneNumber') {
             this.formPhone = new FormGroup({
                 'currentPassword': new FormControl('', [Validators.required]),
-                'phoneNumber': new FormControl(this.userInfo, [Validators.required, Validators.pattern(/^\d+$/), Validators.minLength(10), Validators.maxLength(15)]),
+                'phoneNumber': new FormControl(this.userInfo, [Validators.required, Validators.pattern(REGEX.DIGIT), Validators.minLength(10), Validators.maxLength(15)]),
             });
         }
         if (this.infoKey === 'email') {
@@ -57,8 +61,8 @@ export class UpdateInfoComponent implements OnInit, OnDestroy {
         if (this.infoKey === 'password') {
             this.formPassword = new FormGroup({
                 'currentPassword': new FormControl('', [Validators.required]),
-                'password': new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/), Validators.maxLength(100)]),
-                'confirmPassword': new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/), Validators.maxLength(100)])
+                'password': new FormControl('', [Validators.required, Validators.pattern(REGEX.PASSWORD)]),
+                'confirmPassword': new FormControl('', [Validators.required, Validators.pattern(REGEX.PASSWORD)])
             }, { validators: passwordMatchValidator });
         }
     }

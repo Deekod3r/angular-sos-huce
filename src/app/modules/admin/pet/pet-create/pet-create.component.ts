@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete/autocomplete.interface';
 import { Subject, takeUntil } from 'rxjs';
-import { MIN_DATE, MAX_DATE, petConfig } from 'src/app/common/constant';
+import { PET } from 'src/app/common/constant';
 import { message, title } from 'src/app/common/message';
 import { PetService } from 'src/app/services/pet.service';
 import { convertDateFormat } from 'src/app/shared/utils/data.util';
@@ -22,9 +22,6 @@ export class PetCreateComponent implements OnInit, OnDestroy {
     form!: FormGroup;
     filteredBreeds: any[] = [];
     filteredColors: any[] = [];
-
-    min_date: any;
-    max_date: any;
 
     private subscribes$: Subject<void> = new Subject<void>();
 
@@ -53,8 +50,6 @@ export class PetCreateComponent implements OnInit, OnDestroy {
             petNote: new FormControl(''),
             intakeDate: new FormControl(null, Validators.required),
         });
-        this.min_date = MIN_DATE;
-        this.max_date = MAX_DATE;
     }
 
     ngOnDestroy(): void {
@@ -89,19 +84,19 @@ export class PetCreateComponent implements OnInit, OnDestroy {
         formData.append('color', upcaseFirstLetter((this.form.value.petColor.label ? this.form.value.petColor.label : this.form.value.petColor).trim()));
         formData.append('description', this.form.value.petDescription.trim());
         formData.append('note', this.form.value.petNote ? this.form.value.petNote.trim() : this.form.value.petNote);
-        formData.append('diet', this.form.value.petDiet ? this.form.value.petDiet : petConfig.moreInforKey.undefined);
-        formData.append('friendlyToCats', this.form.value.petFriendlyToCats ? this.form.value.petFriendlyToCats : petConfig.moreInforKey.undefined);
-        formData.append('friendlyToDogs', this.form.value.petFriendlyToDogs ? this.form.value.petFriendlyToDogs : petConfig.moreInforKey.undefined);
-        formData.append('friendlyToHuman', this.form.value.petFriendlyToHuman ? this.form.value.petFriendlyToHuman : petConfig.moreInforKey.undefined);
+        formData.append('diet', this.form.value.petDiet ? this.form.value.petDiet : PET.MORE_INFO_KEY.UNKNOWN);
+        formData.append('friendlyToCats', this.form.value.petFriendlyToCats ? this.form.value.petFriendlyToCats : PET.MORE_INFO_KEY.UNKNOWN);
+        formData.append('friendlyToDogs', this.form.value.petFriendlyToDogs ? this.form.value.petFriendlyToDogs : PET.MORE_INFO_KEY.UNKNOWN);
+        formData.append('friendlyToHuman', this.form.value.petFriendlyToHuman ? this.form.value.petFriendlyToHuman : PET.MORE_INFO_KEY.UNKNOWN);
         formData.append('gender', this.form.value.petGender);
         formData.append('image', this.form.value.petImage);
         formData.append('name', upcaseAllFirstLetters(this.form.value.petName.trim()));
-        formData.append('rabies', this.form.value.petRabies ? this.form.value.petRabies : petConfig.moreInforKey.undefined);
+        formData.append('rabies', this.form.value.petRabies ? this.form.value.petRabies : PET.MORE_INFO_KEY.UNKNOWN);
         formData.append('status', this.form.value.petStatus);
-        formData.append('sterilization', this.form.value.petSterilization ? this.form.value.petSterilization : petConfig.moreInforKey.undefined);
-        formData.append('toilet', this.form.value.petToilet ? this.form.value.petToilet : petConfig.moreInforKey.undefined);
+        formData.append('sterilization', this.form.value.petSterilization ? this.form.value.petSterilization : PET.MORE_INFO_KEY.UNKNOWN);
+        formData.append('toilet', this.form.value.petToilet ? this.form.value.petToilet : PET.MORE_INFO_KEY.UNKNOWN);
         formData.append('type', this.form.value.petType);
-        formData.append('vaccine', this.form.value.petVaccine ? this.form.value.petVaccine : petConfig.moreInforKey.undefined);
+        formData.append('vaccine', this.form.value.petVaccine ? this.form.value.petVaccine : PET.MORE_INFO_KEY.UNKNOWN);
         formData.append('weight', this.form.value.petWeight);
         formData.append('intakeDate', convertDateFormat(this.form.value.intakeDate));
         this.petService.createPet(formData)

@@ -7,7 +7,7 @@ import { UserService } from 'src/app/services/user.service';
 import { AdminsModule } from './admins.module';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { message, messageUser, title } from 'src/app/common/message';
-import { typeAction } from 'src/app/common/constant';
+import { ACTION } from 'src/app/common/constant';
 import { MessageService } from 'primeng/api';
 import { filteredSearch } from 'src/app/shared/utils/data.util';
 
@@ -91,10 +91,10 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
     onReceiveResult(result: boolean, type: number): void {
         if (result) {
-            if (type === typeAction.create) {
+            if (type === ACTION.CREATE) {
                 this.visibleCreateModal = false;
                 this.messageService.add({ severity: 'success', summary: title.success, detail: messageUser.crateAccountAdminSuccess });
-            } else if (type === typeAction.update) {
+            } else if (type === ACTION.UPDATE) {
                 this.visibleUpdateModal = false;
                 this.messageService.add({ severity: 'success', summary: title.success, detail: messageUser.updateAccountAdminSuccess });
             }

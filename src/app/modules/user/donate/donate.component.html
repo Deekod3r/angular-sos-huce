@@ -7,22 +7,10 @@
         </ng-template>
         <div class="grid">
             <div class="xl:col-9 lg:col-9 md:col-8 sm:col-12 col-12">
-                <p class="m-0 text-lg line-height-3">
-                    Mọi hoạt động cứu hộ của HUCE Pet hoàn toàn dựa trên các khoản quyên góp từ cộng đồng. 
-                    Chi phí hàng tháng của nhóm bao gồm tiền thuê nhà, tiền viện phí, thức ăn, điện, nước, thuốc men và đồ dùng, bỉm tã, lương hỗ trợ các bạn tình nguyện viên dọn dẹp... 
-                    Nhóm rất cần sự giúp đỡ của các bạn để có thể duy trì nhà chung cũng như đội cứu hộ. 
-                    Chỉ cần cố định 50k - 100k hàng tháng là các bạn đã giúp đỡ được cho nhóm và cách bé rất nhiều!
-                    <br>
-                    <br>
-                    Chi phí sẽ được chia đều cho các bé khác còn nằm viện và gây dựng nhà chung. 
-                    Ngoài ra Nhóm cũng tiếp nhận quyên góp bằng hiện vật như quần áo cũ (để lót chuồng), bỉm, găng tay y tế, thức ăn, cát vệ sinh v.v...
-                    <br>
-                    <br>
-                    <b class="text-red-500">Lưu ý</b>: Nhóm <b>không dùng Zalo</b> và <b>KHÔNG BAO GIỜ</b> yêu cầu mạnh thường quân cung cấp thông tin thẻ hoặc mã OTP.
-                    <br>
-                    <br>
+                <div class="m-0 text-lg line-height-3" >
+                    <p *ngIf="donationIntroductions" class="html" [innerHTML]="donationIntroductions[0].value"></p>
                     <span><b>Danh sách mạnh thường quân và thông tin viện phí sẽ được cập nhật tại đây:<a routerLink="/ung-ho/danh-sach"> Xem thêm</a></b></span>
-                </p>
+                </div>
             </div>
             <div class="xl:col-3 lg:col-3 md:col-4 sm:col-12 col-12 text-center" style="height: fit-content;">
                 <p-panel iconPos="start">
@@ -76,16 +64,9 @@
         </ng-template>
         <div class="grid">
             <div class="xl:col-8 lg:col-8 md:col-8 sm:col-12 col-12">
-                <p class="m-0 text-lg line-height-3">
-                    Hoạt động cứu hộ của HUCE Pet chỉ có thể thành công nhờ sự chung sức từ cộng đồng và các Tình nguyện viên. 
-                    <br>
-                    Có nhiều cách để bạn đóng góp phần của mình để thay đổi cuộc sống của một chú chó hay mèo: trở thành Người chăm sóc tạm thời (Foster), Tình nguyện tại nhà chung hay Tình nguyện viên cứu hộ.
-                </p>
-                <div class="mt-2">
-                    <p class="font-semibold text-lg"><i class="fa fa-paw text-primary mr-5"></i> Tuổi 18+</p>
-                    <p class="font-semibold text-lg"><i class="fa fa-paw text-primary mr-5"></i> Thời gian linh hoạt</p>
-                    <p class="font-semibold text-lg"><i class="fa fa-paw text-primary mr-5"></i> Có kinh nghiệm nuôi chó/mèo</p>
-                    <p class="font-semibold text-lg"><i class="fa fa-paw text-primary mr-5"></i> Chăm chỉ, sạch sẽ và có trách nhiệm </p>
+                <p *ngIf="volunteerIntroduction" class="m-0 text-lg line-height-3 html" [innerHTML]="volunteerIntroduction[0].value"></p>
+                <div *ngIf="volunteerConditions" class="mt-2">
+                    <p *ngFor="let item of volunteerConditions" class="font-semibold text-lg"><i class="fa fa-paw text-primary mr-5"></i> {{item.value}}</p>
                 </div>
             </div>
             <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12" style="height: fit-content;">

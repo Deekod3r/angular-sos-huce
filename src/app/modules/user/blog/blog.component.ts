@@ -25,7 +25,7 @@ export class BlogComponent implements OnInit, OnDestroy {
     currentPage = 1;
     totalPages = 0;
     totalElements = 0;
-    limit = newsConfig.search.limitDefaultClient;
+    limit = newsConfig.SEARCH.LIMIT_DEFAULT_CLIENT;
     first!: number;
     private subscribes$: Subject<void> = new Subject<void>();
 

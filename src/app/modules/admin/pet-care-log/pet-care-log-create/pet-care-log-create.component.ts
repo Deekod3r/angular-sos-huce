@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
-import { adoptConfig } from 'src/app/common/constant';
+import { ADOPT } from 'src/app/common/constant';
 import { message, title } from 'src/app/common/message';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { PetCareLogService } from 'src/app/services/pet-care-log.service';
@@ -40,7 +40,7 @@ export class PetCareLogCreateComponent implements OnInit, OnDestroy {
     }
 
     getAdopts(): void {
-        this.adoptService.getAdopts({ status: adoptConfig.statusKey.complete })
+        this.adoptService.getAdopts({ status: ADOPT.STATUS_KEY.COMPLETE })
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res) => {
