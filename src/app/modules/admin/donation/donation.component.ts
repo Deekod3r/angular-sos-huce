@@ -8,7 +8,7 @@ import { title, message, messageDonation } from 'src/app/common/message';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { TieredMenuModule } from 'primeng/tieredmenu';
-import { convertDateFormat, convertDateTimeFormat, filteredSearch } from 'src/app/shared/utils/data.util';
+import { convertDateFormat, filteredSearch } from 'src/app/shared/utils/data.util';
 
 @Component({
     selector: 'app-donation',
@@ -72,7 +72,7 @@ export class DonationComponent implements OnInit, OnDestroy {
                     this.totalElements = res.data.totalElements;
                     this.currentPage = res.data.currentPage;
                     this.first = (this.currentPage - 1) * this.limit;
-                    if(this.donates.length == 0) {
+                    if (this.donates.length == 0) {
                         this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });
                     } else {
                         this.donates.forEach((item: any) => {

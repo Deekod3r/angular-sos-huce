@@ -101,7 +101,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res) => {
-                if(res.success) {
+                if (res.success) {
                     this.statisticCases = res.data;
                 }
             },
@@ -122,7 +122,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res) => {
-                if(res.success) {
+                if (res.success) {
                     this.pets = res.data.pets;
                 }
             },
@@ -142,7 +142,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res) => {
-                if(res.success) {
+                if (res.success) {
                     this.news = res.data.news;
                 }
             },

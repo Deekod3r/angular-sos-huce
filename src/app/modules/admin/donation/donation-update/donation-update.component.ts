@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
+import { DONATION } from 'src/app/common/constant';
 import { title, message } from 'src/app/common/message';
 import { DonationService } from 'src/app/services/donation.service';
 import { convertDateFormat } from 'src/app/shared/utils/data.util';
@@ -25,14 +26,6 @@ export class DonationUpdateComponent implements OnInit, OnDestroy  {
     constructor(private donationService: DonationService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
 
     ngOnInit(): void {
-        this.form = new FormGroup({
-            id: new FormControl('', [Validators.required]),
-            remitter: new FormControl('', [Validators.required, noWhitespaceValidator()]),
-            payee: new FormControl('', [Validators.required, noWhitespaceValidator()]),
-            amount: new FormControl(null, [Validators.required]),
-            detail: new FormControl(''),
-            date: new FormControl(null, [Validators.required]),
-        });
         this.getDonate();
     }
 
@@ -47,6 +40,14 @@ export class DonationUpdateComponent implements OnInit, OnDestroy  {
             next: (res) => {
                 if (res.success) {
                     this.donation = res.data;
+                    this.form = new FormGroup({
+                        id: new FormControl('', [Validators.required]),
+                        remitter: new FormControl('', [Validators.required, noWhitespaceValidator()]),
+                        payee: new FormControl('', [Validators.required, noWhitespaceValidator()]),
+                        amount: new FormControl({value: null, disabled: this.donation.type != DONATION.TYPE_KEY.MONEY}, [Validators.required]),
+                        detail: new FormControl(''),
+                        date: new FormControl(null, [Validators.required]),
+                    });
                     this.onInitForm();
                 }
             },
@@ -95,7 +96,7 @@ export class DonationUpdateComponent implements OnInit, OnDestroy  {
                     id: this.form.value.id,
                     remitter: this.form.value.remitter.trim(),
                     payee: this.form.value.payee.trim(),
-                    amount: this.form.value.amount,
+                    amount: this.donation.type == DONATION.TYPE_KEY.MONEY ? this.form.value.amount : 0.00,
                     detail: this.form.get('detail')?.value,
                     date: convertDateFormat(this.form.value.date)
                 }

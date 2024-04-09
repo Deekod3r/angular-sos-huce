@@ -1,0 +1,67 @@
+<div class="position-relative">
+    <form [formGroup]="form" enctype="multipart/form-data">
+        <div class="grid">
+            <div class="col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="images">Hình ảnh <span class="text-red-500 font-bold">*</span></label>
+                    <p-fileUpload name="images" chooseLabel="Chọn hình ảnh" accept="image/**" [maxFileSize]="100000000" [customUpload]="true"
+                        [showUploadButton]="false" [showCancelButton]="false" id="images" [multiple]="true"
+                        invalidFileSizeMessageSummary="Lỗi kích thước" invalidFileSizeMessageDetail="Kích thước file quá lớn"
+                        invalidFileTypeMessageSummary="Lỗi định dạng" invalidFileTypeMessageDetail="Chỉ chấp nhận file có định dạng hình ảnh: .jpg .jpge .png .gif" 
+                        (onSelect)="onImagePicked($event)" (onRemove)="onRemoveImage($event)">
+                    </p-fileUpload>
+                </div>
+                <div [hidden]="form.controls['images'].valid || !form.controls['images'].touched"
+                    class="text-red-500 mt-2 ml-1">
+                    Vui lòng tải hình ảnh
+                </div>
+            </div>
+            <div class="md:col-6 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="date">Ngày chi  <span class="text-red-500 font-bold">*</span></label>
+                    <p-calendar id="date" [showIcon]="true" [readonlyInput]="true" styleClass="mat-form-field"
+                        dateFormat="dd/mm/yy" dataType="string" formControlName="date"></p-calendar>
+                </div>
+                <div [hidden]="form.controls['date'].valid || !form.controls['date'].touched"
+                    class="text-red-500 mt-2">
+                        Vui lòng chọn ngày chi
+                </div>
+            </div>
+            <div class="md:col-6 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="cost">Số tiền <span class="text-red-500 font-bold">*</span></label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon">
+                            ₫
+                        </span>
+                        <p-inputNumber formControlName="cost" inputId="cost"></p-inputNumber>
+                    </div>
+                </div>
+                <div [hidden]="form.controls['cost'].valid || !form.controls['cost'].touched"
+                    class="text-red-500 mt-2 ml-1">
+                        Vui lòng nhập số tiền
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="name">Tên khoản chi <span class="text-red-500 font-bold">*</span></label>
+                    <input pInputText id="name" formControlName="name"/>
+                </div>
+                <div [hidden]="form.controls['name'].valid || !form.controls['name'].touched"
+                    class="text-red-500 mt-2">
+                        Vui lòng nhập tên khoản chi
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="note">Ghi chú</label>
+                    <textarea pInputTextarea id="note" formControlName="note" rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3" align="center">
+            <p-button label="Làm mới" icon="fa fa-refresh" styleClass="p-button-outlined mr-3" [disabled]="!form.dirty" (onClick)="form.reset()"></p-button>
+            <p-button label="Lưu thông tin" icon="fa fa-save" (onClick)="onSaveLivingCost()"></p-button>
+        </div>
+    </form>
+</div>

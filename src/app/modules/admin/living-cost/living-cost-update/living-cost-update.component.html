@@ -1,0 +1,107 @@
+<div class="position-relative">
+    <p-dialog *ngIf="visibleUpdateImageModal" header="Hóa đơn" [(visible)]="visibleUpdateImageModal"
+        [modal]="true" styleClass="w-full" [draggable]="false" [resizable]="false">
+        <div class="flex flex-column gap-2 mb-2">
+            <label for="images">Thêm hình ảnh</label>
+            <p-fileUpload name="images" chooseLabel="Chọn hình ảnh" accept="image/**" [maxFileSize]="100000000"
+                [customUpload]="true" [showUploadButton]="true" [showCancelButton]="false" id="images"
+                [multiple]="true" invalidFileSizeMessageSummary="Lỗi kích thước" uploadLabel="Tải"
+                invalidFileSizeMessageDetail="Kích thước file quá lớn" invalidFileTypeMessageSummary="Lỗi định dạng"
+                invalidFileTypeMessageDetail="Chỉ chấp nhận file có định dạng hình ảnh: .jpg .jpge .png .gif"
+                (onSelect)="onImagePicked($event)" (onRemove)="onRemoveImage($event)" (uploadHandler)="onUploadImages()">
+            </p-fileUpload>
+        </div>
+        <p-table #table [value]="livingCost.images" [tableStyle]="{'min-width': '55rem'}"
+            styleClass="p-datatable-gridlines" selectionMode="single" [paginator]="false">
+            <ng-template pTemplate="header">
+                <tr class="">
+                    <th class="col-3"></th>
+                    <th class="col-7"></th>
+                    <th class=""></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+                <tr>
+                    <td>
+                        <p-image [src]="item.fileUrl" [alt]="item.objectName" width="200" [preview]="true"></p-image>
+                    </td>
+                    <td>{{item.objectName}}</td>
+                    <td>                   
+                        <div class="w-full flex justify-content-center" align="center">
+                            <p-button (onClick)="onDeleteImage(item.id)" type="button" title="Xóa" icon="fa fa-trash" styleClass="p-button-danger p-button-text p-button-lg mx-auto"></p-button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="paginatorleft">
+            </ng-template>
+            <ng-template pTemplate="paginatorright">
+            </ng-template>
+        </p-table>
+    </p-dialog>
+    <form *ngIf="livingCost" [formGroup]="form" enctype="multipart/form-data">
+        <div class="grid">
+            <div class="col-12">
+                <button pButton type="button" icon="fa fa-edit" label="Cập nhật hóa đơn"
+                    (click)="visibleUpdateImageModal = true"></button>
+            </div>
+            <div class="md:col-6 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="date">Ngày chi <span class="text-red-500 font-bold">*</span></label>
+                    <p-calendar id="date" [showIcon]="true" [readonlyInput]="true" styleClass="mat-form-field"
+                        dateFormat="dd/mm/yy" dataType="string" formControlName="date"></p-calendar>
+                </div>
+                <div [hidden]="form.controls['date'].valid || !form.controls['date'].touched" class="text-red-500 mt-2">
+                    Vui lòng chọn ngày chi
+                </div>
+            </div>
+            <div class="md:col-6 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="cost">Số tiền <span class="text-red-500 font-bold">*</span></label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon">
+                            ₫
+                        </span>
+                        <p-inputNumber formControlName="cost" inputId="cost"></p-inputNumber>
+                    </div>
+                </div>
+                <div [hidden]="form.controls['cost'].valid || !form.controls['cost'].touched"
+                    class="text-red-500 mt-2 ml-1">
+                    Vui lòng nhập số tiền
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="name">Tên khoản chi <span class="text-red-500 font-bold">*</span></label>
+                    <input pInputText id="name" formControlName="name" />
+                </div>
+                <div [hidden]="form.controls['name'].valid || !form.controls['name'].touched" class="text-red-500 mt-2">
+                    Vui lòng nhập tên khoản chi
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="status">Trạng thái <span class="text-red-500 font-bold">*</span></label>
+                    <p-dropdown [options]="livingCostService.optionStatus()" optionLabel="label" optionValue="value"
+                        [filter]="false" emptyMessage="Không có dữ liệu" id="status" [showClear]="true"
+                        placeholder="--Chọn--" styleClass="mat-form-field" formControlName="status">
+                    </p-dropdown>
+                </div>
+                <div [hidden]="form.controls['status'].valid || !form.controls['status'].touched"
+                    class="text-red-500 mt-2">
+                    Vui lòng chọn trạng thái
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="note">Ghi chú</label>
+                    <textarea pInputTextarea id="note" formControlName="note" rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3" align="center">
+            <p-button label="Hoàn tác" icon="fa fa-refresh" styleClass="p-button-outlined mr-3" [disabled]="!form.dirty" (onClick)="onInitForm()"></p-button>
+            <p-button label="Lưu thay đổi" icon="fa fa-save" (onClick)="onSaveLivingCost($event)"></p-button>
+        </div>
+    </form>
+</div>

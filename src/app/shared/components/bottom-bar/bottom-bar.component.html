@@ -15,20 +15,20 @@
                         <p-divider></p-divider>
                         <ul class="f_list">
                             <li>
-                                <a href="#">
+                                <a href="tel:{{contacts[0].value}}">
                                     <i class="fa fa-phone mr-2"></i> 
                                     <span [innerHTML]="contacts[0].value"></span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
-                                    <i class="fa fa-map-marker mr-2"></i> 
+                                <a href="mailto:{{contacts[1].value}}">
+                                    <i class="fa fa-envelope mr-2"></i> 
                                     <span [innerHTML]="contacts[1].value"></span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
-                                    <i class="fa fa-envelope mr-2"></i> 
+                                <a href="https://www.google.com/maps" target="_blank">
+                                    <i class="fa fa-map-marker mr-2"></i> 
                                     <span [innerHTML]="contacts[2].value"></span>
                                 </a>
                             </li>

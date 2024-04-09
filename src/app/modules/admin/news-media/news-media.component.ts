@@ -6,7 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { NewsService } from 'src/app/services/news.service';
 import { convertDateTimeFormat, filteredSearch } from 'src/app/shared/utils/data.util';
 import { NewsMediaModule } from './news-media.module';
-import { newsConfig, ACTION } from 'src/app/common/constant';
+import { NEWS, ACTION } from 'src/app/common/constant';
 import { title, message, messageNews } from 'src/app/common/message';
 import { TagModule } from 'primeng/tag';
 import { PaginatorModule } from 'primeng/paginator';
@@ -28,7 +28,7 @@ export class NewsMedeiaComponent  implements OnInit, OnDestroy {
     currentPage = 1;
     totalPages = 0;
     totalElements = 0;
-    limit = newsConfig.SEARCH.LIMIT_DEFAULT;
+    limit = NEWS.SEARCH.LIMIT_DEFAULT;
     first!: number;
     key = {
         limit: this.limit,
@@ -80,7 +80,7 @@ export class NewsMedeiaComponent  implements OnInit, OnDestroy {
                     this.totalElements = res.data.totalElements;
                     this.currentPage = res.data.currentPage;
                     this.first = (this.currentPage - 1) * this.limit;
-                    if(this.news.length == 0) {
+                    if (this.news.length == 0) {
                         this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });
                     } else {
                         this.news.forEach((item: any) => {
@@ -158,7 +158,7 @@ export class NewsMedeiaComponent  implements OnInit, OnDestroy {
 
     onRefresh(): void {
         this.currentPage = 1;
-        this.limit = newsConfig.SEARCH.LIMIT_DEFAULT;
+        this.limit = NEWS.SEARCH.LIMIT_DEFAULT;
         this.first = 0;
         this.key = {
             limit: this.limit,

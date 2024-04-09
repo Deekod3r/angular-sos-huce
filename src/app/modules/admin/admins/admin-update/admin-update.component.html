@@ -1,5 +1,5 @@
 <div class="position-relative">
-    <form [formGroup]="form">
+    <form *ngIf="admin" [formGroup]="form">
         <div class="grid">
             <div class="md:col-6 col-12">
                 <div class="font-bold mb-1">
@@ -85,21 +85,15 @@
                     Vui lòng chọn trạng thái
                 </div>
             </div>
-            <div class="col-12 mt-5 grid justify-content-center" align="center">
-                <div class="lg:col-3 md:col-4 col-8 mx-auto">
-                    <p-button styleClass="mat-form-button p-button-outlined" label="Đổi mật khẩu" (onClick)="visibleUpdatePasswordModal = true"></p-button>
-                </div>
-                <div class="lg:col-3 md:col-4 col-8 mx-auto">
-                    <p-button label="Hoàn tác" styleClass="mat-form-button p-button-outlined" [disabled]="!form.dirty" (onClick)="onInitForm()"></p-button>
-                </div>
-                <div class="lg:col-3 md:col-4 col-8 mx-auto">
-                    <p-button label="Lưu" type="button" styleClass="mat-form-button" (click)="onSaveAccountAdmin($event)"></p-button>
-                </div>
-            </div>
+        </div>
+        <div class="col-12 mt-5 grid justify-content-center">
+            <p-button label="Đổi mật khẩu" styleClass="p-button-outlined p-button-warning mr-3" icon="fa fa-lock" (onClick)="visibleUpdatePasswordModal = true"></p-button>
+            <p-button label="Hoàn tác" styleClass="p-button-outlined mr-3" icon="fa fa-refresh" [disabled]="!form.dirty" (onClick)="onInitForm()"></p-button>
+            <p-button label="Lưu thay đổi" icon="fa fa-save" (click)="onSaveAccountAdmin($event)"></p-button>
         </div>
     </form>
-    <p-dialog *ngIf="visibleUpdatePasswordModal" header="Thay mật khẩu tài khoản quản trị viên" [(visible)]="visibleUpdatePasswordModal" [modal]="true"
-        [style]="{}" [draggable]="false" [resizable]="false">
+    <p-dialog *ngIf="visibleUpdatePasswordModal" header="Thay mật khẩu tài khoản quản trị viên" 
+        [(visible)]="visibleUpdatePasswordModal" [modal]="true" [draggable]="false" [resizable]="false">
         <form [formGroup]="formPassword">
             <div class="col-12 mt-2">
                 <div class="font-bold mb-1" #password>
@@ -132,11 +126,9 @@
                     Mật khẩu không hợp lệ
                 </div>
             </div>
-            <div class="col-12 mt-5 grid justify-content-center" align="center">
-                <div class="col-8">
-                    <p-button label="Lưu" type="button" styleClass="mat-form-button"  (click)="onSavePassword($event)"></p-button>
-                </div>
-            </div>
         </form>
+        <div class="col-12 mt-3 grid justify-content-center">
+            <p-button label="Lưu thay đổi" icon="fa fa-save" type="button"  (click)="onSavePassword($event)"></p-button>
+        </div>
     </p-dialog>
 </div>

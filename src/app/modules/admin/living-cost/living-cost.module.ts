@@ -4,16 +4,20 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ImageModule } from 'primeng/image';
 import { CalendarModule } from 'primeng/calendar';
-import { AdoptionCreateComponent } from './adoption-create/adoption-create.component';
-import { AdoptionUpdateComponent } from './adoption-update/adoption-update.component';
 import { BadgeModule } from 'primeng/badge';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { LivingCostCreateComponent } from './living-cost-create/living-cost-create.component';
+import { LivingCostUpdateComponent } from './living-cost-update/living-cost-update.component';
+import { FileUploadModule } from 'primeng/fileupload';
+import { GalleriaModule } from 'primeng/galleria';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
     declarations: [
-        AdoptionCreateComponent,
-        AdoptionUpdateComponent
+        LivingCostCreateComponent,
+        LivingCostUpdateComponent
     ],
     imports: [
         SharedModule,
@@ -21,17 +25,23 @@ import { InputNumberModule } from 'primeng/inputnumber';
         InputTextareaModule,
         DropdownModule,
         AutoCompleteModule,
+        ImageModule,
         CalendarModule,
         BadgeModule,
-        InputNumberModule
+        InputNumberModule,
+        FileUploadModule,
+        TableModule
     ],
     exports: [
         SharedModule,
         DialogModule,
+        DropdownModule,
         CalendarModule,
-        AdoptionCreateComponent,
-        AdoptionUpdateComponent,
-        InputTextareaModule
+        InputTextareaModule,
+        LivingCostCreateComponent,
+        LivingCostUpdateComponent,
+        TableModule,
+        ImageModule
     ]
 })
-export class AdoptionModule { }
+export class LivingCostModule { }

@@ -1,5 +1,5 @@
 <div class="container mt-5">
-    <div class="grid mb-3 w-full">
+    <div class="grid mb-3 mx-auto">
         <div class="md:col-4 col-12">
             <p-dropdown [options]="monthNames" [(ngModel)]="month" styleClass="mat-form-field" [showClear]="true"
                 optionLabel="label" optionValue="value" placeholder="--Chọn tháng--"></p-dropdown>
@@ -9,7 +9,7 @@
                 dateFormat="yy" inputId="yearPicker" styleClass="mat-form-field"></p-calendar>
         </div>
         <div class="md:col-4 col-12">
-            <button pButton label="Xem thông tin ủng hộ" class="mat-form-button" (click)="onSearchDonations()"></button>
+            <button pButton label="Xem thông tin ủng hộ" class="w-full" (click)="onSearchDonations()"></button>
         </div>
     </div>
     <p-table *ngIf="donates != null && donates.length > 0" #table [value]="donates"
@@ -24,9 +24,10 @@
             <tr class="">
                 <th class="col-2">Người ủng hộ</th>
                 <th class="col-2">Nguồn nhận</th>
-                <th class="col-2">Thời gian</th>
-                <th class="col-4">Nội dung</th>
-                <th class="col-2">Số tiền</th>
+                <th class="col-1">Thời gian</th>
+                <th class="col-2">Hình thức</th>
+                <th class="col-3">Nội dung</th>
+                <th class="col-2">Giá trị</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-donate>
@@ -34,6 +35,7 @@
                 <td>{{donate.remitter}}</td>
                 <td>{{donate.payee}}</td>
                 <td>{{donate.date | date:'dd/MM/yyyy'}}</td>
+                <td>{{donationService.getType(donate.type)}}</td>
                 <td>{{donate.detail}}</td>
                 <td>{{donate.amount | currency: ' ' }} VNĐ</td>
             </tr>

@@ -60,9 +60,9 @@ export class MenuAdminComponent implements OnInit {
                                 routerLink: ['/admin/ung-ho']
                             },
                             {
-                                label: 'Tài khoản',
+                                label: 'Thông tin nhận ủng hộ',
                                 icon: 'fa fa-bank',
-                                routerLink: ['/admin/tai-khoan-ung-ho'],
+                                routerLink: ['/admin/thong-tin-nhan-ung-ho'],
                                 // visible: CONFIG.ROLE.MANAGER.includes(this.authService.getRole())
                             }
 
@@ -73,14 +73,14 @@ export class MenuAdminComponent implements OnInit {
                         icon: 'fa fa-dollar-sign',
                         items: [
                             {
-                                label: 'Viện phí',
-                                icon: 'fa fa-house-medical',
-                                routerLink: ['/admin/vien-phi']
-                            },
-                            {
                                 label: 'Sinh hoạt',
                                 icon: 'fa fa-solid fa-circle-dollar-to-slot',
                                 routerLink: ['/admin/phi-sinh-hoat'],
+                            },
+                            {
+                                label: 'Viện phí',
+                                icon: 'fa fa-house-medical',
+                                routerLink: ['/admin/vien-phi']
                             }
                         ]
                     },
@@ -114,7 +114,12 @@ export class MenuAdminComponent implements OnInit {
                                 icon: 'fa fa-fw fa-solid fa-user-shield',
                                 routerLink: ['/admin/quan-tri-vien'],
                                 visible: CONFIG.ROLE.MANAGER.includes(this.authService.getRole())
-                            }
+                            },
+                            {
+                                label: 'Hòm thư góp ý',
+                                icon: 'fa fa-headset',
+                                routerLink: ['/admin/hom-thu-gop-y']
+                            },
                         ]
                     },
                 ]

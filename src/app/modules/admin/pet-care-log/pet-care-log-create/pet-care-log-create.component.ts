@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
@@ -19,7 +19,7 @@ export class PetCareLogCreateComponent implements OnInit, OnDestroy {
     @Output() resultAction = new EventEmitter<boolean>();
     result: boolean = false;
     form!: FormGroup;
-    adopts: any[] = [];
+    @Input() adopts: any[] = [];
     
     private subscribes$: Subject<void> = new Subject<void>();
 
@@ -31,31 +31,11 @@ export class PetCareLogCreateComponent implements OnInit, OnDestroy {
             date: new FormControl(null, [Validators.required]),
             note: new FormControl('', [Validators.required, noWhitespaceValidator()])
         });
-        this.getAdopts();
     }
 
     ngOnDestroy(): void {
         this.subscribes$.next();
         this.subscribes$.complete();
-    }
-
-    getAdopts(): void {
-        this.adoptService.getAdopts({ status: ADOPT.STATUS_KEY.COMPLETE })
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.adopts = res.data.adopts;
-                }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
     }
 
     onSaveLog(): void {

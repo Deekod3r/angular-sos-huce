@@ -1,13 +1,13 @@
 <div class="card">
     <p-dialog *ngIf="visibleCreateModal" header="Thêm đơn nhận nuôi" [(visible)]="visibleCreateModal" [modal]="true"
         [style]="{ width: '90vw' }" [draggable]="false" [resizable]="false">
-        <app-adoption-create (resultAction)="onReceiveResult($event, 1)"></app-adoption-create>
+        <app-adoption-create (resultAction)="onReceiveResult($event, 1)" [pets]="pets" [users]="users"></app-adoption-create>
     </p-dialog>
     <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa đơn nhận nuôi" [(visible)]="visibleUpdateModal" [modal]="true"
-        [style]="{ width: '90vw', height: '100vh' }" [draggable]="false" [resizable]="false">
+        [style]="{ width: '90vw' }" [draggable]="false" [resizable]="false">
         <app-adoption-update (resultAction)="onReceiveResult($event, 2)" [idAdoption]="idAdoptionUpdate"></app-adoption-update>
     </p-dialog>
-    <p-dialog header="Header" [(visible)]="visibleDeleteModal" (onHide)="dataReject.message = ''" [draggable]="false" [style]="{ width: '60vw' }">
+    <p-dialog header="Header" [(visible)]="visibleRejectModal" (onHide)="dataReject.message = ''" [draggable]="false" [style]="{ width: '60vw' }">
         <ng-template pTemplate="header">
             <span class="text-xl font-bold">Lý do từ chối</span>
         </ng-template>
@@ -20,14 +20,35 @@
             <p-button (click)="onReject()" label="Tiếp tục"></p-button>
         </ng-template>
     </p-dialog>
+    <p-dialog header="Header" [(visible)]="visibleCompleteModal" (onHide)="dataComplete.fee = null" [draggable]="false" styleClass="lg:w-4 md:w-6 w-8">
+        <ng-template pTemplate="header">
+            <span class="text-xl font-bold">Tiền vía</span>
+        </ng-template>
+        <ng-template pTemplate="content">
+            <div class="flex flex-column mt-2">
+                <p-inputNumber [(ngModel)]="dataComplete.fee" mode="decimal" [maxFractionDigits]="2" styleClass="mat-form-field"> </p-inputNumber>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <p-button (click)="onComplete()" label="Tiếp tục"></p-button>
+        </ng-template>
+    </p-dialog>
     <p-panel header="Công cụ" [toggleable]="true">
         <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onShowCreateModal()"></button>
         <div class="card grid mt-3">
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="adopt-code">Mã đơn</label>
-                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.code" id="adopt-code">
-                </div>
+                    <label for="adopt-pet">Thú cưng</label>
+                    <p-dropdown [options]="pets" optionLabel="name" optionValue="id" [filter]="true" filterBy="code" 
+                    filterPlaceholder="Mã thú cưng" emptyMessage="Không có dữ liệu" id="adopt-pet"
+                    [showClear]="true" placeholder="--Tất cả--" styleClass="mat-form-field"  [(ngModel)]="key.petAdopt">
+                        <ng-template let-pet pTemplate="item">
+                            <div class="flex align-items-center">
+                                <div>{{ pet.code }} - {{ pet.name }}</div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>            
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
@@ -45,17 +66,9 @@
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="adopt-pet">Thú cưng</label>
-                        <p-dropdown [options]="pets" optionLabel="name" optionValue="id" [filter]="true" filterBy="code" 
-                        filterPlaceholder="Mã thú cưng" emptyMessage="Không có dữ liệu" id="adopt-pet"
-                        [showClear]="true" placeholder="--Tất cả--" styleClass="mat-form-field"  [(ngModel)]="key.petAdopt">
-                            <ng-template let-pet pTemplate="item">
-                                <div class="flex align-items-center">
-                                    <div>{{ pet.code }} - {{ pet.name }}</div>
-                                </div>
-                            </ng-template>
-                        </p-dropdown>
-                </div>            
+                    <label for="adopt-code">Mã đơn</label>
+                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.code" id="adopt-code">
+                </div>
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">

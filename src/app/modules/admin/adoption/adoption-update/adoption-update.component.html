@@ -86,13 +86,13 @@
                         <p-badge [value]="this.adoptService.getStatus(adopt.status)"
                             [severity]="this.adoptService.getSeverityStatus(adopt.status)" size="large"></p-badge>
                     </p>
-                    <p>Tiền vía: <b>{{adopt.fee | currency: ' ' }} VNĐ</b></p>
                     <div *ngIf="adopt.status == adoptStatus.REJECT">
                         <p>Lý do từ chối: <b>{{adopt.rejectedReason}}</b></p>
                         <p>Thời gian từ chối: <b>{{adopt.rejectedAt | date:'HH:mm - dd/MM/yyyy'}}</b></p>
                         <p>Người từ chối: <b>{{adopt.nameRejectedBy}}</b></p>
                     </div>
                     <div *ngIf="adopt.status == adoptStatus.COMPLETE">
+                        <p>Tiền vía: <b>{{adopt.fee | currency: ' ' }} VNĐ</b></p>
                         <p>Thời gian xác nhận: <b>{{adopt.confirmedAt | date:'HH:mm - dd/MM/yyyy'}}</b></p>
                         <p>Người xác nhận: <b>{{adopt.nameConfirmedBy}}</b></p>
                     </div>
@@ -100,11 +100,95 @@
             </div>
             <div class="col-12">
                 <p-panel header="Thông tin đăng ký" styleClass="mb-3">
-                    <div *ngIf="adopt">
-                        <p>Người nhận nuôi: <b>{{adopt.nameRegisteredBy}}</b></p>
-                        <p>Email liên hệ: <b>{{adopt.emailRegisteredBy}}</b></p>
-                        <p>Số điện thoại: <b>{{adopt.phoneRegisteredBy}}</b></p>
-                        <p>Thời gian tạo: <b>{{adopt.createdAt | date:'HH:mm - dd/MM/yyyy'}}</b></p>
+                    <div *ngIf="adopt" class="grid">
+                        <div class="lg:col-3 col-12">
+                            <p>Người nhận nuôi: <b>{{adopt.nameRegisteredBy}}</b></p>
+                            <p>Email liên hệ: <b>{{adopt.emailRegisteredBy}}</b></p>
+                            <p>Số điện thoại: <b>{{adopt.phoneRegisteredBy}}</b></p>
+                            <p>Thời gian tạo: <b>{{adopt.createdAt | date:'HH:mm - dd/MM/yyyy'}}</b></p>
+                        </div>
+                        <div class="lg:col-9 col-12">
+                            <div class="grid">
+                                <div class="md:col-4 col-12">
+                                    <div class="card p-3">
+                                        <div class="flex justify-content-between mb-3">
+                                            <div>
+                                                <span class="block text-500 font-medium mb-3">Tổng số đơn</span>
+                                                <div class="text-900 font-medium text-xl">{{statistic.total}}</div>
+                                            </div>
+                                            <div class="flex align-items-center justify-content-center bg-indigo-100 border-round" style="width: 2.5rem; height: 2.5rem;">
+                                                <i class="fa fa-plus text-indigo-500 text-xl"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:col-4 col-12">
+                                    <div class="card p-3">
+                                        <div class="flex justify-content-between mb-3">
+                                            <div>
+                                                <span class="block text-500 font-medium mb-3">Đơn chờ xử lý</span>
+                                                <div class="text-900 font-medium text-xl">{{statistic.countWaiting}}</div>
+                                            </div>
+                                            <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width: 2.5rem; height: 2.5rem;">
+                                                <i class="fa fa-file-circle-question text-blue-500 text-xl"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:col-4 col-12">
+                                    <div class="card p-3">
+                                        <div class="flex justify-content-between mb-3">
+                                            <div>
+                                                <span class="block text-500 font-medium mb-3">Đơn đang xử lý</span>
+                                                <div class="text-900 font-medium text-xl">{{statistic.countInProgress}}</div>
+                                            </div>
+                                            <div class="flex align-items-center justify-content-center bg-yellow-100 border-round" style="width: 2.5rem; height: 2.5rem;">
+                                                <i class="fa fa-hourglass-start text-yellow-500 text-xl"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:col-4 col-12">
+                                    <div class="card p-3">
+                                        <div class="flex justify-content-between mb-3">
+                                            <div>
+                                                <span class="block text-500 font-medium mb-3">Đơn đã hoàn thành</span>
+                                                <div class="text-900 font-medium text-xl">{{statistic.countComplete}}</div>
+                                            </div>
+                                            <div class="flex align-items-center justify-content-center bg-green-100 border-round" style="width: 2.5rem; height: 2.5rem;">
+                                                <i class="fa fa-check text-green-500 text-xl"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:col-4 col-12">
+                                    <div class="card p-3">
+                                        <div class="flex justify-content-between mb-3">
+                                            <div>
+                                                <span class="block text-500 font-medium mb-3">Đơn đã hủy</span>
+                                                <div class="text-900 font-medium text-xl">{{statistic.countCancel}}</div>
+                                            </div>
+                                            <div class="flex align-items-center justify-content-center bg-red-100 border-round" style="width: 2.5rem; height: 2.5rem;">
+                                                <i class="fa fa-xmark text-red-500 text-xl"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:col-4 col-12">
+                                    <div class="card p-3">
+                                        <div class="flex justify-content-between mb-3">
+                                            <div>
+                                                <span class="block text-500 font-medium mb-3">Đơn bị từ chối</span>
+                                                <div class="text-900 font-medium text-xl">{{statistic.countReject}}</div>
+                                            </div>
+                                            <div class="flex align-items-center justify-content-center surface-300 border-round" style="width: 2.5rem; height: 2.5rem;">
+                                                <i class="fa fa-cancel text-black-500 text-xl"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </p-panel>
                 <p-panel header="Thông tin thú cưng">
@@ -179,15 +263,10 @@
                     </div>
                 </p-panel>
             </div>
-            <div class="col-12 mt-5 grid justify-content-center" align="center" *ngIf="adopt && !isNotAvailableForUpdate()">
-                <div class="lg:col-3 md:col-4 col-6">
-                    <p-button label="Hoàn tác" styleClass="mat-form-button p-button-outlined" 
-                    [disabled]="!formAdopt.dirty" (onClick)="onInitForm()"></p-button>
-                </div>
-                <div class="lg:col-3 md:col-4 col-6">
-                    <p-button label="Lưu" styleClass="mat-form-button" (onClick)="onSaveAdopt($event)"></p-button>
-                </div>
-            </div>
+        </div>
+        <div class="mt-3" align="center" *ngIf="adopt && !isNotAvailableForUpdate()">
+            <p-button label="Hoàn tác" icon="fa fa-refresh" styleClass="p-button-outlined mr-3" [disabled]="!formAdopt.dirty" (onClick)="onInitForm()"></p-button>
+            <p-button label="Lưu thay đổi" icon="fa fa-save" (onClick)="onSaveAdopt($event)"></p-button>
         </div>
     </form>
 </div>

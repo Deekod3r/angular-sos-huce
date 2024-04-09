@@ -1,10 +1,10 @@
 <div class="card">
     <p-dialog *ngIf="visibleCreateModal" header="Thêm tài khoản quản trị viên" [(visible)]="visibleCreateModal" [modal]="true"
-        [style]="{}" [draggable]="false" [resizable]="false">
+        styleClass="xl:w-4 lg:w-5 md:w-8 w-11" [draggable]="false" [resizable]="false">
         <app-admin-create (resultAction)="onReceiveResult($event, 1)"></app-admin-create>
     </p-dialog>
     <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa tài khoản quản trị viên" [(visible)]="visibleUpdateModal" [modal]="true"
-        [style]="{}" [draggable]="false" [resizable]="false">
+        styleClass="md:w-8 w-11" [draggable]="false" [resizable]="false">
         <app-admin-update (resultAction)="onReceiveResult($event, 2)" [idAdmin]="idAdminUpdate"></app-admin-update>
     </p-dialog>
     <p-panel header="Công cụ" [toggleable]="true">

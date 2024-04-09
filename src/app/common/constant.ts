@@ -279,7 +279,7 @@ export const USER = {
     ],
 }
 
-export const newsConfig = {
+export const NEWS = {
     SEARCH: {
         LIMIT_DEFAULT: 5,
         LIMIT_DEFAULT_CLIENT: 4
@@ -325,28 +325,47 @@ export const DONATION = {
         LIMIT_DEFAULT: 5,
         LIMIT_DEFAULT_CLIENT: 10
     },
-    STATUS: [
+    TYPE: [
         {
-            label: "Chờ xử lý",
+            label: "Tiền",
             value: 1
         },
         {
-            label: "Đang xử lý",
+            label: "Hiện vật",
             value: 2
         },
         {
-            label: "Từ chối",
+            label: "Khác",
             value: 3
         },
+    ],
+    TYPE_KEY: {
+        MONEY: 1,
+        GOODS: 2,
+        OTHER: 3
+    }
+}
+
+export const LIVING_COST = {
+    SEARCH: {
+        LIMIT_DEFAULT: 5,
+        LIMIT_DEFAULT_CLIENT: 10
+    },
+    STATUS: [
         {
-            label: "Đã hủy",
-            value: 4
+            label: "Hiển thị",
+            value: true
         },
         {
-            label: "Hoàn thành",
-            value: 5
+            label: "Ẩn",
+            value: false
         }
     ],
+    STATUS_KEY: {
+        ACTIVE: true,
+        DEACTIVE: false
+    }
+
 }
 
 export const SYSTEM = {

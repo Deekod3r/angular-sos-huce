@@ -58,7 +58,7 @@ export class PetCareLogComponent implements OnInit, OnDestroy {
             next: (res) => {
                 if (res.success) {
                     this.logs = res.data;
-                    if(this.logs.length == 0) {
+                    if (this.logs.length == 0) {
                         this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });
                     } else {
                         this.logs.forEach(log => {
@@ -78,7 +78,10 @@ export class PetCareLogComponent implements OnInit, OnDestroy {
     }
 
     getAdopts(): void {
-        this.adoptService.getAdopts({ status: ADOPT.STATUS_KEY.COMPLETE })
+        this.adoptService.getAdopts({ 
+            status: ADOPT.STATUS_KEY.COMPLETE,
+            fullData: true
+        })
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res) => {

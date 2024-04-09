@@ -14,6 +14,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { PetCareLogService } from 'src/app/services/pet-care-log.service';
 
 @Component({
     selector: 'app-account',
@@ -41,16 +42,18 @@ export class AccountComponent implements OnInit, OnDestroy {
         countComplete: '',
         total: ''
     };
+    logs!: any;
     pets!: any;
     adopts!: any;
     detailAdopt: any;
     detailAdoptData: any;
     visibleDetailAdopt: boolean = false;
     visibleUpdateInfo: boolean = false;
+    visiblePetCareLog: boolean = false;
     adoptStatus: any;
 
     constructor(public adoptService: AdoptService, public petService: PetService, 
-        private userService: UserService, private authService: AuthService, 
+        private userService: UserService, private authService: AuthService, private petCareLogService: PetCareLogService,
         private messageService: MessageService, private confirmationService: ConfirmationService) { }
 
     private subscribes$: Subject<void> = new Subject<void>();
@@ -152,7 +155,8 @@ export class AccountComponent implements OnInit, OnDestroy {
     getPets(): void {
         this.petService.getPets({
             status: PET.STATUS_KEY.ADOPTED,
-            adoptedBy: this.authService.getCurrentUser().id
+            adoptedBy: this.authService.getCurrentUser().id,
+            fullData: true
         })
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
@@ -177,14 +181,34 @@ export class AccountComponent implements OnInit, OnDestroy {
             // this.getUser();
             // this.getAdoptStatistic();
         } else if (indexTab === 1) {
-            if(!this.adopts) {
+            if (!this.adopts) {
                 this.getAdopts();
             }
         } else if (indexTab === 2) {
-            if(!this.pets) {
+            if (!this.pets) {
                 this.getPets();
             }
         }
+    }
+
+    onShowPetCareLog(petId: any): void {
+        this.petCareLogService.getLogs({
+            petId: petId
+        }).pipe(takeUntil(this.subscribes$)).subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.logs = res.data;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
+            }
+        });
+        this.visiblePetCareLog = true;
     }
 
     onShowDetailAdopt(adoptId: any): void {
@@ -250,6 +274,10 @@ export class AccountComponent implements OnInit, OnDestroy {
         } else {
             this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
         }
+    }
+
+    onHidePetCareLog(): void {
+        this.logs = null;
     }
 
 }

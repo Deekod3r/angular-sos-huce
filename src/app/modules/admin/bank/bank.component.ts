@@ -62,7 +62,7 @@ export class BankComponent implements OnInit, OnDestroy {
             next: (res) => {
                 if (res.success) {
                     this.banks = res.data;
-                    if(this.authService.getRole() == CONFIG.ROLE.MANAGER) {
+                    if (this.authService.getRole() == CONFIG.ROLE.MANAGER) {
                         this.isManager = true;
                         this.banks.forEach((bank: any) => {
                             bank.menuItems = this.getMenuItems(bank);
@@ -81,15 +81,15 @@ export class BankComponent implements OnInit, OnDestroy {
     }
 
     onCreateBank(): void {
-        if(!this.isAdd) {
+        if (!this.isAdd) {
             this.isAdd = true;
             this.formAdd.enable();
             return;
         }
-        if(!this.isManager) {
+        if (!this.isManager) {
             return;
         }
-        if(this.formAdd.invalid) {
+        if (this.formAdd.invalid) {
             this.formAdd.markAllAsTouched();
             return;
         }
@@ -144,11 +144,15 @@ export class BankComponent implements OnInit, OnDestroy {
         ];
     }
 
+    onHideFormAdd(): void {
+        this.isAdd = false;
+        this.formAdd.reset();
+    }
+
     onShowUpdateModal(id: string): void {
-        if(!this.isManager) {
+        if (!this.isManager) {
             return;
         }
-        this.visibleUpdateModal = true;
         this.bankService.getBankById(id)
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
@@ -162,6 +166,7 @@ export class BankComponent implements OnInit, OnDestroy {
                         owner: bankUpdate.owner,
                         logo: bankUpdate.logo
                     });
+                    this.visibleUpdateModal = true;
                 }
             },
             error: (res) => {
@@ -175,10 +180,10 @@ export class BankComponent implements OnInit, OnDestroy {
     }
     
     onUpdateBank(event: any): void {
-        if(!this.isManager) {
+        if (!this.isManager) {
             return;
         }
-        if(this.formUpdate.invalid) {
+        if (this.formUpdate.invalid) {
             this.formUpdate.markAllAsTouched();
             return;
         }
@@ -230,7 +235,7 @@ export class BankComponent implements OnInit, OnDestroy {
     }
 
     onConfirmDelete(event: any, id: string): void {
-        if(!this.isManager) {
+        if (!this.isManager) {
             return;
         }
         this.confirmationService.confirm({

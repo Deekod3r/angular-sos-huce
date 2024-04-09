@@ -1,10 +1,10 @@
 <div class="card">
     <p-dialog *ngIf="visibleCreateModal" header="Thêm lịch sử kiểm tra đơn nhận nuôi" [(visible)]="visibleCreateModal" [modal]="true"
-        [style]="{}" [draggable]="false" [resizable]="false">
-        <app-pet-care-log-create (resultAction)="onReceiveResult($event, 1)"></app-pet-care-log-create>
+        styleClass="lg:w-6 md:w-8 w-11" [draggable]="false" [resizable]="false">
+        <app-pet-care-log-create (resultAction)="onReceiveResult($event, 1)" [adopts]="adopts"></app-pet-care-log-create>
     </p-dialog>
     <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa lịch sử kiểm tra đơn nhận nuôi" [(visible)]="visibleUpdateModal" [modal]="true"
-        [style]="{}" [draggable]="false" [resizable]="false">
+        styleClass="lg:w-6 md:w-8 w-11" [draggable]="false" [resizable]="false">
         <app-pet-care-log-update (resultAction)="onReceiveResult($event, 2)" [idLog]="idLogUpdate"></app-pet-care-log-update>
     </p-dialog>
     <p-panel header="Công cụ" [toggleable]="true">

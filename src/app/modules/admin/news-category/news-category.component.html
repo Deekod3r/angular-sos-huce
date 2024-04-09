@@ -2,7 +2,7 @@
     <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa danh mục tin tức" [(visible)]="visibleUpdateModal" 
         [modal]="true" [style]="{}" [draggable]="false" [resizable]="false">
         <form [formGroup]="formUpdate">
-            <div class="card grid mt-3">
+            <div class="grid">
                 <div class="col-12">
                     <div class="flex flex-column gap-2">
                         <label for="name">Tên danh mục <span class="text-red-500">*</span></label>
@@ -10,7 +10,7 @@
                     </div>
                     <div [hidden]="!formUpdate.controls['name'].hasError('required') || !formUpdate.controls['name'].touched"
                         class="text-red-500 mt-2 ml-1">
-                        Vui lòng điền tên danh mục
+                        Vui lòng nhập tên danh mục
                     </div>   
                     <div [hidden]="!formUpdate.controls['name'].hasError('maxlength') || !formUpdate.controls['name'].touched"
                         class="text-red-500 mt-2 ml-1">
@@ -24,17 +24,15 @@
                     </div>
                     <div [hidden]="!formUpdate.controls['description'].hasError('required') || !formUpdate.controls['description'].touched"
                         class="text-red-500 mt-2 ml-1">
-                        Vui lòng điền mô tả danh mục
+                        Vui lòng nhập mô tả danh mục
                     </div>
                     <div [hidden]="!formUpdate.controls['description'].hasError('maxlength') || !formUpdate.controls['description'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
                     </div>      
                 </div>
-                <div class="col-12 mt-5 grid justify-content-center" align="center">
-                    <div class="col-6">
-                        <button pButton label="Lưu" class="mat-form-button" (click)="onUpdateNewsCategory($event)"></button>
-                    </div>
+                <div class="col-12 mt-3 grid justify-content-center">
+                    <button pButton label="Lưu thay đổi" icon="fa fa-save" (click)="onUpdateNewsCategory($event)"></button>
                 </div>
             </div>
         </form>
@@ -49,7 +47,7 @@
                     </div>
                     <div [hidden]="!formAdd.controls['name'].hasError('required') || !formAdd.controls['name'].touched"
                         class="text-red-500 mt-2 ml-1">
-                        Vui lòng điền tên danh mục
+                        Vui lòng nhập tên danh mục
                     </div>
                     <div [hidden]="!formAdd.controls['name'].hasError('maxlength') || !formAdd.controls['name'].touched"
                         class="text-red-500 mt-2 ml-1">
@@ -63,7 +61,7 @@
                     </div>
                     <div [hidden]="!formAdd.controls['description'].hasError('required') || !formAdd.controls['description'].touched"
                         class="text-red-500 mt-2 ml-1">
-                        Vui lòng điền mô tả danh mục
+                        Vui lòng nhập mô tả danh mục
                     </div>
                     <div [hidden]="!formAdd.controls['description'].hasError('maxlength') || !formAdd.controls['description'].touched"
                         class="text-red-500 mt-2 ml-1">
@@ -71,8 +69,8 @@
                     </div>          
                 </div>
                 <div class="col-12">
-                    <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onCreateNewsCategory()"></button>
-                    <button *ngIf="isAdd" pButton icon="fa fa-close" class="ml-3 p-button-outlined" label="Hủy" (click)="isAdd = false"></button>
+                    <button pButton [icon]="isAdd ? 'fa fa-save' : 'fa fa-plus'" [label]="isAdd ? 'Lưu' : 'Thêm mới'" (click)="onCreateNewsCategory()"></button>
+                    <button *ngIf="isAdd" pButton icon="fa fa-close" class="ml-3 p-button-outlined" label="Hủy" (click)="onHideFormAdd()"></button>
                 </div>
             </div>
         </form>

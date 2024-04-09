@@ -52,7 +52,7 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
                         petColor: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }, [Validators.required, noWhitespaceValidator()]),
                         petAge: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }, Validators.required),
                         petGender: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }, Validators.required),
-                        petWeight: new FormControl({ value: 0, disabled: this.isNotAvailableForUpdate() }),
+                        petWeight: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }, [Validators.required, Validators.min(0.01)]),
                         petStatus: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }, Validators.required),
                         petVaccine: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }),
                         petRabies: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }),
@@ -183,7 +183,7 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
         let formData = new FormData();
         formData.append('id', this.idPet);
         formData.append('image', image);
-        this.petService.updatePetImage(formData, this.idPet).pipe(takeUntil(this.subscribes$)).subscribe({
+        this.petService.updateImagePet(formData, this.idPet).pipe(takeUntil(this.subscribes$)).subscribe({
             next: (res: any) => {
                 if (res.success) {
                     this.visibleUpdateImageModal = false;

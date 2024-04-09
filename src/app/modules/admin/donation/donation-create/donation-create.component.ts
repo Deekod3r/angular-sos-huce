@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
+import { DONATION } from 'src/app/common/constant';
 import { title, message } from 'src/app/common/message';
 import { DonationService } from 'src/app/services/donation.service';
 import { convertDateFormat } from 'src/app/shared/utils/data.util';
@@ -19,13 +20,14 @@ export class DonationCreateComponent implements OnInit, OnDestroy  {
     form!: FormGroup;
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private donationService: DonationService, private messageService: MessageService) { }
+    constructor(public donationService: DonationService, private messageService: MessageService) { }
 
     ngOnInit(): void {
         this.form = new FormGroup({
             remitter: new FormControl('', [Validators.required, noWhitespaceValidator()]),
             payee: new FormControl('', [Validators.required, noWhitespaceValidator()]),
-            amount: new FormControl('', [Validators.required]),
+            type: new FormControl('', [Validators.required]),
+            amount: new FormControl(null, [Validators.required]),
             detail: new FormControl(''),
             date: new FormControl('', [Validators.required]),
         });
@@ -37,7 +39,10 @@ export class DonationCreateComponent implements OnInit, OnDestroy  {
     }
     
     onSaveDonate(): void {
-        if(this.form.invalid) {
+        if (this.form.value.type != DONATION.TYPE_KEY.MONEY) {
+            this.form.patchValue({ amount: 0 });
+        }
+        if (this.form.invalid) {
             this.form.markAllAsTouched();
             return;
         }
@@ -45,7 +50,8 @@ export class DonationCreateComponent implements OnInit, OnDestroy  {
             remitter: this.form.value.remitter.trim(),
             payee: this.form.value.payee.trim(),
             amount: this.form.value.amount,
-            detail: this.form.get('detail')?.value,
+            type: this.form.value.type,
+            detail: this.form.value.detail ? this.form.value.detail.trim() : '',
             date: convertDateFormat(this.form.value.date)
         }
         this.donationService.createDonation(body)
@@ -66,6 +72,13 @@ export class DonationCreateComponent implements OnInit, OnDestroy  {
                 }
             }
         });
+    }
+
+    onChangeType(): void {
+        this.form.patchValue({ amount: null });
+        this.form.controls['amount'].markAsUntouched();
+        this.form.controls['amount'].updateValueAndValidity();
+        this.form.controls['amount'].setErrors(null);
     }
 
 }

@@ -20,6 +20,14 @@ export class AdoptionUpdateComponent implements OnInit, OnDestroy {
     @Output() resultAction = new EventEmitter<boolean>();
     result: boolean = false;
 
+    statistic = {
+        countWaiting: '',
+        countInProgress: '',
+        countCancel: '',
+        countReject: '',
+        countComplete: '',
+        total: ''
+    };
     adopt!: any;
     pet!: any;
     formAdopt!: FormGroup;
@@ -49,12 +57,13 @@ export class AdoptionUpdateComponent implements OnInit, OnDestroy {
             next: (res) => {
                 if (res.success) {
                     this.adopt = res.data.adopt;
+                    this.getStatistical(this.adopt.registeredBy);
                     this.pet = res.data.pet;
                     this.formAdopt = new FormGroup({
                         province: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, Validators.required),
                         district: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, Validators.required),
                         ward: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, Validators.required),
-                        fee: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, [Validators.required, Validators.min(0)]),
+                        fee: new FormControl({value: null, disabled: true}, [Validators.required, Validators.min(0)]),
                         address: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
                         reason: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
                     });
@@ -77,8 +86,8 @@ export class AdoptionUpdateComponent implements OnInit, OnDestroy {
             district: this.adopt.districtId,
             ward: this.adopt.wardId,
             address: this.adopt.address,
+            reason: this.adopt.reason,
             fee: this.adopt.fee,
-            reason: this.adopt.reason
         });
         this.getDistricts();
         this.getWards();
@@ -129,6 +138,32 @@ export class AdoptionUpdateComponent implements OnInit, OnDestroy {
             next: (res) => {
                 if (res) {
                     this.wards = res;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
+            }
+        });
+    }
+
+    getStatistical(registeredBy: string): void {
+        this.adoptService.getAdoptStatistic({
+            user: registeredBy
+        })
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.statistic.countWaiting = res.data.countWaiting;
+                    this.statistic.countInProgress = res.data.countInProgress;
+                    this.statistic.countCancel = res.data.countCancel;
+                    this.statistic.countReject = res.data.countReject;
+                    this.statistic.countComplete = res.data.countComplete;
+                    this.statistic.total = res.data.total;
                 }
             },
             error: (res) => {

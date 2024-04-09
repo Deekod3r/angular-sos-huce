@@ -28,17 +28,10 @@ export class GalleriaService {
         return this.commonService.callAPI(request);
     }
 
-    createGalleria(form: any): Observable<any> {
-        let formData = new FormData();
-        formData.append('image', form.image);
-        formData.append('title', form.title.trim());
-        formData.append('description', form.description.trim());
-        formData.append('status', form.status);
-        formData.append('link', form.link.trim());
+    getGalleria(id: string): Observable<any> {
         const request = {
-            function: this.API_URL + '/create',
-            method: CONFIG.KEY.METHOD_POST,
-            body: formData,
+            function: this.API_URL + '/' + id,
+            method: CONFIG.KEY.METHOD_GET,
             options: {
                 headers: {
                     'Authorization': 'Bearer ' + this.authService.getToken()
@@ -46,6 +39,65 @@ export class GalleriaService {
             }
         }
         return this.commonService.callAPI(request);
+    }
+
+    createGalleria(body: any): Observable<any> {
+        const request = {
+            function: this.API_URL + '/create',
+            method: CONFIG.KEY.METHOD_POST,
+            body: body,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
+    updateGalleria(body: any, id: string): Observable<any> {
+        const request = {
+            function: this.API_URL + '/update/' + id,
+            method: CONFIG.KEY.METHOD_PUT,
+            body: body,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
+    updateImageGalleria(body: any, id: string): Observable<any> {
+        const request = {
+            function: this.API_URL + '/update-image/' + id,
+            method: CONFIG.KEY.METHOD_PUT,
+            body: body,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
+    deleteGalleria(id: string): Observable<any> {
+        const request = {
+            function: this.API_URL + '/delete/' + id,
+            method: CONFIG.KEY.METHOD_DELETE,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
+    getStatus(status: boolean): string | undefined {
+        return GALLERIA.STATUS.find(item => item.value === status)?.label;
     }
 
     optionStatus(): any[] {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
@@ -18,12 +18,20 @@ import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 })
 export class AdoptionCreateComponent implements OnInit, OnDestroy {
 
+    @Input() pets: any[] = [];
+    @Input() users: any[] = [];
     @Output() resultAction = new EventEmitter<boolean>();
     result: boolean = false;
 
     formAdopt!: FormGroup;
-    users: any[] = [];
-    pets: any[] = [];
+    statistic = {
+        countWaiting: '',
+        countInProgress: '',
+        countCancel: '',
+        countReject: '',
+        countComplete: '',
+        total: ''
+    };
     provinces: any[] = [];
     districts: any[] = [];
     wards: any[] = [];
@@ -43,59 +51,12 @@ export class AdoptionCreateComponent implements OnInit, OnDestroy {
             petAdopt: new FormControl(null, Validators.required),
             registeredBy: new FormControl(null, Validators.required),
         });
-        this.getUsers();
-        this.getPets();
         this.getProvinces();
     }
 
     ngOnDestroy(): void {
         this.subscribes$.next();
         this.subscribes$.complete();
-    }
-    
-    getUsers(): void {
-        this.userService.getUsers({
-            isActivated: true,
-            role: CONFIG.ROLE.USER
-        })
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.users = res.data.users;
-                }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
-    }
-
-    getPets(): void {
-        this.petService.getPets(
-            {
-                status: PET.STATUS_KEY.WAITING
-            }
-        )
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.pets = res.data.pets;
-                }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
     }
 
     getProvinces(): void {
@@ -143,6 +104,43 @@ export class AdoptionCreateComponent implements OnInit, OnDestroy {
             next: (res) => {
                 if (res) {
                     this.wards = res;
+                }
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                }
+            }
+        });
+    }
+
+    getStatistical(): void {
+        if (!this.formAdopt.value.registeredBy) {
+            this.statistic = {
+                countWaiting: '',
+                countInProgress: '',
+                countCancel: '',
+                countReject: '',
+                countComplete: '',
+                total: ''
+            }
+            return;
+        }
+        this.adoptService.getAdoptStatistic({
+            user: this.formAdopt.value.registeredBy.id
+        })
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe({
+            next: (res) => {
+                if (res.success) {
+                    this.statistic.countWaiting = res.data.countWaiting;
+                    this.statistic.countInProgress = res.data.countInProgress;
+                    this.statistic.countCancel = res.data.countCancel;
+                    this.statistic.countReject = res.data.countReject;
+                    this.statistic.countComplete = res.data.countComplete;
+                    this.statistic.total = res.data.total;
                 }
             },
             error: (res) => {

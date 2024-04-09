@@ -3,7 +3,7 @@ import { MessageService } from 'primeng/api';
 import { FieldsetModule } from 'primeng/fieldset';
 import { PaginatorModule } from 'primeng/paginator';
 import { Subject, takeUntil } from 'rxjs';
-import { newsConfig } from 'src/app/common/constant';
+import { NEWS } from 'src/app/common/constant';
 import { title, message } from 'src/app/common/message';
 import { NewsService } from 'src/app/services/news.service';
 import { CardEventModule } from 'src/app/shared/components/card-event/card-event.module';
@@ -25,7 +25,7 @@ export class BlogComponent implements OnInit, OnDestroy {
     currentPage = 1;
     totalPages = 0;
     totalElements = 0;
-    limit = newsConfig.SEARCH.LIMIT_DEFAULT_CLIENT;
+    limit = NEWS.SEARCH.LIMIT_DEFAULT_CLIENT;
     first!: number;
     private subscribes$: Subject<void> = new Subject<void>();
 

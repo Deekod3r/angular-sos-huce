@@ -35,16 +35,22 @@
                         <div class="col-12">
                             <div class="flex flex-column gap-2">
                                 <label for="value-2">Giá trị <span class="text-red-500">*</span></label>
-                                <p-editor [style]="{ height: '320px' }" id="value-2"  [(ngModel)]="value.value"></p-editor>
+                                <p-editor [style]="{ height: '320px' }" id="value-2" [(ngModel)]="value.value"></p-editor>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="value.type == 3">
+                        <div class="col-12">
+                            <div class="flex flex-column gap-2">
+                                <label for="value-2">Giá trị <span class="text-red-500">*</span></label>
+                                <p-inputNumber id="value-3" styleClass="mat-form-field" [(ngModel)]="value.value"/>
                             </div>
                         </div>
                     </ng-container>
                 </div>
             </div>            
-            <div class="col-12 mt-5 grid justify-content-center" align="center">
-                <div class="md:col-3 col-6">
-                    <p-button label="Lưu" styleClass="mat-form-button" (click)="onSaveConfig($event)"></p-button>
-                </div>
+            <div class="col-12 mt-3" align="center">
+                <p-button label="Lưu thay đổi" icon="fa fa-save" (click)="onSaveConfig($event)"></p-button>
             </div>
         </div>
     </p-panel>

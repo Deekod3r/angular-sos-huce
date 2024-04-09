@@ -101,15 +101,11 @@ export class AdoptService {
         return this.commonService.callAPI(request);
     }
 
-    updateStatusAdopt(form: any, id: string): Observable<any> {
+    updateStatusAdopt(body: any, id: string): Observable<any> {
         const request = {
             function: this.API_URL + '/update-status/' + id,
             method: CONFIG.KEY.METHOD_PUT,
-            body: {
-                id: form.id,
-                status: form.status,
-                message: form.message ? form.message.trim() : form.message
-            },
+            body: body,
             options: {
                 headers: {
                     'Authorization': 'Bearer ' + this.authService.getToken()

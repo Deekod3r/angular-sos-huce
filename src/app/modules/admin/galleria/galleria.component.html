@@ -1,16 +1,165 @@
 <div class="card">
-    <p-dialog *ngIf="visibleUpdateModal" [(visible)]="visibleUpdateModal">
-        <p-dialog *ngIf="visibleUpdateImageModal" header="Cập nhật hình ảnh" [(visible)]="visibleUpdateImageModal" [modal]="true"
-            [style]="{ width: '60vw', height: 'fit-content' }" [draggable]="false" [resizable]="false">
-            <p-fileUpload chooseLabel="Chọn hình ảnh" uploadLabel="Tải" accept="image/**" [maxFileSize]="100000000" [customUpload]="true"
-                        [showUploadButton]="true" [showCancelButton]="false"
-                        (uploadHandler)="upload($event)"
-                        invalidFileSizeMessageSummary="Lỗi kích thước" invalidFileSizeMessageDetail="Kích thước file quá lớn"
-                        invalidFileTypeMessageSummary="Lỗi định dạng" invalidFileTypeMessageDetail="Chỉ chấp nhận file có định dạng hình ảnh: .jpg .jpge .png .gif"> 
-            </p-fileUpload>
-        </p-dialog>
+    <p-dialog *ngIf="visibleUpdateImageModal" header="Cập nhật hình ảnh" [(visible)]="visibleUpdateImageModal"
+        [modal]="true" styleClass="xl:w-6 lg:w-10 w-11" [draggable]="false" [resizable]="false">
+        <p-fileUpload chooseLabel="Chọn hình ảnh" uploadLabel="Tải" accept="image/**" [maxFileSize]="100000000"
+            [customUpload]="true" [showUploadButton]="true" [showCancelButton]="false"
+            (uploadHandler)="onUploadImage($event)" invalidFileSizeMessageSummary="Lỗi kích thước"
+            invalidFileSizeMessageDetail="Kích thước file quá lớn" invalidFileTypeMessageSummary="Lỗi định dạng"
+            invalidFileTypeMessageDetail="Chỉ chấp nhận file có định dạng hình ảnh: .jpg .jpge .png .gif">
+        </p-fileUpload>
     </p-dialog>
-    <button pButton icon="fa fa-plus" label="Thêm mới" (click)="showCreateModal()" class="m-3"></button>
+    <p-dialog *ngIf="visibleUpdateModal" [(visible)]="visibleUpdateModal" (visibleChange)="onHideFormUpdate()"
+        styleClass="lg:w-6 md:w-8 w-11" [modal]="true" [draggable]="false" [resizable]="false" header="Cập nhật galleria">
+        <form [formGroup]="formUpdate">
+            <div class="grid">
+                <div class="col-6">
+                    <div class="flex flex-column gap-2">
+                        <label for="status">Trạng thái <span class="text-red-500 font-bold">*</span></label>
+                        <p-dropdown [options]="galleriaService.optionStatus()" optionLabel="label" optionValue="value" [filter]="false" emptyMessage="Không có dữ liệu" 
+                            id="status" [showClear]="true" placeholder="--Chọn--" styleClass="mat-form-field" formControlName="status">
+                        </p-dropdown>
+                    </div>
+                    <div [hidden]="!formUpdate.controls['status'].hasError('required') || !formUpdate.controls['status'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng chọn trạng thái
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="flex flex-column gap-2">
+                        <label for="index">Số thứ tự <span class="text-red-500">*</span></label>
+                        <p-inputNumber type="number" formControlName="index" id="index" styleClass="mat-form-field"></p-inputNumber>
+                    </div>
+                    <div [hidden]="!formUpdate.controls['index'].hasError('required') || !formUpdate.controls['index'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng nhập số thứ tự (lớn hơn 0)
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="title">Tiêu đề <span class="text-red-500">*</span></label>
+                        <textarea pInputTextarea type="text" formControlName="title" id="title" rows="2"></textarea>
+                    </div>
+                    <div [hidden]="!formUpdate.controls['title'].hasError('required') || !formUpdate.controls['title'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng nhập tiêu đề
+                    </div>
+                    <div [hidden]="!formUpdate.controls['title'].hasError('maxlength') || !formUpdate.controls['title'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Độ dài thông tin không hợp lệ (tối đa 100 ký tự)
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="description">Mô tả <span class="text-red-500">*</span></label>
+                        <textarea pInputTextarea type="text" formControlName="description" id="description"
+                            rows="4"></textarea>
+                    </div>
+                    <div [hidden]="!formUpdate.controls['description'].hasError('required') || !formUpdate.controls['description'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng nhập mô tả
+                    </div>
+                    <div [hidden]="!formUpdate.controls['description'].hasError('maxlength') || !formUpdate.controls['description'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="link">Đường dẫn <span class="text-red-500">*</span></label>
+                        <textarea pInputTextarea type="text" formControlName="link" id="link" rows="2"></textarea>
+                    </div>
+                    <div [hidden]="!formUpdate.controls['link'].hasError('required') || !formUpdate.controls['link'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng nhập đường dẫn liên kết
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button pButton icon="fa fa-save" label="Lưu" (click)="onUpdateGalleria($event)"></button>
+                </div>
+            </div>
+        </form>
+    </p-dialog>
+    <p-panel header="Công cụ" [toggleable]="true" styleClass="mb-3">
+        <form [formGroup]="formAdd">
+            <div class="card grid">
+                <div *ngIf="isAdd" class="col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="image">Hình ảnh <span class="text-red-500 font-bold">*</span></label>
+                        <p-fileUpload name="image" chooseLabel="Chọn hình ảnh" accept="image/**"
+                            [maxFileSize]="100000000" [customUpload]="true" [showUploadButton]="false"
+                            [showCancelButton]="false" id="image" invalidFileSizeMessageSummary="Lỗi kích thước"
+                            invalidFileSizeMessageDetail="Kích thước file quá lớn"
+                            invalidFileTypeMessageSummary="Lỗi định dạng"
+                            invalidFileTypeMessageDetail="Chỉ chấp nhận file có định dạng hình ảnh: .jpg .jpge .png .gif"
+                            (onSelect)="onImagePicked($event)">
+                            <ng-template pTemplate="file">
+                                <div *ngIf="formAdd.controls['image'].value">
+                                    <div class="p-fileupload-row grid">
+                                        <div class="lg:col-3 md:col-6 sm:col-12 col-12"><img
+                                                [src]="formAdd.controls['image'].value.objectURL" width="50" /></div>
+                                        <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                            {{formAdd.controls['image'].value.name}}</div>
+                                        <div class="lg:col-3 md:col-6 sm:col-12 col-12">
+                                            {{formAdd.controls['image'].value.size}} bytes</div>
+                                        <div class="lg:col-3 md:col-6 sm:col-12 col-12"><button type="button"
+                                                icon="fa fa-close" pButton (click)="onRemoveImage()"></button></div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-fileUpload>
+                    </div>
+                    <div [hidden]="formAdd.controls['image'].valid || !formAdd.controls['image'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng tải hình ảnh
+                    </div>
+                </div>
+                <div *ngIf="isAdd" class="col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="title">Tiêu đề <span class="text-red-500">*</span></label>
+                        <textarea pInputTextarea type="text" formControlName="title" id="title" rows="2"></textarea>
+                    </div>
+                    <div [hidden]="!formAdd.controls['title'].hasError('required') || !formAdd.controls['title'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng nhập tiêu đề
+                    </div>
+                    <div [hidden]="!formAdd.controls['title'].hasError('maxlength') || !formAdd.controls['title'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Độ dài thông tin không hợp lệ (tối đa 100 ký tự)
+                    </div>
+                </div>
+                <div *ngIf="isAdd" class="col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="description">Mô tả <span class="text-red-500">*</span></label>
+                        <textarea pInputTextarea type="text" formControlName="description" id="description"
+                            rows="4"></textarea>
+                    </div>
+                    <div [hidden]="!formAdd.controls['description'].hasError('required') || !formAdd.controls['description'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng nhập mô tả
+                    </div>
+                    <div [hidden]="!formAdd.controls['description'].hasError('maxlength') || !formAdd.controls['description'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
+                    </div>
+                </div>
+                <div *ngIf="isAdd" class="col-12">
+                    <div class="flex flex-column gap-2">
+                        <label for="link">Đường dẫn <span class="text-red-500">*</span></label>
+                        <textarea pInputTextarea type="text" formControlName="link" id="link" rows="2"></textarea>
+                    </div>
+                    <div [hidden]="!formAdd.controls['link'].hasError('required') || !formAdd.controls['link'].touched"
+                        class="text-red-500 mt-2 ml-1">
+                        Vui lòng nhập đường dẫn liên kết
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button pButton [icon]="isAdd ? 'fa fa-save' : 'fa fa-plus'" [label]="isAdd ? 'Lưu' : 'Thêm mới'" (click)="onCreateGalleria()"></button>
+                    <button *ngIf="isAdd" pButton icon="fa fa-close" class="ml-3 p-button-outlined" label="Hủy"
+                        (click)="onHideFormAdd()"></button>
+                </div>
+            </div>
+        </form>
+    </p-panel>
     <p-accordion [multiple]="true">
         <p-accordionTab *ngFor="let galleria of galleiras" [header]="galleria.title">
             <div class="grid">
@@ -20,12 +169,16 @@
                 <div class="col-12">
                     <p class="font-semibold">Tiêu đề: <span class="font-normal">{{ galleria.title }}</span></p>
                     <p class="font-semibold">Mô tả: <span class="font-normal">{{ galleria.description }}</span></p>
-                    <p class="font-semibold">Đường dẫn: <span class="font-normal"><a target="_blank" href="{{ galleria.link }}">{{ galleria.link }}</a></span></p>
+                    <p class="font-semibold">Đường dẫn: <span class="font-normal"><a target="_blank"
+                                href="{{ galleria.link }}">{{ galleria.link }}</a></span></p>
                     <p class="font-semibold">Thứ tự: <span class="font-normal">{{ galleria.index }}</span></p>
-                    <p class="font-semibold">Trạng thái: <span class="font-normal">{{ galleria.status ? 'Đang hiển thị' : 'Đã ẩn' }}</span></p>
+                    <p class="font-semibold">Trạng thái: <span class="font-normal">{{ galleria.status ? 'Đang hiển thị'
+                            : 'Đã ẩn' }}</span></p>
                 </div>
                 <div class="col-12">
-                    <button pButton icon="fa fa-edit" label="Cập nhật" (click)="showUpdateModal()"></button>
+                    <button pButton icon="fa fa-trash" label="Xóa" (click)="onConfirmDelete($event, galleria.id)" class="p-button-outlined text-red-500 mr-3"></button>
+                    <button pButton icon="fa fa-photo" label="Cập nhật hình ảnh" (click)="onShowUpdateImageModal(galleria.id)" class="mr-3 p-button-outlined"></button>
+                    <button pButton icon="fa fa-edit" label="Cập nhật thông tin" (click)="onShowUpdateModal(galleria.id)"></button>
                 </div>
             </div>
         </p-accordionTab>

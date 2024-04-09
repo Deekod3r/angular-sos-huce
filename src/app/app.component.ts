@@ -18,7 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
     constructor(private authService: AuthService, private configService: ConfigService) {}
 
     ngOnInit(): void {
-        if(!this.authService.isRemember) {
+        if (!this.authService.isRemember) {
             //this.authService.logout();
         }
         this.configService.getConfigs(SYSTEM.ORG_INFO_CONTACT)

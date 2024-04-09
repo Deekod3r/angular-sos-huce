@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { CommonService } from './common.service';
 import { AuthService } from './auth.service';
 import { CONFIG } from '../common/config';
-import { newsConfig } from '../common/constant';
+import { NEWS } from '../common/constant';
 
 @Injectable({
     providedIn: 'root'
@@ -168,7 +168,7 @@ export class NewsService {
     }
 
     getStatus(status: boolean): string | undefined {
-        return newsConfig.STATUS.find(item => item.value === status)?.label;
+        return NEWS.STATUS.find(item => item.value === status)?.label;
     }
 
     getStatusBadge(status: boolean): string | undefined {
@@ -183,7 +183,7 @@ export class NewsService {
     }
 
     optionStatus(): any[] {
-        return newsConfig.STATUS;
+        return NEWS.STATUS;
     }
 
 

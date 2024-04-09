@@ -30,7 +30,7 @@ export const CONFIG = {
         TIMEOUT_TOAST: 2000,
         TIMEOUT_TOAST_LONG: 5000,
         TIMEOUT_TOAST_SHORT: 1000,
-        SESSION_TIME_IN_SECONDS: 3600
+        SESSION_TIME_IN_SECONDS: 3598
     },
     ROLE: {
         GUEST: 'GUEST',

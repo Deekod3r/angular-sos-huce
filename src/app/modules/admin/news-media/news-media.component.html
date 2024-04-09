@@ -1,10 +1,10 @@
 <div class="card">
     <p-dialog *ngIf="visibleCreateModal" header="Thêm tin tức" [(visible)]="visibleCreateModal" [modal]="true"
-        [style]="{ width: '95vw', height: '100vh' }" [draggable]="false" [resizable]="false">
+        [style]="{ width: '90vw' }" [draggable]="false" [resizable]="false">
         <app-new-media-create (resultAction)="onReceiveResult($event, 1)" [categories]="categories"></app-new-media-create>
     </p-dialog>
     <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa tin tức" [(visible)]="visibleUpdateModal" [modal]="true"
-        [style]="{ width: '95vw', height: '100vh' }" [draggable]="false" [resizable]="false">
+        [style]="{ width: '90vw' }" [draggable]="false" [resizable]="false">
         <app-new-media-update (resultAction)="onReceiveResult($event, 2)" [idNews]="idNewsUpdate" [categories]="categories"></app-new-media-update>
     </p-dialog>
     <p-panel header="Công cụ" [toggleable]="true">

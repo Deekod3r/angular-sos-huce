@@ -95,9 +95,9 @@
                                     Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="col-12" [ngClass]="{'text-red-500': formAdopt.controls['confirm'].invalid && formAdopt.controls['confirm'].touched }">
                                 <p-checkbox formControlName="confirm" [binary]="true" id="confirm"></p-checkbox>
-                                <label for="confirm" class="ml-2 font-semibold">Tôi xác nhận đã đủ hành vi, điều kiện và
+                                <label for="confirm" class="ml-2 font-semibold">Tôi xác nhận các thông tin đã cung cấp là chính xác và tôi đã đủ hành vi, điều kiện cũng như sẽ
                                     hoàn toàn chịu mọi trách nhiệm cho việc nhận nuôi thú cưng</label>
                             </div>
                         </div>
@@ -172,14 +172,12 @@
                         </div>
                     </div>
                 </p-panel>
-                <div class="grid justify-content-center">
-                    <div class="col-12 mt-3" align="center">
-                        <p class="font-semibold font-italic text-red-500">Khi nhấn nút 'ĐĂNG KÝ', bạn xác nhận đã đồng ý
-                            với các điều khoản của HUCE Pet</p>
-                    </div>
-                    <div class="md:col-4 col-6 mt-3" align="center">
-                        <p-button label="Đăng ký" styleClass="mat-form-button" (onClick)="onRegisterAdopt()"></p-button>
-                    </div>
+                <div class="mt-3" align="center">
+                    <p class="font-semibold font-italic text-red-500">Khi nhấn nút 'ĐĂNG KÝ', bạn xác nhận đã đồng ý
+                        với các điều khoản của HUCE Pet</p>
+                </div>
+                <div class="mt-3" align="center">
+                    <p-button label="Đăng ký" styleClass="text-xl" [style]="{ width: '300px' }" (onClick)="onRegisterAdopt($event)"></p-button>
                 </div>
             </p-dialog>
         </div>

@@ -96,7 +96,7 @@ export class PetComponent implements OnInit, OnDestroy {
                     this.totalPages = data.totalPages;
                     this.totalElements = data.totalElements;
                     this.pets = data.pets;
-                    if(this.pets.length == 0) {
+                    if (this.pets.length == 0) {
                         this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });
                     } else {
                         this.pets.forEach(pet => {
@@ -204,7 +204,7 @@ export class PetComponent implements OnInit, OnDestroy {
     onConfirmDelete(event: any, pet: any): void {
         this.confirmationService.confirm({
             target: event.target as EventTarget,
-            message: 'Bạn chắc chắn muốn xoá thú cưng này chứ?',
+            message: 'Khi xóa thú cưng, tất cả thông tin chi phí sinh hoạt, khám chữa bệnh và đơn nhận nuôi liên quan cũng sẽ bị xóa. <br/> Bạn chắc chắn muốn xoá thú cưng này chứ?',
             header: 'XÁC NHẬN',
             icon: 'fa fa-solid fa-triangle-exclamation',
             acceptLabel: 'Có',
@@ -213,7 +213,8 @@ export class PetComponent implements OnInit, OnDestroy {
             rejectIcon: "none",
             rejectButtonStyleClass: "p-button-text",
             accept: () => {
-                this.petService.deletePet(pet.id).pipe(takeUntil(this.subscribes$))
+                this.petService.deletePet(pet.id)
+                .pipe(takeUntil(this.subscribes$))
                 .subscribe({
                     next: (res) => {
                         if (res.success) {

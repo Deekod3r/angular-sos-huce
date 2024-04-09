@@ -58,6 +58,7 @@ export const messageAdopt = {
     cancelSuccess: 'Huỷ đơn nhận nuôi thành công',
     canelCancel: 'Huỷ quá trình huỷ đơn nhận nuôi',
     rejectReason: 'Vui lòng nhập lý do từ chối',
+    fee: 'Vui lòng nhập số tiền vía',
 }
 
 export const messageLog = {
@@ -92,4 +93,16 @@ export const messageDonation = {
     createSuccess: 'Tạo thông tin quyên góp thành công',
     updateSuccess: 'Cập nhật thông tin quyên góp thành công',
     deleteSuccess: 'Xoá thông tin quyên góp thành công',
+}
+
+export const messageGalleria = {
+    createSuccess: 'Tạo thông tin galleria thành công',
+    updateSuccess: 'Cập nhật thông tin galleria thành công',
+    deleteSuccess: 'Xoá thông tin galleria thành công',
+}
+
+export const messageLivingCost = {
+    createSuccess: 'Tạo thông tin chi phí sinh hoạt thành công',
+    updateSuccess: 'Cập nhật thông tin chi phí sinh hoạt thành công',
+    deleteSuccess: 'Xoá thông tin chi phí sinh hoạt thành công',
 }

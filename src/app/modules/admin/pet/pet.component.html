@@ -1,10 +1,10 @@
 <div class="card">
     <p-dialog *ngIf="visibleCreateModal" header="Thêm thú cưng" [(visible)]="visibleCreateModal" [modal]="true"
-        [style]="{ width: '90vw', height: '100vh' }" [draggable]="false" [resizable]="false">
+        [style]="{ width: '90vw'}" [draggable]="false" [resizable]="false">
         <app-pet-create (resultAction)="onReceiveResult($event, 1)"></app-pet-create>
     </p-dialog>
     <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa thú cưng" [(visible)]="visibleUpdateModal" [modal]="true"
-        [style]="{ width: '90vw', height: '100vh' }" [draggable]="false" [resizable]="false">
+        [style]="{ width: '90vw'}" [draggable]="false" [resizable]="false">
         <app-pet-update (resultAction)="onReceiveResult($event, 2)" [idPet]="idPetUpdate"></app-pet-update>
     </p-dialog>
     <p-panel header="Công cụ" [toggleable]="true">

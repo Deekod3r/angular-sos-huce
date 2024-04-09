@@ -36,7 +36,7 @@ export class PetCreateComponent implements OnInit, OnDestroy {
             petColor: new FormControl(null, [Validators.required, noWhitespaceValidator(), Validators.maxLength(100), Validators.minLength(2)]),
             petAge: new FormControl(null, Validators.required),
             petGender: new FormControl(null, Validators.required),
-            petWeight: new FormControl(0),
+            petWeight: new FormControl(null, [Validators.required, Validators.min(0.01)]),
             petStatus: new FormControl(null, Validators.required),
             petVaccine: new FormControl(null),
             petRabies: new FormControl(null),

@@ -3,10 +3,10 @@
         <div class="grid">
             <div class="lg:col-6 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="user">Người nhận nuôi <span class="text-red-500 font-bold">*</span></label>
-                    <p-dropdown [options]="users" optionLabel="name" [filter]="true" filterBy="name" 
-                    filterPlaceholder="Họ và tên" emptyMessage="Không có dữ liệu" id="user"
-                    [showClear]="true" placeholder="--Chọn--" styleClass="mat-form-field" formControlName="registeredBy">
+                    <label for="registeredBy">Người nhận nuôi <span class="text-red-500 font-bold">*</span></label>
+                    <p-dropdown [options]="users" optionLabel="name" [filter]="true" filterBy="name"
+                        filterPlaceholder="Họ và tên" emptyMessage="Không có dữ liệu" id="registeredBy" (onChange)="getStatistical()"
+                        [showClear]="true" placeholder="--Chọn--" styleClass="mat-form-field" formControlName="registeredBy">
                         <ng-template let-user pTemplate="item">
                             <div class="flex align-items-center">
                                 <div>{{ user.name }} - {{ user.email }} - {{user.phoneNumber}}</div>
@@ -103,10 +103,94 @@
             </div>
             <div class="col-12">
                 <p-panel header="Thông tin đăng ký" styleClass="mb-3">
-                    <div *ngIf="this.formAdopt.controls['registeredBy'].value">
-                        <p>Người nhận nuôi: <b>{{this.formAdopt.controls['registeredBy'].value.name}}</b></p>
-                        <p>Email liên hệ: <b>{{this.formAdopt.controls['registeredBy'].value.email}}</b></p>
-                        <p>Số điện thoại: <b>{{this.formAdopt.controls['registeredBy'].value.phoneNumber}}</b></p>
+                    <div *ngIf="this.formAdopt.controls['registeredBy'].value" class="grid">
+                        <div class="lg:col-3 col-12">
+                            <p>Người nhận nuôi: <b>{{this.formAdopt.controls['registeredBy'].value.name}}</b></p>
+                            <p>Email liên hệ: <b>{{this.formAdopt.controls['registeredBy'].value.email}}</b></p>
+                            <p>Số điện thoại: <b>{{this.formAdopt.controls['registeredBy'].value.phoneNumber}}</b></p>
+                        </div>
+                        <div class="lg:col-9 col-12">
+                            <div class="grid">
+                                <div class="md:col-4 col-12">
+                                    <div class="card p-3">
+                                        <div class="flex justify-content-between mb-3">
+                                            <div>
+                                                <span class="block text-500 font-medium mb-3">Tổng số đơn</span>
+                                                <div class="text-900 font-medium text-xl">{{statistic.total}}</div>
+                                            </div>
+                                            <div class="flex align-items-center justify-content-center bg-indigo-100 border-round" style="width: 2.5rem; height: 2.5rem;">
+                                                <i class="fa fa-plus text-indigo-500 text-xl"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:col-4 col-12">
+                                    <div class="card p-3">
+                                        <div class="flex justify-content-between mb-3">
+                                            <div>
+                                                <span class="block text-500 font-medium mb-3">Đơn chờ xử lý</span>
+                                                <div class="text-900 font-medium text-xl">{{statistic.countWaiting}}</div>
+                                            </div>
+                                            <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width: 2.5rem; height: 2.5rem;">
+                                                <i class="fa fa-file-circle-question text-blue-500 text-xl"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:col-4 col-12">
+                                    <div class="card p-3">
+                                        <div class="flex justify-content-between mb-3">
+                                            <div>
+                                                <span class="block text-500 font-medium mb-3">Đơn đang xử lý</span>
+                                                <div class="text-900 font-medium text-xl">{{statistic.countInProgress}}</div>
+                                            </div>
+                                            <div class="flex align-items-center justify-content-center bg-yellow-100 border-round" style="width: 2.5rem; height: 2.5rem;">
+                                                <i class="fa fa-hourglass-start text-yellow-500 text-xl"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:col-4 col-12">
+                                    <div class="card p-3">
+                                        <div class="flex justify-content-between mb-3">
+                                            <div>
+                                                <span class="block text-500 font-medium mb-3">Đơn đã hoàn thành</span>
+                                                <div class="text-900 font-medium text-xl">{{statistic.countComplete}}</div>
+                                            </div>
+                                            <div class="flex align-items-center justify-content-center bg-green-100 border-round" style="width: 2.5rem; height: 2.5rem;">
+                                                <i class="fa fa-check text-green-500 text-xl"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:col-4 col-12">
+                                    <div class="card p-3">
+                                        <div class="flex justify-content-between mb-3">
+                                            <div>
+                                                <span class="block text-500 font-medium mb-3">Đơn đã hủy</span>
+                                                <div class="text-900 font-medium text-xl">{{statistic.countCancel}}</div>
+                                            </div>
+                                            <div class="flex align-items-center justify-content-center bg-red-100 border-round" style="width: 2.5rem; height: 2.5rem;">
+                                                <i class="fa fa-xmark text-red-500 text-xl"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:col-4 col-12">
+                                    <div class="card p-3">
+                                        <div class="flex justify-content-between mb-3">
+                                            <div>
+                                                <span class="block text-500 font-medium mb-3">Đơn bị từ chối</span>
+                                                <div class="text-900 font-medium text-xl">{{statistic.countReject}}</div>
+                                            </div>
+                                            <div class="flex align-items-center justify-content-center surface-300 border-round" style="width: 2.5rem; height: 2.5rem;">
+                                                <i class="fa fa-cancel text-black-500 text-xl"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </p-panel>
                 <p-panel header="Thông tin thú cưng">
@@ -177,14 +261,10 @@
                     </div>
                 </p-panel>
             </div>
-            <div class="col-12 mt-5 grid justify-content-center" align="center">
-                <div class="lg:col-3 md:col-4 col-6">
-                    <p-button label="Làm mới" styleClass="mat-form-button p-button-outlined" [disabled]="!formAdopt.dirty" (onClick)="formAdopt.reset()"></p-button>
-                </div>
-                <div class="lg:col-3 md:col-4 col-6">
-                    <p-button label="Lưu" styleClass="mat-form-button" (onClick)="onSaveAdopt()"></p-button>
-                </div>
-            </div>
+        </div>
+        <div class="mt-3" align="center">
+            <p-button label="Làm mới" icon="fa fa-refresh" styleClass="p-button-outlined mr-3" [disabled]="!formAdopt.dirty" (onClick)="formAdopt.reset()"></p-button>
+            <p-button label="Lưu thông tin" icon="fa fa-save" (onClick)="onSaveAdopt()"></p-button>
         </div>
     </form>
 </div>

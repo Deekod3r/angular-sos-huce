@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { CommonService } from './common.service';
 import { Observable } from 'rxjs';
 import { CONFIG } from '../common/config';
+import { DONATION } from '../common/constant';
 
 @Injectable({
     providedIn: 'root'
@@ -76,6 +77,15 @@ export class DonationService {
             }
         }
         return this.commonService.callAPI(request);
+    }
+
+    getType(type: number): string | undefined {
+        const typeObject = DONATION.TYPE.find(t => t.value === type);
+        return typeObject?.label;
+    }
+
+    optionType(): any[] {
+        return DONATION.TYPE;
     }
 
 }

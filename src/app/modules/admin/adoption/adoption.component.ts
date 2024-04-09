@@ -31,13 +31,18 @@ export class AdoptionComponent implements OnInit, OnDestroy {
     dataReject = {
         id: '',
         message: '',
-        status: ADOPT.STATUS_KEY.REJECT,
+        event: Event,
+    };
+    dataComplete = {
+        id: '',
+        fee: null,
         event: Event,
     };
     idAdoptionUpdate!: string;
     visibleCreateModal: boolean = false;
     visibleUpdateModal: boolean = false;
-    visibleDeleteModal: boolean = false;
+    visibleRejectModal: boolean = false;
+    visibleCompleteModal: boolean = false;
     currentPage = 1;
     totalPages = 0;
     totalElements = 0;
@@ -98,7 +103,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
                     this.totalPages = data.totalPages;
                     this.totalElements = data.totalElements;
                     this.adopts = data.adopts;
-                    if(this.adopts.length == 0) {
+                    if (this.adopts.length == 0) {
                         this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });
                     } else {
                         this.adopts.forEach(adopt => {
@@ -143,7 +148,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
                         command: (event: any) => {
                             this.dataReject.id = adopt.id;
                             this.dataReject.event = event;
-                            this.visibleDeleteModal = true;
+                            this.visibleRejectModal = true;
                         }
                     },
                     {
@@ -151,7 +156,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
                         icon: 'fa fa-times',
                         visible: adopt.status === ADOPT.STATUS_KEY.WAITING || adopt.status === ADOPT.STATUS_KEY.IN_PROGRESS,
                         command: (event: any) => {
-                            this.onConfirmUpdate(event, { id: adopt.id, status: ADOPT.STATUS_KEY.CANCEL, action: 'hủy', message: null });
+                            this.onConfirmUpdate(event, { id: adopt.id, status: ADOPT.STATUS_KEY.CANCEL, action: 'hủy' });
                         }
                     },
                     {
@@ -159,7 +164,10 @@ export class AdoptionComponent implements OnInit, OnDestroy {
                         icon: 'fa fa-check-circle',
                         visible: adopt.status === ADOPT.STATUS_KEY.IN_PROGRESS,
                         command: (event: any) => {
-                            this.onConfirmUpdate(event, { id: adopt.id, status: ADOPT.STATUS_KEY.COMPLETE, action: 'hoàn thành', message: null });
+                            this.dataComplete.id = adopt.id;
+                            this.dataComplete.event = event;
+                            this.visibleCompleteModal = true;
+                            //this.onConfirmUpdate(event, { id: adopt.id, status: ADOPT.STATUS_KEY.COMPLETE, action: 'hoàn thành' });
                         }
                     }
                 ]
@@ -214,7 +222,8 @@ export class AdoptionComponent implements OnInit, OnDestroy {
 
     getPets(): void {
         this.petService.getPets({
-            status: PET.STATUS_KEY.WAITING
+            status: PET.STATUS_KEY.WAITING,
+            fullData: true
         })
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
@@ -321,7 +330,12 @@ export class AdoptionComponent implements OnInit, OnDestroy {
             rejectIcon: "none",
             rejectButtonStyleClass: "p-button-text",
             accept: () => {
-                this.adoptService.updateStatusAdopt({id: data.id, status: data.status, message: data.message ? data.message.trim() : '' }, data.id)
+                this.adoptService.updateStatusAdopt({
+                    id: data.id, 
+                    status: data.status, 
+                    message: data.message ? data.message.trim() : '' ,
+                    fee: data.fee != null && data.fee != '' ? data.fee : ''
+                }, data.id)
                 .pipe(takeUntil(this.subscribes$)).subscribe({
                     next: (res) => {
                         if (res.success) {
@@ -348,8 +362,17 @@ export class AdoptionComponent implements OnInit, OnDestroy {
             this.messageService.add({ severity: 'error', summary: title.error, detail: messageAdopt.rejectReason });
             return;
         }
-        this.visibleDeleteModal = false; 
+        this.visibleRejectModal = false; 
         this.onConfirmUpdate(this.dataReject.event, { id: this.dataReject.id, status: ADOPT.STATUS_KEY.REJECT, action: 'từ chối', message: this.dataReject.message });
+    }
+
+    onComplete(): void {
+        if (this.dataComplete.fee == null || this.dataComplete.fee == '') {
+            this.messageService.add({ severity: 'error', summary: title.error, detail: messageAdopt.fee });
+            return;
+        }
+        this.visibleCompleteModal = false; 
+        this.onConfirmUpdate(this.dataComplete.event, { id: this.dataComplete.id, status: ADOPT.STATUS_KEY.COMPLETE, action: 'hoàn thành', fee: this.dataComplete.fee });
     }
 
     onConfirmDelete(event: any, id: string): void {

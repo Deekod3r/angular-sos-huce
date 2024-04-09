@@ -63,7 +63,7 @@ export class PetService {
         return this.commonService.callAPI(request);
     }
 
-    updatePetImage(body: any, id: string): Observable<any> {
+    updateImagePet(body: any, id: string): Observable<any> {
         const request = {
             function: this.API_URL + '/update-image/' + id,
             method: CONFIG.KEY.METHOD_PUT,

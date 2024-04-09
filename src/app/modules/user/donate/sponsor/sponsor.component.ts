@@ -5,7 +5,6 @@ import { DropdownModule } from 'primeng/dropdown';
 import { PaginatorModule } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
-import { DONATION } from 'src/app/common/constant';
 import { title, message } from 'src/app/common/message';
 import { DonationService } from 'src/app/services/donation.service';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -22,7 +21,7 @@ export class SponsorComponent implements OnInit, OnDestroy {
     year!: number;
     month!: number;
     donates!: any;
-    limit = 1;
+    limit = 2;
     first!: number;
     private subscribes$: Subject<void> = new Subject<void>();
 
@@ -89,7 +88,7 @@ export class SponsorComponent implements OnInit, OnDestroy {
         }
     ]
 
-    constructor(private donationService: DonationService, private messageService: MessageService) {}
+    constructor(public donationService: DonationService, private messageService: MessageService) {}
 
     ngOnInit(): void {
     }
@@ -100,13 +99,14 @@ export class SponsorComponent implements OnInit, OnDestroy {
     }
 
     onSearchDonations() {
-        if(!this.year || !this.month) {
+        if (!this.year || !this.month) {
             this.messageService.add({ severity: 'error', summary: title.error, detail: message.requiredInfo });
             return;
         }
         let search = {
             fromDate: this.year + '-' + this.month + '-01',
             toDate: this.year + '-' + this.month + '-' + this.monthNames[this.month - 1].numberOfDay,
+            fullData: true
         }
         this.donationService.getDonations(search)
         .pipe(takeUntil(this.subscribes$))
@@ -114,7 +114,7 @@ export class SponsorComponent implements OnInit, OnDestroy {
             next: (res) => {
                 if (res.success) {
                     this.donates = res.data.donates;
-                    if(this.donates.length == 0) {
+                    if (this.donates.length == 0) {
                         this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });
                     }
                 }

@@ -7,11 +7,12 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { EditorModule } from 'primeng/editor';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { message, messageConfig, title } from 'src/app/common/message';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
     selector: 'app-config',
     standalone: true,
-    imports: [SharedModule, DropdownModule, InputTextareaModule, EditorModule],
+    imports: [SharedModule, DropdownModule, InputTextareaModule, EditorModule, InputNumberModule],
     templateUrl: './config.component.html',
     styleUrls: ['./config.component.css']
 })

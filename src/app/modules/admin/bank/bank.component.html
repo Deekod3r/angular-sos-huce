@@ -27,12 +27,12 @@
                 </div>
                 <div class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
                     <div class="flex flex-column gap-2">
-                        <label for="account-number">Tài khoản <span class="text-red-500">*</span></label>
+                        <label for="account-number">Nguồn nhận <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="accountNumber" id="account-number">
                     </div>
                     <div [hidden]="!formUpdate.controls['accountNumber'].hasError('required') || !formUpdate.controls['accountNumber'].touched"
                         class="text-red-500 mt-2 ml-1">
-                        Vui lòng điền tài khoản
+                        Vui lòng điền nguồn nhận
                     </div>
                     <div [hidden]="!formUpdate.controls['accountNumber'].hasError('maxlength') || !formUpdate.controls['accountNumber'].touched"
                         class="text-red-500 mt-2 ml-1">
@@ -67,10 +67,8 @@
                         Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
                     </div>       
                 </div>
-                <div class="col-12 mt-5 grid justify-content-center" align="center">
-                    <div class="md:col-3 col-6">
-                        <button pButton label="Lưu" class="mat-form-button" (click)="onUpdateBank($event)"></button>
-                    </div>
+                <div class="col-12 mt-3 grid justify-content-center">
+                    <button pButton label="Lưu thay đổi" icon="fa fa-save" (click)="onUpdateBank($event)"></button>
                 </div>
             </div>
         </form>
@@ -102,12 +100,12 @@
                 </div>
                 <div *ngIf="isAdd" class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
                     <div class="flex flex-column gap-2">
-                        <label for="account-number">Tài khoản <span class="text-red-500">*</span></label>
+                        <label for="account-number">Nguồn nhận <span class="text-red-500">*</span></label>
                         <input pInputText type="text" formControlName="accountNumber" id="account-number">
                     </div>
                     <div [hidden]="!formAdd.controls['accountNumber'].hasError('required') || !formAdd.controls['accountNumber'].touched"
                         class="text-red-500 mt-2 ml-1">
-                        Vui lòng điền tài khoản
+                        Vui lòng điền nguồn nhận
                     </div>
                     <div [hidden]="!formAdd.controls['accountNumber'].hasError('maxlength') || !formAdd.controls['accountNumber'].touched"
                         class="text-red-500 mt-2 ml-1">
@@ -126,7 +124,7 @@
                     <div [hidden]="!formAdd.controls['owner'].hasError('maxlength') || !formAdd.controls['owner'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
-                    </div>    
+                    </div>
                 </div>
                 <div *ngIf="isAdd" class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
                     <div class="flex flex-column gap-2">
@@ -143,8 +141,8 @@
                     </div> 
                 </div>
                 <div class="col-12">
-                    <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onCreateBank()"></button>
-                    <button *ngIf="isAdd" pButton icon="fa fa-close" class="ml-3 p-button-outlined" label="Hủy" (click)="isAdd = false"></button>
+                    <button pButton [icon]="isAdd ? 'fa fa-save' : 'fa fa-plus'" [label]="isAdd ? 'Lưu' : 'Thêm mới'" (click)="onCreateBank()"></button>
+                    <button *ngIf="isAdd" pButton icon="fa fa-close" class="ml-3 p-button-outlined" label="Hủy" (click)="onHideFormAdd()"></button>
                 </div>
             </div>
         </form>
@@ -153,13 +151,13 @@
         selectionMode="single" [paginator]="false" [rows]="5">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
-                Tài khoản nhận hỗ trợ
+                Thông tin nhận hỗ trợ
             </div>
         </ng-template>
         <ng-template pTemplate="header">
             <tr class="">
                 <th class="col-3">Tên nguồn nhận</th>
-                <th class="col-3">Tài khoản</th>
+                <th class="col-3">Nguồn nhận</th>
                 <th class="col-3">Chủ sở hữu</th>
                 <th class="col-3">Biểu tượng</th>
                 <th *ngIf="isManager"></th>

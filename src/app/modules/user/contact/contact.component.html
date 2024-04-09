@@ -48,8 +48,8 @@
                 <p-divider></p-divider>
                 <div *ngIf="banks" class="grid mt-2 w-full text-lg">
                     <div class="col-12">
-                        <p class="font-bold text-3xl">Tài khoản ủng hộ</p>
-                        <p>Chi phí sẽ được chia đều cho các bé khác đang điều trị và phục vụ xây dựng nhà chung để các bé sinh hoạt</p>
+                        <p class="font-bold text-3xl">Thông tin ủng hộ</p>
+                        <p>Chi phí và vật dụng sẽ được chia đều cho các bé đang điều trị và phục vụ xây dựng nhà chung để các bé sinh hoạt</p>
                     </div>
                     <div *ngFor="let bank of banks" class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
                         <div class="font-semibold"><i class="text-primary mr-1" [ngClass]="bank.logo"></i> {{bank.name}}: <br> {{bank.accountNumber}} <br> {{bank.owner}}  </div>

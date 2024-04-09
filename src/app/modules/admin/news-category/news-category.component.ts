@@ -97,12 +97,12 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
     }
 
     onCreateNewsCategory(): void {
-        if(!this.isAdd) {
+        if (!this.isAdd) {
             this.isAdd = true;
             this.formAdd.enable();
             return;
         }
-        if(this.formAdd.invalid) {
+        if (this.formAdd.invalid) {
             this.formAdd.markAllAsTouched();
             return;
         }
@@ -131,7 +131,6 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
     }
 
     onShowUpdateModal(id: string): void {
-        this.visibleUpdateModal = true;
         this.newsService.getNewsCategoryById(id)
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
@@ -143,6 +142,7 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
                         name: categoryUpdate.name,
                         description: categoryUpdate.description
                     });
+                    this.visibleUpdateModal = true;
                 }
             },
             error: (res) => {
@@ -155,8 +155,13 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
         });
     }
 
+    onHideFormAdd(): void {
+        this.isAdd = false;
+        this.formAdd.reset();
+    }
+
     onUpdateNewsCategory(event: any): void {
-        if(this.formUpdate.invalid) {
+        if (this.formUpdate.invalid) {
             this.formUpdate.markAllAsTouched();
             return;
         }

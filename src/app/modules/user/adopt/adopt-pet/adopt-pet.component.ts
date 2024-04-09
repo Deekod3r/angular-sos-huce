@@ -17,7 +17,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 import { CheckboxModule } from 'primeng/checkbox';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { message, messageAdopt, title } from 'src/app/common/message';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { ConfigService } from 'src/app/services/config.service';
@@ -65,7 +65,7 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
     private subscribes$: Subject<void> = new Subject<void>();
 
     constructor(public petService: PetService, private route: ActivatedRoute, private adoptService: AdoptService, private configService: ConfigService,
-        private locationService: LocationService, public authService: AuthService, private messageService: MessageService) { }
+        private locationService: LocationService, public authService: AuthService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
 
     ngOnInit(): void {
         this.formAdopt = new FormGroup({
@@ -145,10 +145,10 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
     onShowCreateModal(): void {
         if (this.authService.isAuthenticated()) {
             this.visibleCreateModal = true;
-            if(this.provinces.length == 0 || this.provinces == null) {
+            if (this.provinces.length == 0 || this.provinces == null) {
                 this.getProvinces();
             }
-            if(!this.userInfo) {
+            if (!this.userInfo) {
                 this.userInfo = this.authService.getCurrentUser();
             }
         } else {
@@ -213,36 +213,51 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
         });
     }
 
-    onRegisterAdopt(): void {
+    onRegisterAdopt(event: any): void {
         if (!this.formAdopt.valid) {
             this.formAdopt.markAllAsTouched();
             return;
         }
-        let body = {
-            petId: this.id,
-            provinceId: this.formAdopt.value.province,
-            districtId: this.formAdopt.value.district,
-            wardId: this.formAdopt.value.ward,
-            address: this.formAdopt.value.address.trim(),
-            reason: this.formAdopt.value.reason.trim(),
-            registeredBy: this.userInfo.id
-        };
-        this.adoptService.createAdopt(body)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.visibleCreateModal = false;
-                    this.formAdopt.reset();
-                    this.messageService.add({severity:'success', summary: title.success, detail: messageAdopt.createSuccess});
-                }
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Bạn chắc chắn đã đọc đầy đủ các điều khoản, lưu ý và thông tin của thú cưng chứ?',
+            header: 'XÁC NHẬN',
+            icon: 'fa fa-solid fa-triangle-exclamation',
+            acceptLabel: 'Có',
+            rejectLabel: 'Hủy',
+            acceptIcon: "none",
+            rejectIcon: "none",
+            rejectButtonStyleClass: "p-button-text",
+            accept: () => {
+                let body = {
+                    petId: this.id,
+                    provinceId: this.formAdopt.value.province,
+                    districtId: this.formAdopt.value.district,
+                    wardId: this.formAdopt.value.ward,
+                    address: this.formAdopt.value.address.trim(),
+                    reason: this.formAdopt.value.reason.trim(),
+                    registeredBy: this.userInfo.id
+                };
+                this.adoptService.createAdopt(body)
+                .pipe(takeUntil(this.subscribes$))
+                .subscribe({
+                    next: (res) => {
+                        if (res.success) {
+                            this.visibleCreateModal = false;
+                            this.formAdopt.reset();
+                            this.messageService.add({severity:'success', summary: title.success, detail: messageAdopt.createSuccess});
+                        }
+                    },
+                    error: (res) => {
+                        if (res.error) {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        }
+                    }
+                });
             },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
+            reject: () => {
             }
         });
     }

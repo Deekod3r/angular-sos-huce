@@ -4,6 +4,38 @@
         [(visible)]="visibleUpdateInfo" [modal]="true" [draggable]="false" [resizable]="false">
         <app-update-info [infoKey]="info.key" [userId]="info.userId" [userInfo]="info.userInfo" (resultAction)="onReceiveResult($event)"></app-update-info>
     </p-dialog>
+    <p-dialog *ngIf="visiblePetCareLog" header="Lịch sử kiểm tra sau nhận nuôi" (visibleChange)="onHidePetCareLog()"
+        styleClass="w-10" [resizable]="true"[(visible)]="visiblePetCareLog" [modal]="true" [draggable]="false" [resizable]="false">
+        <p-table *ngIf="logs && logs.length > 0; else noDataMessage" #table [value]="logs" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines mt-3"
+            selectionMode="single" [paginator]="true" [rows]="1">
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                    Lịch sử kiểm tra
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr class="">
+                    <th class="col-2">Đơn nhận nuôi</th>
+                    <th class="col-2" pSortableColumn="petName">Thú cưng <p-sortIcon field="petName"></p-sortIcon></th>
+                    <th class="col-2" pSortableColumn="date">Ngày kiểm tra <p-sortIcon field="date"></p-sortIcon></th>
+                    <th class="col-6">Nội dung</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-log>
+                <tr>
+                    <td>{{log.adoptCode}}</td>
+                    <td>{{log.petName}}</td>
+                    <td>{{log.date | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{log.note}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <ng-template #noDataMessage>
+            <div align="center">
+                <p>Không có dữ liệu lịch sử kiểm tra đơn nhận nuôi</p>
+            </div>
+        </ng-template>
+    </p-dialog>
     <p-tabView #tabView (onChange)="onChangeTabView($event)">
         <p-tabPanel header="Thông tin tài khoản">
             <div *ngIf="user != null" class="grid">
@@ -135,15 +167,15 @@
                         <p-badge [value]="this.adoptService.getStatus(detailAdoptData.adopt.status)"
                             [severity]="this.adoptService.getSeverityStatus(detailAdoptData.adopt.status)" size="large"></p-badge>
                     </p>
-                    <p *ngIf="detailAdoptData.adopt.status == adoptStatus.complete">Tiền vía: <b>{{detailAdoptData.adopt.fee | currency: ' ' }} VNĐ</b></p>
-                    <div *ngIf="detailAdoptData.adopt.status == adoptStatus.reject">
+                    <div *ngIf="detailAdoptData.adopt.status == adoptStatus.REJECT">
                         <p>Lý do từ chối: <b>{{detailAdoptData.adopt.rejectedReason}}</b></p>
                         <p>Thời gian từ chối: <b>{{detailAdoptData.adopt.rejectedAt | date:'HH:mm - dd/MM/yyyy'}}</b></p>
                         <p>Người từ chối: <b>{{detailAdoptData.adopt.nameRejectedBy}}</b></p>
                     </div>
-                    <div *ngIf="detailAdoptData.adopt.status == adoptStatus.complete">
+                    <div *ngIf="detailAdoptData.adopt.status == adoptStatus.COMPLETE">
                         <p>Thời gian xác nhận: <b>{{detailAdoptData.adopt.confirmedAt | date:'HH:mm - dd/MM/yyyy'}}</b></p>
                         <p>Người xác nhận: <b>{{detailAdoptData.adopt.nameConfirmedBy}}</b></p>
+                        <p>Tiền vía: <b>{{detailAdoptData.adopt.fee | currency: ' ' }} VNĐ</b></p>
                     </div>
                 </p-panel>
                 <br>
@@ -246,7 +278,7 @@
                                 [severity]="this.adoptService.getSeverityStatus(adopt.status)"></p-tag>
                         </td>
                         <td>
-                            <div class="w-full flex justify-content-between" align="center">
+                            <div class="w-full" [ngClass]="{'flex justify-content-between': this.adoptService.isAvailableForCancelByUser(adopt.status) }" align="center">
                                 <p-button type="button" title="Xem chi tiết" icon="fa fa-eye" styleClass="p-button-primary p-button-text p-button-sm" (onClick)="onShowDetailAdopt(adopt.id)"></p-button>
                                 <p-button *ngIf="this.adoptService.isAvailableForCancelByUser(adopt.status)" (onClick)="onConfirmCancel($event, adopt.id)" type="button" title="Hủy đơn" icon="fa fa-cancel" styleClass="p-button-danger p-button-text p-button-sm"></p-button>
                             </div>
@@ -278,11 +310,12 @@
                         <th class="col-1">Hình ảnh</th>
                         <th class="col-1">Mã</th>
                         <th class="col-2">Tên</th>
-                        <th class="col-1">Loại</th>
+                        <th class="col-2">Loại</th>
                         <th class="col-2">Giống</th>
-                        <th class="col-1">Màu</th>
+                        <th class="col-2">Màu</th>
                         <th class="col-1">Giới tính</th>
                         <th class="col-1">Trạng thái</th>
+                        <th></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-pet>
@@ -296,6 +329,9 @@
                         <td>{{this.petService.getGender(pet.gender)}}</td>
                         <td><p-tag [value]="this.petService.getStatus(pet.status)"
                                 [severity]="this.petService.getSeverityStatus(pet.status)"></p-tag></td>
+                        <td>                                
+                            <p-button type="button" title="Xem chi tiết" icon="fa fa-eye" styleClass="p-button-primary p-button-text p-button-sm" (onClick)="onShowPetCareLog(pet.id)"></p-button>
+                        </td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="paginatorleft">

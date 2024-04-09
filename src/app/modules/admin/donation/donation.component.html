@@ -1,10 +1,10 @@
 <div class="card">
     <p-dialog *ngIf="visibleCreateModal" header="Thêm thông tin ủng hộ" [(visible)]="visibleCreateModal" [modal]="true"
-        [style]="{}" [draggable]="false" [resizable]="false">
+        styleClass="lg:w-6 md:w-8 w-11" [draggable]="false" [resizable]="false">
         <app-donation-create (resultAction)="onReceiveResult($event, 1)"></app-donation-create>
     </p-dialog>
     <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa thông tin ủng hộ" [(visible)]="visibleUpdateModal" [modal]="true"
-        [style]="{}" [draggable]="false" [resizable]="false">
+        styleClass="lg:w-6 md:w-8 w-11" [draggable]="false" [resizable]="false">
         <app-donation-update (resultAction)="onReceiveResult($event, 2)" [idDonation]="idDonationUpdate"></app-donation-update>
     </p-dialog>
     <p-panel header="Công cụ" [toggleable]="true">
@@ -53,9 +53,10 @@
             <tr class="">
                 <th class="col-2">Người ủng hộ</th>
                 <th class="col-2">Nguồn nhận</th>
-                <th class="col-2">Thời gian</th>
+                <th class="col-1">Thời gian</th>
+                <th class="col-1">Hình thức</th>
                 <th class="col-4">Nội dung</th>
-                <th class="col-2">Số tiền</th>
+                <th class="col-2">Giá trị</th>
                 <th class=""></th>
             </tr>
         </ng-template>
@@ -64,6 +65,7 @@
                 <td>{{donate.remitter}}</td>
                 <td>{{donate.payee}}</td>
                 <td>{{donate.date | date:'dd/MM/yyyy'}}</td>
+                <td>{{donationService.getType(donate.type)}}</td>
                 <td>{{donate.detail}}</td>
                 <td>{{donate.amount | currency: ' ' }} VNĐ</td>
                 <td>
