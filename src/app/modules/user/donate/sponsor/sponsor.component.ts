@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { PaginatorModule } from 'primeng/paginator';
-import { TableModule } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
 import { title, message } from 'src/app/common/message';
 import { DonationService } from 'src/app/services/donation.service';
@@ -18,6 +18,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 })
 export class SponsorComponent implements OnInit, OnDestroy {
 
+    @ViewChild("table") table!: Table;
     year!: number;
     month!: number;
     donates!: any;
@@ -113,6 +114,7 @@ export class SponsorComponent implements OnInit, OnDestroy {
         .subscribe({
             next: (res) => {
                 if (res.success) {
+                    this.table.reset();
                     this.donates = res.data.donates;
                     if (this.donates.length == 0) {
                         this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });

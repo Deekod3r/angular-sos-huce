@@ -103,23 +103,22 @@
                         </div>
                     </form>
                 </p-panel>
-                <br>
-                <p-panel header="Thông tin thú cưng">
+                <p-panel *ngIf="pet" header="Thông tin thú cưng" styleClass="my-3">
                     <div class="grid">
                         <div class="xl:col-3 lg:col-3 md:col-12 col-12 mx-auto">
-                            <p class="text-3xl font-semibold">{{pet.name}}</p>
+                            <p class="text-3xl font-semibold mb-3">{{pet.name}}</p>
                             <p-divider type="dashed"></p-divider>
-                            <p><b>Mã:</b> {{pet.code}}</p>
+                            <p class="my-3"><b>Mã:</b> {{pet.code}}</p>
                             <p-divider type="dashed"></p-divider>
-                            <p><b>Giống:</b> {{pet.breed}}</p>
+                            <p class="my-3"><b>Giống:</b> {{pet.breed}}</p>
                             <p-divider type="dashed"></p-divider>
-                            <p><b>Màu lông:</b> {{pet.color}}</p>
+                            <p class="my-3"><b>Màu lông:</b> {{pet.color}}</p>
                             <p-divider type="dashed"></p-divider>
-                            <p><b>Tuổi:</b> {{this.petService.getAge(pet.age)}}</p>
+                            <p class="my-3"><b>Tuổi:</b> {{this.petService.getAge(pet.age)}}</p>
                             <p-divider type="dashed"></p-divider>
-                            <p><b>Cân nặng:</b> {{pet.weight}} kg</p>
+                            <p class="my-3"><b>Cân nặng:</b> {{pet.weight}} kg</p>
                             <p-divider type="dashed"></p-divider>
-                            <p><b>Giới tính:</b> {{this.petService.getGender(pet.gender)}}</p>
+                            <p class="my-3"><b>Giới tính:</b> {{this.petService.getGender(pet.gender)}}</p>
                             <p-divider type="dashed"></p-divider>
                         </div>
                         <div class="xl:col-9 lg:col-9 md:col-12 col-12 mx-auto">
@@ -127,19 +126,23 @@
                             <p-divider></p-divider>
                             <div class="grid mt-1">
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(pet.sterilization)}}"
-                                            [severity]="petService.getBadgeSeverity(pet.sterilization)"></p-badge> Triệt
-                                        sản</p>
+                                    <p>
+                                        <p-badge value="{{petService.getBadgeValue(pet.sterilization)}}"
+                                            [severity]="petService.getBadgeSeverity(pet.sterilization)"></p-badge> 
+                                        Triệt sản
+                                    </p>
                                 </div>
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
                                     <p><p-badge value="{{petService.getBadgeValue(pet.friendlyToHuman)}}"
                                             [severity]="petService.getBadgeSeverity(pet.friendlyToHuman)"></p-badge>
-                                        Thân thiện với người</p>
+                                        Thân thiện với người
+                                    </p>
                                 </div>
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
                                     <p><p-badge value="{{petService.getBadgeValue(pet.diet)}}"
-                                            [severity]="petService.getBadgeSeverity(pet.diet)"></p-badge> Chế độ ăn
-                                        riêng</p>
+                                            [severity]="petService.getBadgeSeverity(pet.diet)"></p-badge> 
+                                        Chế độ ăn riêng
+                                    </p>
                                 </div>
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
                                     <p><p-badge value="{{petService.getBadgeValue(pet.rabies)}}"
@@ -147,23 +150,27 @@
                                 </div>
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
                                     <p><p-badge value="{{petService.getBadgeValue(pet.friendlyToDogs)}}"
-                                            [severity]="petService.getBadgeSeverity(pet.friendlyToDogs)"></p-badge> Thân
-                                        thiện với chó</p>
+                                            [severity]="petService.getBadgeSeverity(pet.friendlyToDogs)"></p-badge> 
+                                        Thân thiện với chó
+                                    </p>
                                 </div>
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
                                     <p><p-badge value="{{petService.getBadgeValue(pet.toilet)}}"
-                                            [severity]="petService.getBadgeSeverity(pet.toilet)"></p-badge> Đi vệ sinh
-                                        đúng chỗ</p>
+                                            [severity]="petService.getBadgeSeverity(pet.toilet)"></p-badge> 
+                                        Đi vệ sinh đúng chỗ
+                                    </p>
                                 </div>
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
                                     <p><p-badge value="{{petService.getBadgeValue(pet.vaccine)}}"
-                                            [severity]="petService.getBadgeSeverity(pet.vaccine)"></p-badge> Tiêm phòng
-                                        bệnh</p>
+                                            [severity]="petService.getBadgeSeverity(pet.vaccine)"></p-badge> 
+                                        Tiêm phòng bệnh
+                                    </p>
                                 </div>
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
                                     <p><p-badge value="{{petService.getBadgeValue(pet.friendlyToCats)}}"
-                                            [severity]="petService.getBadgeSeverity(pet.friendlyToCats)"></p-badge> Thân
-                                        thiện với mèo</p>
+                                            [severity]="petService.getBadgeSeverity(pet.friendlyToCats)"></p-badge> 
+                                        Thân thiện với mèo
+                                    </p>
                                 </div>
                                 <div class="col-12">
                                     <p><span class="font-semibold">Mô tả: </span><span>{{pet.description}}</span></p>
@@ -172,6 +179,7 @@
                         </div>
                     </div>
                 </p-panel>
+                <app-treatment-pet [idPet]="id"></app-treatment-pet>
                 <div class="mt-3" align="center">
                     <p class="font-semibold font-italic text-red-500">Khi nhấn nút 'ĐĂNG KÝ', bạn xác nhận đã đồng ý
                         với các điều khoản của HUCE Pet</p>
@@ -187,19 +195,19 @@
             <img src="{{pet.image}}" alt="{{pet.name}}" class="w-full" style="border-radius: 10px; max-height: 600px;">
         </div>
         <div class="md:col-7 col-12 p-3 mx-auto">
-            <p class="text-3xl font-semibold">{{pet.name}}</p>
+            <p class="text-3xl font-semibold mb-3">{{pet.name}}</p>
             <p-divider type="dashed"></p-divider>
-            <p><b>Mã:</b> {{pet.code}}</p>
+            <p class="my-3"><b>Mã:</b> {{pet.code}}</p>
             <p-divider type="dashed"></p-divider>
-            <p><b>Giống:</b> {{pet.breed}}</p>
+            <p class="my-3"><b>Giống:</b> {{pet.breed}}</p>
             <p-divider type="dashed"></p-divider>
-            <p><b>Màu lông:</b> {{pet.color}}</p>
+            <p class="my-3"><b>Màu lông:</b> {{pet.color}}</p>
             <p-divider type="dashed"></p-divider>
-            <p><b>Tuổi:</b> {{this.petService.getAge(pet.age)}}</p>
+            <p class="my-3"><b>Tuổi:</b> {{this.petService.getAge(pet.age)}}</p>
             <p-divider type="dashed"></p-divider>
-            <p><b>Cân nặng:</b> {{pet.weight}} kg</p>
+            <p class="my-3"><b>Cân nặng:</b> {{pet.weight}} kg</p>
             <p-divider type="dashed"></p-divider>
-            <p><b>Giới tính:</b> {{this.petService.getGender(pet.gender)}}</p>
+            <p class="my-3"><b>Giới tính:</b> {{this.petService.getGender(pet.gender)}}</p>
             <p-divider type="dashed"></p-divider>
             <button *ngIf="petService.isAvailableForAdopt(pet.status)" pButton label="NHẬN NUÔI" class="mt-3 mr-3"
                 (click)="onShowCreateModal()"></button>

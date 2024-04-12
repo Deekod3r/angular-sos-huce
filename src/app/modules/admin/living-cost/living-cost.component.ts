@@ -87,6 +87,12 @@ export class LivingCostComponent implements OnInit, OnDestroy {
         });
     }
 
+    onSearch(): void {
+        this.currentPage = 1;
+        this.first = 0;
+        this.getLivingCosts();
+    }
+
     onShowCreateModal(): void {
         this.visibleCreateModal = true;
     }
@@ -173,7 +179,7 @@ export class LivingCostComponent implements OnInit, OnDestroy {
                 .subscribe({
                     next: (res) => {
                         if (res.success) {
-                            this.getLivingCosts();
+                            this.onSearch();
                             this.messageService.add({ severity: 'success', summary: title.success, detail: messageLivingCost.deleteSuccess });
                         } else {
                             this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });

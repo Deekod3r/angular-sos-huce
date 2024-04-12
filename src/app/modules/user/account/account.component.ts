@@ -10,16 +10,16 @@ import { PetService } from 'src/app/services/pet.service';
 import { UserService } from 'src/app/services/user.service';
 import { AccountModule } from './account.module';
 import { BadgeModule } from 'primeng/badge';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { PetCareLogService } from 'src/app/services/pet-care-log.service';
+import { TreatmentPetModule } from 'src/app/shared/components/treatment-pet/treatment-pet.module';
 
 @Component({
     selector: 'app-account',
     standalone: true,
-    imports: [AccountModule, TabViewModule, TableModule, TagModule, DialogModule, BadgeModule, ConfirmDialogModule],
+    imports: [AccountModule, TabViewModule, TableModule, TagModule, DialogModule, BadgeModule, TreatmentPetModule],
     templateUrl: './account.component.html',
     styleUrls: ['./account.component.css']
 })
@@ -45,8 +45,9 @@ export class AccountComponent implements OnInit, OnDestroy {
     logs!: any;
     pets!: any;
     adopts!: any;
-    detailAdopt: any;
-    detailAdoptData: any;
+    petId!: any;
+    detailAdopt!: any;
+    detailAdoptData!: any;
     visibleDetailAdopt: boolean = false;
     visibleUpdateInfo: boolean = false;
     visiblePetCareLog: boolean = false;
@@ -211,8 +212,9 @@ export class AccountComponent implements OnInit, OnDestroy {
         this.visiblePetCareLog = true;
     }
 
-    onShowDetailAdopt(adoptId: any): void {
+    onShowDetailAdopt(adoptId: string, petId: string): void {
         this.detailAdopt = adoptId;
+        this.petId = petId;
         this.visibleDetailAdopt = true;
         this.getAdopt(adoptId);
     }
@@ -229,6 +231,7 @@ export class AccountComponent implements OnInit, OnDestroy {
         this.visibleDetailAdopt = false;
         this.detailAdopt = null;
         this.detailAdoptData = null;
+        this.petId = null;
     }
 
     onConfirmCancel(event: any, adoptId: any): void {

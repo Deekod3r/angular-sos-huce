@@ -1,10 +1,109 @@
 <div class="card">
-    <div class="grid">
+    <p-dialog *ngIf="visibleAdoptsNearLogModal" [(visible)]="visibleAdoptsNearLogModal" 
+        [modal]="true" [style]="{ width: '90vw' }" [draggable]="false" [resizable]="false">
+        <p-table #table [value]="adoptsNearLog" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines"
+            selectionMode="single" [paginator]="true" [rows]="5">
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                    Danh sách đơn nhận nuôi tới hạn kiểm tra
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr class="">
+                    <th class="col-4">Mã đơn</th>
+                    <th class="col-4">Ngày kiểm tra</th>
+                    <th class="col-4">Còn</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-adopt>
+                <tr>
+                    <td>{{adopt.code}}</td>
+                    <td>{{adopt.checkDate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{adopt.dateDiff}} ngày</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="paginatorleft">
+            </ng-template>
+            <ng-template pTemplate="paginatorright">
+            </ng-template>
+        </p-table>
+    </p-dialog>
+    <div *ngIf="statisticCases" class="grid mb-3">
+        <div class="col-12 md:col-6 xl:col-3">
+            <div class="card h-full p-3">
+                <span class="font-semibold text-lg">CA CỨU HỘ</span>
+                <div class="flex justify-content-between align-items-start mt-3">
+                    <div class="w-6">
+                        <span class="text-4xl font-bold text-900">{{statisticCases.total}}</span>
+                        <div class="text-green-500">
+                            <span class="font-medium ml-2">{{ ((statisticCases.total - statisticCases.totalPrevious) /
+                                statisticCases.totalPrevious) * 100 | number:'1.2-2' }} %</span>
+                            <i class="fa fa-arrow-up text-xs ml-2"></i>
+                        </div>
+                    </div>
+                    <div class="w-6">
+                        <svg width="100%" viewBox="0 0 258 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M1 93.9506L4.5641 94.3162C8.12821 94.6817 15.2564 95.4128 22.3846 89.6451C29.5128 83.8774 36.641 71.6109 43.7692 64.4063C50.8974 57.2018 58.0256 55.0592 65.1538 58.9268C72.2821 62.7945 79.4103 72.6725 86.5385 73.5441C93.6667 74.4157 100.795 66.2809 107.923 65.9287C115.051 65.5765 122.179 73.0068 129.308 66.8232C136.436 60.6396 143.564 40.8422 150.692 27.9257C157.821 15.0093 164.949 8.97393 172.077 6.43766C179.205 3.9014 186.333 4.86425 193.462 12.0629C200.59 19.2616 207.718 32.696 214.846 31.0487C221.974 29.4014 229.103 12.6723 236.231 5.64525C243.359 -1.38178 250.487 1.29325 254.051 2.63076L257.615 3.96827"
+                                stroke="10" style="stroke-width: 2px; stroke: var(--primary-color);">
+                            </path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 xl:col-3">
+            <div class="card h-full p-3">
+                <span class="font-semibold text-lg">ĐÃ CÓ CHỦ MỚI</span>
+                <div class="flex justify-content-between align-items-start mt-3">
+                    <div class="w-6">
+                        <span class="text-4xl font-bold text-900">{{statisticCases.adopted}}</span>
+                    </div>
+                    <div class="w-6 text-right">
+                        <p-knob valueTemplate="{value}%" styleclass="mt-5" [readonly]="true" [strokeWidth]="10"
+                            [ngModel]="(statisticCases.adopted / statisticCases.total * 100) | number:'1.1-1'">
+                        </p-knob>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 xl:col-3">
+            <div class="card h-full p-3">
+                <span class="font-semibold text-lg">ĐANG TÌM CHỦ</span>
+                <div class="flex justify-content-between align-items-start mt-3">
+                    <div class="w-6">
+                        <span class="text-4xl font-bold text-900">{{statisticCases.wait}}</span>
+                    </div>
+                    <div class="w-6 text-right">
+                        <p-knob valueTemplate="{value}%" styleclass="mt-5" [readonly]="true" [strokeWidth]="10"
+                            [ngModel]="(statisticCases.wait / statisticCases.total * 100) | number:'1.1-1'">
+                        </p-knob>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 xl:col-3">
+            <div class="card h-full p-3">
+                <span class="font-semibold text-lg">ĐANG ĐIỀU TRỊ</span>
+                <div class="flex justify-content-between align-items-start mt-3">
+                    <div class="w-6">
+                        <span class="text-4xl font-bold text-900">{{statisticCases.healing}}</span>
+                    </div>
+                    <div class="w-6 text-right">
+                        <p-knob valueTemplate="{value}%" styleclass="mt-5" [readonly]="true" [strokeWidth]="10"
+                            [ngModel]="(statisticCases.healing / statisticCases.total * 100) | number:'1.1-1'">
+                        </p-knob>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="statisticAdopt" class="grid mb-3">
         <div class="md:col-4 col-12">
             <div class="card p-3">
                 <div class="flex justify-content-between mb-3">
                     <div>
-                        <span class="block text-500 font-medium mb-3">Tổng số đơn</span>
+                        <span class="block text-700 font-medium mb-3">Tổng số đơn</span>
                         <div class="text-900 font-medium text-xl">{{statisticAdopt.total}}</div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-indigo-100 border-round"
@@ -18,7 +117,7 @@
             <div class="card p-3">
                 <div class="flex justify-content-between mb-3">
                     <div>
-                        <span class="block text-500 font-medium mb-3">Đơn chờ xử lý</span>
+                        <span class="block text-700 font-medium mb-3">Đơn chờ xử lý</span>
                         <div class="text-900 font-medium text-xl">{{statisticAdopt.countWaiting}}</div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
@@ -32,7 +131,7 @@
             <div class="card p-3">
                 <div class="flex justify-content-between mb-3">
                     <div>
-                        <span class="block text-500 font-medium mb-3">Đơn đang xử lý</span>
+                        <span class="block text-700 font-medium mb-3">Đơn đang xử lý</span>
                         <div class="text-900 font-medium text-xl">{{statisticAdopt.countInProgress}}</div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-yellow-100 border-round"
@@ -46,8 +145,15 @@
             <div class="card p-3">
                 <div class="flex justify-content-between mb-3">
                     <div>
-                        <span class="block text-500 font-medium mb-3">Đơn đã hoàn thành</span>
-                        <div class="text-900 font-medium text-xl">{{statisticAdopt.countComplete}}</div>
+                        <span class="block text-700 font-medium mb-3">Đơn đã hoàn thành</span>
+                        <div class="text-900 font-medium text-xl">
+                            {{statisticAdopt.countComplete}}
+                            <button *ngIf="adoptsNearLog" pButton class="p-butotn-sm p-button-text p-0 ml-3"
+                                (click)="visibleAdoptsNearLogModal = true">
+                                <span class="font-semibold mr-1">Xem đơn tới hạn kiểm tra</span> <p-badge
+                                    [value]="adoptsNearLog.length" severity="warning"></p-badge>
+                            </button>
+                        </div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-green-100 border-round"
                         style="width: 2.5rem; height: 2.5rem;">
@@ -60,7 +166,7 @@
             <div class="card p-3">
                 <div class="flex justify-content-between mb-3">
                     <div>
-                        <span class="block text-500 font-medium mb-3">Đơn đã hủy</span>
+                        <span class="block text-700 font-medium mb-3">Đơn đã hủy</span>
                         <div class="text-900 font-medium text-xl">{{statisticAdopt.countCancel}}</div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-red-100 border-round"
@@ -74,7 +180,7 @@
             <div class="card p-3">
                 <div class="flex justify-content-between mb-3">
                     <div>
-                        <span class="block text-500 font-medium mb-3">Đơn bị từ chối</span>
+                        <span class="block text-700 font-medium mb-3">Đơn bị từ chối</span>
                         <div class="text-900 font-medium text-xl">{{statisticAdopt.countReject}}</div>
                     </div>
                     <div class="flex align-items-center justify-content-center surface-300 border-round"
@@ -85,4 +191,64 @@
             </div>
         </div>
     </div>
+    <p-panel>
+        <ng-template pTemplate="header">
+            <div class="flex justify-content-between align-items-center">
+                <p class="font-semibold text-lg mr-3">Tài chính năm {{year}}</p>
+                <p-dropdown [options]="years" [(ngModel)]="year" [style]="{width: '150px'}" (onChange)="getDataChart()"
+                    styleClass="mb-3"></p-dropdown>
+            </div>
+        </ng-template>
+        <div class="grid">
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card p-0 overflow-hidden flex flex-column">
+                    <div class="flex align-items-center p-3"><i class="pi pi-users text-6xl text-blue-500"></i>
+                        <div class="ml-3"><span class="text-blue-500 block white-space-nowrap font-semibold">Tổng tiền
+                                ủng hộ</span><span
+                                class="text-blue-500 block text-4xl font-bold">{{getSumArray(defaultDataDonate) |
+                                currency: ' ' }} VNĐ</span></div>
+                    </div><img alt="users" class="w-full" src="../../../../assets/medias/imgs/users.svg">
+                </div>
+            </div>
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card p-0 overflow-hidden flex flex-column">
+                    <div class="flex align-items-center p-3"><i class="pi pi-users text-6xl text-green-500"></i>
+                        <div class="ml-3"><span class="text-green-500 block white-space-nowrap font-semibold">Tổng tiền
+                                vía nuôi</span><span
+                                class="text-green-500 block text-4xl font-bold">{{getSumArray(defaultDataAdopt) |
+                                currency: ' ' }} VNĐ</span></div>
+                    </div><img alt="users" class="w-full" src="../../../../assets/medias/imgs/rate.svg">
+                </div>
+            </div>
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card p-0 overflow-hidden flex flex-column">
+                    <div class="flex align-items-center p-3"><i class="pi pi-users text-6xl text-orange-500"></i>
+                        <div class="ml-3"><span class="text-orange-500 block white-space-nowrap font-semibold">Tổng tiền
+                                sinh hoạt phí</span><span
+                                class="text-orange-500 block text-4xl font-bold">{{getSumArray(defaultDataLivingCost) |
+                                currency: ' ' }} VNĐ</span></div>
+                    </div><img alt="users" class="w-full" src="../../../../assets/medias/imgs/locations.svg">
+                </div>
+            </div>
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card p-0 overflow-hidden flex flex-column">
+                    <div class="flex align-items-center p-3"><i class="pi pi-users text-6xl text-purple-500"></i>
+                        <div class="ml-3"><span class="text-purple-500 block white-space-nowrap font-semibold">Tổng tiền
+                                viện phí</span><span
+                                class="text-purple-500 block text-4xl font-bold">{{getSumArray(defaultDataTreatment) |
+                                currency: ' ' }} VNĐ</span></div>
+                    </div><img alt="users" class="w-full" src="../../../../assets/medias/imgs/interactions.svg">
+                </div>
+            </div>
+        </div>
+        <div class="card mt-2">
+            <p-chart type="bar" [data]="donateData" [options]="options"></p-chart>
+        </div>
+        <div class="card">
+            <p-chart type="line" [data]="adoptData" [options]="options"></p-chart>
+        </div>
+        <div class="card">
+            <p-chart type="line" [data]="feeData" [options]="options"></p-chart>
+        </div>
+    </p-panel>
 </div>

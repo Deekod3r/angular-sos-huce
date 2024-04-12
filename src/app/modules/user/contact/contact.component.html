@@ -52,7 +52,7 @@
                         <p>Chi phí và vật dụng sẽ được chia đều cho các bé đang điều trị và phục vụ xây dựng nhà chung để các bé sinh hoạt</p>
                     </div>
                     <div *ngFor="let bank of banks" class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
-                        <div class="font-semibold"><i class="text-primary mr-1" [ngClass]="bank.logo"></i> {{bank.name}}: <br> {{bank.accountNumber}} <br> {{bank.owner}}  </div>
+                        <div class="font-semibold"><i class="text-primary mr-1" [ngClass]="bank.logo"></i> {{bank.name}} <br> {{bank.accountNumber}} <br> {{bank.owner}}  </div>
                     </div>
                 </div>
             </p-tabPanel>
@@ -61,30 +61,52 @@
                     <i class="fa fa-envelope mr-2"></i>
                     <span>Hòm thư góp ý</span>
                 </ng-template>
-                <div class="grid text-lg">
-                    <div class="col-12">
-                        <p class="font-bold text-3xl">Hòm thư góp ý</p>
-                        <p>Hãy để lại lời nhắn cho chúng tôi</p>
+                <form [formGroup]="formFeedback">
+                    <div class="grid text-lg">
+                        <div class="col-12">
+                            <p class="font-bold text-3xl">Hòm thư góp ý</p>
+                            <p>Hãy để lại lời nhắn cho chúng tôi</p>
+                        </div>
+                        <!-- <div class="col-6" align="right">
+                            <img src="../../../../assets/medias/imgs/donate-1.png" alt="" class="w-25">
+                        </div> -->
+                        <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12">
+                            <label for="fullName">Họ và tên <span class="text-red-500">*</span></label>
+                            <input pInputText type="text" class="w-full p-2 border-primary-500 mt-1" id="fullName" formControlName="fullName">
+                            <div [hidden]="!formFeedback.controls['fullName'].hasError('required') || !formFeedback.controls['fullName'].touched"
+                                class="text-red-500 mt-2 ml-1">
+                                Vui lòng nhập họ tên
+                            </div>
+                            <div [hidden]="!formFeedback.controls['fullName'].hasError('maxlength') || !formFeedback.controls['fullName'].touched"
+                                class="text-red-500 mt-2 ml-1">
+                                Độ dài thông tin không hợp lệ (tối đa 100 ký tự)
+                            </div>
+                        </div>
+                        <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12">
+                            <label for="email">Email <span class="text-red-500">*</span></label>
+                            <input pInputText type="text" class="w-full p-2 border-primary-500 mt-1" id="email" formControlName="email">
+                            <div [hidden]="!formFeedback.controls['email'].hasError('required') || !formFeedback.controls['email'].touched"
+                                class="text-red-500 mt-2 ml-1">
+                                Vui lòng nhập email
+                            </div>
+                            <div [hidden]="!formFeedback.controls['email'].hasError('email') || !formFeedback.controls['email'].touched"
+                                class="text-red-500 mt-2 ml-1">
+                                Email không hợp lệ
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="message">Lời nhắn <span class="text-red-500">*</span></label>
+                            <textarea pInputTextarea class="w-full p-2 border-primary-500 mt-1" rows="5" id="message" formControlName="message"></textarea>
+                            <div [hidden]="!formFeedback.controls['message'].invalid || !formFeedback.controls['message'].touched"
+                                class="text-red-500 mt-2 ml-1">
+                                Vui lòng nhập lời nhắn (tối thiểu 20 ký tự)
+                            </div>
+                        </div>
+                        <div class="col-12" align="center">
+                            <button pButton class="font-bold" (click)="onFeedback()">Gửi tin nhắn</button>
+                        </div>
                     </div>
-                    <!-- <div class="col-6" align="right">
-                        <img src="../../../../assets/medias/imgs/donate-1.png" alt="" class="w-25">
-                    </div> -->
-                    <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12">
-                        <label for="name">Họ và tên <span class="text-red-500">*</span></label>
-                        <input pInputText type="text" class="w-full p-2 border-primary-500 mt-1" id="name">
-                    </div>
-                    <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12">
-                        <label for="email">Email <span class="text-red-500">*</span></label>
-                        <input pInputText type="text" class="w-full p-2 border-primary-500 mt-1" id="email">
-                    </div>
-                    <div class="col-12">
-                        <label for="message">Tin nhắn <span class="text-red-500">*</span></label>
-                        <textarea pInputTextarea class="w-full p-2 border-primary-500 mt-1" rows="5" id="message"></textarea>
-                    </div>
-                    <div class="col-12" align="center">
-                        <button pButton class="font-bold" routerLink="/lien-he">Gửi tin nhắn</button>
-                    </div>
-                </div>
+                </form>
             </p-tabPanel>
         </p-tabView>
     </div>

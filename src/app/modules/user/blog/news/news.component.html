@@ -3,6 +3,7 @@
         <a class="font-semibold" routerLink="">{{news.categoryName}}</a>
         <span class="font-semibold">{{news.createdAt | date: 'dd/MM/yyyy HH:ss'}}</span>
     </div>
+    <p-divider></p-divider>
     <h2 class="my-2"><i class="fa fa-paw text-primary"></i> {{news.title}}</h2>
     <p-divider></p-divider>
     <p class="pb-5 content" [innerHTML]="news.content" style="max-width: fit-content;"></p>

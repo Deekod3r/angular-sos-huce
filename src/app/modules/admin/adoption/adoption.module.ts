@@ -9,6 +9,7 @@ import { AdoptionCreateComponent } from './adoption-create/adoption-create.compo
 import { AdoptionUpdateComponent } from './adoption-update/adoption-update.component';
 import { BadgeModule } from 'primeng/badge';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { TreatmentPetModule } from 'src/app/shared/components/treatment-pet/treatment-pet.module';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
         AutoCompleteModule,
         CalendarModule,
         BadgeModule,
-        InputNumberModule
+        InputNumberModule,
+        TreatmentPetModule
     ],
     exports: [
         SharedModule,

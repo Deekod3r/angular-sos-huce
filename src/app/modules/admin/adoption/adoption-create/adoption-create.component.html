@@ -23,8 +23,8 @@
                 <div class="flex flex-column gap-2">
                     <label for="pet">Thú cưng <span class="text-red-500 font-bold">*</span></label>
                     <p-dropdown [options]="pets" optionLabel="name" [filter]="true" filterBy="code" 
-                    filterPlaceholder="Mã thú cưng" emptyMessage="Không có dữ liệu" id="pet"
-                    [showClear]="true" placeholder="--Chọn--" styleClass="mat-form-field" formControlName="petAdopt">
+                        filterPlaceholder="Mã thú cưng" emptyMessage="Không có dữ liệu" id="pet"
+                        [showClear]="true" placeholder="--Chọn--" styleClass="mat-form-field" formControlName="petAdopt">
                         <ng-template let-pet pTemplate="item">
                             <div class="flex align-items-center">
                                 <div>{{ pet.code }} - {{ pet.name }}</div>
@@ -42,7 +42,9 @@
                     <label for="province">Tỉnh/thành phố <span class="text-red-500 font-bold">*</span></label>
                     <p-dropdown [options]="provinces" optionLabel="name" optionValue="id" id="province"
                         styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
-                        emptyMessage="Không có dữ liệu" formControlName="province" (onChange)="getDistricts(); wards = []" (onClear)="districts = []; wards = []"></p-dropdown>
+                        emptyMessage="Không có dữ liệu" formControlName="province" 
+                        (onChange)="getDistricts(); wards = []" (onClear)="districts = []; wards = []">
+                    </p-dropdown>
                 </div>
                 <div [hidden]="formAdopt.controls['province'].valid || !formAdopt.controls['province'].touched"
                     class="text-red-500 mt-2 ml-1">
@@ -200,7 +202,7 @@
                             alt="{{this.formAdopt.controls['petAdopt'].value.name}}" class="w-full mt-2" style="border-radius: 10px; max-height: 600px;">
                         </div>
                         <div class="xl:col-2 lg:col-2 md:col-6 col-12 mx-auto">
-                            <p class="text-3xl font-semibold">{{this.formAdopt.controls['petAdopt'].value.name}}</p>
+                            <p class="text-3xl font-semibold mb-3">{{this.formAdopt.controls['petAdopt'].value.name}}</p>
                             <p-divider type="dashed"></p-divider>
                             <p><b>Mã:</b> {{this.formAdopt.controls['petAdopt'].value.code}}</p>
                             <p-divider type="dashed"></p-divider>
@@ -216,7 +218,7 @@
                             <p-divider type="dashed"></p-divider>
                         </div>
                         <div class="xl:col-7 lg:col-7 md:col-12 col-12 mx-auto">
-                            <p class="text-3xl font-semibold mb-1">Thông tin</p>
+                            <p class="text-3xl font-semibold mb-3">Thông tin</p>
                             <p-divider></p-divider>
                             <div class="grid mt-1">
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
@@ -254,9 +256,12 @@
                                         <ng-template #showDots>
                                             <span>...</span>
                                         </ng-template>
-                                        </p>
+                                    </p>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-12">
+                            <app-treatment-pet [idPet]="this.formAdopt.value.petAdopt.id"></app-treatment-pet>
                         </div>
                     </div>
                 </p-panel>

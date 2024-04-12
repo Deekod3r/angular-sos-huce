@@ -1,0 +1,35 @@
+<p-table #table [value]="treatments" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines"
+    selectionMode="single" [paginator]="true" [rows]="5">
+    <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+            Lịch sử điều trị
+        </div>
+        <p *ngIf="treatments == null || treatments.length == 0" class="text-red-500">Không có dữ liệu</p>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr class="">
+            <th class="col-2">Thú cưng</th>
+            <th class="col-2">Điều trị</th>
+            <th class="col-2">Địa chỉ</th>
+            <th class="col-1">Ngày đến</th>
+            <th class="col-1">Ngày đi</th>
+            <th class="col-2">Đơn giá</th>
+            <th class="col-1">Số lượng</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-treatment>
+        <tr>
+            <td>{{treatment.petCode}} - {{treatment.petName}}</td>
+            <td>{{treatmentService.getType(treatment.type)}} - {{treatment.name}}</td>
+            <td>{{treatment.location}}</td>
+            <td>{{treatment.startDate | date:'dd/MM/yyyy'}}</td>
+            <td>{{treatment.endDate | date:'dd/MM/yyyy'}}</td>
+            <td>{{treatment.price | currency: ' ' }} VNĐ</td>
+            <td>{{treatment.quantity}}</td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+    </ng-template>
+    <ng-template pTemplate="paginatorright">
+    </ng-template>
+</p-table>

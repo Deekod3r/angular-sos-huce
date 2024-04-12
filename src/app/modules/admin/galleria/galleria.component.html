@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <button pButton icon="fa fa-save" label="Lưu" (click)="onUpdateGalleria($event)"></button>
+                    <button pButton icon="fa fa-save" label="Lưu thay đổi" (click)="onUpdateGalleria($event)"></button>
                 </div>
             </div>
         </form>
@@ -153,7 +153,7 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <button pButton [icon]="isAdd ? 'fa fa-save' : 'fa fa-plus'" [label]="isAdd ? 'Lưu' : 'Thêm mới'" (click)="onCreateGalleria()"></button>
+                    <button pButton [icon]="isAdd ? 'fa fa-save' : 'fa fa-plus'" [label]="isAdd ? 'Lưu thông tin' : 'Thêm mới'" (click)="onCreateGalleria()"></button>
                     <button *ngIf="isAdd" pButton icon="fa fa-close" class="ml-3 p-button-outlined" label="Hủy"
                         (click)="onHideFormAdd()"></button>
                 </div>

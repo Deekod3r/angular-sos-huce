@@ -26,7 +26,7 @@
         </ng-template>
         <ng-template pTemplate="content">
             <div class="flex flex-column mt-2">
-                <p-inputNumber [(ngModel)]="dataComplete.fee" mode="decimal" [maxFractionDigits]="2" styleClass="mat-form-field"> </p-inputNumber>
+                <p-inputNumber [(ngModel)]="dataComplete.fee" mode="decimal" [maxFractionDigits]="2" styleClass="mat-form-field" [min]="0"> </p-inputNumber>
             </div>
         </ng-template>
         <ng-template pTemplate="footer">

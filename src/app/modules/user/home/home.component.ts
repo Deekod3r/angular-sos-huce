@@ -97,7 +97,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.introductions = data;
         });
 
-        this.petService.getStatisticCases()
+        this.petService.getStatisticCases({})
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res) => {

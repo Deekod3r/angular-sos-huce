@@ -1,7 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PetCareLogModule } from './pet-care-log.module';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { TableModule } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
 import { PetCareLogService } from 'src/app/services/pet-care-log.service';
@@ -14,12 +13,13 @@ import { title, message, messageLog } from 'src/app/common/message';
 @Component({
     selector: 'app-pet-care-log',
     standalone: true,
-    imports: [PetCareLogModule, ConfirmDialogModule, TableModule, TieredMenuModule],
+    imports: [PetCareLogModule, TableModule, TieredMenuModule],
     templateUrl: './pet-care-log.component.html',
     styleUrls: ['./pet-care-log.component.css']
 })
 export class PetCareLogComponent implements OnInit, OnDestroy {
 
+    @ViewChild("table") table!: Table;
     logs: any[] = [];
     adopts: any[] = [];
     key = {
@@ -57,6 +57,7 @@ export class PetCareLogComponent implements OnInit, OnDestroy {
         .subscribe({
             next: (res) => {
                 if (res.success) {
+                    this.table.reset();
                     this.logs = res.data;
                     if (this.logs.length == 0) {
                         this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });
@@ -174,6 +175,7 @@ export class PetCareLogComponent implements OnInit, OnDestroy {
                 .subscribe({
                     next: (res) => {
                         if (res.success) {
+                            this.table.reset();
                             this.getLogs();
                             this.messageService.add({ severity: 'success', summary: title.success, detail: messageLog.deleteSuccess });
                         }

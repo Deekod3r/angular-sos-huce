@@ -160,7 +160,7 @@
             </div>
         </p-tabPanel>
         <p-tabPanel header="Lịch sử nhận nuôi">
-            <p-dialog *ngIf="visibleDetailAdopt && detailAdoptData" header="Thông tin đơn nhận nuôi" [(visible)]="visibleDetailAdopt" [modal]="true"
+            <p-dialog *ngIf="visibleDetailAdopt && detailAdoptData != null" header="Thông tin đơn nhận nuôi" [(visible)]="visibleDetailAdopt" [modal]="true"
                 [style]="{ width: '90vw', height: '100vh' }" [draggable]="false" [resizable]="false" (visibleChange)="onHideDetailAdopt()">
                 <p-panel header="Trạng thái">
                     <p>
@@ -189,29 +189,29 @@
                     <p>Lý do nhận nuôi: <b>{{detailAdoptData.adopt.reason}}</b></p>
                 </p-panel>
                 <br>
-                <p-panel header="Thông tin thú cưng - {{detailAdoptData.pet.name}}">
+                <p-panel header="Thông tin thú cưng - {{detailAdoptData.pet.name}}" styleClass="my-3">
                     <div class="grid">
                         <div class="xl:col-3 lg:col-3 md:col-6 col-8 mx-auto">
                             <img src="{{detailAdoptData.pet.image}}" alt="{{detailAdoptData.pet.name}}" class="w-full mt-2" style="border-radius: 10px; max-height: 600px;">
                         </div>
                         <div class="xl:col-2 lg:col-2 md:col-6 col-12 mx-auto">
-                            <p class="text-3xl font-semibold">{{detailAdoptData.pet.name}}</p>
+                            <p class="text-3xl font-semibold mb-3">{{detailAdoptData.pet.name}}</p>
                             <p-divider type="dashed"></p-divider>
-                            <p class="my-1"><b>Mã:</b> {{detailAdoptData.pet.code}}</p>
+                            <p class="my-3-ipt"><b>Mã:</b> {{detailAdoptData.pet.code}}</p>
                             <p-divider type="dashed"></p-divider>
-                            <p><b>Giống:</b> {{detailAdoptData.pet.breed}}</p>
+                            <p class="my-3-ipt"><b>Giống:</b> {{detailAdoptData.pet.breed}}</p>
                             <p-divider type="dashed"></p-divider>
-                            <p><b>Màu lông:</b> {{detailAdoptData.pet.color}}</p>
+                            <p class="my-3-ipt"><b>Màu lông:</b> {{detailAdoptData.pet.color}}</p>
                             <p-divider type="dashed"></p-divider>
-                            <p><b>Tuổi:</b> {{this.petService.getAge(detailAdoptData.pet.age)}}</p>
+                            <p class="my-3-ipt"><b>Tuổi:</b> {{this.petService.getAge(detailAdoptData.pet.age)}}</p>
                             <p-divider type="dashed"></p-divider>
-                            <p><b>Cân nặng:</b> {{detailAdoptData.pet.weight}} kg</p>
+                            <p class="my-3-ipt"><b>Cân nặng:</b> {{detailAdoptData.pet.weight}} kg</p>
                             <p-divider type="dashed"></p-divider>
-                            <p><b>Giới tính:</b> {{this.petService.getGender(detailAdoptData.pet.gender)}}</p>
+                            <p class="my-3-ipt"><b>Giới tính:</b> {{this.petService.getGender(detailAdoptData.pet.gender)}}</p>
                             <p-divider type="dashed"></p-divider>
                         </div>
                         <div class="xl:col-7 lg:col-7 md:col-12 col-12 mx-auto">
-                            <p class="text-3xl font-semibold mb-1">Thông tin</p>
+                            <p class="text-3xl font-semibold mb-3">Thông tin</p>
                             <p-divider></p-divider>
                             <div class="grid mt-1">
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
@@ -245,6 +245,7 @@
                         </div>
                     </div>
                 </p-panel>
+                <app-treatment-pet [idPet]="petId"></app-treatment-pet>
             </p-dialog>
             <p-table *ngIf="adopts != null && adopts.length > 0" [value]="adopts" [rows]="5" [rowsPerPageOptions]="[1, 2, 5, 10]" 
                 [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines mt-3"
@@ -279,7 +280,7 @@
                         </td>
                         <td>
                             <div class="w-full" [ngClass]="{'flex justify-content-between': this.adoptService.isAvailableForCancelByUser(adopt.status) }" align="center">
-                                <p-button type="button" title="Xem chi tiết" icon="fa fa-eye" styleClass="p-button-primary p-button-text p-button-sm" (onClick)="onShowDetailAdopt(adopt.id)"></p-button>
+                                <p-button type="button" title="Xem chi tiết" icon="fa fa-eye" styleClass="p-button-primary p-button-text p-button-sm" (onClick)="onShowDetailAdopt(adopt.id, adopt.petId)"></p-button>
                                 <p-button *ngIf="this.adoptService.isAvailableForCancelByUser(adopt.status)" (onClick)="onConfirmCancel($event, adopt.id)" type="button" title="Hủy đơn" icon="fa fa-cancel" styleClass="p-button-danger p-button-text p-button-sm"></p-button>
                             </div>
                         </td>

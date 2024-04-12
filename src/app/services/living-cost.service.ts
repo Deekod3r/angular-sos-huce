@@ -41,6 +41,20 @@ export class LivingCostService {
         return this.commonService.callAPI(request);
     }
 
+    getTotalLivingCost(search: any): Observable<any> {
+        const request = {
+            function: this.API_URL + '/total',
+            method: CONFIG.KEY.METHOD_GET,
+            options: {
+                params: search,
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
     createLivingCost(body: any): Observable<any> {
         const request = {
             function: this.API_URL + '/create',

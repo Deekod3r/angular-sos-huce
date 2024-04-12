@@ -10,6 +10,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ImageModule } from 'primeng/image';
 import { CalendarModule } from 'primeng/calendar';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { TreatmentPetModule } from 'src/app/shared/components/treatment-pet/treatment-pet.module';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
         AutoCompleteModule,
         ImageModule,
         CalendarModule,
-        InputNumberModule
+        InputNumberModule,
+        TreatmentPetModule
     ],
     exports: [
         PetCreateComponent,

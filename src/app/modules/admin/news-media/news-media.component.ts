@@ -215,7 +215,7 @@ export class NewsMedeiaComponent  implements OnInit, OnDestroy {
                 .subscribe({
                     next: (res) => {
                         if (res.success) {
-                            this.getNews();
+                            this.onSearch();
                             this.messageService.add({ severity: 'success', summary: title.success, detail: messageNews.deleteSuccess });
                         }
                     },

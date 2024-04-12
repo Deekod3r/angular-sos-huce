@@ -1,0 +1,114 @@
+<!-- <div class="position-relative">
+    <form [formGroup]="form" enctype="multipart/form-data">
+        <div class="grid">
+            <div class="col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="location">Cơ sở điều trị <span class="text-red-500 font-bold">*</span></label>
+                    <input pInputText id="location" formControlName="location" />
+                </div>
+                <div [hidden]="form.controls['location'].valid || !form.controls['location'].touched"
+                    class="text-red-500 mt-2">
+                    Vui lòng nhập địa chỉ điều trị
+                </div>
+            </div>
+            <div class="col-12">
+                <button pButton label="Thêm thú cưng" icon="fa fa-plus" (click)="onAddDetailLocation()"></button>
+            </div>
+            <div class="col-12">
+                <div formArrayName="detailLocation">
+                    <div *ngFor="let dtLocation of getDetailLocation(); let i = index">
+                        <div [formGroupName]="i" class="border-1 border-primary-500 border-round mb-2">
+                            <div class="p-3">
+                                <button pButton icon="fa fa-plus" class="mr-3 p-button-sm p-button-sm" label="Thêm chi tiết thông tin điều trị" (click)="onAddDetailPet(i)"></button>
+                                <button pButton icon="fa fa-trash" class="p-button-danger p-button-text p-button-sm" (click)="onRemoveDetailLocation(i)"></button>
+                                <div class="flex flex-column mt-1 mb-2">
+                                    <p-dropdown [options]="pets" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" 
+                                        filterPlaceholder="Mã - tên thú cưng" emptyMessage="Không có dữ liệu" id="petId"
+                                        [showClear]="true" placeholder="--Chọn thú cưng--" styleClass="mt-2 mat-form-field" formControlName="petId">
+                                        <ng-template let-pet pTemplate="item">
+                                            <div class="flex align-items-center">
+                                                <div>{{pet.label}}</div>
+                                            </div>
+                                        </ng-template>
+                                    </p-dropdown>
+                                </div>
+                                <div *ngFor="let dtPet of getDetailPet(i); let j = index">
+                                    <div [formGroupName]="j" class="border-1 border-primary-500 border-round mb-2">
+                                        <button pButton icon="fa fa-trash" class="p-button-danger p-button-text p-button-sm" (click)="onRemoveDetailPet(i, j)" label="Xóa - {{j}}"></button>
+                                        <div class="grid p-3">
+                                            <div class="col-12">
+                                                <div class="flex flex-column gap-2">
+                                                    <label for="name">Nội dung điều trị <span class="text-red-500 font-bold">*</span></label>
+                                                    <textarea pInputTextarea id="name" formControlName="name" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="lg:col-3 md:col-6 col-12">
+                                                <div class="flex flex-column gap-2">
+                                                    <label for="startDate">Ngày đến <span class="text-red-500 font-bold">*</span></label>
+                                                    <p-calendar id="startDate" [showIcon]="true" [readonlyInput]="true" styleClass="mat-form-field"
+                                                        dateFormat="dd/mm/yy" dataType="string" formControlName="startDate"></p-calendar>
+                                                </div>
+                                            </div>
+                                            <div class="lg:col-3 md:col-6 col-12">
+                                                <div class="flex flex-column gap-2">
+                                                    <label for="endDate">Ngày đi</label>
+                                                    <p-calendar id="endDate" [showIcon]="true" [readonlyInput]="true" styleClass="mat-form-field"
+                                                        dateFormat="dd/mm/yy" dataType="string" formControlName="endDate"></p-calendar>
+                                                </div>
+                                            </div>
+                                            <div class="lg:col-3 md:col-6 col-12">
+                                                <div class="flex flex-column gap-2">
+                                                    <label for="price">Số tiền <span class="text-red-500 font-bold">*</span></label>
+                                                    <div class="p-inputgroup">
+                                                        <span class="p-inputgroup-addon">
+                                                            ₫
+                                                        </span>
+                                                        <p-inputNumber formControlName="price" inputId="price"  styleClass="mat-form-field"></p-inputNumber>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="lg:col-3 md:col-6 col-12">
+                                                <div class="flex flex-column gap-2">
+                                                    <label for="quantity">Số lượng <span class="text-red-500 font-bold">*</span></label>
+                                                    <p-inputNumber formControlName="quantity" inputId="quantity" styleClass="mat-form-field"></p-inputNumber>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="flex flex-column gap-2">
+                                                    <label for="description">Ghi chú</label>
+                                                    <textarea pInputTextarea id="description" formControlName="description" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                                             
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="images">Hình ảnh <span class="text-red-500 font-bold">*</span></label>
+                    <p-fileUpload name="images" chooseLabel="Chọn hình ảnh" accept="image/**" [maxFileSize]="100000000"
+                        [customUpload]="true" [showUploadButton]="false" [showCancelButton]="false" id="images"
+                        [multiple]="true" invalidFileSizeMessageSummary="Lỗi kích thước"
+                        invalidFileSizeMessageDetail="Kích thước file quá lớn"
+                        invalidFileTypeMessageSummary="Lỗi định dạng"
+                        invalidFileTypeMessageDetail="Chỉ chấp nhận file có định dạng hình ảnh: .jpg .jpge .png .gif"
+                        (onSelect)="onImagePicked($event)" (onRemove)="onRemoveImage($event)">
+                    </p-fileUpload>
+                </div>
+                <div [hidden]="form.controls['images'].valid || !form.controls['images'].touched"
+                    class="text-red-500 mt-2 ml-1">
+                    Vui lòng tải hình ảnh
+                </div>
+            </div>
+        </div>
+        <div class="mt-3" align="center">
+            <p-button label="Làm mới" icon="fa fa-refresh" styleClass="p-button-outlined mr-3" [disabled]="!form.dirty"
+                (onClick)="form.reset()"></p-button>
+            <p-button label="Lưu thông tin" icon="fa fa-save" (onClick)="onSaveTreatment()"></p-button>
+        </div>
+    </form>
+</div> -->

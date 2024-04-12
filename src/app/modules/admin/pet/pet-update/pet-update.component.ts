@@ -20,6 +20,7 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
     @Output() resultAction = new EventEmitter<boolean>();
 
     visibleUpdateImageModal: boolean = false;
+    visibleTreatmentModal: boolean = false;
     pet!: any;
     result: boolean = false;
     form!: FormGroup;

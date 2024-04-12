@@ -218,7 +218,7 @@ export class PetComponent implements OnInit, OnDestroy {
                 .subscribe({
                     next: (res) => {
                         if (res.success) {
-                            this.getPets();
+                            this.onSearch();
                             this.messageService.add({ severity: 'success', summary: title.success, detail: messagePet.deleteSuccess });
                         }
                     },

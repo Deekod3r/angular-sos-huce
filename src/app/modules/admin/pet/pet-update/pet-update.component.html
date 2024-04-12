@@ -1,6 +1,11 @@
 <div class="position-relative">
+    <p-dialog *ngIf="visibleTreatmentModal" header="Cập nhật hình ảnh"
+        [(visible)]="visibleTreatmentModal" [modal]="true"
+        [style]="{ width: '60vw', height: 'fit-content' }" [draggable]="false" [resizable]="false">
+        <app-treatment-pet [idPet]="idPet"></app-treatment-pet>
+    </p-dialog>
     <form *ngIf="pet" [formGroup]="form" enctype="multipart/form-data">
-        <div class="grid">
+        <div class="grid mb-1">
             <div class="col-12 mx-auto">
                 <p-image [src]="pet.image" alt="{{pet.name}}" width="250" [preview]="true"
                     [style]="{'border-radius':'50%'}"></p-image>
@@ -17,7 +22,8 @@
                     </p-fileUpload>
                 </p-dialog>
                 <button *ngIf="pet && !isNotAvailableForUpdate()" pButton icon="fa fa-upload" label="Cập nhật hình ảnh"
-                    class="ml-3" (click)="onShowUpdateImageModal()"></button>
+                    class="mx-3" (click)="onShowUpdateImageModal()"></button>
+                <button pButton icon="fa fa-photo" label="Xem thông tin điều trị" class="p-button-outlined" (click)="visibleTreatmentModal = true"></button>
                 <p *ngIf="pet && isNotAvailableForUpdate()" class="mt-2"><b>Người nhận nuôi:</b>
                     {{pet.infoAdoptedBy}}</p>
             </div>
@@ -123,6 +129,10 @@
                     <label for="pet-weight">Cân nặng (kg) <span class="text-red-500 font-bold">*</span></label>
                     <p-inputNumber formControlName="petWeight" id="pet-weight" [maxFractionDigits]="2"
                         styleClass="mat-form-field"></p-inputNumber>
+                </div>
+                <div [hidden]="form.controls['petWeight'].valid || !form.controls['petWeight'].touched"
+                    class="text-red-500 mt-2 ml-1">
+                    Vui lòng nhập cân nặng (lớn hơn 0)
                 </div>
             </div>
             <div class="xl:col-2 lg:col-6 md:col-6 sm:col-12 col-12">

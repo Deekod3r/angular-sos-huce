@@ -98,11 +98,11 @@ export class AdoptionComponent implements OnInit, OnDestroy {
             next: (res) => {
                 if (res.success) {
                     let data = res.data;
+                    this.adopts = data.adopts;
                     this.currentPage = data.currentPage;
                     this.first = (this.currentPage - 1) * this.limit;
                     this.totalPages = data.totalPages;
                     this.totalElements = data.totalElements;
-                    this.adopts = data.adopts;
                     if (this.adopts.length == 0) {
                         this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });
                     } else {
@@ -200,6 +200,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
 
     getUsers(): void {
         this.userService.getUsers({
+            fullData: true,
             isActivated: true,
             role: CONFIG.ROLE.USER
         })
@@ -339,7 +340,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
                 .pipe(takeUntil(this.subscribes$)).subscribe({
                     next: (res) => {
                         if (res.success) {
-                            this.getAdopts();
+                            this.onSearch();
                             this.messageService.add({ severity: 'success', summary: title.success, detail: messageAdopt.updateStatusSuccess });
                         }
                     },
@@ -363,7 +364,7 @@ export class AdoptionComponent implements OnInit, OnDestroy {
             return;
         }
         this.visibleRejectModal = false; 
-        this.onConfirmUpdate(this.dataReject.event, { id: this.dataReject.id, status: ADOPT.STATUS_KEY.REJECT, action: 'từ chối', message: this.dataReject.message });
+        this.onConfirmUpdate(this.dataReject.event, { id: this.dataReject.id, status: ADOPT.STATUS_KEY.REJECT, action: 'từ chối', message: this.dataReject.message.trim() });
     }
 
     onComplete(): void {

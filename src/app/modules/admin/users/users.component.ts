@@ -1,8 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DropdownModule } from 'primeng/dropdown';
-import { TableModule } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
 import { CONFIG } from 'src/app/common/config';
 import { message, messageUser, title } from 'src/app/common/message';
@@ -13,12 +12,13 @@ import { filteredSearch } from 'src/app/shared/utils/data.util';
 @Component({
     selector: 'app-users',
     standalone: true,
-    imports: [SharedModule, TableModule, DropdownModule, ConfirmDialogModule],
+    imports: [SharedModule, TableModule, DropdownModule],
     templateUrl: './users.component.html',
     styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit, OnDestroy {
 
+    @ViewChild("table") table!: Table;
     users: any[] = [];
     key = {
         name: '',
@@ -42,6 +42,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
     getUsers(): void {
         let search = {
+            fullData: true,
             role: CONFIG.ROLE.USER,
             name: this.key.name.trim(),
             phoneNumber: this.key.phoneNumber.trim(),
@@ -53,6 +54,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         .subscribe({
             next: (res) => {
                 if (res.success) {
+                    this.table.reset();
                     this.users = res.data.users;
                 }
             },

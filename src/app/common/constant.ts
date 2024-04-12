@@ -365,7 +365,56 @@ export const LIVING_COST = {
         ACTIVE: true,
         DEACTIVE: false
     }
+}
 
+export const TREATMENT = {
+    SEARCH: {
+        LIMIT_DEFAULT: 5,
+        LIMIT_DEFAULT_CLIENT: 10
+    },
+    STATUS: [
+        {
+            label: "Hiển thị",
+            value: true
+        },
+        {
+            label: "Ẩn",
+            value: false
+        }
+    ],
+    STATUS_KEY: {
+        ACTIVE: true,
+        DEACTIVE: false
+    },
+    TYPE: [
+        {
+            label: "Tiêm phòng tổng hợp",
+            value: 1
+        },
+        {
+            label: "Tiêm dại",
+            value: 2
+        },
+        {
+            label: "Triệt sản",
+            value: 3
+        },
+        {
+            label: "Chữa bệnh",
+            value: 4
+        },
+        {
+            label: "Khác",
+            value: 5
+        },
+    ],
+    TYPE_KEY: {
+        VACCINE: 1,
+        RABIES: 2,
+        STERILIZATION: 3,
+        TREATMENT: 4,
+        OTHER: 5
+    }
 }
 
 export const SYSTEM = {

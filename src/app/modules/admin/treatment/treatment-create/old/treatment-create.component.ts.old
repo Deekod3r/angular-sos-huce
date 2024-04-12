@@ -1,0 +1,113 @@
+// import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+// import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+// import { MessageService } from 'primeng/api';
+// import { Subject } from 'rxjs';
+// import { TreatmentService } from 'src/app/services/treatment.service';
+// import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
+
+// @Component({
+//     selector: 'app-treatment-create',
+//     templateUrl: './treatment-create.component.html',
+//     styleUrls: ['./treatment-create.component.css']
+// })
+// export class TreatmentCreateComponent  implements OnInit, OnDestroy {
+
+//     @Output() resultAction = new EventEmitter<boolean>();
+//     result: boolean = false;
+//     form!: FormGroup;
+//     @Input() pets: any[] = [];
+
+//     private subscribes$: Subject<void> = new Subject<void>();
+
+//     constructor(private treatmentService: TreatmentService, private messageService: MessageService) { }
+
+//     ngOnInit(): void {
+//         this.form = new FormGroup({
+//             location: new FormControl('', [Validators.required, noWhitespaceValidator(), Validators.maxLength(255)]),
+//             detailLocation: new FormArray([], Validators.required),
+//             images: new FormArray([], Validators.required)
+//         });
+//     }
+
+//     ngOnDestroy(): void {
+//         this.subscribes$.next();
+//         this.subscribes$.complete();
+//     }
+
+//     onInitDetailLocation(): FormGroup {
+//         return new FormGroup({
+//             petId: new FormControl('', [Validators.required]),
+//             detailPet: new FormArray([], [Validators.required]),
+//         });
+//     }
+
+//     onInitDetailPet(): FormGroup {
+//         return new FormGroup({
+//             name: new FormControl('', [Validators.required, noWhitespaceValidator(), Validators.maxLength(100)]),
+//             startDate: new FormControl('', [Validators.required]),
+//             endDate: new FormControl(''),
+//             price: new FormControl('', [Validators.required, Validators.min(0.01)]),
+//             quantity: new FormControl('', [Validators.required, Validators.min(1), Validators.max(100)]),
+//             description: new FormControl('')
+//         });
+//     }
+
+//     onSaveTreatment(): void {
+//         // if (this.form.invalid) {
+//         //     this.form.markAllAsTouched();
+//         //     return;
+//         // }
+//         console.log(this.form.value);
+//     }
+
+//     onImagePicked(event: any): void {
+//         if (event && event.files && event.files.length > 0) {
+//             const imagesArray = this.form.controls['images'] as FormArray;
+//             for (const file of event.files) {
+//                 imagesArray.push(new FormControl(file));
+//             }
+//         }
+//     }
+
+//     onRemoveImage(event: any): void {
+//         const imagesArray = this.form.controls['images'] as FormArray;
+//         imagesArray.removeAt(event.index);
+//     } 
+
+//     getDetailLocation(): AbstractControl[] {
+//         return (this.form.controls['detailLocation'] as FormArray).controls;
+//     }
+
+//     getDetailPet(index: number): AbstractControl[] {
+//         const detailLocationArray = this.form.controls['detailLocation'] as FormArray;       
+//         const detailPetArray = (detailLocationArray.at(index) as FormGroup).controls['detailPet'] as FormArray;
+//         return detailPetArray.controls;
+//     }
+
+//     onAddDetailLocation(): void {
+//         const detailLocationArray = this.form.controls['detailLocation'] as FormArray;
+//         detailLocationArray.push(
+//             this.onInitDetailLocation()
+//         );
+//     }
+
+//     onRemoveDetailLocation(index: number): void {
+//         const detailLocationArray = this.form.controls['detailLocation'] as FormArray;
+//         detailLocationArray.removeAt(index);
+//     }
+
+//     onAddDetailPet(index: number): void {
+//         const detailLocationArray = this.form.controls['detailLocation'] as FormArray;       
+//         const detailPetArray = (detailLocationArray.at(index) as FormGroup).controls['detailPet'] as FormArray;
+//         detailPetArray.push(
+//             this.onInitDetailPet()
+//         );
+//     }    
+
+//     onRemoveDetailPet(index: number, detailIndex: number): void {
+//         const detailLocationArray = this.form.controls['detailLocation'] as FormArray;
+//         const detailPetArray = (detailLocationArray.at(index) as FormGroup).controls['detailPet'] as FormArray;
+//         detailPetArray.removeAt(detailIndex);
+//     }
+
+// }

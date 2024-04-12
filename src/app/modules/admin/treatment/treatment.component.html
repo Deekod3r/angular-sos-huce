@@ -1,1 +1,84 @@
-<p>treatment works!</p>
+<div class="card">
+    <p-dialog *ngIf="visibleCreateModal" header="Thêm thông tin điều trị" [(visible)]="visibleCreateModal" [modal]="true"
+        styleClass="w-11" [draggable]="false" [resizable]="false">
+        <app-treatment-create (resultAction)="onReceiveResult($event, 1)" [pets]="petsModified"></app-treatment-create>
+    </p-dialog>
+    <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh thông tin điều trị" [(visible)]="visibleUpdateModal" [modal]="true"
+        styleClass="xl:w-7 lg:w-8 md:w-9 w-11" [draggable]="false" [resizable]="false">
+        <app-treatment-update (resultAction)="onReceiveResult($event, 2)" [idTreatment]="idTreatmentUpdate" [pets]="petsModified"></app-treatment-update>
+    </p-dialog>
+    <p-panel header="Công cụ" [toggleable]="true">
+        <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onShowCreateModal()"></button>
+        <div class="card grid mt-3">
+            <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="pet">Thú cưng</label>
+                    <p-dropdown [options]="pets" optionLabel="name" optionValue="id" [filter]="true" filterBy="code" 
+                        filterPlaceholder="Mã thú cưng" emptyMessage="Không có dữ liệu" id="pet"
+                        [showClear]="true" placeholder="--Tất cả--" styleClass="mat-form-field"  [(ngModel)]="key.petId">
+                        <ng-template let-pet pTemplate="item">
+                            <div class="flex align-items-center">
+                                <div>{{ pet.code }} - {{ pet.name }}</div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>            
+            </div>
+            <div class="col-12">
+                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="onSearch()"></button>
+            </div>
+        </div>
+    </p-panel>
+    <p-table #table [value]="treatments" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines mt-3"
+        selectionMode="single" [paginator]="false">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                Lịch sử điều trị
+                <p-button icon="fa fa-refresh" (onClick)="onRefresh()"></p-button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr class="">
+                <th class="col-2">Thú cưng</th>
+                <th class="col-2">Điều trị</th>
+                <th class="col-2">Địa chỉ</th>
+                <th class="col-1">Ngày đến</th>
+                <th class="col-1">Ngày đi</th>
+                <th class="col-2">Đơn giá</th>
+                <th class="col-1">Số lượng</th>
+                <th class="col-1">Trạng thái</th>
+                <th class=""></th>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-treatment>
+            <tr>
+                <td>{{treatment.petCode}} - {{treatment.petName}}</td>
+                <td>{{treatmentService.getType(treatment.type)}} - {{treatment.name}}</td>
+                <td>{{treatment.location}}</td>
+                <td>{{treatment.startDate | date:'dd/MM/yyyy'}}</td>
+                <td>{{treatment.endDate | date:'dd/MM/yyyy'}}</td>
+                <td>{{treatment.price | currency: ' ' }} VNĐ</td>
+                <td>{{treatment.quantity}}</td>
+                <td>
+                    <p-tag [value]="this.treatmentService.getStatus(treatment.status)"
+                        [severity]="this.treatmentService.getStatusBadge(treatment.status)"></p-tag>
+                </td>
+                <td>
+                    <p-button #btn type="button" icon="fa fa-solid fa-sliders" (click)="menu.toggle($event)"></p-button>
+                    <p-tieredMenu #menu [model]="treatment.menuItems" [popup]="true" appendTo="body" class="p-0"
+                        styleClass="menucus"></p-tieredMenu>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+            <p-button type="button" icon="fa fa-plus" styleClass="p-button-text"></p-button>
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+            <p-button type="button" icon="fa fa-cloud" styleClass="p-button-text"></p-button>
+        </ng-template>
+    </p-table>
+    <p-paginator [rows]="limit" [showCurrentPageReport]="false" [totalRecords]="totalElements" [first]="first"
+        [rowsPerPageOptions]="[1, 5, 10, 25, 50]" [style]="{'margin-top': '1rem'}"
+        (onPageChange)="onPageChange($event)"></p-paginator>
+</div>

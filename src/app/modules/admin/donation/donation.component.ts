@@ -182,7 +182,7 @@ export class DonationComponent implements OnInit, OnDestroy {
                 .subscribe({
                     next: (res) => {
                         if (res.success) {
-                            this.getDonations();
+                            this.onSearch();
                             this.messageService.add({ severity: 'success', summary: title.success, detail: messageDonation.deleteSuccess });
                         }
                     },

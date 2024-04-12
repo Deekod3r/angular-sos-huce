@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DropdownModule } from 'primeng/dropdown';
-import { TableModule } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
 import { CONFIG } from 'src/app/common/config';
 import { UserService } from 'src/app/services/user.service';
@@ -20,6 +20,7 @@ import { filteredSearch } from 'src/app/shared/utils/data.util';
 })
 export class AdminsComponent implements OnInit, OnDestroy {
     
+    @ViewChild("table") table!: Table;
     admins: any[] = [];
     visibleCreateModal: boolean = false;
     visibleUpdateModal: boolean = false;
@@ -46,6 +47,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
     getUsers(): void {
         let search = {
+            fullData: true,
             role: CONFIG.ROLE.ADMIN,
             name: this.key.name.trim(),
             phoneNumber: this.key.phoneNumber.trim(),
@@ -57,6 +59,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
         .subscribe({
             next: (res) => {
                 if (res.success) {
+                    this.table.reset();
                     this.admins = res.data.users;
                 }
             },

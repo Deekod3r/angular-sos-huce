@@ -21,13 +21,15 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { message, messageAdopt, title } from 'src/app/common/message';
 import { AdoptService } from 'src/app/services/adopt.service';
 import { ConfigService } from 'src/app/services/config.service';
+import { TreatmentPetModule } from 'src/app/shared/components/treatment-pet/treatment-pet.module';
+import { TreatmentService } from 'src/app/services/treatment.service';
 
 @Component({
     selector: 'app-adopt',
     standalone: true,
     imports: [SharedModule, FieldsetModule, CardPetModule, 
         DropdownModule, PaginatorModule, CarouselModule, 
-        BadgeModule, ImageModule, DialogModule, CheckboxModule],
+        BadgeModule, ImageModule, DialogModule, CheckboxModule, TreatmentPetModule],
     templateUrl: './adopt-pet.component.html',
     styleUrls: ['./adopt-pet.component.css']
 })
@@ -41,6 +43,7 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
     provinces: any[] = [];
     districts: any[] = [];
     wards: any[] = [];
+    treatments: any;
     formAdopt!: FormGroup;
     userInfo!: any;
     adoptProcess: any;
@@ -64,8 +67,9 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
     ];
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public petService: PetService, private route: ActivatedRoute, private adoptService: AdoptService, private configService: ConfigService,
-        private locationService: LocationService, public authService: AuthService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
+    constructor(public petService: PetService, private route: ActivatedRoute, private adoptService: AdoptService, 
+        private configService: ConfigService, private locationService: LocationService, public authService: AuthService, 
+        private messageService: MessageService, private confirmationService: ConfirmationService, private treatmentService: TreatmentService) { }
 
     ngOnInit(): void {
         this.formAdopt = new FormGroup({

@@ -73,6 +73,33 @@ export class AdoptService {
         return this.commonService.callAPI(request);
     }
 
+    getTotalFeeAdopt(search: any): Observable<any> {
+        const request = {
+            function: this.API_URL + '/total-fee',
+            method: CONFIG.KEY.METHOD_GET,
+            options: {
+                params: search,
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
+    getAdoptsNearLog(): Observable<any> {
+        const request = {
+            function: this.API_URL + '/near-log',
+            method: CONFIG.KEY.METHOD_GET,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
+            }
+        }
+        return this.commonService.callAPI(request);
+    }
+
     createAdopt(body: any): Observable<any> {
         const request = {
             function: this.API_URL + '/create',

@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { TableModule } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { Subject, takeUntil } from 'rxjs';
 import { message, messageNewsCategory, title } from 'src/app/common/message';
@@ -20,8 +20,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 })
 export class NewsCategoryComponent implements OnInit, OnDestroy {
 
+    @ViewChild("table") table!: Table;
     categories!: any;
-    //clonedCategories: { [s: string]: any } = {};
     isAdd: boolean = false;
     formAdd!: FormGroup;
     formUpdate!: FormGroup;
@@ -227,6 +227,7 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
                 .subscribe({
                     next: (res) => {
                         if (res.success) {
+                            this.table.reset();
                             this.getNewsCategories();
                             this.messageService.add({ severity: 'success', summary: title.success, detail: messageNewsCategory.deleteSuccess });
                         }

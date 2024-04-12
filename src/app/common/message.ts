@@ -62,7 +62,7 @@ export const messageAdopt = {
 }
 
 export const messageLog = {
-    createSuccess: 'Tạo thông tin nhật ký thành công',
+    createSuccess: 'Thêm thông tin nhật ký thành công',
     updateSuccess: 'Cập nhật thông tin nhật ký thành công',
     deleteSuccess: 'Xoá thông tin nhật ký thành công',
 }
@@ -72,37 +72,49 @@ export const messageConfig = {
 }
 
 export const messageBank = {
-    createSuccess: 'Tạo thông tin nhận hỗ trợ thành công',
+    createSuccess: 'Thêm thông tin nhận hỗ trợ thành công',
     updateSuccess: 'Cập nhật thông tin nhận hỗ trợ thành công',
     deleteSuccess: 'Xoá thông tin nhận hỗ trợ thành công',
 }
 
 export const messageNewsCategory = {
-    createSuccess: 'Tạo thông tin danh mục tin tức thành công',
+    createSuccess: 'Thêm thông tin danh mục tin tức thành công',
     updateSuccess: 'Cập nhật thông tin danh mục tin tức thành công',
     deleteSuccess: 'Xoá thông tin danh mục tin tức thành công',
 }
 
 export const messageNews = {
-    createSuccess: 'Tạo thông tin tin tức thành công',
+    createSuccess: 'Thêm thông tin tin tức thành công',
     updateSuccess: 'Cập nhật thông tin tin tức thành công',
     deleteSuccess: 'Xoá thông tin tin tức thành công',
 }
 
 export const messageDonation = {
-    createSuccess: 'Tạo thông tin quyên góp thành công',
+    createSuccess: 'Thêm thông tin quyên góp thành công',
     updateSuccess: 'Cập nhật thông tin quyên góp thành công',
     deleteSuccess: 'Xoá thông tin quyên góp thành công',
 }
 
 export const messageGalleria = {
-    createSuccess: 'Tạo thông tin galleria thành công',
+    createSuccess: 'Thêm thông tin galleria thành công',
     updateSuccess: 'Cập nhật thông tin galleria thành công',
     deleteSuccess: 'Xoá thông tin galleria thành công',
 }
 
 export const messageLivingCost = {
-    createSuccess: 'Tạo thông tin chi phí sinh hoạt thành công',
+    createSuccess: 'Thêm thông tin chi phí sinh hoạt thành công',
     updateSuccess: 'Cập nhật thông tin chi phí sinh hoạt thành công',
     deleteSuccess: 'Xoá thông tin chi phí sinh hoạt thành công',
+}
+
+export const messageFeedback = {
+    createSuccess: 'Gửi thông tin góp ý thành công',
+    updateSuccess: 'Cập nhật thông tin phản hồi thành công',
+    deleteSuccess: 'Xoá thông tin phản hồi thành công',
+}
+
+export const messageTreatment = {
+    createSuccess: 'Thêm thông tin điều trị thành công. Vui lòng cập nhật thông tin tương ứng cho thú cưng',
+    updateSuccess: 'Cập nhật thông tin điều trị thành công. Vui lòng cập nhật thông tin tương ứng cho thú cưng',
+    deleteSuccess: 'Xoá thông tin điều trị thành công. Vui lòng cập nhật thông tin tương ứng cho thú cưng',
 }

@@ -90,10 +90,13 @@ export class PetService {
         return this.commonService.callAPI(request);
     }
 
-    getStatisticCases(): Observable<any> {
+    getStatisticCases(search: any): Observable<any> {
         const request = {
             function: this.API_URL + '/statistic-cases',
-            method: CONFIG.KEY.METHOD_GET
+            method: CONFIG.KEY.METHOD_GET,
+            options: {
+                params: search
+            }
         }
         return this.commonService.callAPI(request);
     }
