@@ -9,6 +9,6 @@ export const environment = {
     // apiUrl: 'http://localhost:8080/sos-huce/api',
     // webSocketUrl: 'ws://localhost:8080/sos-huce/api/ws',
     apiUrl: 'https://sos-huce-api.up.railway.app/sos-huce/api',
-    webSocketUrl: 'ws://sos-huce-api.up.railway.app/sos-huce/api/ws',
+    webSocketUrl: 'wss://sos-huce-api.up.railway.app/sos-huce/api/ws',
     defaultLanguage: 'vi',
 };
