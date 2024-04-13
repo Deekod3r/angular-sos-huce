@@ -10,6 +10,8 @@ import { AdoptionUpdateComponent } from './adoption-update/adoption-update.compo
 import { BadgeModule } from 'primeng/badge';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TreatmentPetModule } from 'src/app/shared/components/treatment-pet/treatment-pet.module';
+import { InforPetModule } from 'src/app/shared/components/infor-pet/infor-pet.module';
+import { StatisticAdoptModule } from 'src/app/shared/components/statistic-adopt/statistic-adopt.module';
 
 @NgModule({
     declarations: [
@@ -25,7 +27,9 @@ import { TreatmentPetModule } from 'src/app/shared/components/treatment-pet/trea
         CalendarModule,
         BadgeModule,
         InputNumberModule,
-        TreatmentPetModule
+        TreatmentPetModule,
+        InforPetModule,
+        StatisticAdoptModule
     ],
     exports: [
         SharedModule,

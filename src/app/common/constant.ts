@@ -4,7 +4,7 @@ export const ACTION = {
     CREATE: 1,
     UPDATE: 2,
     DELETE: 3,
-    VIEW: 4
+    VIEW: 4,
 }
 
 export const PET = {

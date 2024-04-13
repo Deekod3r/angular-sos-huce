@@ -15,11 +15,13 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { PetCareLogService } from 'src/app/services/pet-care-log.service';
 import { TreatmentPetModule } from 'src/app/shared/components/treatment-pet/treatment-pet.module';
+import { InforPetModule } from 'src/app/shared/components/infor-pet/infor-pet.module';
 
 @Component({
     selector: 'app-account',
     standalone: true,
-    imports: [AccountModule, TabViewModule, TableModule, TagModule, DialogModule, BadgeModule, TreatmentPetModule],
+    imports: [AccountModule, TabViewModule, TableModule, TagModule, 
+        DialogModule, BadgeModule, TreatmentPetModule, InforPetModule],
     templateUrl: './account.component.html',
     styleUrls: ['./account.component.css']
 })
@@ -34,14 +36,6 @@ export class AccountComponent implements OnInit, OnDestroy {
         userId: '',
         userInfo: ''
     }
-    statistic = {
-        countWaiting: '',
-        countInProgress: '',
-        countCancel: '',
-        countReject: '',
-        countComplete: '',
-        total: ''
-    };
     logs!: any;
     pets!: any;
     adopts!: any;
@@ -52,16 +46,14 @@ export class AccountComponent implements OnInit, OnDestroy {
     visibleUpdateInfo: boolean = false;
     visiblePetCareLog: boolean = false;
     adoptStatus: any;
+    private subscribes$: Subject<void> = new Subject<void>();
 
     constructor(public adoptService: AdoptService, public petService: PetService, 
-        private userService: UserService, private authService: AuthService, private petCareLogService: PetCareLogService,
+        private userService: UserService, public authService: AuthService, private petCareLogService: PetCareLogService,
         private messageService: MessageService, private confirmationService: ConfirmationService) { }
-
-    private subscribes$: Subject<void> = new Subject<void>();
 
     ngOnInit(): void {
         this.getUser();
-        this.getAdoptStatistic();
         this.adoptStatus = ADOPT.STATUS_KEY;
     }
 
@@ -77,32 +69,6 @@ export class AccountComponent implements OnInit, OnDestroy {
             next: (res) => {
                 if (res.success) {
                     this.user = res.data;
-                }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
-    }
-
-    getAdoptStatistic(): void {
-        this.adoptService.getAdoptStatistic({ 
-            user: this.authService.getCurrentUser().id 
-        })
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.statistic.countWaiting = res.data.countWaiting;
-                    this.statistic.countInProgress = res.data.countInProgress;
-                    this.statistic.countCancel = res.data.countCancel;
-                    this.statistic.countReject = res.data.countReject;
-                    this.statistic.countComplete = res.data.countComplete;
-                    this.statistic.total = res.data.total;
                 }
             },
             error: (res) => {

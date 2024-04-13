@@ -5,7 +5,7 @@
                 <div class="flex flex-column gap-2">
                     <label for="registeredBy">Người nhận nuôi <span class="text-red-500 font-bold">*</span></label>
                     <p-dropdown [options]="users" optionLabel="name" [filter]="true" filterBy="name"
-                        filterPlaceholder="Họ và tên" emptyMessage="Không có dữ liệu" id="registeredBy" (onChange)="getStatistical()"
+                        filterPlaceholder="Họ và tên" emptyMessage="Không có dữ liệu" id="registeredBy"
                         [showClear]="true" placeholder="--Chọn--" styleClass="mat-form-field" formControlName="registeredBy">
                         <ng-template let-user pTemplate="item">
                             <div class="flex align-items-center">
@@ -104,167 +104,18 @@
                 </div>
             </div>
             <div class="col-12">
-                <p-panel header="Thông tin đăng ký" styleClass="mb-3">
-                    <div *ngIf="this.formAdopt.controls['registeredBy'].value" class="grid">
+                <p-panel *ngIf="this.formAdopt.controls['registeredBy'].value" header="Thông tin đăng ký" styleClass="mb-3">
+                    <div class="grid">
                         <div class="lg:col-3 col-12">
                             <p>Người nhận nuôi: <b>{{this.formAdopt.controls['registeredBy'].value.name}}</b></p>
                             <p>Email liên hệ: <b>{{this.formAdopt.controls['registeredBy'].value.email}}</b></p>
                             <p>Số điện thoại: <b>{{this.formAdopt.controls['registeredBy'].value.phoneNumber}}</b></p>
                         </div>
-                        <div class="lg:col-9 col-12">
-                            <div class="grid">
-                                <div class="md:col-4 col-12">
-                                    <div class="card p-3">
-                                        <div class="flex justify-content-between mb-3">
-                                            <div>
-                                                <span class="block text-500 font-medium mb-3">Tổng số đơn</span>
-                                                <div class="text-900 font-medium text-xl">{{statistic.total}}</div>
-                                            </div>
-                                            <div class="flex align-items-center justify-content-center bg-indigo-100 border-round" style="width: 2.5rem; height: 2.5rem;">
-                                                <i class="fa fa-plus text-indigo-500 text-xl"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="md:col-4 col-12">
-                                    <div class="card p-3">
-                                        <div class="flex justify-content-between mb-3">
-                                            <div>
-                                                <span class="block text-500 font-medium mb-3">Đơn chờ xử lý</span>
-                                                <div class="text-900 font-medium text-xl">{{statistic.countWaiting}}</div>
-                                            </div>
-                                            <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width: 2.5rem; height: 2.5rem;">
-                                                <i class="fa fa-file-circle-question text-blue-500 text-xl"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="md:col-4 col-12">
-                                    <div class="card p-3">
-                                        <div class="flex justify-content-between mb-3">
-                                            <div>
-                                                <span class="block text-500 font-medium mb-3">Đơn đang xử lý</span>
-                                                <div class="text-900 font-medium text-xl">{{statistic.countInProgress}}</div>
-                                            </div>
-                                            <div class="flex align-items-center justify-content-center bg-yellow-100 border-round" style="width: 2.5rem; height: 2.5rem;">
-                                                <i class="fa fa-hourglass-start text-yellow-500 text-xl"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="md:col-4 col-12">
-                                    <div class="card p-3">
-                                        <div class="flex justify-content-between mb-3">
-                                            <div>
-                                                <span class="block text-500 font-medium mb-3">Đơn đã hoàn thành</span>
-                                                <div class="text-900 font-medium text-xl">{{statistic.countComplete}}</div>
-                                            </div>
-                                            <div class="flex align-items-center justify-content-center bg-green-100 border-round" style="width: 2.5rem; height: 2.5rem;">
-                                                <i class="fa fa-check text-green-500 text-xl"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="md:col-4 col-12">
-                                    <div class="card p-3">
-                                        <div class="flex justify-content-between mb-3">
-                                            <div>
-                                                <span class="block text-500 font-medium mb-3">Đơn đã hủy</span>
-                                                <div class="text-900 font-medium text-xl">{{statistic.countCancel}}</div>
-                                            </div>
-                                            <div class="flex align-items-center justify-content-center bg-red-100 border-round" style="width: 2.5rem; height: 2.5rem;">
-                                                <i class="fa fa-xmark text-red-500 text-xl"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="md:col-4 col-12">
-                                    <div class="card p-3">
-                                        <div class="flex justify-content-between mb-3">
-                                            <div>
-                                                <span class="block text-500 font-medium mb-3">Đơn bị từ chối</span>
-                                                <div class="text-900 font-medium text-xl">{{statistic.countReject}}</div>
-                                            </div>
-                                            <div class="flex align-items-center justify-content-center surface-300 border-round" style="width: 2.5rem; height: 2.5rem;">
-                                                <i class="fa fa-cancel text-black-500 text-xl"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
+                    <app-statistic-adopt [userId]="this.formAdopt.controls['registeredBy'].value.id"></app-statistic-adopt>
                 </p-panel>
-                <p-panel header="Thông tin thú cưng">
-                    <div *ngIf="this.formAdopt.controls['petAdopt'].value" class="grid">
-                        <div class="xl:col-3 lg:col-3 md:col-6 col-8 mx-auto">
-                            <img src="{{this.formAdopt.controls['petAdopt'].value.image}}" 
-                            alt="{{this.formAdopt.controls['petAdopt'].value.name}}" class="w-full mt-2" style="border-radius: 10px; max-height: 600px;">
-                        </div>
-                        <div class="xl:col-2 lg:col-2 md:col-6 col-12 mx-auto">
-                            <p class="text-3xl font-semibold mb-3">{{this.formAdopt.controls['petAdopt'].value.name}}</p>
-                            <p-divider type="dashed"></p-divider>
-                            <p><b>Mã:</b> {{this.formAdopt.controls['petAdopt'].value.code}}</p>
-                            <p-divider type="dashed"></p-divider>
-                            <p><b>Giống:</b> {{this.formAdopt.controls['petAdopt'].value.breed}}</p>
-                            <p-divider type="dashed"></p-divider>
-                            <p><b>Màu lông:</b> {{this.formAdopt.controls['petAdopt'].value.color}}</p>
-                            <p-divider type="dashed"></p-divider>
-                            <p><b>Tuổi:</b> {{this.petService.getAge(this.formAdopt.controls['petAdopt'].value.age)}}</p>
-                            <p-divider type="dashed"></p-divider>
-                            <p><b>Cân nặng:</b> {{this.formAdopt.controls['petAdopt'].value.weight}} kg</p>
-                            <p-divider type="dashed"></p-divider>
-                            <p><b>Giới tính:</b> {{this.petService.getGender(this.formAdopt.controls['petAdopt'].value.gender)}}</p>
-                            <p-divider type="dashed"></p-divider>
-                        </div>
-                        <div class="xl:col-7 lg:col-7 md:col-12 col-12 mx-auto">
-                            <p class="text-3xl font-semibold mb-3">Thông tin</p>
-                            <p-divider></p-divider>
-                            <div class="grid mt-1">
-                                <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(this.formAdopt.controls['petAdopt'].value.sterilization)}}" [severity]="petService.getBadgeSeverity(this.formAdopt.controls['petAdopt'].value.sterilization)"></p-badge> Triệt sản</p>
-                                </div>
-                                <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(this.formAdopt.controls['petAdopt'].value.friendlyToHuman)}}" [severity]="petService.getBadgeSeverity(this.formAdopt.controls['petAdopt'].value.friendlyToHuman)"></p-badge> Thân thiện với người</p>
-                                </div>
-                                <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(this.formAdopt.controls['petAdopt'].value.diet)}}" [severity]="petService.getBadgeSeverity(this.formAdopt.controls['petAdopt'].value.diet)"></p-badge> Chế độ ăn riêng</p>
-                                </div>
-                                <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(this.formAdopt.controls['petAdopt'].value.rabies)}}" [severity]="petService.getBadgeSeverity(this.formAdopt.controls['petAdopt'].value.rabies)"></p-badge> Tiêm dại</p>
-                                </div>
-                                <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(this.formAdopt.controls['petAdopt'].value.friendlyToDogs)}}" [severity]="petService.getBadgeSeverity(this.formAdopt.controls['petAdopt'].value.friendlyToDogs)"></p-badge> Thân thiện với chó</p>
-                                </div>
-                                <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(this.formAdopt.controls['petAdopt'].value.toilet)}}" [severity]="petService.getBadgeSeverity(this.formAdopt.controls['petAdopt'].value.toilet)"></p-badge> Đi vệ sinh đúng chỗ</p>
-                                </div>
-                                <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(this.formAdopt.controls['petAdopt'].value.vaccine)}}" [severity]="petService.getBadgeSeverity(this.formAdopt.controls['petAdopt'].value.vaccine)"></p-badge> Tiêm phòng bệnh</p>
-                                </div>
-                                <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(this.formAdopt.controls['petAdopt'].value.friendlyToCats)}}" [severity]="petService.getBadgeSeverity(this.formAdopt.controls['petAdopt'].value.friendlyToCats)"></p-badge> Thân thiện với mèo</p>
-                                </div>
-                                <div class="col-12">
-                                    <p><span class="font-semibold">Mô tả: </span><span>{{this.formAdopt.controls['petAdopt'].value.description}}</span></p>
-                                </div>
-                                <div class="col-12">
-                                    <p><span class="font-semibold">Ghi chú: </span>
-                                        <span *ngIf="this.formAdopt.controls['petAdopt'].value.note; else showDots">
-                                            {{ this.formAdopt.controls['petAdopt'].value.note }}
-                                        </span>
-                                        <ng-template #showDots>
-                                            <span>...</span>
-                                        </ng-template>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <app-treatment-pet [idPet]="this.formAdopt.value.petAdopt.id"></app-treatment-pet>
-                        </div>
-                    </div>
-                </p-panel>
+                <app-infor-pet *ngIf="this.formAdopt.value.petAdopt" [pet]="this.formAdopt.value.petAdopt" [visibleNote]="true"></app-infor-pet>
+                <app-treatment-pet *ngIf="this.formAdopt.value.petAdopt" [idPet]="this.formAdopt.value.petAdopt.id"></app-treatment-pet>
             </div>
         </div>
         <div class="mt-3" align="center">

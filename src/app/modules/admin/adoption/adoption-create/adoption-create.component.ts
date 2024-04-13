@@ -24,14 +24,6 @@ export class AdoptionCreateComponent implements OnInit, OnDestroy {
     result: boolean = false;
 
     formAdopt!: FormGroup;
-    statistic = {
-        countWaiting: '',
-        countInProgress: '',
-        countCancel: '',
-        countReject: '',
-        countComplete: '',
-        total: ''
-    };
     provinces: any[] = [];
     districts: any[] = [];
     wards: any[] = [];
@@ -39,7 +31,7 @@ export class AdoptionCreateComponent implements OnInit, OnDestroy {
     private subscribes$: Subject<void> = new Subject<void>();
 
     constructor(public petService: PetService, private adoptService: AdoptService,    
-        private locationService: LocationService, private messageService: MessageService, private userService: UserService) { }
+        private locationService: LocationService, private messageService: MessageService) { }
 
     ngOnInit(): void {
         this.formAdopt = new FormGroup({
@@ -104,43 +96,6 @@ export class AdoptionCreateComponent implements OnInit, OnDestroy {
             next: (res) => {
                 if (res) {
                     this.wards = res;
-                }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
-    }
-
-    getStatistical(): void {
-        if (!this.formAdopt.value.registeredBy) {
-            this.statistic = {
-                countWaiting: '',
-                countInProgress: '',
-                countCancel: '',
-                countReject: '',
-                countComplete: '',
-                total: ''
-            }
-            return;
-        }
-        this.adoptService.getAdoptStatistic({
-            user: this.formAdopt.value.registeredBy.id
-        })
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.statistic.countWaiting = res.data.countWaiting;
-                    this.statistic.countInProgress = res.data.countInProgress;
-                    this.statistic.countCancel = res.data.countCancel;
-                    this.statistic.countReject = res.data.countReject;
-                    this.statistic.countComplete = res.data.countComplete;
-                    this.statistic.total = res.data.total;
                 }
             },
             error: (res) => {

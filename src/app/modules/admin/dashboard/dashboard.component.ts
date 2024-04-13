@@ -14,11 +14,13 @@ import { TreatmentService } from 'src/app/services/treatment.service';
 import { BadgeModule } from 'primeng/badge';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
+import { StatisticAdoptModule } from 'src/app/shared/components/statistic-adopt/statistic-adopt.module';
 
 @Component({
     selector: 'app-dashboard',
     standalone: true,
-    imports: [SharedModule, KnobModule, ChartModule, DropdownModule, BadgeModule, DialogModule, TableModule],
+    imports: [SharedModule, KnobModule, ChartModule, DropdownModule, 
+        BadgeModule, DialogModule, TableModule, StatisticAdoptModule],
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css']
 })
@@ -26,8 +28,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     statisticAdopt!: any;
     statisticCases!: any;
-    adoptsNearLog!: any;
-    visibleAdoptsNearLogModal = false;
 
     defaultDataDonate = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     defaultDataAdopt = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -49,7 +49,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.getAdoptStatistic();
         this.getStatisticCases();
-        this.getAdoptsNearLog();
         this.getDataChart();
 
         const currentYear = new Date().getFullYear();
@@ -278,39 +277,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
                             this.defaultDataTreatment[element.month - 1] = element.totalAmount;
                         });
                         this.updateTreatmentData();
-                    }
-                },
-                error: (res) => {
-                    if (res.error) {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                    } else {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                    }
-                }
-            });
-    }
-
-    getAdoptsNearLog(): void {
-        this.adoptService.getAdoptsNearLog()
-            .pipe(takeUntil(this.subscribes$))
-            .subscribe({
-                next: (res) => {
-                    if (res.success) {
-                        this.adoptsNearLog = res.data;
-                        const currentDate = new Date();
-                        this.adoptsNearLog.forEach((element: any) => {
-                            const checkDates = [
-                                new Date(element.checkDateFirst),
-                                new Date(element.checkDateSecond),
-                                new Date(element.checkDateThird)
-                            ];
-                            const nearestDate = checkDates.reduce(
-                                (nearest, date) => Math.abs(date.getTime() - currentDate.getTime()) < Math.abs(nearest.getTime() - currentDate.getTime()) ? date : nearest);
-                            element.checkDate = nearestDate.getFullYear() + '-' + (nearestDate.getMonth() + 1) + '-' + nearestDate.getDate();
-                            const differenceInTime = nearestDate.getTime() - currentDate.getTime();
-                            const differenceInDays = differenceInTime / (1000 * 3600 * 24);
-                            element.dateDiff = Math.ceil(differenceInDays);
-                        });
                     }
                 },
                 error: (res) => {

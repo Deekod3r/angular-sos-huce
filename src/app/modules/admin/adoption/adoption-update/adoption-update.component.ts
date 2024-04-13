@@ -19,22 +19,13 @@ export class AdoptionUpdateComponent implements OnInit, OnDestroy {
     @Input() idAdoption!: string;
     @Output() resultAction = new EventEmitter<boolean>();
     result: boolean = false;
-
-    statistic = {
-        countWaiting: '',
-        countInProgress: '',
-        countCancel: '',
-        countReject: '',
-        countComplete: '',
-        total: ''
-    };
     adopt!: any;
     pet!: any;
     formAdopt!: FormGroup;
     provinces: any[] = [];
     districts: any[] = [];
     wards: any[] = [];
-    adoptStatus = ADOPT.STATUS_KEY
+    adoptStatus = ADOPT.STATUS_KEY;
     private subscribes$: Subject<void> = new Subject<void>();
 
     constructor(public petService: PetService, public adoptService: AdoptService, private confirmationService: ConfirmationService,    
@@ -57,7 +48,6 @@ export class AdoptionUpdateComponent implements OnInit, OnDestroy {
             next: (res) => {
                 if (res.success) {
                     this.adopt = res.data.adopt;
-                    this.getStatistical(this.adopt.registeredBy);
                     this.pet = res.data.pet;
                     this.formAdopt = new FormGroup({
                         province: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}, Validators.required),
@@ -138,32 +128,6 @@ export class AdoptionUpdateComponent implements OnInit, OnDestroy {
             next: (res) => {
                 if (res) {
                     this.wards = res;
-                }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
-    }
-
-    getStatistical(registeredBy: string): void {
-        this.adoptService.getAdoptStatistic({
-            user: registeredBy
-        })
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.statistic.countWaiting = res.data.countWaiting;
-                    this.statistic.countInProgress = res.data.countInProgress;
-                    this.statistic.countCancel = res.data.countCancel;
-                    this.statistic.countReject = res.data.countReject;
-                    this.statistic.countComplete = res.data.countComplete;
-                    this.statistic.total = res.data.total;
                 }
             },
             error: (res) => {

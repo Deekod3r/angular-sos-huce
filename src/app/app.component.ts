@@ -4,6 +4,9 @@ import { AuthService } from './services/auth.service';
 import { ConfigService } from './services/config.service';
 import { Subject, takeUntil } from 'rxjs';
 import { SYSTEM } from './common/constant';
+import { WebsocketService } from './services/web-socket.service';
+import { messageUser, title } from './common/message';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-root',
@@ -15,7 +18,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private authService: AuthService, private configService: ConfigService) {}
+    constructor(private authService: AuthService, private configService: ConfigService, 
+        private websocketService: WebsocketService, private messageService: MessageService, private route: Router) {}
 
     ngOnInit(): void {
         if (!this.authService.isRemember) {
@@ -78,6 +82,24 @@ export class AppComponent implements OnInit, OnDestroy {
             }
         });
 
+        this.websocketService.getMessages()
+        .pipe(takeUntil(this.subscribes$))
+        .subscribe({
+            next: (message) => {
+                const data = message.body;
+                const parts: string[] = data.split(' - ');
+                if (parts[0] == "LOGIN") {
+                    const id = parts[1];
+                    if (id === this.authService.getCurrentUser().id) {
+                        this.messageService.add({ severity: 'info', summary: title.info, detail: messageUser.loginInOtherDevice, life: 5000 });
+                        this.authService.logout();
+                        this.route.navigate(['/dang-nhap']);
+                    }
+                }
+            },
+            error: (error) => {
+            }
+        });
     }
 
     ngOnDestroy(): void {

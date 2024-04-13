@@ -76,86 +76,7 @@
                     </table>
                 </div>
                 <div class="lg:col-9 col-12">
-                    <div class="grid">
-                        <div class="md:col-4 col-12">
-                            <div class="card p-3">
-                                <div class="flex justify-content-between mb-3">
-                                    <div>
-                                        <span class="block text-500 font-medium mb-3">Tổng số đơn</span>
-                                        <div class="text-900 font-medium text-xl">{{statistic.total}}</div>
-                                    </div>
-                                    <div class="flex align-items-center justify-content-center bg-indigo-100 border-round" style="width: 2.5rem; height: 2.5rem;">
-                                        <i class="fa fa-plus text-indigo-500 text-xl"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="md:col-4 col-12">
-                            <div class="card p-3">
-                                <div class="flex justify-content-between mb-3">
-                                    <div>
-                                        <span class="block text-500 font-medium mb-3">Đơn chờ xử lý</span>
-                                        <div class="text-900 font-medium text-xl">{{statistic.countWaiting}}</div>
-                                    </div>
-                                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width: 2.5rem; height: 2.5rem;">
-                                        <i class="fa fa-file-circle-question text-blue-500 text-xl"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="md:col-4 col-12">
-                            <div class="card p-3">
-                                <div class="flex justify-content-between mb-3">
-                                    <div>
-                                        <span class="block text-500 font-medium mb-3">Đơn đang xử lý</span>
-                                        <div class="text-900 font-medium text-xl">{{statistic.countInProgress}}</div>
-                                    </div>
-                                    <div class="flex align-items-center justify-content-center bg-yellow-100 border-round" style="width: 2.5rem; height: 2.5rem;">
-                                        <i class="fa fa-hourglass-start text-yellow-500 text-xl"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="md:col-4 col-12">
-                            <div class="card p-3">
-                                <div class="flex justify-content-between mb-3">
-                                    <div>
-                                        <span class="block text-500 font-medium mb-3">Đơn đã hoàn thành</span>
-                                        <div class="text-900 font-medium text-xl">{{statistic.countComplete}}</div>
-                                    </div>
-                                    <div class="flex align-items-center justify-content-center bg-green-100 border-round" style="width: 2.5rem; height: 2.5rem;">
-                                        <i class="fa fa-check text-green-500 text-xl"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="md:col-4 col-12">
-                            <div class="card p-3">
-                                <div class="flex justify-content-between mb-3">
-                                    <div>
-                                        <span class="block text-500 font-medium mb-3">Đơn đã hủy</span>
-                                        <div class="text-900 font-medium text-xl">{{statistic.countCancel}}</div>
-                                    </div>
-                                    <div class="flex align-items-center justify-content-center bg-red-100 border-round" style="width: 2.5rem; height: 2.5rem;">
-                                        <i class="fa fa-xmark text-red-500 text-xl"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="md:col-4 col-12">
-                            <div class="card p-3">
-                                <div class="flex justify-content-between mb-3">
-                                    <div>
-                                        <span class="block text-500 font-medium mb-3">Đơn bị từ chối</span>
-                                        <div class="text-900 font-medium text-xl">{{statistic.countReject}}</div>
-                                    </div>
-                                    <div class="flex align-items-center justify-content-center surface-300 border-round" style="width: 2.5rem; height: 2.5rem;">
-                                        <i class="fa fa-cancel text-black-500 text-xl"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <app-statistic-adopt [userId]="this.authService.getCurrentUser().id"></app-statistic-adopt>
                 </div>
             </div>
         </p-tabPanel>
@@ -189,62 +110,7 @@
                     <p>Lý do nhận nuôi: <b>{{detailAdoptData.adopt.reason}}</b></p>
                 </p-panel>
                 <br>
-                <p-panel header="Thông tin thú cưng - {{detailAdoptData.pet.name}}" styleClass="my-3">
-                    <div class="grid">
-                        <div class="xl:col-3 lg:col-3 md:col-6 col-8 mx-auto">
-                            <img src="{{detailAdoptData.pet.image}}" alt="{{detailAdoptData.pet.name}}" class="w-full mt-2" style="border-radius: 10px; max-height: 600px;">
-                        </div>
-                        <div class="xl:col-2 lg:col-2 md:col-6 col-12 mx-auto">
-                            <p class="text-3xl font-semibold mb-3">{{detailAdoptData.pet.name}}</p>
-                            <p-divider type="dashed"></p-divider>
-                            <p class="my-3-ipt"><b>Mã:</b> {{detailAdoptData.pet.code}}</p>
-                            <p-divider type="dashed"></p-divider>
-                            <p class="my-3-ipt"><b>Giống:</b> {{detailAdoptData.pet.breed}}</p>
-                            <p-divider type="dashed"></p-divider>
-                            <p class="my-3-ipt"><b>Màu lông:</b> {{detailAdoptData.pet.color}}</p>
-                            <p-divider type="dashed"></p-divider>
-                            <p class="my-3-ipt"><b>Tuổi:</b> {{this.petService.getAge(detailAdoptData.pet.age)}}</p>
-                            <p-divider type="dashed"></p-divider>
-                            <p class="my-3-ipt"><b>Cân nặng:</b> {{detailAdoptData.pet.weight}} kg</p>
-                            <p-divider type="dashed"></p-divider>
-                            <p class="my-3-ipt"><b>Giới tính:</b> {{this.petService.getGender(detailAdoptData.pet.gender)}}</p>
-                            <p-divider type="dashed"></p-divider>
-                        </div>
-                        <div class="xl:col-7 lg:col-7 md:col-12 col-12 mx-auto">
-                            <p class="text-3xl font-semibold mb-3">Thông tin</p>
-                            <p-divider></p-divider>
-                            <div class="grid mt-1">
-                                <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(detailAdoptData.pet.sterilization)}}" [severity]="petService.getBadgeSeverity(detailAdoptData.pet.sterilization)"></p-badge> Triệt sản</p>
-                                </div>
-                                <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(detailAdoptData.pet.friendlyToHuman)}}" [severity]="petService.getBadgeSeverity(detailAdoptData.pet.friendlyToHuman)"></p-badge> Thân thiện với người</p>
-                                </div>
-                                <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(detailAdoptData.pet.diet)}}" [severity]="petService.getBadgeSeverity(detailAdoptData.pet.diet)"></p-badge> Chế độ ăn riêng</p>
-                                </div>
-                                <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(detailAdoptData.pet.rabies)}}" [severity]="petService.getBadgeSeverity(detailAdoptData.pet.rabies)"></p-badge> Tiêm dại</p>
-                                </div>
-                                <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(detailAdoptData.pet.friendlyToDogs)}}" [severity]="petService.getBadgeSeverity(detailAdoptData.pet.friendlyToDogs)"></p-badge> Thân thiện với chó</p>
-                                </div>
-                                <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(detailAdoptData.pet.toilet)}}" [severity]="petService.getBadgeSeverity(detailAdoptData.pet.toilet)"></p-badge> Đi vệ sinh đúng chỗ</p>
-                                </div>
-                                <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(detailAdoptData.pet.vaccine)}}" [severity]="petService.getBadgeSeverity(detailAdoptData.pet.vaccine)"></p-badge> Tiêm phòng bệnh</p>
-                                </div>
-                                <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(detailAdoptData.pet.friendlyToCats)}}" [severity]="petService.getBadgeSeverity(detailAdoptData.pet.friendlyToCats)"></p-badge> Thân thiện với mèo</p>
-                                </div>
-                                <div class="col-12">
-                                    <p><span class="font-semibold">Mô tả: </span><span>{{detailAdoptData.pet.description}}</span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </p-panel>
+                <app-infor-pet [pet]="detailAdoptData.pet"></app-infor-pet>
                 <app-treatment-pet [idPet]="petId"></app-treatment-pet>
             </p-dialog>
             <p-table *ngIf="adopts != null && adopts.length > 0" [value]="adopts" [rows]="5" [rowsPerPageOptions]="[1, 2, 5, 10]" 

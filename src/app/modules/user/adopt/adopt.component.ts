@@ -10,19 +10,17 @@ import { PET } from 'src/app/common/constant';
 import { MessageService } from 'primeng/api';
 import { title, message } from 'src/app/common/message';
 import { filteredSearch } from 'src/app/shared/utils/data.util';
-import { ConfigService } from 'src/app/services/config.service';
+import { AdoptProcessModule } from 'src/app/shared/components/adopt-process/adopt-process.module';
 
 @Component({
     selector: 'app-adopt',
     standalone: true,
-    imports: [SharedModule, FieldsetModule, CardPetModule, DropdownModule, PaginatorModule],
+    imports: [SharedModule, FieldsetModule, CardPetModule, DropdownModule, PaginatorModule, AdoptProcessModule],
     templateUrl: './adopt.component.html',
     styleUrls: ['./adopt.component.css']
 })
 export class AdoptComponent implements OnInit, OnDestroy {
 
-    adoptConditions: any;
-    adoptProcess: any;
     pets: any[] = [];
     currentPage = 1;
     totalPages = 0;
@@ -41,20 +39,10 @@ export class AdoptComponent implements OnInit, OnDestroy {
     };
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public petService: PetService, private messageService: MessageService, private configService: ConfigService) { }
+    constructor(public petService: PetService, private messageService: MessageService) { }
 
     ngOnInit(): void {
         this.getPets();
-        this.configService.adoptConditions.asObservable()
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe(data => {
-            this.adoptConditions = data;
-        });
-        this.configService.adoptProcess.asObservable()
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe(data => {
-            this.adoptProcess = data;
-        });
     }
 
     ngOnDestroy(): void {

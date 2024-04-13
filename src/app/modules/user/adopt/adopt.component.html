@@ -1,26 +1,5 @@
 <div class="container mt-5 mb-5">
-    <p-fieldset [toggleable]="true">
-        <ng-template pTemplate="header">
-            <div class="flex align-items-center gap-2 px-2">
-                <span class="font-bold lg:text-2xl text-xl">Quy trình nhận nuôi</span>
-            </div>
-        </ng-template>
-        <div class="grid">
-            <div *ngIf="adoptProcess" class="xl:col-8 lg:col-8 md:col-8 sm:col-12 col-12">
-                <div class="m-0 text-lg line-height-3 html" [innerHTML]="adoptProcess[0].value"></div>
-            </div>
-            <div *ngIf="adoptConditions" class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12" style="height: fit-content;">
-                <p-panel iconPos="start">
-                    <ng-template pTemplate="header">
-                        <div class="flex align-items-center text-center mx-auto">
-                            <span class="font-semibold text-2xl">Điều kiện nhận nuôi</span>
-                        </div>
-                    </ng-template>
-                    <p *ngFor="let item of adoptConditions" class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i>{{item.value}}</p>
-                </p-panel>
-            </div>
-        </div>
-    </p-fieldset>
+    <app-adopt-process></app-adopt-process>
 </div>
 <app-card-footer [title]="'TẤT CẢ CÁC CA CỨU TRỢ'"
     [description]="'Tìm hiểu về tất cả các ca cứu trợ, đang điều trị, đã mất, đã được nhận nuôi...'"

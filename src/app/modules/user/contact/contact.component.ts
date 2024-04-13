@@ -5,7 +5,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { Subject, takeUntil } from 'rxjs';
 import { BankService } from 'src/app/services/bank.service';
 import { title, message, messageFeedback } from 'src/app/common/message';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfigService } from 'src/app/services/config.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
@@ -26,7 +26,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     formFeedback!: FormGroup;
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private bankService: BankService, private messageService: MessageService, 
+    constructor(private bankService: BankService, private messageService: MessageService, private confirmationService: ConfirmationService,
         private configService: ConfigService, private feedbackService: FeedbackService) { }
 
     ngOnInit(): void {
@@ -76,31 +76,46 @@ export class ContactComponent implements OnInit, OnDestroy {
         });
     }
 
-    onFeedback(): void {
+    onFeedback(event: any): void {
         if (this.formFeedback.invalid) {
             this.formFeedback.markAllAsTouched();
             return;
         }
-        let body = {
-            fullName: this.formFeedback.get('fullName')?.value.trim(),
-            email: this.formFeedback.get('email')?.value.trim(),
-            message: this.formFeedback.get('message')?.value.trim()
-        }
-        this.feedbackService.createFeedback(body)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.messageService.add({ severity: 'success', summary: title.success, detail: messageFeedback.createSuccess });
-                    this.formFeedback.reset();
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Bạn chắc chắn muốn gửi thư này chứ?',
+            header: 'XÁC NHẬN',
+            icon: 'fa fa-solid fa-triangle-exclamation',
+            acceptLabel: 'Có',
+            rejectLabel: 'Hủy',
+            acceptIcon: "none",
+            rejectIcon: "none",
+            rejectButtonStyleClass: "p-button-text",
+            accept: () => {
+                let body = {
+                    fullName: this.formFeedback.get('fullName')?.value.trim(),
+                    email: this.formFeedback.get('email')?.value.trim(),
+                    message: this.formFeedback.get('message')?.value.trim()
                 }
+                this.feedbackService.createFeedback(body)
+                .pipe(takeUntil(this.subscribes$))
+                .subscribe({
+                    next: (res) => {
+                        if (res.success) {
+                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageFeedback.createSuccess });
+                            this.formFeedback.reset();
+                        }
+                    },
+                    error: (res) => {
+                        if (res.error) {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        }
+                    }
+                });
             },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
+            reject: () => {
             }
         });
     }

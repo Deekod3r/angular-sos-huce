@@ -40,6 +40,7 @@ export const messageUser = {
     notFound: 'Thông tin tài khoản không tồn tại',
     crateAccountAdminSuccess: 'Tạo tài khoản quản trị viên thành công',
     updateAccountAdminSuccess: 'Cập nhật tài khoản quản trị viên thành công',
+    loginInOtherDevice: 'Tài khoản đã đăng nhập ở thiết bị khác',
 }
 
 export const messagePet = {
