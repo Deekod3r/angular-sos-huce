@@ -4,8 +4,6 @@ import { AdoptProcessComponent } from './adopt-process.component';
 import { FieldsetModule } from 'primeng/fieldset';
 import { PanelModule } from 'primeng/panel';
 
-
-
 @NgModule({
     declarations: [
         AdoptProcessComponent

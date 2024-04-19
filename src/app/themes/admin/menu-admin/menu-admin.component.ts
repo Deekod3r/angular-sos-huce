@@ -81,6 +81,11 @@ export class MenuAdminComponent implements OnInit {
                                 label: 'Viện phí',
                                 icon: 'fa fa-house-medical',
                                 routerLink: ['/admin/vien-phi']
+                            },
+                            {
+                                label: 'Thống kê chi tiêu',
+                                icon: 'fa fa-solid fa-chart-line',
+                                routerLink: ['/admin/thong-ke-chi-tieu']
                             }
                         ]
                     },

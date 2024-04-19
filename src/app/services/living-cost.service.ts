@@ -115,4 +115,12 @@ export class LivingCostService {
         return LIVING_COST.STATUS;
     }
 
+    optionCategory(): any[] {
+        return LIVING_COST.CATEGORY;
+    }
+
+    getCategory(category: number): string | undefined {
+        return LIVING_COST.CATEGORY.find(item => item.value === category)?.label;
+    }
+
 }

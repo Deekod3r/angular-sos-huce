@@ -33,7 +33,6 @@ export class LivingCostUpdateComponent implements OnInit, OnDestroy {
             id: new FormControl(null, Validators.required),
             name: new FormControl('', [Validators.required, Validators.maxLength(100), noWhitespaceValidator()]),
             cost: new FormControl(null, [Validators.required]),
-            status: new FormControl('', [Validators.required]),
             date: new FormControl('', [Validators.required]),
             note: new FormControl(''),
         });
@@ -69,7 +68,6 @@ export class LivingCostUpdateComponent implements OnInit, OnDestroy {
         this.form.controls['id'].setValue(this.livingCost.id);
         this.form.controls['name'].setValue(this.livingCost.name);
         this.form.controls['cost'].setValue(this.livingCost.cost);
-        this.form.controls['status'].setValue(this.livingCost.status);
         this.form.controls['date'].setValue(new Date(this.livingCost.date));
         this.form.controls['note'].setValue(this.livingCost.note);
     }
@@ -98,7 +96,6 @@ export class LivingCostUpdateComponent implements OnInit, OnDestroy {
                     id: this.form.controls['id'].value,
                     name: this.form.controls['name'].value.trim(),
                     cost: this.form.controls['cost'].value,
-                    status: this.form.controls['status'].value,
                     date: convertDateFormat(this.form.controls['date'].value),
                     note: this.form.controls['note'].value ? this.form.controls['note'].value.trim() : ''
                 };

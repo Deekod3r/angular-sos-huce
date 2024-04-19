@@ -9,21 +9,27 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr class="">
-                <th class="col-4">Mã đơn</th>
-                <th class="col-4">Ngày kiểm tra</th>
-                <th class="col-4">Còn</th>
+                <th class="col-1">Mã đơn</th>
+                <th class="col-2" pSortableColumn="checkDate">Ngày kiểm tra <p-sortIcon field="checkDate"></p-sortIcon></th>
+                <th class="col-7">Thông tin</th>
+                <th class="col-2" pSortableColumn="dateDiff">Còn <p-sortIcon field="dateDiff"></p-sortIcon></th>
+                <th></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-adopt>
             <tr>
                 <td>{{adopt.code}}</td>
                 <td>{{adopt.checkDate | date:'dd/MM/yyyy'}}</td>
+                <td>
+                    {{adopt.nameRegister}} - {{adopt.phoneRegister}} - {{adopt.emailRegister}}
+                </td>
                 <td>{{adopt.dateDiff}} ngày</td>
+                <td>
+                    <button pButton icon="fa fa-angles-right text-2xl" class="p-button-text" title="Thêm lịch sử kiểm tra" 
+                        (click)="onRouteToPetCareLog()">
+                    </button>
+                </td>
             </tr>
-        </ng-template>
-        <ng-template pTemplate="paginatorleft">
-        </ng-template>
-        <ng-template pTemplate="paginatorright">
         </ng-template>
     </p-table>
 </p-dialog>

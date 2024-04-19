@@ -4,15 +4,11 @@
         [(visible)]="visibleUpdateInfo" [modal]="true" [draggable]="false" [resizable]="false">
         <app-update-info [infoKey]="info.key" [userId]="info.userId" [userInfo]="info.userInfo" (resultAction)="onReceiveResult($event)"></app-update-info>
     </p-dialog>
-    <p-dialog *ngIf="visiblePetCareLog" header="Lịch sử kiểm tra sau nhận nuôi" (visibleChange)="onHidePetCareLog()"
-        styleClass="w-10" [resizable]="true"[(visible)]="visiblePetCareLog" [modal]="true" [draggable]="false" [resizable]="false">
-        <p-table *ngIf="logs && logs.length > 0; else noDataMessage" #table [value]="logs" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines mt-3"
-            selectionMode="single" [paginator]="true" [rows]="1">
-            <ng-template pTemplate="caption">
-                <div class="flex align-items-center justify-content-between">
-                    Lịch sử kiểm tra
-                </div>
-            </ng-template>
+    <p-dialog *ngIf="visiblePetCareLog" header="Lịch sử kiểm tra sau nhận nuôi" (visibleChange)="onHidePetCareLog()" 
+        [styleClass]="visiblePetCareLog && logs && logs.length > 0 ? 'w-11' : 'lg:w-5 md:w-8 w-11'"
+        [resizable]="true" [(visible)]="visiblePetCareLog" [modal]="true" [draggable]="false" [resizable]="false">
+        <p-table *ngIf="logs && logs.length > 0; else noDataMessage" #table [value]="logs" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines"
+            selectionMode="single" [paginator]="true" [rows]="5">
             <ng-template pTemplate="header">
                 <tr class="">
                     <th class="col-2">Đơn nhận nuôi</th>
@@ -38,8 +34,8 @@
     </p-dialog>
     <p-tabView #tabView (onChange)="onChangeTabView($event)">
         <p-tabPanel header="Thông tin tài khoản">
-            <div *ngIf="user != null" class="grid">
-                <div class="lg:col-3 col-12">
+            <div *ngIf="user" class="grid">
+                <div class="lg:col-3 col-12 mt-2">
                     <table align="center">
                         <tr>
                             <td>
@@ -96,7 +92,7 @@
                     <div *ngIf="detailAdoptData.adopt.status == adoptStatus.COMPLETE">
                         <p>Thời gian xác nhận: <b>{{detailAdoptData.adopt.confirmedAt | date:'HH:mm - dd/MM/yyyy'}}</b></p>
                         <p>Người xác nhận: <b>{{detailAdoptData.adopt.nameConfirmedBy}}</b></p>
-                        <p>Tiền vía: <b>{{detailAdoptData.adopt.fee | currency: ' ' }} VNĐ</b></p>
+                        <p>Tiền vía: <b>{{detailAdoptData.adopt.fee | currency: ' ' }} ₫</b></p>
                     </div>
                 </p-panel>
                 <br>
@@ -113,13 +109,12 @@
                 <app-infor-pet [pet]="detailAdoptData.pet"></app-infor-pet>
                 <app-treatment-pet [idPet]="petId"></app-treatment-pet>
             </p-dialog>
-            <p-table *ngIf="adopts != null && adopts.length > 0" [value]="adopts" [rows]="5" [rowsPerPageOptions]="[1, 2, 5, 10]" 
-                [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines mt-3"
+            <p-table *ngIf="adopts != null && adopts.length > 0" [value]="adopts" [rows]="5"
+                [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines"
                 selectionMode="single" [paginator]="true">
                 <ng-template pTemplate="caption">
                     <div class="flex align-items-center justify-content-between">
-                        Đơn nhận nuôi
-                        <p-button icon="fa fa-refresh"></p-button>
+                        Lịch sử nhận nuôi
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header">
@@ -164,12 +159,11 @@
             </div>
         </p-tabPanel>
         <p-tabPanel header="Thú cưng của bạn">
-            <p-table *ngIf="pets != null && pets.length > 0" [value]="pets" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines mt-3"
-                selectionMode="single" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[1,2,5,10]">
+            <p-table *ngIf="pets != null && pets.length > 0" [value]="pets" [tableStyle]="{'min-width': '60rem'}" 
+                styleClass="p-datatable-gridlines" selectionMode="single" [paginator]="true" [rows]="5">
                 <ng-template pTemplate="caption">
                     <div class="flex align-items-center justify-content-between">
-                        Thú cưng
-                        <p-button icon="fa fa-refresh"></p-button>
+                        Thú cưng của bạn
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header">

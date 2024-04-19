@@ -74,49 +74,75 @@
         <ng-template pTemplate="header">
             <div class="flex justify-content-between align-items-center">
                 <p class="font-semibold text-lg mr-3">Tài chính năm {{year}}</p>
-                <p-dropdown [options]="years" [(ngModel)]="year" [style]="{width: '150px'}" (onChange)="getDataChart()"
-                    styleClass="mb-3"></p-dropdown>
+                <p-dropdown [options]="years" [(ngModel)]="year" [style]="{width: '150px'}" 
+                    (onChange)="getDataChart()"
+                    styleClass="mb-3">
+                </p-dropdown>
             </div>
         </ng-template>
         <div class="grid">
             <div class="col-12 lg:col-6 xl:col-3">
                 <div class="card p-0 overflow-hidden flex flex-column">
-                    <div class="flex align-items-center p-3"><i class="pi pi-users text-6xl text-blue-500"></i>
-                        <div class="ml-3"><span class="text-blue-500 block white-space-nowrap font-semibold">Tổng tiền
-                                ủng hộ</span><span
-                                class="text-blue-500 block text-4xl font-bold">{{getSumArray(defaultDataDonate) |
-                                currency: ' ' }} VNĐ</span></div>
-                    </div><img alt="users" class="w-full" src="../../../../assets/medias/imgs/users.svg">
+                    <div class="flex align-items-center p-3">
+                        <i class="fa fa-users text-3xl text-blue-500"></i>
+                        <div class="ml-3">
+                            <span class="text-blue-500 block white-space-nowrap font-semibold">
+                                Tổng tiền ủng hộ
+                            </span>
+                            <span class="text-blue-500 block text-3xl font-bold">
+                                {{getSumArray(defaultDataDonate) | currency: ' ' }} ₫
+                            </span>
+                        </div>
+                    </div>
+                    <img alt="users" class="w-full" src="../../../../assets/medias/imgs/users.svg">
                 </div>
             </div>
             <div class="col-12 lg:col-6 xl:col-3">
                 <div class="card p-0 overflow-hidden flex flex-column">
-                    <div class="flex align-items-center p-3"><i class="pi pi-users text-6xl text-green-500"></i>
-                        <div class="ml-3"><span class="text-green-500 block white-space-nowrap font-semibold">Tổng tiền
-                                vía nuôi</span><span
-                                class="text-green-500 block text-4xl font-bold">{{getSumArray(defaultDataAdopt) |
-                                currency: ' ' }} VNĐ</span></div>
-                    </div><img alt="users" class="w-full" src="../../../../assets/medias/imgs/rate.svg">
+                    <div class="flex align-items-center p-3">
+                        <i class="fa fa-solid fa-hand-holding-dollar text-3xl text-green-500"></i>
+                        <div class="ml-3">
+                            <span class="text-green-500 block white-space-nowrap font-semibold">
+                                Tổng tiền vía nuôi
+                            </span>
+                            <span class="text-green-500 block text-3xl font-bold">
+                                {{getSumArray(defaultDataAdopt) | currency: ' ' }} ₫
+                            </span>
+                        </div>
+                    </div>
+                    <img alt="users" class="w-full" src="../../../../assets/medias/imgs/rate.svg">
                 </div>
             </div>
             <div class="col-12 lg:col-6 xl:col-3">
                 <div class="card p-0 overflow-hidden flex flex-column">
-                    <div class="flex align-items-center p-3"><i class="pi pi-users text-6xl text-orange-500"></i>
-                        <div class="ml-3"><span class="text-orange-500 block white-space-nowrap font-semibold">Tổng tiền
-                                sinh hoạt phí</span><span
-                                class="text-orange-500 block text-4xl font-bold">{{getSumArray(defaultDataLivingCost) |
-                                currency: ' ' }} VNĐ</span></div>
-                    </div><img alt="users" class="w-full" src="../../../../assets/medias/imgs/locations.svg">
+                    <div class="flex align-items-center p-3">
+                        <i class="fa fa-barcode text-3xl text-orange-500"></i>
+                        <div class="ml-3">
+                            <span class="text-orange-500 block white-space-nowrap font-semibold">
+                                Tổng tiền sinh hoạt phí
+                            </span>
+                            <span class="text-orange-500 block text-3xl font-bold">
+                                {{getSumArray(defaultDataLivingCost) | currency: ' ' }} ₫
+                            </span>
+                        </div>
+                    </div>
+                    <img alt="users" class="w-full" src="../../../../assets/medias/imgs/locations.svg">
                 </div>
             </div>
             <div class="col-12 lg:col-6 xl:col-3">
                 <div class="card p-0 overflow-hidden flex flex-column">
-                    <div class="flex align-items-center p-3"><i class="pi pi-users text-6xl text-purple-500"></i>
-                        <div class="ml-3"><span class="text-purple-500 block white-space-nowrap font-semibold">Tổng tiền
-                                viện phí</span><span
-                                class="text-purple-500 block text-4xl font-bold">{{getSumArray(defaultDataTreatment) |
-                                currency: ' ' }} VNĐ</span></div>
-                    </div><img alt="users" class="w-full" src="../../../../assets/medias/imgs/interactions.svg">
+                    <div class="flex align-items-center p-3">
+                        <i class="fa fa-solid fa-hand-holding-medical text-3xl text-purple-500"></i>
+                        <div class="ml-3">
+                            <span class="text-purple-500 block white-space-nowrap font-semibold">
+                                Tổng tiền viện phí
+                            </span>
+                            <span class="text-purple-500 block text-3xl font-bold">
+                                {{getSumArray(defaultDataTreatment) | currency: ' ' }} ₫
+                            </span>
+                        </div>
+                    </div>
+                    <img alt="users" class="w-full" src="../../../../assets/medias/imgs/interactions.svg">
                 </div>
             </div>
         </div>

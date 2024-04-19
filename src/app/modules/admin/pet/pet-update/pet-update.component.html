@@ -1,8 +1,7 @@
 <div class="position-relative">
-    <p-dialog *ngIf="visibleTreatmentModal" header="Cập nhật hình ảnh"
-        [(visible)]="visibleTreatmentModal" [modal]="true"
-        [style]="{ width: '60vw', height: 'fit-content' }" [draggable]="false" [resizable]="false">
-        <app-treatment-pet [idPet]="idPet"></app-treatment-pet>
+    <p-dialog *ngIf="visibleTreatmentModal" [(visible)]="visibleTreatmentModal" [modal]="true"
+        [style]="{ width: '80vw', height: 'fit-content' }" [draggable]="false" [resizable]="false">
+        <app-treatment-pet [idPet]="idPet" [visiblePrice]="true"></app-treatment-pet>
     </p-dialog>
     <form *ngIf="pet" [formGroup]="form" enctype="multipart/form-data">
         <div class="grid mb-1">
@@ -22,8 +21,8 @@
                     </p-fileUpload>
                 </p-dialog>
                 <button *ngIf="pet && !isNotAvailableForUpdate()" pButton icon="fa fa-upload" label="Cập nhật hình ảnh"
-                    class="mx-3" (click)="onShowUpdateImageModal()"></button>
-                <button pButton icon="fa fa-photo" label="Xem thông tin điều trị" class="p-button-outlined" (click)="visibleTreatmentModal = true"></button>
+                    class="ml-3" (click)="onShowUpdateImageModal()"></button>
+                <button pButton icon="fa fa-photo" label="Xem thông tin điều trị" class="p-button-outlined ml-3" (click)="visibleTreatmentModal = true"></button>
                 <p *ngIf="pet && isNotAvailableForUpdate()" class="mt-2"><b>Người nhận nuôi:</b>
                     {{pet.infoAdoptedBy}}</p>
             </div>

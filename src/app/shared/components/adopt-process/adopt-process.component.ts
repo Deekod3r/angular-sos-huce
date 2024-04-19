@@ -32,4 +32,5 @@ export class AdoptProcessComponent implements OnInit, OnDestroy {
         this.subscribes$.next();
         this.subscribes$.complete();
     }
+    
 }

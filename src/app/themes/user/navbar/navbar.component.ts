@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -9,10 +9,10 @@ import { AuthService } from 'src/app/services/auth.service';
     templateUrl: './navbar.component.html',
     styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
 
     items!: MenuItem[];
-    userTools!: MenuItem[];
+    guestTools!: MenuItem[];
     userOptions!: any[];
     currentRoute: string = '';
     
@@ -56,7 +56,7 @@ export class NavbarComponent implements OnInit {
             }
         ];
 
-        this.userTools = [
+        this.guestTools = [
             {
                 visible: false
             },
@@ -95,22 +95,22 @@ export class NavbarComponent implements OnInit {
                 icon: 'fa-solid fa-registered',
                 command: () => { window.location.href = '/dang-ky' }
             },
-            {
-                separator: true
-            },
-            {
-                label: 'Nhận nuôi',
-                icon: 'fa-solid fa-heart-circle-plus',
-                command: () => { window.location.href = '/dang-nhap' }
-            },
-            {
-                separator: true
-            },
-            {
-                label: 'Ủng hộ',
-                icon: 'fa-solid fa-clover',
-                command: () => { window.location.href = '/dang-nhap' }
-            }
+            // {
+            //     separator: true
+            // },
+            // {
+            //     label: 'Nhận nuôi',
+            //     icon: 'fa-solid fa-heart-circle-plus',
+            //     command: () => { window.location.href = '/dang-nhap' }
+            // },
+            // {
+            //     separator: true
+            // },
+            // {
+            //     label: 'Ủng hộ',
+            //     icon: 'fa-solid fa-clover',
+            //     command: () => { window.location.href = '/dang-nhap' }
+            // }
         ];
         this.router.events.pipe(takeUntil(this.subscribes$)).subscribe(event => {
             if (event instanceof NavigationEnd) {
@@ -148,10 +148,10 @@ export class NavbarComponent implements OnInit {
                 href = '/lien-he';
             }
         }
-        let menuitem = document.getElementsByClassName("p-menuitem-link");
+        let menuitem = document.getElementsByClassName('p-menuitem-link');
         for (let i = 0; i < menuitem.length; i++) {
-            menuitem[i].classList.remove("bg-cyan-100");
-            menuitem[i].classList.remove("border-round");
+            menuitem[i].classList.remove('bg-cyan-100');
+            menuitem[i].classList.remove('border-round');
         }
         this.setActiveMenu(href);
     }

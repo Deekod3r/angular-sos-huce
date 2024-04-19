@@ -9,11 +9,12 @@ import { TreatmentService } from 'src/app/services/treatment.service';
     templateUrl: './treatment-pet.component.html',
     styleUrls: ['./treatment-pet.component.css']
 })
-export class TreatmentPetComponent implements OnInit , OnDestroy {
+export class TreatmentPetComponent implements OnInit, OnDestroy {
 
     @Input() idPet: any;
     @Input() status = '';
-    treatments: any[] = [];
+    @Input() visiblePrice = false;
+    treatments!: any;
     private subscribes$: Subject<void> = new Subject<void>();
 
     constructor(public treatmentService: TreatmentService, private messageService: MessageService) { }

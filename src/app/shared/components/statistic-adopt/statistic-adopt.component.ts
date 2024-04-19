@@ -100,4 +100,9 @@ export class StatisticAdoptComponent implements OnInit, OnDestroy {
         });
     }
 
+    onRouteToPetCareLog(): void {
+        this.visibleAdoptsNearLogModal = false;
+        window.open('/admin/kiem-tra-sau-nhan-nuoi', '_blank');
+    }
+
 }

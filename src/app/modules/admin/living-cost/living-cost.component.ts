@@ -28,7 +28,8 @@ export class LivingCostComponent implements OnInit, OnDestroy {
         limit: this.limit,
         page: this.currentPage,
         fromDate: '',
-        toDate: ''
+        toDate: '',
+        category: ''
     }
     livingCosts: any[] = [];
     idLivingCostUpdate!: string;
@@ -56,7 +57,8 @@ export class LivingCostComponent implements OnInit, OnDestroy {
             limit: this.key.limit,
             page: this.key.page,
             fromDate: this.key.fromDate ? convertDateFormat(this.key.fromDate) : '',
-            toDate: this.key.toDate ? convertDateFormat(this.key.toDate) : ''
+            toDate: this.key.toDate ? convertDateFormat(this.key.toDate) : '',
+            category: this.key.category
         }
         this.livingCostService.getLivingCosts(filteredSearch(search))
         .pipe(takeUntil(this.subscribes$))
@@ -150,7 +152,8 @@ export class LivingCostComponent implements OnInit, OnDestroy {
             limit: this.limit,
             page: this.currentPage,
             fromDate: '',
-            toDate: ''
+            toDate: '',
+            category: ''
         }
         this.getLivingCosts();
     }

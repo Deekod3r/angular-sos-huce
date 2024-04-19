@@ -4,7 +4,6 @@ import { CommonService } from './common.service';
 import { AuthService } from './auth.service';
 import { CONFIG } from '../common/config';
 import { ADOPT } from '../common/constant';
-import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -30,19 +29,6 @@ export class AdoptService {
         return this.commonService.callAPI(request);
     }
 
-    getAdoptsByUser(): Observable<any> {
-      const request = {
-          function: this.API_URL + '/user' + '/' + this.authService.getCurrentUser().id,
-          method: CONFIG.KEY.METHOD_GET,
-          options: {
-              headers: {
-                  'Authorization': 'Bearer ' + this.authService.getToken()
-              }
-          }
-      }
-      return this.commonService.callAPI(request);
-    }
-
     getAdoptById(id: string): Observable<any> {
         const request = {
             function: this.API_URL + '/' + id,
@@ -50,9 +36,6 @@ export class AdoptService {
             options: {
                 headers: {
                     'Authorization': 'Bearer ' + this.authService.getToken()
-                },
-                params: {
-                    role: this.authService.getRole()
                 }
             }
         }

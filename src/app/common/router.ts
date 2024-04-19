@@ -37,6 +37,7 @@ import { AdminsComponent } from '../modules/admin/admins/admins.component';
 import { ChangePasswordManagerComponent } from '../modules/admin/manager/change-password-manager.component';
 import { TreatmentComponent } from '../modules/admin/treatment/treatment.component';
 import { FeedbackComponent } from '../modules/admin/feedback/feedback.component';
+import { StatisticExpenseComponent } from '../modules/admin/statistic-expense/statistic-expense.component';
 
 export let ROUTES_ROOT: Routes = [
     {
@@ -102,6 +103,7 @@ export let ROUTES_ADMIN: Routes = [
     { path: 'ung-ho', component: DonationComponent },
     { path: 'phi-sinh-hoat', component: LivingCostComponent },
     { path: 'vien-phi', component: TreatmentComponent },
+    { path: 'thong-ke-chi-tieu', component: StatisticExpenseComponent },
     { path: 'thong-tin-nhan-ung-ho', component: BankComponent },
     { path: 'tin-tuc', component: NewsMedeiaComponent },
     { path: 'danh-muc-tin-tuc', component: NewsCategoryComponent },

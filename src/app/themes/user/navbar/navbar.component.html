@@ -9,7 +9,7 @@
         </div>
         <ng-template #menuUserTools>
             <p-avatar class="mr-3 cursor-pointer" shape="square" icon="fa fa-user" [style]="{'background-color':'#14B8A6', 'color': '#ffffff'}" (click)="menu.toggle($event)"/>
-            <p-tieredMenu #menu [model]="userTools" [popup]="true"></p-tieredMenu>
+            <p-tieredMenu #menu [model]="guestTools" [popup]="true"></p-tieredMenu>
         </ng-template>
     </ng-template>
 </p-menubar>

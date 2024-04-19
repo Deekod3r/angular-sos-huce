@@ -77,6 +77,10 @@
                                 class="text-red-500 mt-2 ml-1">
                                 Vui lòng nhập họ tên
                             </div>
+                            <div [hidden]="!formFeedback.controls['fullName'].hasError('minlength') || !formFeedback.controls['fullName'].touched"
+                                class="text-red-500 mt-2 ml-1">
+                                Độ dài thông tin không hợp lệ (tối thuểu 2 ký tự)
+                            </div>
                             <div [hidden]="!formFeedback.controls['fullName'].hasError('maxlength') || !formFeedback.controls['fullName'].touched"
                                 class="text-red-500 mt-2 ml-1">
                                 Độ dài thông tin không hợp lệ (tối đa 100 ký tự)

@@ -12,6 +12,15 @@
         <div class="card grid mt-3">
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
+                    <label for="type">Loại điều trị</label>
+                    <p-dropdown [options]="treatmentService.optionType()" optionLabel="label" optionValue="value"
+                        emptyMessage="Không có dữ liệu" id="type" [showClear]="true" placeholder="--Tất cả--"
+                        styleClass="mat-form-field"  [(ngModel)]="key.type">
+                    </p-dropdown>
+                </div>            
+            </div>
+            <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
                     <label for="pet">Thú cưng</label>
                     <p-dropdown [options]="pets" optionLabel="name" optionValue="id" [filter]="true" filterBy="code" 
                         filterPlaceholder="Mã thú cưng" emptyMessage="Không có dữ liệu" id="pet"
@@ -23,6 +32,15 @@
                         </ng-template>
                     </p-dropdown>
                 </div>            
+            </div>
+            <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
+                <div class="flex flex-column gap-2">
+                    <label for="status">Số ngày đi viện</label>
+                    <p-dropdown [options]="daysOfTreatmentOptions" optionLabel="label" optionValue="value"
+                        emptyMessage="Không có dữ liệu" id="status" [showClear]="true" placeholder="--Tất cả--"
+                        styleClass="mat-form-field"  [(ngModel)]="key.daysOfTreatment">
+                    </p-dropdown>
+                </div>
             </div>
             <div class="col-12">
                 <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="onSearch()"></button>
@@ -42,8 +60,8 @@
                 <th class="col-2">Thú cưng</th>
                 <th class="col-2">Điều trị</th>
                 <th class="col-2">Địa chỉ</th>
-                <th class="col-1">Ngày đến</th>
-                <th class="col-1">Ngày đi</th>
+                <th class="col-1">Nhập viện</th>
+                <th class="col-1">Xuất viện</th>
                 <th class="col-2">Đơn giá</th>
                 <th class="col-1">Số lượng</th>
                 <th class="col-1">Trạng thái</th>
@@ -58,7 +76,7 @@
                 <td>{{treatment.location}}</td>
                 <td>{{treatment.startDate | date:'dd/MM/yyyy'}}</td>
                 <td>{{treatment.endDate | date:'dd/MM/yyyy'}}</td>
-                <td>{{treatment.price | currency: ' ' }} VNĐ</td>
+                <td>{{treatment.price | currency: ' ' }} ₫</td>
                 <td>{{treatment.quantity}}</td>
                 <td>
                     <p-tag [value]="this.treatmentService.getStatus(treatment.status)"
@@ -71,14 +89,8 @@
                 </td>
             </tr>
         </ng-template>
-        <ng-template pTemplate="paginatorleft">
-            <p-button type="button" icon="fa fa-plus" styleClass="p-button-text"></p-button>
-        </ng-template>
-        <ng-template pTemplate="paginatorright">
-            <p-button type="button" icon="fa fa-cloud" styleClass="p-button-text"></p-button>
-        </ng-template>
     </p-table>
     <p-paginator [rows]="limit" [showCurrentPageReport]="false" [totalRecords]="totalElements" [first]="first"
-        [rowsPerPageOptions]="[1, 5, 10, 25, 50]" [style]="{'margin-top': '1rem'}"
+        [rowsPerPageOptions]="[1, 5, 10, 25]" [style]="{'margin-top': '1rem'}"
         (onPageChange)="onPageChange($event)"></p-paginator>
 </div>

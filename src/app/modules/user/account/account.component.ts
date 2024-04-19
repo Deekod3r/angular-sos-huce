@@ -82,12 +82,12 @@ export class AccountComponent implements OnInit, OnDestroy {
     }
 
     getAdopts(): void {
-        this.adoptService.getAdoptsByUser()
+        this.adoptService.getAdopts({})
         .pipe(takeUntil(this.subscribes$))
         .subscribe({
             next: (res) => {
                 if (res.success) {
-                    this.adopts = res.data;
+                    this.adopts = res.data.adopts;
                 }
             },
             error: (res) => {

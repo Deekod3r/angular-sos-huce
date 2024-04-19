@@ -22,8 +22,6 @@ export class SponsorComponent implements OnInit, OnDestroy {
     year!: number;
     month!: number;
     donates!: any;
-    limit = 2;
-    first!: number;
     private subscribes$: Subject<void> = new Subject<void>();
 
     monthNames = [
@@ -114,7 +112,6 @@ export class SponsorComponent implements OnInit, OnDestroy {
         .subscribe({
             next: (res) => {
                 if (res.success) {
-                    this.table.reset();
                     this.donates = res.data.donates;
                     if (this.donates.length == 0) {
                         this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });

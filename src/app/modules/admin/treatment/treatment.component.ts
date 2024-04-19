@@ -20,6 +20,20 @@ import { filteredSearch } from 'src/app/shared/utils/data.util';
 })
 export class TreatmentComponent implements OnInit, OnDestroy {
 
+    daysOfTreatmentOptions = [
+        {
+            label: 'Dưới 1 tuần',
+            value: 7
+        },
+        {
+            label: 'Dưới 2 tuần',
+            value: 14
+        },
+        {
+            label: 'Dưới 1 tháng',
+            value: 30
+        }
+    ]
     currentPage = 1;
     totalPages = 0;
     totalElements = 0;
@@ -29,6 +43,8 @@ export class TreatmentComponent implements OnInit, OnDestroy {
         limit: this.limit,
         page: this.currentPage,
         petId: '',
+        type: '',
+        daysOfTreatment: '',
     }
     pets: any[] = [];
     petsModified: any[] = [];
@@ -87,6 +103,8 @@ export class TreatmentComponent implements OnInit, OnDestroy {
             limit: this.key.limit,
             page: this.key.page,
             petId: this.key.petId,
+            type: this.key.type,
+            daysOfTreatment: this.key.daysOfTreatment,
         }
         this.treatmentService.getTreatments(filteredSearch(search))
         .pipe(takeUntil(this.subscribes$))
@@ -158,6 +176,8 @@ export class TreatmentComponent implements OnInit, OnDestroy {
             limit: this.limit,
             page: this.currentPage,
             petId: '',
+            type: '',
+            daysOfTreatment: '',
         }
         this.getTreatments();
     }

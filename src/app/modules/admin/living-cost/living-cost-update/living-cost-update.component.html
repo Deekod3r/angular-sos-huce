@@ -81,19 +81,6 @@
             </div>
             <div class="col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="status">Trạng thái <span class="text-red-500 font-bold">*</span></label>
-                    <p-dropdown [options]="livingCostService.optionStatus()" optionLabel="label" optionValue="value"
-                        [filter]="false" emptyMessage="Không có dữ liệu" id="status" [showClear]="true"
-                        placeholder="--Chọn--" styleClass="mat-form-field" formControlName="status">
-                    </p-dropdown>
-                </div>
-                <div [hidden]="form.controls['status'].valid || !form.controls['status'].touched"
-                    class="text-red-500 mt-2">
-                    Vui lòng chọn trạng thái
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="flex flex-column gap-2">
                     <label for="note">Ghi chú</label>
                     <textarea pInputTextarea id="note" formControlName="note" rows="5"></textarea>
                 </div>

@@ -92,7 +92,7 @@
                         <p>Người từ chối: <b>{{adopt.nameRejectedBy}}</b></p>
                     </div>
                     <div *ngIf="adopt.status == adoptStatus.COMPLETE">
-                        <p>Tiền vía: <b>{{adopt.fee | currency: ' ' }} VNĐ</b></p>
+                        <p>Tiền vía: <b>{{adopt.fee | currency: ' ' }} ₫</b></p>
                         <p>Thời gian xác nhận: <b>{{adopt.confirmedAt | date:'HH:mm - dd/MM/yyyy'}}</b></p>
                         <p>Người xác nhận: <b>{{adopt.nameConfirmedBy}}</b></p>
                     </div>

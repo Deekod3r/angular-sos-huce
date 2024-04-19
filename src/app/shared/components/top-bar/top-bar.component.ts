@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { SYSTEM } from 'src/app/common/constant';
 import { ConfigService } from 'src/app/services/config.service';
 
 @Component({

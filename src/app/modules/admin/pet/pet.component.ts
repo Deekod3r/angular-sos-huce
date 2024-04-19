@@ -128,11 +128,13 @@ export class PetComponent implements OnInit, OnDestroy {
                 }
             },
             {
-                separator: true
+                separator: true,
+                visible: pet.status !== PET.STATUS_KEY.ADOPTED
             },
             {
                 label: 'Xoá',
                 icon: 'fa fa-trash',
+                visible: pet.status !== PET.STATUS_KEY.ADOPTED,
                 command: (event: any) => {
                     this.onConfirmDelete(event, pet);
                 }

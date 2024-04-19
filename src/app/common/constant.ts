@@ -364,6 +364,30 @@ export const LIVING_COST = {
     STATUS_KEY: {
         ACTIVE: true,
         DEACTIVE: false
+    },
+    CATEGORY: [
+        {
+            label: "Thức ăn",
+            value: 1
+        },
+        {
+            label: "Thuốc",
+            value: 2
+        },
+        {
+            label: "Vật dụng",
+            value: 3
+        },
+        {
+            label: "Khác",
+            value: 4
+        },
+    ],
+    CATEGORY_KEY: {
+        FOOD: 1,
+        MEDICINE: 2,
+        EQUIPMENT: 3,
+        OTHER: 4
     }
 }
 

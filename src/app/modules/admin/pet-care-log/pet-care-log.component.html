@@ -52,7 +52,7 @@
         <ng-template pTemplate="header">
             <tr class="">
                 <th class="col-2">Đơn nhận nuôi</th>
-                <th class="col-2" pSortableColumn="petName">Thú cưng <p-sortIcon field="petName"></p-sortIcon></th>
+                <th class="col-2">Thú cưng</th>
                 <th class="col-2" pSortableColumn="date">Ngày kiểm tra <p-sortIcon field="date"></p-sortIcon></th>
                 <th class="col-6">Nội dung</th>
                 <th class=""></th>
@@ -70,11 +70,6 @@
                         styleClass="menucus"></p-tieredMenu>
                 </td>
             </tr>
-        </ng-template>
-        <ng-template pTemplate="paginatorleft">
-            <p-button type="button" icon="fa fa-plus" styleClass="p-button-text" (click)="onShowCreateModal()"></p-button>
-        </ng-template>
-        <ng-template pTemplate="paginatorright">
         </ng-template>
     </p-table>
 </div>
