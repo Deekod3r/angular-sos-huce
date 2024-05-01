@@ -49,28 +49,15 @@
             </div>
             <div class="col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="petId">Thú cưng <span class="text-red-500 font-bold">*</span></label>
-                    <p-dropdown [options]="pets" optionLabel="label" optionValue="value" [filter]="true"
-                        filterBy="label" filterPlaceholder="Mã - tên thú cưng" emptyMessage="Không có dữ liệu"
-                        id="petId" [showClear]="true" placeholder="--Chọn--" styleClass="mat-form-field"
-                        formControlName="petId">
-                        <ng-template let-pet pTemplate="item">
-                            <div class="flex align-items-center">
-                                <div>{{pet.label}}</div>
-                            </div>
-                        </ng-template>
-                    </p-dropdown>
-                </div>
-                <div [hidden]="form.controls['petId'].valid || !form.controls['petId'].touched"
-                    class="text-red-500 mt-2">
-                    Vui lòng chọn thú cưng
+                    <label for="petId">Thú cưng</label>
+                    <input pInputText id="petId" value="{{treatment.petCode}} - {{treatment.petName}}" disabled/>
                 </div>
             </div>
             <div class="md:col-6 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="startDate">Ngày nhập viện <span class="text-red-500 font-bold">*</span></label>
                     <p-calendar id="startDate" [showIcon]="true" [readonlyInput]="true" styleClass="mat-form-field"
-                        dateFormat="dd/mm/yy" dataType="string" formControlName="startDate"></p-calendar>
+                        dateFormat="dd/mm/yy" dataType="string" formControlName="startDate" [maxDate]="maxDate"></p-calendar>
                 </div>
                 <div [hidden]="form.controls['startDate'].valid || !form.controls['startDate'].touched"
                     class="text-red-500 mt-2 ml-1">
@@ -81,13 +68,17 @@
                 <div class="flex flex-column gap-2">
                     <label for="endDate">Ngày xuất viện <span class="text-red-500 font-bold">*</span></label>
                     <p-calendar id="endDate" [showIcon]="true" [readonlyInput]="true" styleClass="mat-form-field"
-                        dateFormat="dd/mm/yy" dataType="string" formControlName="endDate"></p-calendar>
+                        dateFormat="dd/mm/yy" dataType="string" formControlName="endDate" [maxDate]="maxDate"></p-calendar>
                 </div>
-                <div [hidden]="form.controls['endDate'].valid || !form.controls['endDate'].touched"
+                <div [hidden]="!form.controls['endDate'].hasError('required') || !form.controls['endDate'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng chọn thời gian xuất viện
                 </div>
-            </div>
+                <div class="text-red-500 mt-2 ml-1" 
+                    [hidden]="!form.controls['endDate'].hasError('endDateBeforeStartDate')">
+                    Ngày nhập viện phải nhỏ hơn hoặc bằng ngày xuất viện
+                </div>
+            </div>           
             <div class="col-12">
                 <div class="flex flex-column gap-2">
                     <label for="location">Cơ sở điều trị <span class="text-red-500 font-bold">*</span></label>

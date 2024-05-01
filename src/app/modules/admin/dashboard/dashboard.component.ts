@@ -57,9 +57,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.years.push(year);
         }
         const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--text-color');
-        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+        const textColor = '#495057';
+        const textColorSecondary = '#6c757d';
+        const surfaceBorder = '#dfe7ef';
 
         this.feeData = {
             labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],

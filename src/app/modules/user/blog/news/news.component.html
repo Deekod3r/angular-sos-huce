@@ -1,10 +1,9 @@
 <div *ngIf="news" class="container mt-5 mb-5 card">
     <div class="flex justify-content-between mt-3">
         <a class="font-semibold" routerLink="">{{news.categoryName}}</a>
-        <span class="font-semibold">{{news.createdAt | date: 'dd/MM/yyyy HH:ss'}}</span>
+        <span class="font-semibold">{{news.createdAt | date: 'dd/MM/yyyy HH:mm'}}</span>
     </div>
     <p-divider></p-divider>
-    <h2 class="my-2"><i class="fa fa-paw text-primary"></i> {{news.title}}</h2>
-    <p-divider></p-divider>
+    <h2 class="mb-5"><i class="fa fa-paw text-primary"></i> {{news.title}}</h2>
     <p class="pb-5 content" [innerHTML]="news.content" style="max-width: fit-content;"></p>
 </div>

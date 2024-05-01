@@ -10,7 +10,8 @@
             <div class="md:col-6 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="date">Ngày kiểm tra <span class="text-red-500 font-bold">*</span></label>
-                    <p-calendar id="date" [showIcon]="true" [readonlyInput]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field w-full" dataType="string" formControlName="date"></p-calendar>
+                    <p-calendar id="date" [showIcon]="true" [readonlyInput]="true" dateFormat="dd/mm/yy" [maxDate]="maxDate"
+                    styleClass="mat-form-field w-full" dataType="string" formControlName="date"></p-calendar>
                 </div>
                 <div [hidden]="form.controls['date'].valid || !form.controls['date'].touched"
                     class="text-red-500 mt-2">

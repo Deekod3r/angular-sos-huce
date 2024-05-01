@@ -18,6 +18,7 @@ export class DonationCreateComponent implements OnInit, OnDestroy  {
     @Output() resultAction = new EventEmitter<boolean>();
     result: boolean = false;
     form!: FormGroup;
+    maxDate: Date = new Date();
     private subscribes$: Subject<void> = new Subject<void>();
 
     constructor(public donationService: DonationService, private messageService: MessageService) { }

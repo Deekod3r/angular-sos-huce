@@ -22,7 +22,7 @@ export class LivingCostUpdateComponent implements OnInit, OnDestroy {
     livingCost: any;
     visibleUpdateImageModal: boolean = false;
     newImages: any[] = [];
-    
+    maxDate: Date = new Date();
     private subscribes$: Subject<void> = new Subject<void>();
 
     constructor(private messageService: MessageService, public livingCostService: LivingCostService, 
@@ -33,6 +33,7 @@ export class LivingCostUpdateComponent implements OnInit, OnDestroy {
             id: new FormControl(null, Validators.required),
             name: new FormControl('', [Validators.required, Validators.maxLength(100), noWhitespaceValidator()]),
             cost: new FormControl(null, [Validators.required]),
+            category: new FormControl('', [Validators.required]),
             date: new FormControl('', [Validators.required]),
             note: new FormControl(''),
         });
@@ -69,6 +70,7 @@ export class LivingCostUpdateComponent implements OnInit, OnDestroy {
         this.form.controls['name'].setValue(this.livingCost.name);
         this.form.controls['cost'].setValue(this.livingCost.cost);
         this.form.controls['date'].setValue(new Date(this.livingCost.date));
+        this.form.controls['category'].setValue(this.livingCost.category);
         this.form.controls['note'].setValue(this.livingCost.note);
     }
 
@@ -97,6 +99,7 @@ export class LivingCostUpdateComponent implements OnInit, OnDestroy {
                     name: this.form.controls['name'].value.trim(),
                     cost: this.form.controls['cost'].value,
                     date: convertDateFormat(this.form.controls['date'].value),
+                    category: this.form.controls['category'].value,
                     note: this.form.controls['note'].value ? this.form.controls['note'].value.trim() : ''
                 };
                 this.livingCostService.updateLivingCost(body, this.idLivingCost)

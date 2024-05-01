@@ -34,6 +34,7 @@ import { TreatmentPetModule } from 'src/app/shared/components/treatment-pet/trea
         PetUpdateComponent,        
         SharedModule,
         DialogModule,
+        CalendarModule
     ]
 })
 export class PetModule { }

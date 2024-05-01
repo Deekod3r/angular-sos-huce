@@ -5,7 +5,18 @@ import { Subject, takeUntil } from 'rxjs';
 import { title, message } from 'src/app/common/message';
 import { TreatmentService } from 'src/app/services/treatment.service';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
-
+function endDateAfterStartDateValidator(control: FormControl): { [key: string]: boolean } | null {
+    const startDate = control.parent?.value.startDate;
+    const endDate = control.value;
+    if (startDate && endDate) {
+      const startDateTime = new Date(startDate).getTime();
+      const endDateTime = new Date(endDate).getTime();
+      if (endDateTime < startDateTime) {
+        return { 'endDateBeforeStartDate': true };
+      }
+    }
+    return null;
+}
 @Component({
     selector: 'app-treatment-create',
     templateUrl: './treatment-create.component.html',
@@ -17,7 +28,7 @@ export class TreatmentCreateComponent implements OnInit, OnDestroy {
     result: boolean = false;
     form!: FormGroup;
     @Input() pets: any[] = [];
-
+    maxDate: Date = new Date();
     private subscribes$: Subject<void> = new Subject<void>();
 
     constructor(public treatmentService: TreatmentService, private messageService: MessageService) { }
@@ -40,7 +51,7 @@ export class TreatmentCreateComponent implements OnInit, OnDestroy {
         return new FormGroup({
             name: new FormControl('', [Validators.required, noWhitespaceValidator(), Validators.maxLength(100)]),
             startDate: new FormControl('', [Validators.required]),
-            endDate: new FormControl('', [Validators.required]),
+            endDate: new FormControl('', [Validators.required, endDateAfterStartDateValidator]),
             type: new FormControl('', [Validators.required]),
             price: new FormControl(null, [Validators.required, Validators.min(0.01)]),
             quantity: new FormControl(null, [Validators.required, Validators.min(1)]),

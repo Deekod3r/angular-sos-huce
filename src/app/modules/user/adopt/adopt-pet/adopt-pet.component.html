@@ -10,21 +10,20 @@
 <div *ngIf="pet" class="container mt-5 mb-5 card">
     <div class="grid">
         <div class="lg:col-7 md:col-8 sm:col-12 col-12">
-            <p-dialog *ngIf="visibleCreateModal" header="Đăng ký nhận nuôi" [(visible)]="visibleCreateModal"
+            <p-dialog *ngIf="visibleCreateModal" header="Đăng ký nhận nuôi" [(visible)]="visibleCreateModal" (visibleChange)="formAdopt.reset()"
                 [modal]="true" [style]="{ width: '90vw', height: '100vh' }" [draggable]="false" [resizable]="true">
                 <p-panel header="Thông tin cá nhân">
                     <p>Người nhận nuôi: <b>{{userInfo.name}}</b></p>
                     <p>Email liên hệ: <b>{{userInfo.email}}</b></p>
                     <p>Số điện thoại: <b>{{userInfo.phoneNumber}}</b></p>
-                    <p class="font-semibold font-italic text-red-500">Nếu thông tin của bạn đã thay đổi, hãy cập nhật
-                        lại trong mục Tài khoản để HUCE Pet có thể liên hệ với bạn cùng làm việc cho các bước tiếp theo
+                    <p class="font-semibold font-italic text-red-500">
+                        Nếu thông tin của bạn đã thay đổi, hãy cập nhật lại trong mục Tài khoản để HUCE Pet có thể liên hệ với bạn cùng làm việc cho các bước tiếp theo
                     </p>
                     <form [formGroup]="formAdopt">
                         <div class="grid">
                             <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
                                 <div class="flex flex-column gap-2">
-                                    <label for="province">Tỉnh/thành phố <span
-                                            class="text-red-500 font-bold">*</span></label>
+                                    <label for="province">Tỉnh/thành phố <span class="text-red-500 font-bold">*</span></label>
                                     <p-dropdown [options]="provinces" optionLabel="name" optionValue="id" id="province"
                                         styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
                                         emptyMessage="Không có dữ liệu" formControlName="province"

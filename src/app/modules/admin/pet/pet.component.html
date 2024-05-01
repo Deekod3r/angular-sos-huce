@@ -24,14 +24,14 @@
             </div>
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="pet-color">Màu</label>
-                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.color" id="pet-color">
+                    <label for="intake-date-from">Tiếp nhận (từ)</label>
+                    <p-calendar id="intake-date-from" [showIcon]="true" [readonlyInput]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.intakeDateFrom"></p-calendar>
                 </div>
             </div>
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="pet-breed">Giống</label>
-                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.breed" id="pet-breed">
+                    <label for="intake-date-to">Tiếp nhận (đến)</label>
+                    <p-calendar id="intake-date-to" [showIcon]="true" [readonlyInput]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.intakeDateTo"></p-calendar>
                 </div>
             </div>
             <div class="xl:col-3 lg:col-4 md:col-4 sm:col-12 col-12">

@@ -8,6 +8,18 @@ import { TreatmentService } from 'src/app/services/treatment.service';
 import { convertDateFormat } from 'src/app/shared/utils/data.util';
 import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
 
+function endDateAfterStartDateValidator(control: FormControl): { [key: string]: boolean } | null {
+    const startDate = control.root.get('startDate')?.value;
+    const endDate = control.value;
+    if (startDate && endDate) {
+      const startDateTime = new Date(startDate).getTime();
+      const endDateTime = new Date(endDate).getTime();
+      if (endDateTime < startDateTime) {
+        return { 'endDateBeforeStartDate': true };
+      }
+    }
+    return null;
+}
 @Component({
     selector: 'app-treatment-update',
     templateUrl: './treatment-update.component.html',
@@ -18,12 +30,11 @@ export class TreatmentUpdateComponent implements OnInit, OnDestroy {
     @Output() resultAction = new EventEmitter<boolean>();
     result: boolean = false;
     form!: FormGroup;
-    @Input() pets: any[] = [];
     @Input() idTreatment: any;
     treatment: any;
     newImages: any[] = [];
     visibleUpdateImageModal: boolean = false;
-
+    maxDate: Date = new Date();
     private subscribes$: Subject<void> = new Subject<void>();
 
     constructor(public treatmentService: TreatmentService, private messageService: MessageService, 
@@ -36,13 +47,11 @@ export class TreatmentUpdateComponent implements OnInit, OnDestroy {
             name: new FormControl('', [Validators.required, noWhitespaceValidator(), Validators.maxLength(100)]),
             price: new FormControl('', [Validators.required, Validators.min(0.1)]),
             startDate: new FormControl('', [Validators.required]),
-            endDate: new FormControl('', [Validators.required]),
+            endDate: new FormControl('', [Validators.required, endDateAfterStartDateValidator]),
             quantity: new FormControl('', [Validators.required, Validators.min(1)]),
             status: new FormControl('', [Validators.required]),
             type: new FormControl('', [Validators.required]),
             description: new FormControl(''),
-            petId: new FormControl({ value: '', disabled: true }, [Validators.required]),
-            
         });
         this.getTreatment();
     }
@@ -84,7 +93,6 @@ export class TreatmentUpdateComponent implements OnInit, OnDestroy {
             status: this.treatment.status,
             type: this.treatment.type,
             description: this.treatment.description,
-            petId: this.treatment.petId,
         });
     }
 

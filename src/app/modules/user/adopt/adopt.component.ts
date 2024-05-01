@@ -114,6 +114,8 @@ export class AdoptComponent implements OnInit, OnDestroy {
     }
 
     onChangeType(type: any): void {
+        this.currentPage = 1;
+        this.first = 0;
         this.key.type = type;
         this.getPets();
         this.btnActive = type;

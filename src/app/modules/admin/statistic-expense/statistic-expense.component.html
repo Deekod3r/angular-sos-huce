@@ -2,24 +2,36 @@
     <p-panel header="Công cụ" [toggleable]="true">
         <div class="grid my-3 mx-auto">
             <div class="lg:col-3 md:col-6 col-12">
-                <p-dropdown [options]="objectStatistic" [(ngModel)]="objectStatisticSelected" styleClass="mat-form-field border-red-500"
-                    [showClear]="true" optionLabel="label" optionValue="value" placeholder="--Chọn đối tượng--">
-                </p-dropdown>
+                <div class="flex flex-column gap-2">
+                    <label for="object">Đối tượng <span class="text-red-500 font-bold">*</span></label>
+                    <p-dropdown [options]="objectStatistic" [(ngModel)]="objectStatisticSelected" styleClass="mat-form-field"
+                        [showClear]="true" optionLabel="label" optionValue="value" placeholder="--Chọn--" id="object" (onChange)="clearData()">
+                    </p-dropdown>
+                </div> 
             </div>
             <div class="lg:col-3 md:col-6 col-12">
-                <p-calendar [(ngModel)]="year" view="year" placeholder="--Chọn năm--" dataType="string" [showClear]="true"
-                    dateFormat="yy" inputId="yearPicker" styleClass="mat-form-field border-1 border-round border-red-500"></p-calendar>
+                <div class="flex flex-column gap-2">
+                    <label for="year">Năm <span class="text-red-500 font-bold">*</span></label>
+                    <p-calendar [(ngModel)]="year" view="year" placeholder="--Chọn--" dataType="string" [showClear]="true" id="year"
+                        dateFormat="yy" inputId="yearPicker" styleClass="mat-form-field"></p-calendar>
+                </div> 
             </div>
             <div class="lg:col-3 md:col-6 col-12">
-                <p-dropdown [options]="monthNames" [(ngModel)]="month" styleClass="mat-form-field" [showClear]="true"
-                    optionLabel="label" optionValue="value" placeholder="--Chọn tháng--"></p-dropdown>
+                <div class="flex flex-column gap-2">
+                    <label for="month">Tháng</label>
+                    <p-dropdown [options]="monthNames" [(ngModel)]="month" styleClass="mat-form-field" [showClear]="true" id="month"
+                        optionLabel="label" optionValue="value" placeholder="--Chọn tháng--"></p-dropdown>
+                </div> 
             </div>
             <div class="lg:col-3 md:col-6 col-12">
-                <button pButton label="Xem thông tin" class="w-full" (click)="onStatistic()"></button>
+                <div class="flex flex-column gap-2">
+                    <label for="button"><br></label>
+                    <button id="button" pButton label="Xem thông tin" class="w-full" (click)="onStatistic()"></button>
+                </div> 
             </div>
         </div>
     </p-panel>
-    <div *ngIf="objectStatisticSelected" class="card mt-3">
+    <div *ngIf="year" class="card mt-3">
         <p-chart type="bar" [data]="statisticData" [options]="options"></p-chart>
     </div>
 </div>

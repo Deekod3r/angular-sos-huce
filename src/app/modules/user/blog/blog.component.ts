@@ -84,6 +84,8 @@ export class BlogComponent implements OnInit, OnDestroy {
     }
 
     onSearch(category: string): void {
+        this.currentPage = 1;
+        this.first = 0;
         this.category = category;
         this.getNews();
     }

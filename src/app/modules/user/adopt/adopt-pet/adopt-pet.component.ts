@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CardPetModule } from 'src/app/shared/components/card-pet/card-pet.module';
@@ -33,7 +33,7 @@ import { AdoptProcessModule } from 'src/app/shared/components/adopt-process/adop
     styleUrls: ['./adopt-pet.component.css']
 })
 export class AdoptPetComponent implements OnInit, OnDestroy {
-
+    
     visibleCreateModal: boolean = false;
     alertRequiredLogin: boolean = false;
     id!: string;
@@ -65,7 +65,7 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
     private subscribes$: Subject<void> = new Subject<void>();
 
     constructor(public petService: PetService, private route: ActivatedRoute, private adoptService: AdoptService, 
-        private locationService: LocationService, public authService: AuthService, 
+        private locationService: LocationService, public authService: AuthService, private elementRef: ElementRef,
         private messageService: MessageService, private confirmationService: ConfirmationService) { }
 
     ngOnInit(): void {
@@ -206,6 +206,10 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
     onRegisterAdopt(event: any): void {
         if (!this.formAdopt.valid) {
             this.formAdopt.markAllAsTouched();
+            const firstInvalidControl = this.findFirstInvalidControl();
+            if (firstInvalidControl) {
+                firstInvalidControl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
             return;
         }
         this.confirmationService.confirm({
@@ -235,7 +239,7 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
                         if (res.success) {
                             this.visibleCreateModal = false;
                             this.formAdopt.reset();
-                            this.messageService.add({severity:'success', summary: title.success, detail: messageAdopt.createSuccess});
+                            this.messageService.add({severity:'success', summary: title.success, detail: messageAdopt.createSuccess, life: 5000});
                         }
                     },
                     error: (res) => {
@@ -250,6 +254,18 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
             reject: () => {
             }
         });
+    }
+
+    findFirstInvalidControl(): any {
+        const invalidControls = Object.keys(this.formAdopt.controls).filter(controlName => this.formAdopt.controls[controlName].invalid);
+        if (invalidControls.length > 0) {
+            const firstInvalidControlName = invalidControls[0];
+            const firstInvalidControl = this.elementRef.nativeElement.querySelector(`[formControlName="${firstInvalidControlName}"]`);
+            if (firstInvalidControl) {
+                return firstInvalidControl;
+            }
+        }
+        return null;
     }
 
 }

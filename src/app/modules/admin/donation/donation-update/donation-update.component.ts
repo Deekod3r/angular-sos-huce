@@ -20,7 +20,7 @@ export class DonationUpdateComponent implements OnInit, OnDestroy  {
     result: boolean = false;
     form!: FormGroup;
     donation: any;
-
+    maxDate: Date = new Date();
     private subscribes$: Subject<void> = new Subject<void>();
 
     constructor(private donationService: DonationService, private messageService: MessageService, private confirmationService: ConfirmationService) { }

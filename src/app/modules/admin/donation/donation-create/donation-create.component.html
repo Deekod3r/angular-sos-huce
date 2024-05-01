@@ -4,7 +4,7 @@
             <div class="md:col-6 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="date">Ngày nhận  <span class="text-red-500 font-bold">*</span></label>
-                    <p-calendar id="date" [showIcon]="true" [readonlyInput]="true" styleClass="mat-form-field"
+                    <p-calendar id="date" [showIcon]="true" [readonlyInput]="true" styleClass="mat-form-field" [maxDate]="maxDate"
                         dateFormat="dd/mm/yy" dataType="string" formControlName="date"></p-calendar>
                 </div>
                 <div [hidden]="form.controls['date'].valid || !form.controls['date'].touched"
@@ -15,7 +15,6 @@
             <div class="md:col-6 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="type">Hình thức <span class="text-red-500 font-bold">*</span></label>
-                    <!-- <input pInputText id="type" formControlName="type"/> -->
                     <p-dropdown id="type" formControlName="type" [options]="donationService.optionType()" styleClass="mat-form-field"
                         optionLabel="label" optionValue="value" placeholder="--Chọn--" [showClear]="true" (onChange)="onChangeType()"></p-dropdown>
                 </div>

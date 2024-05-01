@@ -5,7 +5,7 @@
     </p-dialog>
     <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh thông tin điều trị" [(visible)]="visibleUpdateModal" [modal]="true"
         styleClass="xl:w-7 lg:w-8 md:w-9 w-11" [draggable]="false" [resizable]="false">
-        <app-treatment-update (resultAction)="onReceiveResult($event, 2)" [idTreatment]="idTreatmentUpdate" [pets]="petsModified"></app-treatment-update>
+        <app-treatment-update (resultAction)="onReceiveResult($event, 2)" [idTreatment]="idTreatmentUpdate"></app-treatment-update>
     </p-dialog>
     <p-panel header="Công cụ" [toggleable]="true">
         <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onShowCreateModal()"></button>
@@ -51,7 +51,7 @@
         selectionMode="single" [paginator]="false">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
-                Lịch sử điều trị
+                Danh sách điều trị
                 <p-button icon="fa fa-refresh" (onClick)="onRefresh()"></p-button>
             </div>
         </ng-template>

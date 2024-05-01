@@ -20,6 +20,7 @@ export class PetCareLogCreateComponent implements OnInit, OnDestroy {
     result: boolean = false;
     form!: FormGroup;
     @Input() adopts: any[] = [];
+    maxDate: Date = new Date();
     
     private subscribes$: Subject<void> = new Subject<void>();
 

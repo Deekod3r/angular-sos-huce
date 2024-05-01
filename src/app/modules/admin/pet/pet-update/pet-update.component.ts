@@ -26,6 +26,7 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
     form!: FormGroup;
     filteredBreeds: any[] = [];
     filteredColors: any[] = [];
+    maxDate: Date = new Date();
     
     private subscribes$: Subject<void> = new Subject<void>();
 

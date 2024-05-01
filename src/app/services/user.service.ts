@@ -135,9 +135,6 @@ export class UserService {
             options: {
                 headers: {
                     'Authorization': 'Bearer ' + this.authService.getToken()
-                },
-                params: {
-                    role: this.authService.getRole()
                 }
             }
         }
@@ -195,7 +192,7 @@ export class UserService {
     }
 
     isActivated(status: boolean): any {
-        if(!status) return 'p-button-danger';
+        if (!status) return 'p-button-danger';
     }
     
     optionStatus(): any {

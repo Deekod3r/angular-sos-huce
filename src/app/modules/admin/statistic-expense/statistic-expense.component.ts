@@ -20,12 +20,15 @@ import { filteredSearch } from 'src/app/shared/utils/data.util';
 export class StatisticExpenseComponent implements OnInit, OnDestroy {
 
     objectStatisticSelected!: any;
-    typeStatisticSelected!: any;
     year!: number;
     month!: number;
     options: any;
     statisticData: any;
     private subscribes$: Subject<void> = new Subject<void>();
+    labelLivingCost = [1,2,3,4];
+    dataLivingCost = [0,0,0,0];
+    labelTreatment = [1,2,3,4,5];
+    dataTreatment = [0,0,0,0,0];
     objectStatistic = [
         {
             label: 'Sinh hoạt phí',
@@ -90,10 +93,9 @@ export class StatisticExpenseComponent implements OnInit, OnDestroy {
     constructor(public treatmentService: TreatmentService, public livingCostService: LivingCostService, private messageService: MessageService) { }
 
     ngOnInit(): void {
-        const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--text-color');
-        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+        const textColor = '#495057';
+        const textColorSecondary = '#6c757d';
+        const surfaceBorder = '#dfe7ef';
 
         this.statisticData = {
             labels: [],
@@ -164,12 +166,14 @@ export class StatisticExpenseComponent implements OnInit, OnDestroy {
             this.livingCostService.getTotalLivingCost(filteredSearch(search)).subscribe({
                 next: (res) => {
                     if (res.success) {
+                        this.dataLivingCost = [0,0,0,0];
+                        res.data.forEach((item: any) => this.dataLivingCost[item.category - 1] = item.totalAmount);
                         this.statisticData = {
-                            labels: res.data.map((item: any) => this.livingCostService.getCategory(item.category)),
+                            labels: this.labelLivingCost.map((item: any) => this.livingCostService.getCategory(item)),
                             datasets: [
                                 {
                                     label: 'Sinh hoạt phí',
-                                    data: res.data.map((item: any) => item.totalAmount),
+                                    data: this.dataLivingCost,
                                     backgroundColor: ['rgba(255, 159, 64, 0.2)'],
                                     borderColor: ['rgb(255, 159, 64)'],
                                     borderWidth: 1
@@ -195,12 +199,14 @@ export class StatisticExpenseComponent implements OnInit, OnDestroy {
             this.treatmentService.getTotalTreatmentCost(filteredSearch(search)).subscribe({
                 next: (res) => {
                     if (res.success) {
+                        this.dataTreatment = [0,0,0,0,0];
+                        res.data.forEach((item: any) => this.dataTreatment[item.category - 1] = item.totalAmount);
                         this.statisticData = {
-                            labels: res.data.map((item: any) => this.treatmentService.getType(item.category)),
+                            labels: this.labelTreatment.map((item: any) => this.treatmentService.getType(item)),
                             datasets: [
                                 {
                                     label: 'Viện phí',
-                                    data: res.data.map((item: any) => item.totalAmount),
+                                    data: this.dataTreatment,
                                     backgroundColor: ['rgba(255, 159, 64, 0.2)'],
                                     borderColor: ['rgb(255, 159, 64)'],
                                     borderWidth: 1
@@ -218,6 +224,21 @@ export class StatisticExpenseComponent implements OnInit, OnDestroy {
                 }
             });
         }
+    }
+
+    clearData(): void {
+        this.statisticData = {
+            labels: [],
+            datasets: [
+                {
+                    label: '',
+                    data: [],
+                    backgroundColor: ['rgba(255, 159, 64, 0.2)'],
+                    borderColor: ['rgb(255, 159, 64)'],
+                    borderWidth: 1
+                }
+            ]
+        };
     }
 
 }

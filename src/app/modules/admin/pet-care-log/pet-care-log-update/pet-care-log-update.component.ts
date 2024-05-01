@@ -17,7 +17,7 @@ export class PetCareLogUpdateComponent implements OnInit, OnDestroy {
     @Input() idLog!: string;
     @Output() resultAction = new EventEmitter<boolean>();
     result: boolean = false;
-
+    maxDate: Date = new Date();
     form!: FormGroup;
     log: any;
     

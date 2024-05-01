@@ -17,16 +17,17 @@ export class LivingCostCreateComponent implements OnInit, OnDestroy {
     @Output() resultAction = new EventEmitter<boolean>();
     result: boolean = false;
     form!: FormGroup;
-    
+    maxDate: Date = new Date();
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private livingCostService: LivingCostService, private messageService: MessageService) {}
+    constructor(public livingCostService: LivingCostService, private messageService: MessageService) {}
 
     ngOnInit(): void {
         this.form = new FormGroup({
             name: new FormControl('', [Validators.required, Validators.maxLength(100), noWhitespaceValidator()]),
             cost: new FormControl(null, [Validators.required]),
             date: new FormControl('', [Validators.required]),
+            category: new FormControl('', [Validators.required]),
             note: new FormControl(''),
             images: new FormArray([], [Validators.required])
         });
@@ -46,6 +47,7 @@ export class LivingCostCreateComponent implements OnInit, OnDestroy {
         formData.append('name', this.form.controls['name'].value.trim());
         formData.append('cost', this.form.controls['cost'].value);
         formData.append('date', convertDateFormat(this.form.controls['date'].value));
+        formData.append('category', this.form.controls['category'].value);
         formData.append('note', this.form.controls['note'].value ? this.form.controls['note'].value.trim() : '');
         const imagesArray = this.form.controls['images'] as FormArray;
         for (const file of imagesArray.value) {

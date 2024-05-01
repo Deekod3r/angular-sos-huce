@@ -75,20 +75,23 @@ export class StatisticAdoptComponent implements OnInit, OnDestroy {
                 if (res.success) {
                     this.adoptsNearLog = res.data;
                     const currentDate = new Date();
+                    currentDate.setHours(0, 0, 0, 0);
                     this.adoptsNearLog.forEach((element: any) => {
                         const checkDates = [
                             new Date(element.checkDateFirst),
                             new Date(element.checkDateSecond),
                             new Date(element.checkDateThird)
                         ];
-                        const nearestDate = checkDates.reduce(
-                            (nearest, date) => Math.abs(date.getTime() - currentDate.getTime()) < Math.abs(nearest.getTime() - currentDate.getTime()) ? date : nearest);
-                        element.checkDate = nearestDate.getFullYear() + '-' + (nearestDate.getMonth() + 1) + '-' + nearestDate.getDate();
-                        const differenceInTime = nearestDate.getTime() - currentDate.getTime();
-                        const differenceInDays = differenceInTime / (1000 * 3600 * 24);
-                        element.dateDiff = Math.ceil(differenceInDays);
+                        const futureDates = checkDates.filter(date => date > currentDate);
+                        const nearestFutureDate = futureDates[0];
+                        nearestFutureDate.setHours(0, 0, 0, 0);
+                        const timeDiff = nearestFutureDate.getTime() - currentDate.getTime();
+                        const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                        element.checkDate = nearestFutureDate.getFullYear() + '-' + (nearestFutureDate.getMonth() + 1) + '-' + nearestFutureDate.getDate();
+                        element.dateDiff = dayDiff;
                     });
                 }
+                
             },
             error: (res) => {
                 if (res.error) {

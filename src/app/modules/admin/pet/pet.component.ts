@@ -11,7 +11,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { message, messagePet, title } from 'src/app/common/message';
-import { filteredSearch } from 'src/app/shared/utils/data.util';
+import { convertDateFormat, filteredSearch } from 'src/app/shared/utils/data.util';
 
 @Component({
     selector: 'app-pet',
@@ -43,8 +43,8 @@ export class PetComponent implements OnInit, OnDestroy {
         type: '',
         gender: '',
         age: '',
-        color: '',
-        breed: '',
+        intakeDateFrom: '',
+        intakeDateTo: '',
         diet: '',
         vaccine: '',
         sterilization: '',
@@ -77,8 +77,8 @@ export class PetComponent implements OnInit, OnDestroy {
             type: this.key.type ? this.key.type : '',
             gender: this.key.gender ? this.key.gender : '',
             age: this.key.age ? this.key.age : '',
-            color: this.key.color ? this.key.color.trim() : '',
-            breed: this.key.breed ? this.key.breed.trim() : '',
+            intakeDateFrom: this.key.intakeDateFrom ? convertDateFormat(this.key.intakeDateFrom) : '',
+            intakeDateTo: this.key.intakeDateTo ? convertDateFormat(this.key.intakeDateTo) : '',
             diet: this.key.diet ? this.key.diet : '',
             vaccine: this.key.vaccine ? this.key.vaccine : '',
             sterilization: this.key.sterilization ? this.key.sterilization : '',
@@ -179,8 +179,8 @@ export class PetComponent implements OnInit, OnDestroy {
             type: '',
             gender: '',
             age: '',
-            color: '',
-            breed: '',
+            intakeDateFrom: '',
+            intakeDateTo: '',
             diet: '',
             vaccine: '',
             sterilization: '',
