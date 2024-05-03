@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
-import { title, message } from 'src/app/common/message';
+import { title, message, messageLivingCost } from 'src/app/common/message';
 import { FileService } from 'src/app/services/file.service';
 import { LivingCostService } from 'src/app/services/living-cost.service';
 import { convertDateFormat } from 'src/app/shared/utils/data.util';
@@ -150,9 +150,9 @@ export class LivingCostUpdateComponent implements OnInit, OnDestroy {
         .subscribe({
             next: (res) => {
                 if (res.success) {
-                    this.form.reset();
-                    this.result = true;
-                    this.resultAction.emit(this.result);
+                    this.getLivingCost();
+                    this.visibleUpdateImageModal = false;
+                    this.messageService.add({ severity: 'success', summary: title.success, detail: messageLivingCost.updateSuccess });
                 }
             },
             error: (res) => {
@@ -181,9 +181,9 @@ export class LivingCostUpdateComponent implements OnInit, OnDestroy {
                 .subscribe({
                     next: (res) => {
                         if (res.success) {
-                            this.form.reset();
-                            this.result = true;
-                            this.resultAction.emit(this.result);
+                            this.getLivingCost();
+                            this.visibleUpdateImageModal = false;
+                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageLivingCost.updateSuccess });
                         }
                     },
                     error: (res) => {

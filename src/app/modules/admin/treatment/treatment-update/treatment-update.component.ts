@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
-import { title, message } from 'src/app/common/message';
+import { title, message, messageTreatment } from 'src/app/common/message';
 import { FileService } from 'src/app/services/file.service';
 import { TreatmentService } from 'src/app/services/treatment.service';
 import { convertDateFormat } from 'src/app/shared/utils/data.util';
@@ -168,9 +168,9 @@ export class TreatmentUpdateComponent implements OnInit, OnDestroy {
                 .subscribe({
                     next: (res) => {
                         if (res.success) {
-                            this.form.reset();
-                            this.result = true;
-                            this.resultAction.emit(this.result);
+                            this.getTreatment();
+                            this.visibleUpdateImageModal = false;
+                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageTreatment.updateSuccess });
                         }
                     },
                     error: (res) => {
@@ -211,9 +211,9 @@ export class TreatmentUpdateComponent implements OnInit, OnDestroy {
         .subscribe({
             next: (res) => {
                 if (res.success) {
-                    this.form.reset();
-                    this.result = true;
-                    this.resultAction.emit(this.result);
+                    this.getTreatment();
+                    this.visibleUpdateImageModal = false;
+                    this.messageService.add({ severity: 'success', summary: title.success, detail: messageTreatment.updateSuccess });
                 }
             },
             error: (res) => {

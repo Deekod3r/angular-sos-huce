@@ -2,7 +2,7 @@
     <p-dialog *ngIf="visibleUpdateImageModal" header="Hóa đơn" [(visible)]="visibleUpdateImageModal" [modal]="true"
         styleClass="w-full" [draggable]="false" [resizable]="false">
         <div class="flex flex-column gap-2 mb-2">
-            <label for="images">Thêm hình ảnh</label>
+            <label for="images">Thêm hình ảnh hóa đơn</label>
             <p-fileUpload name="images" chooseLabel="Chọn hình ảnh" accept="image/**" [maxFileSize]="100000000"
                 [customUpload]="true" [showUploadButton]="true" [showCancelButton]="false" id="images" [multiple]="true"
                 invalidFileSizeMessageSummary="Lỗi kích thước" uploadLabel="Tải"

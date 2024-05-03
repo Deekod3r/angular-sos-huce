@@ -3,7 +3,7 @@
         <div class="grid">
             <div class="col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="images">Hình ảnh <span class="text-red-500 font-bold">*</span></label>
+                    <label for="images">Hình ảnh hóa đơn <span class="text-red-500 font-bold">*</span></label>
                     <p-fileUpload name="images" chooseLabel="Chọn hình ảnh" accept="image/**" [maxFileSize]="100000000" [customUpload]="true"
                         [showUploadButton]="false" [showCancelButton]="false" id="images" [multiple]="true"
                         invalidFileSizeMessageSummary="Lỗi kích thước" invalidFileSizeMessageDetail="Kích thước file quá lớn"
@@ -13,7 +13,7 @@
                 </div>
                 <div [hidden]="form.controls['images'].valid || !form.controls['images'].touched"
                     class="text-red-500 mt-2 ml-1">
-                    Vui lòng tải hình ảnh
+                    Vui lòng tải hình ảnh hóa đơn
                 </div>
             </div>
             <div class="md:col-6 col-12">
