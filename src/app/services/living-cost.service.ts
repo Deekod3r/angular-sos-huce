@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { CONFIG } from '../common/config';
-import { AuthService } from './auth.service';
-import { CommonService } from './common.service';
-import { LIVING_COST } from '../common/constant';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {CONFIG} from '../common/config';
+import {AuthService} from './auth.service';
+import {CommonService} from './common.service';
+import {LIVING_COST} from '../common/constant';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +12,8 @@ export class LivingCostService {
 
     private API_URL = 'living-costs';
 
-    constructor(private commonService: CommonService, private authService: AuthService) { }
+    constructor(private commonService: CommonService, private authService: AuthService) {
+    }
 
     getLivingCosts(search: any): Observable<any> {
         const request = {
@@ -27,7 +28,7 @@ export class LivingCostService {
         }
         return this.commonService.callAPI(request);
     }
-    
+
     getLivingCost(id: string): Observable<any> {
         const request = {
             function: this.API_URL + '/' + id,

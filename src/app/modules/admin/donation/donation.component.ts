@@ -1,14 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DonationModule } from './donation.module';
-import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
-import { DonationService } from 'src/app/services/donation.service';
-import { DONATION, ACTION } from 'src/app/common/constant';
-import { title, message, messageDonation } from 'src/app/common/message';
-import { TableModule } from 'primeng/table';
-import { PaginatorModule } from 'primeng/paginator';
-import { TieredMenuModule } from 'primeng/tieredmenu';
-import { convertDateFormat, filteredSearch } from 'src/app/shared/utils/data.util';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {DonationModule} from './donation.module';
+import {ConfirmationService, MenuItem, MessageService} from 'primeng/api';
+import {Subject, takeUntil} from 'rxjs';
+import {DonationService} from 'src/app/services/donation.service';
+import {ACTION, DONATION} from 'src/app/common/constant';
+import {message, messageDonation, title} from 'src/app/common/message';
+import {TableModule} from 'primeng/table';
+import {PaginatorModule} from 'primeng/paginator';
+import {TieredMenuModule} from 'primeng/tieredmenu';
+import {convertDateFormat, filteredSearch} from 'src/app/shared/utils/data.util';
 
 @Component({
     selector: 'app-donation',
@@ -39,8 +39,9 @@ export class DonationComponent implements OnInit, OnDestroy {
 
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public donationService: DonationService, private messageService: MessageService, 
-        private confirmationService: ConfirmationService) { }
+    constructor(public donationService: DonationService, private messageService: MessageService,
+                private confirmationService: ConfirmationService) {
+    }
 
     ngOnInit(): void {
         this.getDonations();
@@ -63,32 +64,32 @@ export class DonationComponent implements OnInit, OnDestroy {
             toDate: this.key.toDate ? convertDateFormat(this.key.toDate) : ''
         }
         this.donationService.getDonations(filteredSearch(search))
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.donates = res.data.donates;
-                    this.totalPages = res.data.totalPages;
-                    this.totalElements = res.data.totalElements;
-                    this.currentPage = res.data.currentPage;
-                    this.first = (this.currentPage - 1) * this.limit;
-                    if (this.donates.length == 0) {
-                        this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.donates = res.data.donates;
+                        this.totalPages = res.data.totalPages;
+                        this.totalElements = res.data.totalElements;
+                        this.currentPage = res.data.currentPage;
+                        this.first = (this.currentPage - 1) * this.limit;
+                        if (this.donates.length == 0) {
+                            this.messageService.add({severity: 'info', summary: title.info, detail: message.noData});
+                        } else {
+                            this.donates.forEach((item: any) => {
+                                item.menuItems = this.getMenuItems(item);
+                            });
+                        }
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                     } else {
-                        this.donates.forEach((item: any) => {
-                            item.menuItems = this.getMenuItems(item);
-                        });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                     }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     getMenuItems(donate: any): MenuItem[] {
@@ -147,14 +148,22 @@ export class DonationComponent implements OnInit, OnDestroy {
         if (result) {
             if (type === ACTION.CREATE) {
                 this.visibleCreateModal = false;
-                this.messageService.add({ severity: 'success', summary: title.success, detail: messageDonation.createSuccess });
+                this.messageService.add({
+                    severity: 'success',
+                    summary: title.success,
+                    detail: messageDonation.createSuccess
+                });
             } else if (type === ACTION.UPDATE) {
                 this.visibleUpdateModal = false;
-                this.messageService.add({ severity: 'success', summary: title.success, detail: messageDonation.updateSuccess });
+                this.messageService.add({
+                    severity: 'success',
+                    summary: title.success,
+                    detail: messageDonation.updateSuccess
+                });
             }
             this.getDonations();
         } else {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+            this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
         }
     }
 
@@ -178,22 +187,34 @@ export class DonationComponent implements OnInit, OnDestroy {
             rejectButtonStyleClass: "p-button-text",
             accept: () => {
                 this.donationService.deleteDonation(id)
-                .pipe(takeUntil(this.subscribes$))
-                .subscribe({
-                    next: (res) => {
-                        if (res.success) {
-                            this.onSearch();
-                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageDonation.deleteSuccess });
+                    .pipe(takeUntil(this.subscribes$))
+                    .subscribe({
+                        next: (res) => {
+                            if (res.success) {
+                                this.onSearch();
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: title.success,
+                                    detail: messageDonation.deleteSuccess
+                                });
+                            }
+                        },
+                        error: (res) => {
+                            if (res.error) {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
+                            }
                         }
-                    },
-                    error: (res) => {
-                        if (res.error) {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                        } else {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                        }
-                    }
-                });
+                    });
             },
             reject: () => {
             }

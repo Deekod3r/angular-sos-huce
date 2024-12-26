@@ -13,7 +13,7 @@ export class LocationService {
 
     constructor(private commonService: CommonService) { }
 
-    getPronvinces(): Observable<any> {
+    getProvinces(): Observable<any> {
         const request = {
             function: this.API_URL + '/provinces',
             method: CONFIG.KEY.METHOD_GET

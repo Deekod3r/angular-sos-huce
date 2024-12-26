@@ -1,16 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
-import { message, messageUser, title } from 'src/app/common/message';
-import { UserService } from 'src/app/services/user.service';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService, } from 'primeng/api';
-import { PasswordModule } from 'primeng/password';
-import { passwordMatchValidator } from 'src/app/shared/utils/data.util';
-import { REGEX } from 'src/app/common/constant';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {Subject, takeUntil} from 'rxjs';
+import {message, messageUser, title} from 'src/app/common/message';
+import {UserService} from 'src/app/services/user.service';
+import {SharedModule} from 'src/app/shared/shared.module';
+import {noWhitespaceValidator} from 'src/app/shared/utils/string.util';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {PasswordModule} from 'primeng/password';
+import {passwordMatchValidator} from 'src/app/shared/utils/data.util';
+import {REGEX} from 'src/app/common/constant';
 
 @Component({
     selector: 'app-forgot-password',
@@ -31,7 +30,8 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
     private readonly subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private userService: UserService, private confirmationService: ConfirmationService, private messageService: MessageService) { }
+    constructor(private userService: UserService, private confirmationService: ConfirmationService, private messageService: MessageService) {
+    }
 
     ngOnInit(): void {
         this.forgotForm = new FormGroup({
@@ -43,7 +43,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
         this.resetPasswordForm = new FormGroup({
             'password': new FormControl('', [Validators.required, Validators.pattern(REGEX.PASSWORD), Validators.maxLength(100)]),
             'confirmPassword': new FormControl('', [Validators.required, Validators.pattern(REGEX.PASSWORD), Validators.maxLength(100)])
-        }, { validators: passwordMatchValidator });
+        }, {validators: passwordMatchValidator});
     }
 
     ngOnDestroy(): void {
@@ -57,54 +57,66 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
             return;
         }
         this.userService.checkExist(this.forgotForm.controls['account'].value.trim())
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    if (res.data != "NOT_FOUND") {
-                        this.email = res.data;
-                        this.confirmationService.confirm({
-                            message: 'Tạo mã xác thực và gửi tới '+ this.email + '?',
-                            header: 'ĐẶT LẠI MẬT KHẨU',
-                            icon: 'fa fa-solid fa-triangle-exclamation',
-                            acceptLabel: 'Đồng ý',
-                            rejectLabel: 'Hủy',
-                            acceptIcon: "none",
-                            rejectIcon: "none",
-                            rejectButtonStyleClass: "p-button-text",
-                            accept: () => {
-                                this.userService.forgotPassword(this.email).pipe(takeUntil(this.subscribes$)).subscribe({
-                                    next: (resForgot: any) => {
-                                        if (resForgot.success) {
-                                            this.id = resForgot.data.id;
-                                            this.step = 2;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        if (res.data != "NOT_FOUND") {
+                            this.email = res.data;
+                            this.confirmationService.confirm({
+                                message: 'Tạo mã xác thực và gửi tới ' + this.email + '?',
+                                header: 'ĐẶT LẠI MẬT KHẨU',
+                                icon: 'fa fa-solid fa-triangle-exclamation',
+                                acceptLabel: 'Đồng ý',
+                                rejectLabel: 'Hủy',
+                                acceptIcon: "none",
+                                rejectIcon: "none",
+                                rejectButtonStyleClass: "p-button-text",
+                                accept: () => {
+                                    this.userService.forgotPassword(this.email).pipe(takeUntil(this.subscribes$)).subscribe({
+                                        next: (resForgot: any) => {
+                                            if (resForgot.success) {
+                                                this.id = resForgot.data.id;
+                                                this.step = 2;
+                                            }
+                                        },
+                                        error: (resForgot) => {
+                                            if (resForgot.error) {
+                                                this.messageService.add({
+                                                    severity: 'error',
+                                                    summary: title.error,
+                                                    detail: resForgot.error.message
+                                                });
+                                            } else {
+                                                this.messageService.add({
+                                                    severity: 'error',
+                                                    summary: title.error,
+                                                    detail: message.error
+                                                });
+                                            }
                                         }
-                                    },
-                                    error: (resForgot) => {
-                                        if (resForgot.error) {
-                                            this.messageService.add({ severity: 'error', summary: title.error, detail: resForgot.error.message });
-                                        } else {
-                                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                                        }
-                                    }
-                                });
-                            },
-                            reject: () => {
-                            }
-                        });
+                                    });
+                                },
+                                reject: () => {
+                                }
+                            });
+                        } else {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: title.error,
+                                detail: messageUser.notFound
+                            });
+                        }
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                     } else {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: messageUser.notFound });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                     }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onVerify(): void {
@@ -117,21 +129,21 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
             code: this.verifyForm.controls['code'].value.trim()
         };
         this.userService.verifyForgotPassword(data)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.step = 3;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.step = 3;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onResetPassword(): void {
@@ -146,25 +158,29 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
             newPassword: this.resetPasswordForm.controls['password'].value
         }
         this.userService.resetPassword(body)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.resetPasswordForm.reset();
-                    this.messageService.add({ severity: 'success', summary: title.success, detail: messageUser.updatePasswordSuccess });
-                    setTimeout(() => {
-                        window.location.href = '/dang-nhap';
-                    }, 2000);
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.resetPasswordForm.reset();
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: title.success,
+                            detail: messageUser.updatePasswordSuccess
+                        });
+                        setTimeout(() => {
+                            window.location.href = '/dang-nhap';
+                        }, 2000);
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
 }

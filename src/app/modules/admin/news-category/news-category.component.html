@@ -1,83 +1,93 @@
 <div class="card">
-    <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa danh mục tin tức" [(visible)]="visibleUpdateModal" 
-        [modal]="true" [style]="{}" [draggable]="false" [resizable]="false">
+    <p-dialog *ngIf="visibleUpdateModal" [(visible)]="visibleUpdateModal" [draggable]="false"
+              [modal]="true" [resizable]="false" [style]="{}" header="Chỉnh sửa danh mục tin tức">
         <form [formGroup]="formUpdate">
             <div class="grid">
                 <div class="col-12">
                     <div class="flex flex-column gap-2">
                         <label for="name">Tên danh mục <span class="text-red-500">*</span></label>
-                        <input pInputText type="text" formControlName="name" id="name">
+                        <input formControlName="name" id="name" pInputText type="text">
                     </div>
-                    <div [hidden]="!formUpdate.controls['name'].hasError('required') || !formUpdate.controls['name'].touched"
+                    <div
+                        [hidden]="!formUpdate.controls['name'].hasError('required') || !formUpdate.controls['name'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng nhập tên danh mục
-                    </div>   
-                    <div [hidden]="!formUpdate.controls['name'].hasError('maxlength') || !formUpdate.controls['name'].touched"
+                    </div>
+                    <div
+                        [hidden]="!formUpdate.controls['name'].hasError('maxlength') || !formUpdate.controls['name'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Độ dài thông tin không hợp lệ (tối đa 100 ký tự)
-                    </div>          
+                    </div>
                 </div>
                 <div class="col-12">
                     <div class="flex flex-column gap-2">
                         <label for="description">Mô tả <span class="text-red-500">*</span></label>
-                        <textarea pInputTextarea type="text" formControlName="description" id="description" rows="5"></textarea>
+                        <textarea formControlName="description" id="description" pInputTextarea rows="5"
+                                  type="text"></textarea>
                     </div>
-                    <div [hidden]="!formUpdate.controls['description'].hasError('required') || !formUpdate.controls['description'].touched"
+                    <div
+                        [hidden]="!formUpdate.controls['description'].hasError('required') || !formUpdate.controls['description'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng nhập mô tả danh mục
                     </div>
-                    <div [hidden]="!formUpdate.controls['description'].hasError('maxlength') || !formUpdate.controls['description'].touched"
+                    <div
+                        [hidden]="!formUpdate.controls['description'].hasError('maxlength') || !formUpdate.controls['description'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
-                    </div>      
+                    </div>
                 </div>
                 <div class="col-12 mt-3 grid justify-content-center">
-                    <button pButton label="Lưu thay đổi" icon="fa fa-save" (click)="onUpdateNewsCategory($event)"></button>
+                    <button (click)="onUpdateNewsCategory($event)" icon="fa fa-save" label="Lưu thay đổi"
+                            pButton></button>
                 </div>
             </div>
         </form>
     </p-dialog>
-    <p-panel header="Công cụ" [toggleable]="true" styleClass="mb-3">
+    <p-panel [toggleable]="true" header="Công cụ" styleClass="mb-3">
         <form [formGroup]="formAdd">
             <div class="card grid">
                 <div *ngIf="isAdd" class="col-12">
                     <div class="flex flex-column gap-2">
                         <label for="name">Tên danh mục <span class="text-red-500">*</span></label>
-                        <input pInputText type="text" formControlName="name" id="name">
+                        <input formControlName="name" id="name" pInputText type="text">
                     </div>
                     <div [hidden]="!formAdd.controls['name'].hasError('required') || !formAdd.controls['name'].touched"
-                        class="text-red-500 mt-2 ml-1">
+                         class="text-red-500 mt-2 ml-1">
                         Vui lòng nhập tên danh mục
                     </div>
                     <div [hidden]="!formAdd.controls['name'].hasError('maxlength') || !formAdd.controls['name'].touched"
-                        class="text-red-500 mt-2 ml-1">
+                         class="text-red-500 mt-2 ml-1">
                         Độ dài thông tin không hợp lệ (tối đa 100 ký tự)
-                    </div>            
+                    </div>
                 </div>
                 <div *ngIf="isAdd" class="col-12">
                     <div class="flex flex-column gap-2">
                         <label for="description">Mô tả <span class="text-red-500">*</span></label>
-                        <textarea pInputTextarea type="text" formControlName="description" id="description"></textarea>
+                        <textarea formControlName="description" id="description" pInputTextarea type="text"></textarea>
                     </div>
-                    <div [hidden]="!formAdd.controls['description'].hasError('required') || !formAdd.controls['description'].touched"
+                    <div
+                        [hidden]="!formAdd.controls['description'].hasError('required') || !formAdd.controls['description'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Vui lòng nhập mô tả danh mục
                     </div>
-                    <div [hidden]="!formAdd.controls['description'].hasError('maxlength') || !formAdd.controls['description'].touched"
+                    <div
+                        [hidden]="!formAdd.controls['description'].hasError('maxlength') || !formAdd.controls['description'].touched"
                         class="text-red-500 mt-2 ml-1">
                         Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
-                    </div>          
+                    </div>
                 </div>
                 <div class="col-12">
-                    <button pButton [icon]="isAdd ? 'fa fa-save' : 'fa fa-plus'" [label]="isAdd ? 'Lưu thông tin' : 'Thêm mới'" (click)="onCreateNewsCategory()"></button>
-                    <button *ngIf="isAdd" pButton icon="fa fa-close" class="ml-3 p-button-outlined" label="Hủy" (click)="onHideFormAdd()"></button>
+                    <button (click)="onCreateNewsCategory()" [icon]="isAdd ? 'fa fa-save' : 'fa fa-plus'"
+                            [label]="isAdd ? 'Lưu thông tin' : 'Thêm mới'" pButton></button>
+                    <button (click)="onHideFormAdd()" *ngIf="isAdd" class="ml-3 p-button-outlined" icon="fa fa-close" label="Hủy"
+                            pButton></button>
                 </div>
             </div>
         </form>
     </p-panel>
-    <p-table #table [value]="categories" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines"
-        selectionMode="single"  [paginator]="true" [rows]="5" [rowsPerPageOptions]="[1,5,10,20]" dataKey="id"
-        [globalFilterFields]="['name']">
+    <p-table #table [globalFilterFields]="['name']" [paginator]="true" [rowsPerPageOptions]="[1,5,10,20]"
+             [rows]="5" [tableStyle]="{'min-width': '60rem'}" [value]="categories" dataKey="id" selectionMode="single"
+             styleClass="p-datatable-gridlines">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Danh mục tin tức
@@ -91,26 +101,27 @@
             </tr>
             <tr>
                 <th>
-                    <p-columnFilter type="text" field="name"></p-columnFilter>
+                    <p-columnFilter field="name" type="text"></p-columnFilter>
                 </th>
                 <th>
-                    <p-columnFilter type="text" field="description"></p-columnFilter>
+                    <p-columnFilter field="description" type="text"></p-columnFilter>
                 </th>
                 <th></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-category>
-        <tr>
-            <td>{{category.name}}</td>
-            <td>{{category.description}}</td>
-            <td>
-                <div>
-                    <p-button #btn type="button" icon="fa fa-solid fa-sliders" (click)="menu.toggle($event)"></p-button>
-                    <p-tieredMenu #menu [model]="category.menuItems" [popup]="true" appendTo="body" class="p-0"
-                        styleClass="menucus"></p-tieredMenu>
-                </div>
-            </td>
-        </tr>
+        <ng-template let-category pTemplate="body">
+            <tr>
+                <td>{{ category.name }}</td>
+                <td>{{ category.description }}</td>
+                <td>
+                    <div>
+                        <p-button #btn (click)="menu.toggle($event)" icon="fa fa-solid fa-sliders"
+                                  type="button"></p-button>
+                        <p-tieredMenu #menu [model]="category.menuItems" [popup]="true" appendTo="body" class="p-0"
+                                      styleClass="menucus"></p-tieredMenu>
+                    </div>
+                </td>
+            </tr>
         </ng-template>
     </p-table>
 </div>

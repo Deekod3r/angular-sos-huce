@@ -1,13 +1,13 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
-import { REGEX } from 'src/app/common/constant';
-import { title, message, messageUser } from 'src/app/common/message';
-import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user.service';
-import { passwordMatchValidator } from 'src/app/shared/utils/data.util';
-import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MessageService} from 'primeng/api';
+import {Subject, takeUntil} from 'rxjs';
+import {REGEX} from 'src/app/common/constant';
+import {message, messageUser, title} from 'src/app/common/message';
+import {AuthService} from 'src/app/services/auth.service';
+import {UserService} from 'src/app/services/user.service';
+import {passwordMatchValidator} from 'src/app/shared/utils/data.util';
+import {noWhitespaceValidator} from 'src/app/shared/utils/string.util';
 
 @Component({
     selector: 'app-update-info',
@@ -31,15 +31,16 @@ export class UpdateInfoComponent implements OnInit, OnDestroy {
 
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private userService: UserService, private authService: AuthService, private messageService: MessageService) { }
+    constructor(private userService: UserService, private authService: AuthService, private messageService: MessageService) {
+    }
 
     ngOnInit(): void {
         if (this.infoKey === 'name') {
             this.formName = new FormGroup({
                 'currentPassword': new FormControl('', [Validators.required]),
-                'name': new FormControl(this.userInfo, [Validators.required, 
-                    Validators.pattern(REGEX.CHARACTER), 
-                    noWhitespaceValidator(), Validators.minLength(2) , Validators.maxLength(100)]),
+                'name': new FormControl(this.userInfo, [Validators.required,
+                    Validators.pattern(REGEX.CHARACTER),
+                    noWhitespaceValidator(), Validators.minLength(2), Validators.maxLength(100)]),
             });
         }
         if (this.infoKey === 'phoneNumber') {
@@ -63,7 +64,7 @@ export class UpdateInfoComponent implements OnInit, OnDestroy {
                 'currentPassword': new FormControl('', [Validators.required]),
                 'password': new FormControl('', [Validators.required, Validators.pattern(REGEX.PASSWORD)]),
                 'confirmPassword': new FormControl('', [Validators.required, Validators.pattern(REGEX.PASSWORD)])
-            }, { validators: passwordMatchValidator });
+            }, {validators: passwordMatchValidator});
         }
     }
 
@@ -83,22 +84,22 @@ export class UpdateInfoComponent implements OnInit, OnDestroy {
             name: this.formName.value.name.trim()
         }
         this.userService.updateUser(this.userId, body, 'name')
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.result = true;
-                    this.resultAction.emit(this.result);
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.result = true;
+                        this.resultAction.emit(this.result);
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({severity:'error', summary: title.error, detail: res.error.message});
-                } else {
-                    this.messageService.add({severity:'error', summary: title.error, detail: message.error});
-                }
-            }
-        });
+            });
     }
 
     onUpdatePhone(): void {
@@ -112,22 +113,22 @@ export class UpdateInfoComponent implements OnInit, OnDestroy {
             phoneNumber: this.formPhone.value.phoneNumber.trim()
         }
         this.userService.updateUser(this.userId, body, 'phone')
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.result = true;
-                    this.resultAction.emit(this.result);
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.result = true;
+                        this.resultAction.emit(this.result);
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({severity:'error', summary: title.error, detail: res.error.message});
-                } else {
-                    this.messageService.add({severity:'error', summary: title.error, detail: message.error});
-                }
-            }
-        });
+            });
     }
 
     onUpdateEmail(): void {
@@ -141,22 +142,22 @@ export class UpdateInfoComponent implements OnInit, OnDestroy {
             email: this.formEmail.value.email.trim()
         }
         this.userService.updateUser(this.userId, body, 'email')
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.onConfirmEmail = true;
-                    this.formEmailConfirm.controls['id'].setValue(res.data.id);
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.onConfirmEmail = true;
+                        this.formEmailConfirm.controls['id'].setValue(res.data.id);
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({severity:'error', summary: title.error, detail: res.error.message});
-                } else {
-                    this.messageService.add({severity:'error', summary: title.error, detail: message.error});
-                }
-            }
-        });
+            });
     }
 
     onVerifyUpdateEmail(): void {
@@ -169,25 +170,29 @@ export class UpdateInfoComponent implements OnInit, OnDestroy {
             code: this.formEmailConfirm.value.code.trim()
         }
         this.userService.verifyUpdateEmail(data)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    setTimeout(() => {
-                        this.authService.logout();
-                        window.location.reload();
-                    }, 2000);
-                    this.messageService.add({severity:'success', summary: title.success, detail: messageUser.updateEmailSuccess});
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        setTimeout(() => {
+                            this.authService.logout();
+                            window.location.reload();
+                        }, 2000);
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: title.success,
+                            detail: messageUser.updateEmailSuccess
+                        });
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({severity:'error', summary: title.error, detail: res.error.message});
-                } else {
-                    this.messageService.add({severity:'error', summary: title.error, detail: message.error});
-                }
-            }
-        });
+            });
     }
 
     onUpdatePassword(): void {
@@ -202,26 +207,30 @@ export class UpdateInfoComponent implements OnInit, OnDestroy {
             confirmPassword: this.formPassword.value.confirmPassword
         }
         this.userService.updateUser(this.userId, body, 'password')
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.formPassword.reset();
-                    setTimeout(() => {
-                        this.authService.logout();
-                        window.location.reload();
-                    }, 2000);
-                    this.messageService.add({severity:'success', summary: title.success, detail: messageUser.updateSuccess + ". Vui lòng đăng nhập lại!"});
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.formPassword.reset();
+                        setTimeout(() => {
+                            this.authService.logout();
+                            window.location.reload();
+                        }, 2000);
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: title.success,
+                            detail: messageUser.updateSuccess + ". Vui lòng đăng nhập lại!"
+                        });
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({severity:'error', summary: title.error, detail: res.error.message});
-                } else {
-                    this.messageService.add({severity:'error', summary: title.error, detail: message.error});
-                }
-            }
-        });
+            });
     }
 
 }

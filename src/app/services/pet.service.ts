@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { CommonService } from './common.service';
-import { CONFIG } from '../common/config';
-import { AuthService } from './auth.service';
-import { PET } from '../common/constant';
-import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {CommonService} from './common.service';
+import {CONFIG} from '../common/config';
+import {AuthService} from './auth.service';
+import {PET} from '../common/constant';
+import {AutoCompleteCompleteEvent} from 'primeng/autocomplete';
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +13,8 @@ export class PetService {
 
     private API_URL = 'pets';
 
-    constructor(private commonService: CommonService, private authService: AuthService) { }
+    constructor(private commonService: CommonService, private authService: AuthService) {
+    }
 
     getPets(search: any): Observable<any> {
         const request = {
@@ -124,7 +125,7 @@ export class PetService {
         }
         return filtered;
     }
-    
+
     isAvailableForAdopt(status: number): boolean {
         return status === PET.STATUS_KEY.WAITING;
     }
@@ -207,7 +208,7 @@ export class PetService {
 
     optionStatusModify(): any[] {
         return PET.STATUS_MODIFY;
-    
+
     }
 
     optionGender(): any[] {

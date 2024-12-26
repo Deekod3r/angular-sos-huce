@@ -1,25 +1,25 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
-import { title, message } from 'src/app/common/message';
-import { AdoptService } from 'src/app/services/adopt.service';
-import { PetService } from 'src/app/services/pet.service';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { KnobModule } from 'primeng/knob';
-import { ChartModule } from 'primeng/chart';
-import { DonationService } from 'src/app/services/donation.service';
-import { DropdownModule } from 'primeng/dropdown';
-import { LivingCostService } from 'src/app/services/living-cost.service';
-import { TreatmentService } from 'src/app/services/treatment.service';
-import { BadgeModule } from 'primeng/badge';
-import { DialogModule } from 'primeng/dialog';
-import { TableModule } from 'primeng/table';
-import { StatisticAdoptModule } from 'src/app/shared/components/statistic-adopt/statistic-adopt.module';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {MessageService} from 'primeng/api';
+import {Subject, takeUntil} from 'rxjs';
+import {message, title} from 'src/app/common/message';
+import {AdoptService} from 'src/app/services/adopt.service';
+import {PetService} from 'src/app/services/pet.service';
+import {SharedModule} from 'src/app/shared/shared.module';
+import {KnobModule} from 'primeng/knob';
+import {ChartModule} from 'primeng/chart';
+import {DonationService} from 'src/app/services/donation.service';
+import {DropdownModule} from 'primeng/dropdown';
+import {LivingCostService} from 'src/app/services/living-cost.service';
+import {TreatmentService} from 'src/app/services/treatment.service';
+import {BadgeModule} from 'primeng/badge';
+import {DialogModule} from 'primeng/dialog';
+import {TableModule} from 'primeng/table';
+import {StatisticAdoptModule} from 'src/app/shared/components/statistic-adopt/statistic-adopt.module';
 
 @Component({
     selector: 'app-dashboard',
     standalone: true,
-    imports: [SharedModule, KnobModule, ChartModule, DropdownModule, 
+    imports: [SharedModule, KnobModule, ChartModule, DropdownModule,
         BadgeModule, DialogModule, TableModule, StatisticAdoptModule],
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css']
@@ -43,8 +43,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private subscribes$: Subject<void> = new Subject<void>();
 
     constructor(private adoptService: AdoptService, private petService: PetService,
-        private messageService: MessageService, private donationService: DonationService,
-        private livingCostService: LivingCostService, private treatmentService: TreatmentService) { }
+                private messageService: MessageService, private donationService: DonationService,
+                private livingCostService: LivingCostService, private treatmentService: TreatmentService) {
+    }
 
     ngOnInit(): void {
         this.getAdoptStatistic();
@@ -156,9 +157,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 },
                 error: (res) => {
                     if (res.error) {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                     } else {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                     }
                 }
             });
@@ -177,9 +178,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 },
                 error: (res) => {
                     if (res.error) {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                     } else {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                     }
                 }
             });
@@ -203,9 +204,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 },
                 error: (res) => {
                     if (res.error) {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                     } else {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                     }
                 }
             });
@@ -229,9 +230,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 },
                 error: (res) => {
                     if (res.error) {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                     } else {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                     }
                 }
             });
@@ -255,9 +256,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 },
                 error: (res) => {
                     if (res.error) {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                     } else {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                     }
                 }
             });
@@ -281,9 +282,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 },
                 error: (res) => {
                     if (res.error) {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                     } else {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                     }
                 }
             });
@@ -302,22 +303,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     updateDonateData(): void {
         this.donateData.datasets[0].data = this.defaultDataDonate;
-        this.donateData = { ...this.donateData };
+        this.donateData = {...this.donateData};
     }
 
     updateAdoptData(): void {
         this.adoptData.datasets[0].data = this.defaultDataAdopt;
-        this.adoptData = { ...this.adoptData };
+        this.adoptData = {...this.adoptData};
     }
 
     updateLivingCostData(): void {
         this.feeData.datasets[0].data = this.defaultDataLivingCost;
-        this.feeData = { ...this.feeData };
+        this.feeData = {...this.feeData};
     }
 
     updateTreatmentData(): void {
         this.feeData.datasets[1].data = this.defaultDataTreatment;
-        this.feeData = { ...this.feeData };
+        this.feeData = {...this.feeData};
     }
 
 }

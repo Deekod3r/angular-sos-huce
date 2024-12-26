@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { MenuItem } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
+import {MenuItem} from 'primeng/api';
+import {Subject, takeUntil} from 'rxjs';
+import {AuthService} from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-navbar',
@@ -15,10 +15,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     guestTools!: MenuItem[];
     userOptions!: any[];
     currentRoute: string = '';
-    
+
     private readonly subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public authService: AuthService, private router: Router) { }
+    constructor(public authService: AuthService, private router: Router) {
+    }
 
     ngOnInit(): void {
         this.items = [
@@ -85,7 +86,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
             {
                 label: 'Đăng nhập',
                 icon: 'fa-brands fa-keycdn',
-                command: () => { window.location.href = '/dang-nhap' }
+                command: () => {
+                    window.location.href = '/dang-nhap'
+                }
             },
             {
                 separator: true
@@ -93,7 +96,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
             {
                 label: 'Đăng ký',
                 icon: 'fa-solid fa-registered',
-                command: () => { window.location.href = '/dang-ky' }
+                command: () => {
+                    window.location.href = '/dang-ky'
+                }
             },
             // {
             //     separator: true
@@ -162,6 +167,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
             menuItem.classList.add('bg-cyan-100', 'border-round');
         }
     }
-    
+
 }
 

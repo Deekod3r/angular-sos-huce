@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { InforPetComponent } from './infor-pet.component';
+import { InfoPetComponent } from './info-pet.component';
 import { SharedModule } from '../../shared.module';
 import { BadgeModule } from 'primeng/badge';
 
@@ -7,14 +7,14 @@ import { BadgeModule } from 'primeng/badge';
 
 @NgModule({
     declarations: [
-        InforPetComponent
+        InfoPetComponent
     ],
     imports: [
         SharedModule,
         BadgeModule
     ],
     exports: [
-        InforPetComponent
+        InfoPetComponent
     ]
 })
 export class InforPetModule { }

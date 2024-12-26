@@ -1,11 +1,11 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
-import { title, message } from 'src/app/common/message';
-import { LivingCostService } from 'src/app/services/living-cost.service';
-import { convertDateFormat } from 'src/app/shared/utils/data.util';
-import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {MessageService} from 'primeng/api';
+import {Subject, takeUntil} from 'rxjs';
+import {message, title} from 'src/app/common/message';
+import {LivingCostService} from 'src/app/services/living-cost.service';
+import {convertDateFormat} from 'src/app/shared/utils/data.util';
+import {noWhitespaceValidator} from 'src/app/shared/utils/string.util';
 
 @Component({
     selector: 'app-living-cost-create',
@@ -20,7 +20,8 @@ export class LivingCostCreateComponent implements OnInit, OnDestroy {
     maxDate: Date = new Date();
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public livingCostService: LivingCostService, private messageService: MessageService) {}
+    constructor(public livingCostService: LivingCostService, private messageService: MessageService) {
+    }
 
     ngOnInit(): void {
         this.form = new FormGroup({
@@ -54,23 +55,23 @@ export class LivingCostCreateComponent implements OnInit, OnDestroy {
             formData.append('images', file);
         }
         this.livingCostService.createLivingCost(formData)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.form.reset();
-                    this.result = true;
-                    this.resultAction.emit(this.result);        
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.form.reset();
+                        this.result = true;
+                        this.resultAction.emit(this.result);
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onImagePicked(event: any): void {
@@ -85,6 +86,6 @@ export class LivingCostCreateComponent implements OnInit, OnDestroy {
     onRemoveImage(event: any): void {
         const imagesArray = this.form.controls['images'] as FormArray;
         imagesArray.removeAt(event.index);
-    } 
+    }
 
 }

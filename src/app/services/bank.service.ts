@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
-import { CommonService } from './common.service';
-import { CONFIG } from '../common/config';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {AuthService} from './auth.service';
+import {CommonService} from './common.service';
+import {CONFIG} from '../common/config';
+import {Observable} from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +11,8 @@ export class BankService {
 
     private API_URL = 'banks';
 
-    constructor(private commonService: CommonService, private authService: AuthService) { }
+    constructor(private commonService: CommonService, private authService: AuthService) {
+    }
 
     getBanks(): Observable<any> {
         const request = {
@@ -74,5 +75,5 @@ export class BankService {
         }
         return this.commonService.callAPI(request);
     }
-    
+
 }

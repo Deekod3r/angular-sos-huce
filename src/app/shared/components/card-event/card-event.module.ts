@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { DividerModule } from 'primeng/divider';
-import { CardEventComponent } from './card-event.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RouterModule} from '@angular/router';
+import {ButtonModule} from 'primeng/button';
+import {DividerModule} from 'primeng/divider';
+import {CardEventComponent} from './card-event.component';
 
 @NgModule({
     declarations: [
@@ -19,4 +19,5 @@ import { CardEventComponent } from './card-event.component';
         CardEventComponent
     ]
 })
-export class CardEventModule { }
+export class CardEventModule {
+}

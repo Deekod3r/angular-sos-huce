@@ -4,27 +4,29 @@
             <div class="lg:col-6 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="registeredBy">Người nhận nuôi <span class="text-red-500 font-bold">*</span></label>
-                    <p-dropdown [options]="users" optionLabel="name" [filter]="true" filterBy="name"
-                        filterPlaceholder="Họ và tên" emptyMessage="Không có dữ liệu" id="registeredBy"
-                        [showClear]="true" placeholder="--Chọn--" styleClass="mat-form-field" formControlName="registeredBy">
+                    <p-dropdown [filter]="true" [options]="users" [showClear]="true" emptyMessage="Không có dữ liệu"
+                                filterBy="name" filterPlaceholder="Họ và tên" formControlName="registeredBy"
+                                id="registeredBy" optionLabel="name" placeholder="--Chọn--"
+                                styleClass="mat-form-field">
                         <ng-template let-user pTemplate="item">
                             <div class="flex align-items-center">
-                                <div>{{ user.name }} - {{ user.email }} - {{user.phoneNumber}}</div>
+                                <div>{{ user.name }} - {{ user.email }} - {{ user.phoneNumber }}</div>
                             </div>
                         </ng-template>
                     </p-dropdown>
                 </div>
                 <div [hidden]="formAdopt.controls['registeredBy'].valid || !formAdopt.controls['registeredBy'].touched"
-                    class="text-red-500 mt-2 ml-1">
+                     class="text-red-500 mt-2 ml-1">
                     Vui lòng chọn người nhận nuôi
                 </div>
             </div>
             <div class="lg:col-6 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet">Thú cưng <span class="text-red-500 font-bold">*</span></label>
-                    <p-dropdown [options]="pets" optionLabel="name" [filter]="true" filterBy="code" 
-                        filterPlaceholder="Mã thú cưng" emptyMessage="Không có dữ liệu" id="pet"
-                        [showClear]="true" placeholder="--Chọn--" styleClass="mat-form-field" formControlName="petAdopt">
+                    <p-dropdown [filter]="true" [options]="pets" [showClear]="true" emptyMessage="Không có dữ liệu"
+                                filterBy="code" filterPlaceholder="Mã thú cưng" formControlName="petAdopt"
+                                id="pet" optionLabel="name" placeholder="--Chọn--"
+                                styleClass="mat-form-field">
                         <ng-template let-pet pTemplate="item">
                             <div class="flex align-items-center">
                                 <div>{{ pet.code }} - {{ pet.name }}</div>
@@ -33,58 +35,61 @@
                     </p-dropdown>
                 </div>
                 <div [hidden]="formAdopt.controls['petAdopt'].valid || !formAdopt.controls['petAdopt'].touched"
-                    class="text-red-500 mt-2 ml-1">
+                     class="text-red-500 mt-2 ml-1">
                     Vui lòng chọn thú cưng
                 </div>
             </div>
             <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="province">Tỉnh/thành phố <span class="text-red-500 font-bold">*</span></label>
-                    <p-dropdown [options]="provinces" optionLabel="name" optionValue="id" id="province"
-                        styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
-                        emptyMessage="Không có dữ liệu" formControlName="province" 
-                        (onChange)="getDistricts(); wards = []" (onClear)="districts = []; wards = []">
+                    <p-dropdown (onChange)="getDistricts(); wards = []" (onClear)="districts = []; wards = []" [options]="provinces" [showClear]="true"
+                                emptyMessage="Không có dữ liệu" formControlName="province" id="province"
+                                optionLabel="name" optionValue="id"
+                                placeholder="--Chọn--" styleClass="mat-form-field">
                     </p-dropdown>
                 </div>
                 <div [hidden]="formAdopt.controls['province'].valid || !formAdopt.controls['province'].touched"
-                    class="text-red-500 mt-2 ml-1">
-                    Vui lòng chọn tỉnh/thành phố 
+                     class="text-red-500 mt-2 ml-1">
+                    Vui lòng chọn tỉnh/thành phố
                 </div>
             </div>
             <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="district">Quận/huyện/thị xã <span class="text-red-500 font-bold">*</span></label>
-                    <p-dropdown [options]="districts" optionLabel="name" optionValue="id" id="district"
-                        styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
-                        emptyMessage="Không có dữ liệu" (onChange)="getWards()" formControlName="district" (onClear)="wards = []"></p-dropdown>
+                    <p-dropdown (onChange)="getWards()" (onClear)="wards = []" [options]="districts" [showClear]="true"
+                                emptyMessage="Không có dữ liệu" formControlName="district" id="district"
+                                optionLabel="name" optionValue="id" placeholder="--Chọn--"
+                                styleClass="mat-form-field"></p-dropdown>
                 </div>
                 <div [hidden]="formAdopt.controls['district'].valid || !formAdopt.controls['district'].touched"
-                    class="text-red-500 mt-2 ml-1">
-                    Vui lòng chọn quận/huyện/thị xã 
+                     class="text-red-500 mt-2 ml-1">
+                    Vui lòng chọn quận/huyện/thị xã
                 </div>
             </div>
             <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="ward">Xã/phường/thị trấn <span class="text-red-500 font-bold">*</span></label>
-                    <p-dropdown [options]="wards" optionLabel="name" optionValue="id" id="ward"
-                        styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
-                        emptyMessage="Không có dữ liệu" formControlName="ward"></p-dropdown>
+                    <p-dropdown [options]="wards" [showClear]="true" emptyMessage="Không có dữ liệu" formControlName="ward"
+                                id="ward" optionLabel="name" optionValue="id"
+                                placeholder="--Chọn--" styleClass="mat-form-field"></p-dropdown>
                 </div>
                 <div [hidden]="formAdopt.controls['ward'].valid || !formAdopt.controls['ward'].touched"
-                    class="text-red-500 mt-2 ml-1">
-                    Vui lòng chọn xã/phường/thị trấn 
+                     class="text-red-500 mt-2 ml-1">
+                    Vui lòng chọn xã/phường/thị trấn
                 </div>
             </div>
             <div class="col-12">
                 <div class="flex flex-column gap-2">
                     <label for="address">Số nhà, tên đường <span class="text-red-500 font-bold">*</span></label>
-                    <input pInputText id="address" styleClass="mat-form-field" formControlName="address"/>
+                    <input formControlName="address" id="address" pInputText pStyleClass="mat-form-field"/>
                 </div>
-                <div [hidden]="!formAdopt.controls['address'].hasError('required') || !formAdopt.controls['address'].touched"
+                <div
+                    [hidden]="!formAdopt.controls['address'].hasError('required') || !formAdopt.controls['address'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng nhập thông tin số nhà, tên đường
                 </div>
-                <div [hidden]="!formAdopt.controls['address'].hasError('maxlength') || !formAdopt.controls['address'].touched"
+                <div
+                    [hidden]="!formAdopt.controls['address'].hasError('maxlength') || !formAdopt.controls['address'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Độ dài thông tin không hợp lệ (Tối đa 255 ký tự)
                 </div>
@@ -92,35 +97,42 @@
             <div class="col-12">
                 <div class="flex flex-column gap-2">
                     <label for="reason">Lý do nhận nuôi <span class="text-red-500 font-bold">*</span></label>
-                    <input pInputText id="reason" styleClass="mat-form-field" formControlName="reason"/>
+                    <input formControlName="reason" id="reason" pInputText pStyleClass="mat-form-field"/>
                 </div>
-                <div [hidden]="!formAdopt.controls['reason'].hasError('required') || !formAdopt.controls['reason'].touched"
+                <div
+                    [hidden]="!formAdopt.controls['reason'].hasError('required') || !formAdopt.controls['reason'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Vui lòng nhập lý do nhận nuôi
                 </div>
-                <div [hidden]="!formAdopt.controls['reason'].hasError('maxlength') || !formAdopt.controls['reason'].touched"
+                <div
+                    [hidden]="!formAdopt.controls['reason'].hasError('maxlength') || !formAdopt.controls['reason'].touched"
                     class="text-red-500 mt-2 ml-1">
                     Độ dài thông tin không hợp lệ (Tối đa 255 ký tự)
                 </div>
             </div>
             <div class="col-12">
-                <p-panel *ngIf="this.formAdopt.controls['registeredBy'].value" header="Thông tin đăng ký" styleClass="mb-3">
+                <p-panel *ngIf="this.formAdopt.controls['registeredBy'].value" header="Thông tin đăng ký"
+                         styleClass="mb-3">
                     <div class="grid">
                         <div class="lg:col-3 col-12">
-                            <p>Người nhận nuôi: <b>{{this.formAdopt.controls['registeredBy'].value.name}}</b></p>
-                            <p>Email liên hệ: <b>{{this.formAdopt.controls['registeredBy'].value.email}}</b></p>
-                            <p>Số điện thoại: <b>{{this.formAdopt.controls['registeredBy'].value.phoneNumber}}</b></p>
+                            <p>Người nhận nuôi: <b>{{ this.formAdopt.controls['registeredBy'].value.name }}</b></p>
+                            <p>Email liên hệ: <b>{{ this.formAdopt.controls['registeredBy'].value.email }}</b></p>
+                            <p>Số điện thoại: <b>{{ this.formAdopt.controls['registeredBy'].value.phoneNumber }}</b></p>
                         </div>
                     </div>
-                    <app-statistic-adopt [userId]="this.formAdopt.controls['registeredBy'].value.id"></app-statistic-adopt>
+                    <app-statistic-adopt
+                        [userId]="this.formAdopt.controls['registeredBy'].value.id"></app-statistic-adopt>
                 </p-panel>
-                <app-infor-pet *ngIf="this.formAdopt.value.petAdopt" [pet]="this.formAdopt.value.petAdopt" [visibleNote]="true"></app-infor-pet>
-                <app-treatment-pet *ngIf="this.formAdopt.value.petAdopt" [idPet]="this.formAdopt.value.petAdopt.id"></app-treatment-pet>
+                <app-infor-pet *ngIf="this.formAdopt.value.petAdopt" [pet]="this.formAdopt.value.petAdopt"
+                               [visibleNote]="true"></app-infor-pet>
+                <app-treatment-pet *ngIf="this.formAdopt.value.petAdopt"
+                                   [idPet]="this.formAdopt.value.petAdopt.id"></app-treatment-pet>
             </div>
         </div>
-        <div class="mt-3" align="center">
-            <p-button label="Làm mới" icon="fa fa-refresh" styleClass="p-button-outlined mr-3" [disabled]="!formAdopt.dirty" (onClick)="formAdopt.reset()"></p-button>
-            <p-button label="Lưu thông tin" icon="fa fa-save" (onClick)="onSaveAdopt()"></p-button>
+        <div align="center" class="mt-3">
+            <p-button (onClick)="formAdopt.reset()" [disabled]="!formAdopt.dirty" icon="fa fa-refresh"
+                      label="Làm mới" styleClass="p-button-outlined mr-3"></p-button>
+            <p-button (onClick)="onSaveAdopt()" icon="fa fa-save" label="Lưu thông tin"></p-button>
         </div>
     </form>
 </div>

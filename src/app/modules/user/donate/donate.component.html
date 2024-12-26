@@ -7,9 +7,10 @@
         </ng-template>
         <div class="grid">
             <div class="xl:col-9 lg:col-9 md:col-8 sm:col-12 col-12">
-                <div class="m-0 text-lg line-height-3" >
-                    <p *ngIf="donationIntroductions" class="html" [innerHTML]="donationIntroductions[0].value"></p>
-                    <span><b>Danh sách mạnh thường quân và thông tin viện phí sẽ được cập nhật tại đây:<a routerLink="/ung-ho/danh-sach"> Xem thêm</a></b></span>
+                <div class="m-0 text-lg line-height-3">
+                    <p *ngIf="donationIntroductions" [innerHTML]="donationIntroductions[0].value" class="html"></p>
+                    <span><b>Danh sách mạnh thường quân và thông tin viện phí sẽ được cập nhật tại đây:<a
+                        routerLink="/ung-ho/danh-sach"> Xem thêm</a></b></span>
                 </div>
             </div>
             <div class="xl:col-3 lg:col-3 md:col-4 sm:col-12 col-12 text-center" style="height: fit-content;">
@@ -20,7 +21,8 @@
                         </div>
                     </ng-template>
                     <p *ngFor="let bank of banks" class="font-semibold">
-                        <i class="text-primary mr-1" [ngClass]="bank.logo"></i> {{bank.name}} <br> {{bank.accountNumber}} <br> {{bank.owner}} 
+                        <i [ngClass]="bank.logo" class="text-primary mr-1"></i> {{ bank.name }}
+                        <br> {{ bank.accountNumber }} <br> {{ bank.owner }}
                     </p>
                 </p-panel>
             </div>
@@ -34,13 +36,13 @@
         </div>
         <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12 z-1">
             <div class="justify-center items-center">
-                <i class="fa-solid fa-shield-heart fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>                
+                <i class="fa-solid fa-shield-heart fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>
                 <p class="xl:text-2xl text-2xl my-2">TÃ BỈM</p>
             </div>
         </div>
         <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12 z-1">
             <div class="justify-center items-center">
-                <i class="fa-solid fa-shirt fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>                
+                <i class="fa-solid fa-shirt fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>
                 <p class="xl:text-2xl text-2xl my-2">QUẦN ÁO</p>
             </div>
         </div>
@@ -49,9 +51,9 @@
                 <i class="fa-solid fa-bowl-rice fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>
                 <p class="xl:text-2xl text-2xl my-2">THỨC ĂN</p>
             </div>
-        </div>      
+        </div>
         <div class="col-12 z-1">
-            <button pButton class="font-bold" routerLink="/lien-he">LIÊN HỆ HUCE PET</button>
+            <button class="font-bold" pButton routerLink="/lien-he">LIÊN HỆ HUCE PET</button>
         </div>
     </div>
 </div>
@@ -64,29 +66,33 @@
         </ng-template>
         <div class="grid">
             <div class="xl:col-8 lg:col-8 md:col-8 sm:col-12 col-12">
-                <p *ngIf="volunteerIntroduction" class="m-0 text-lg line-height-3 html" [innerHTML]="volunteerIntroduction[0].value"></p>
+                <p *ngIf="volunteerIntroduction" [innerHTML]="volunteerIntroduction[0].value"
+                   class="m-0 text-lg line-height-3 html"></p>
                 <div *ngIf="volunteerConditions" class="mt-2">
-                    <p *ngFor="let item of volunteerConditions" class="font-semibold text-lg"><i class="fa fa-paw text-primary mr-5"></i> {{item.value}}</p>
+                    <p *ngFor="let item of volunteerConditions" class="font-semibold text-lg"><i
+                        class="fa fa-paw text-primary mr-5"></i> {{ item.value }}</p>
                 </div>
             </div>
             <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12" style="height: fit-content;">
-                <img src="../../../../assets/medias/imgs/intro-1.png" alt="" class="w-full">
+                <img alt="" class="w-full" src="../../../../assets/medias/imgs/intro-1.png">
             </div>
             <div class="col-12 grid">
                 <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12" style="height: fit-content;">
-                    <img src="../../../../assets/medias/imgs/intro-2.png" alt="" class="w-full">
+                    <img alt="" class="w-full" src="../../../../assets/medias/imgs/intro-2.png">
                 </div>
                 <div class="xl:col-8 lg:col-8 md:col-8 sm:col-12 col-12">
                     <p class="text-3xl font-bold">Bạn muốn tham gia</p>
                     <p class="text-lg">
                         Hãy liên hệ và đăng ký trở thành một tình nguyện viên của HUCE Pet ngay hôm nay!
                         <br>
-                        Tham gia tình nguyện cho HUCE Pet, bạn đang góp phần thay đổi số phận của những bé chó mèo bị bỏ rơi hay bạo hành.
+                        Tham gia tình nguyện cho HUCE Pet, bạn đang góp phần thay đổi số phận của những bé chó mèo bị bỏ
+                        rơi hay bạo hành.
                     </p>
-                    <button pButton label="THAM GIA NGAY" class="mt-3" routerLink="/lien-he"></button>
+                    <button class="mt-3" label="THAM GIA NGAY" pButton routerLink="/lien-he"></button>
                 </div>
             </div>
         </div>
     </p-fieldset>
 </div>
-<app-card-footer [title]="'DANH SÁCH MẠNH THƯỜNG QUÂN'" [action]="'XEM THÔNG TIN'" [actionLink]="'/danh-sach-ung-ho'"></app-card-footer>
+<app-card-footer [actionLink]="'/danh-sach-ung-ho'" [action]="'XEM THÔNG TIN'"
+                 [title]="'DANH SÁCH MẠNH THƯỜNG QUÂN'"></app-card-footer>

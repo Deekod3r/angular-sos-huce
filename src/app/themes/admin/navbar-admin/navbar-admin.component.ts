@@ -1,6 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { LayoutService } from 'src/app/services/layout.service';
+import {Component, ElementRef, ViewChild} from '@angular/core';
+import {MenuItem} from 'primeng/api';
+import {LayoutService} from 'src/app/services/layout.service';
 
 @Component({
     selector: 'app-navbar-admin',
@@ -17,7 +17,8 @@ export class NavbarAdminComponent {
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
-    constructor(public layoutService: LayoutService) { }
+    constructor(public layoutService: LayoutService) {
+    }
 
 }
 

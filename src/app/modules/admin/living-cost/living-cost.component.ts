@@ -1,14 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LivingCostModule } from './living-cost.module';
-import { Subject, takeUntil } from 'rxjs';
-import { PaginatorModule } from 'primeng/paginator';
-import { ACTION, LIVING_COST } from 'src/app/common/constant';
-import { title, message, messageLivingCost } from 'src/app/common/message';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { LivingCostService } from 'src/app/services/living-cost.service';
-import { convertDateFormat, filteredSearch } from 'src/app/shared/utils/data.util';
-import { TieredMenuModule } from 'primeng/tieredmenu';
-import { TagModule } from 'primeng/tag';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {LivingCostModule} from './living-cost.module';
+import {Subject, takeUntil} from 'rxjs';
+import {PaginatorModule} from 'primeng/paginator';
+import {ACTION, LIVING_COST} from 'src/app/common/constant';
+import {message, messageLivingCost, title} from 'src/app/common/message';
+import {ConfirmationService, MenuItem, MessageService} from 'primeng/api';
+import {LivingCostService} from 'src/app/services/living-cost.service';
+import {convertDateFormat, filteredSearch} from 'src/app/shared/utils/data.util';
+import {TieredMenuModule} from 'primeng/tieredmenu';
+import {TagModule} from 'primeng/tag';
 
 @Component({
     selector: 'app-living-cost',
@@ -38,8 +38,9 @@ export class LivingCostComponent implements OnInit, OnDestroy {
 
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private messageService: MessageService, public livingCostService: LivingCostService, 
-        private confirmationService: ConfirmationService) {}
+    constructor(private messageService: MessageService, public livingCostService: LivingCostService,
+                private confirmationService: ConfirmationService) {
+    }
 
     ngOnInit(): void {
         this.getLivingCosts();
@@ -61,32 +62,32 @@ export class LivingCostComponent implements OnInit, OnDestroy {
             category: this.key.category
         }
         this.livingCostService.getLivingCosts(filteredSearch(search))
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.livingCosts = res.data.livingCosts;
-                    this.totalPages = res.data.totalPages;
-                    this.totalElements = res.data.totalElements;
-                    this.currentPage = res.data.currentPage;
-                    this.first = (this.currentPage - 1) * this.limit;
-                    if (this.livingCosts.length == 0) {
-                        this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.livingCosts = res.data.livingCosts;
+                        this.totalPages = res.data.totalPages;
+                        this.totalElements = res.data.totalElements;
+                        this.currentPage = res.data.currentPage;
+                        this.first = (this.currentPage - 1) * this.limit;
+                        if (this.livingCosts.length == 0) {
+                            this.messageService.add({severity: 'info', summary: title.info, detail: message.noData});
+                        } else {
+                            this.livingCosts.forEach(livingCost => {
+                                livingCost.menuItems = this.getMenuItems(livingCost);
+                            })
+                        }
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                     } else {
-                        this.livingCosts.forEach(livingCost => {
-                            livingCost.menuItems = this.getMenuItems(livingCost);
-                        })
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                     }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onSearch(): void {
@@ -108,14 +109,22 @@ export class LivingCostComponent implements OnInit, OnDestroy {
         if (result) {
             if (type === ACTION.CREATE) {
                 this.visibleCreateModal = false;
-                this.messageService.add({ severity: 'success', summary: title.success, detail: messageLivingCost.createSuccess });
+                this.messageService.add({
+                    severity: 'success',
+                    summary: title.success,
+                    detail: messageLivingCost.createSuccess
+                });
             } else if (type === ACTION.UPDATE) {
                 this.visibleUpdateModal = false;
-                this.messageService.add({ severity: 'success', summary: title.success, detail: messageLivingCost.updateSuccess });
+                this.messageService.add({
+                    severity: 'success',
+                    summary: title.success,
+                    detail: messageLivingCost.updateSuccess
+                });
             }
             this.getLivingCosts();
         } else {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+            this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
         }
     }
 
@@ -178,26 +187,43 @@ export class LivingCostComponent implements OnInit, OnDestroy {
             rejectButtonStyleClass: "p-button-text",
             accept: () => {
                 this.livingCostService.deleteLivingCost(id)
-                .pipe(takeUntil(this.subscribes$))
-                .subscribe({
-                    next: (res) => {
-                        if (res.success) {
-                            this.onSearch();
-                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageLivingCost.deleteSuccess });
-                        } else {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                    .pipe(takeUntil(this.subscribes$))
+                    .subscribe({
+                        next: (res) => {
+                            if (res.success) {
+                                this.onSearch();
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: title.success,
+                                    detail: messageLivingCost.deleteSuccess
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
+                            }
+                        },
+                        error: (res) => {
+                            if (res.error) {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
+                            }
                         }
-                    },
-                    error: (res) => {
-                        if (res.error) {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                        } else {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                        }
-                    }
-                });
+                    });
             },
-            reject: () => {}
+            reject: () => {
+            }
         });
     }
 

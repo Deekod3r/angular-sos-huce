@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ButtonModule} from 'primeng/button';
 
-import { CardFooterComponent } from './card-footer.component';
-import { RouterModule } from '@angular/router';
+import {CardFooterComponent} from './card-footer.component';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
     declarations: [
@@ -18,4 +18,5 @@ import { RouterModule } from '@angular/router';
         CardFooterComponent
     ]
 })
-export class CardFooterModule { }
+export class CardFooterModule {
+}

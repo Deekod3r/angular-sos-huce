@@ -1,33 +1,38 @@
 <div class="card">
-    <p-panel header="Công cụ" [toggleable]="true">
+    <p-panel [toggleable]="true" header="Công cụ">
         <div class="flex flex-column gap-2">
             <label for="config">Mã cấu hình</label>
-            <p-dropdown [options]="configs" id="config" optionLabel="key" optionValue="key"
-                styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--" (onChange)="getConfigValues($event)"
-                emptyMessage="Không có dữ liệu"></p-dropdown>
-        </div>            
+            <p-dropdown (onChange)="getConfigValues($event)" [options]="configs" [showClear]="true" emptyMessage="Không có dữ liệu"
+                        id="config" optionLabel="key" optionValue="key"
+                        placeholder="--Chọn--"
+                        styleClass="mat-form-field"></p-dropdown>
+        </div>
     </p-panel>
-    <p-panel *ngIf="configs != null && config != null && config.values != null && config.values.length > 0" header="Thông tin cấu hình" [toggleable]="true" styleClass="mt-3">
+    <p-panel *ngIf="configs != null && config != null && config.values != null && config.values.length > 0"
+             [toggleable]="true" header="Thông tin cấu hình" styleClass="mt-3">
         <div class="grid">
             <div *ngFor="let value of config.values" class="col-12">
                 <div class="grid card">
                     <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12">
                         <div class="flex flex-column gap-2">
                             <label for="key-cv">Mã giá trị</label>
-                            <input pInputText type="text" id="key-cv" class="mat-form-field" [ngModel]="value.keyCV" disabled>
+                            <input [ngModel]="value.keyCV" class="mat-form-field" disabled id="key-cv" pInputText
+                                   type="text">
                         </div>
                     </div>
                     <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12">
                         <div class="flex flex-column gap-2">
                             <label for="description">Mô tả</label>
-                            <input pInputText type="text" id="description" class="mat-form-field" [(ngModel)]="value.description" disabled>
+                            <input [(ngModel)]="value.description" class="mat-form-field" disabled id="description"
+                                   pInputText type="text">
                         </div>
                     </div>
                     <ng-container *ngIf="value.type == 1">
                         <div class="col-12">
                             <div class="flex flex-column gap-2">
                                 <label for="value-1">Giá trị <span class="text-red-500">*</span></label>
-                                <input pInputText type="text" id="value-1" class="mat-form-field" [(ngModel)]="value.value">
+                                <input [(ngModel)]="value.value" class="mat-form-field" id="value-1" pInputText
+                                       type="text">
                             </div>
                         </div>
                     </ng-container>
@@ -35,7 +40,8 @@
                         <div class="col-12">
                             <div class="flex flex-column gap-2">
                                 <label for="value-2">Giá trị <span class="text-red-500">*</span></label>
-                                <p-editor [style]="{ height: '320px' }" id="value-2" [(ngModel)]="value.value"></p-editor>
+                                <p-editor [(ngModel)]="value.value" [style]="{ height: '320px' }"
+                                          id="value-2"></p-editor>
                             </div>
                         </div>
                     </ng-container>
@@ -43,14 +49,14 @@
                         <div class="col-12">
                             <div class="flex flex-column gap-2">
                                 <label for="value-2">Giá trị <span class="text-red-500">*</span></label>
-                                <p-inputNumber id="value-3" styleClass="mat-form-field" [(ngModel)]="value.value"/>
+                                <p-inputNumber [(ngModel)]="value.value" id="value-3" styleClass="mat-form-field"/>
                             </div>
                         </div>
                     </ng-container>
                 </div>
-            </div>            
-            <div class="col-12 mt-3" align="center">
-                <p-button label="Lưu thay đổi" icon="fa fa-save" (click)="onSaveConfig($event)"></p-button>
+            </div>
+            <div align="center" class="col-12 mt-3">
+                <p-button (click)="onSaveConfig($event)" icon="fa fa-save" label="Lưu thay đổi"></p-button>
             </div>
         </div>
     </p-panel>

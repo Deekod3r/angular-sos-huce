@@ -3,32 +3,34 @@
         <div class="container">
             <div *ngIf="introductions && contacts && socials" class="grid">
                 <div class="lg:col-4 md:col-12 sm:col-12 col-12 mt-3">
-                    <div class="f_widget company_widget wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
+                    <div class="f_widget company_widget wow fadeInLeft" data-wow-delay="0.2s"
+                         style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
                         <h3 class="f-title f_600 t_color f_size_18 mb-0">Về chúng tôi</h3>
                         <p-divider></p-divider>
                         <p [innerHTML]="introductions[1].value"></p>
                     </div>
                 </div>
                 <div class="lg:col-3 md:col-4 sm:col-12 col-12 mt-3">
-                    <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
+                    <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.4s"
+                         style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
                         <h3 class="f-title f_600 t_color f_size_18 mb-0">Thông tin</h3>
                         <p-divider></p-divider>
                         <ul class="f_list">
                             <li>
                                 <a href="tel:{{contacts[0].value}}">
-                                    <i class="fa fa-phone mr-2"></i> 
+                                    <i class="fa fa-phone mr-2"></i>
                                     <span [innerHTML]="contacts[0].value"></span>
                                 </a>
                             </li>
                             <li>
                                 <a href="mailto:{{contacts[1].value}}">
-                                    <i class="fa fa-envelope mr-2"></i> 
+                                    <i class="fa fa-envelope mr-2"></i>
                                     <span [innerHTML]="contacts[1].value"></span>
                                 </a>
                             </li>
                             <li>
                                 <a href="https://www.google.com/maps" target="_blank">
-                                    <i class="fa fa-map-marker mr-2"></i> 
+                                    <i class="fa fa-map-marker mr-2"></i>
                                     <span [innerHTML]="contacts[2].value"></span>
                                 </a>
                             </li>
@@ -36,19 +38,27 @@
                     </div>
                 </div>
                 <div class="lg:col-2 md:col-4 sm:col-12 col-12 mt-3">
-                    <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInLeft;">
+                    <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.6s"
+                         style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInLeft;">
                         <h3 class="f-title f_600 t_color f_size_18 mb-0">Liên kết</h3>
                         <p-divider></p-divider>
                         <ul class="f_list">
                             <li><a routerLink="/" target="_blank">Trang chủ</a></li>
-                            <li><a routerLink="/cuu-tro" target="_blank">Nhận nuôi</a> / <a routerLink="/ung-ho" target="_blank">Ủng hộ</a></li>
-                            <li><a routerLink="/tin-tuc" target="_blank">Tin tức</a> / <a routerLink="/tin-tuc" target="_blank">Sự kiện</a></li>
-                            <li><a routerLink="/lien-he" target="_blank">Liên hệ</a> / <a routerLink="/gioi-thieu" target="_blank">Giới thiệu</a></li>
+                            <li><a routerLink="/cuu-tro" target="_blank">Nhận nuôi</a> / <a routerLink="/ung-ho"
+                                                                                            target="_blank">Ủng hộ</a>
+                            </li>
+                            <li><a routerLink="/tin-tuc" target="_blank">Tin tức</a> / <a routerLink="/tin-tuc"
+                                                                                          target="_blank">Sự kiện</a>
+                            </li>
+                            <li><a routerLink="/lien-he" target="_blank">Liên hệ</a> / <a routerLink="/gioi-thieu"
+                                                                                          target="_blank">Giới thiệu</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
                 <div class="lg:col-3 md:col-4 sm:col-12 col-12 mt-3">
-                    <div class="f_widget social-widget pl_70 wow fadeInLeft" data-wow-delay="0.8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInLeft;">
+                    <div class="f_widget social-widget pl_70 wow fadeInLeft" data-wow-delay="0.8s"
+                         style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInLeft;">
                         <h3 class="f-title f_600 t_color f_size_18 mb-0">Mạng xã hội</h3>
                         <p-divider></p-divider>
                         <div class="f_social_icon">

@@ -1,42 +1,43 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { AccordionModule } from 'primeng/accordion';
-import { ImageModule } from 'primeng/image';
-import { Subject, takeUntil } from 'rxjs';
-import { FileUploadModule } from 'primeng/fileupload';
-import { DialogModule } from 'primeng/dialog';
-import { GalleriaService } from 'src/app/services/galleria.service';
-import { title, message, messageGalleria } from 'src/app/common/message';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputNumberModule } from 'primeng/inputnumber';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {SharedModule} from 'src/app/shared/shared.module';
+import {AccordionModule} from 'primeng/accordion';
+import {ImageModule} from 'primeng/image';
+import {Subject, takeUntil} from 'rxjs';
+import {FileUploadModule} from 'primeng/fileupload';
+import {DialogModule} from 'primeng/dialog';
+import {GalleriaService} from 'src/app/services/galleria.service';
+import {message, messageGalleria, title} from 'src/app/common/message';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {DropdownModule} from 'primeng/dropdown';
+import {InputNumberModule} from 'primeng/inputnumber';
 
 @Component({
     selector: 'app-galleria',
     standalone: true,
-    imports: [SharedModule, ConfirmDialogModule, AccordionModule, 
-        ImageModule, FileUploadModule, DialogModule, InputTextareaModule, 
+    imports: [SharedModule, ConfirmDialogModule, AccordionModule,
+        ImageModule, FileUploadModule, DialogModule, InputTextareaModule,
         DropdownModule, InputNumberModule],
     templateUrl: './galleria.component.html',
     styleUrls: ['./galleria.component.css']
 })
-export class GalleriaComponent implements OnInit, OnDestroy{
+export class GalleriaComponent implements OnInit, OnDestroy {
 
     formAdd!: FormGroup;
     formUpdate!: FormGroup;
     idUpdate!: string;
     activeIndex!: number;
-    galleiras: any[] = [];
+    gallerias: any[] = [];
     visibleUpdateImageModal: boolean = false;
     visibleUpdateModal: boolean = false;
     isAdd: boolean = false;
 
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public galleriaService: GalleriaService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
+    constructor(public galleriaService: GalleriaService, private messageService: MessageService, private confirmationService: ConfirmationService) {
+    }
 
     ngOnInit(): void {
         this.getGallerias();
@@ -63,44 +64,44 @@ export class GalleriaComponent implements OnInit, OnDestroy{
 
     getGallerias(): void {
         this.galleriaService.getGallerias({})
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                this.galleiras = res.data;
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    this.gallerias = res.data;
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            }
-        });
+            });
     }
 
     getGalleria(): void {
         this.galleriaService.getGalleria(this.idUpdate)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                this.formUpdate.patchValue({
-                    id: res.data.id,
-                    title: res.data.title,
-                    description: res.data.description,
-                    index: res.data.index,
-                    status: res.data.status,
-                    link: res.data.link
-                });
-                this.visibleUpdateModal = true;
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    this.formUpdate.patchValue({
+                        id: res.data.id,
+                        title: res.data.title,
+                        description: res.data.description,
+                        index: res.data.index,
+                        status: res.data.status,
+                        link: res.data.link
+                    });
+                    this.visibleUpdateModal = true;
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            }
-        });
+            });
     }
 
     onCreateGalleria(): void {
@@ -118,29 +119,33 @@ export class GalleriaComponent implements OnInit, OnDestroy{
         formData.append('image', this.formAdd.value.image);
         formData.append('link', this.formAdd.value.link.trim());
         this.galleriaService.createGalleria(formData)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.messageService.add({ severity: 'success', summary: title.success, detail: messageGalleria.createSuccess });
-                    this.isAdd = false;
-                    this.formAdd.reset();
-                    this.getGallerias();
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: title.success,
+                            detail: messageGalleria.createSuccess
+                        });
+                        this.isAdd = false;
+                        this.formAdd.reset();
+                        this.getGallerias();
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onUpdateGalleria(event: any): void {
         if (!this.formUpdate.dirty) {
-            this.messageService.add({ severity: 'info', summary: title.info, detail: message.noChange });
+            this.messageService.add({severity: 'info', summary: title.info, detail: message.noChange});
             return;
         }
         if (this.formUpdate.invalid) {
@@ -171,7 +176,11 @@ export class GalleriaComponent implements OnInit, OnDestroy{
                     .subscribe({
                         next: (res) => {
                             if (res.success) {
-                                this.messageService.add({ severity: 'success', summary: title.success, detail: messageGalleria.updateSuccess });
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: title.success,
+                                    detail: messageGalleria.updateSuccess
+                                });
                                 this.formUpdate.reset();
                                 this.visibleUpdateModal = false;
                                 this.getGallerias();
@@ -179,9 +188,17 @@ export class GalleriaComponent implements OnInit, OnDestroy{
                         },
                         error: (res) => {
                             if (res.error) {
-                                this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
                             } else {
-                                this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
                             }
                         }
                     });
@@ -217,20 +234,24 @@ export class GalleriaComponent implements OnInit, OnDestroy{
         formData.append('id', this.idUpdate);
         formData.append('image', image);
         this.galleriaService.updateImageGalleria(formData, this.idUpdate)
-        .pipe(takeUntil(this.subscribes$)).subscribe({
+            .pipe(takeUntil(this.subscribes$)).subscribe({
             next: (res: any) => {
                 if (res.success) {
                     this.getGallerias();
                     this.visibleUpdateImageModal = false;
                     this.visibleUpdateModal = false;
-                    this.messageService.add({ severity: 'success', summary: title.success, detail: messageGalleria.updateSuccess });
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: title.success,
+                        detail: messageGalleria.updateSuccess
+                    });
                 }
             },
             error: (res) => {
                 if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                    this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                 } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                    this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                 }
             }
         });
@@ -240,12 +261,12 @@ export class GalleriaComponent implements OnInit, OnDestroy{
         if (event && event.files && event.files.length > 0) {
             this.formAdd.controls['image'].markAsDirty();
             const file = event.files[0];
-            this.formAdd.patchValue({ image: file });
+            this.formAdd.patchValue({image: file});
         }
     }
 
     onRemoveImage(): void {
-        this.formAdd.patchValue({ image: null });
+        this.formAdd.patchValue({image: null});
     }
 
     onConfirmDelete(event: any, id: string): void {
@@ -261,22 +282,34 @@ export class GalleriaComponent implements OnInit, OnDestroy{
             rejectButtonStyleClass: "p-button-text",
             accept: () => {
                 this.galleriaService.deleteGalleria(id)
-                .pipe(takeUntil(this.subscribes$))
-                .subscribe({
-                    next: (res) => {
-                        if (res.success) {
-                            this.getGallerias();
-                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageGalleria.deleteSuccess });
+                    .pipe(takeUntil(this.subscribes$))
+                    .subscribe({
+                        next: (res) => {
+                            if (res.success) {
+                                this.getGallerias();
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: title.success,
+                                    detail: messageGalleria.deleteSuccess
+                                });
+                            }
+                        },
+                        error: (res) => {
+                            if (res.error) {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
+                            }
                         }
-                    },
-                    error: (res) => {
-                        if (res.error) {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                        } else {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                        }
-                    }
-                });
+                    });
             },
             reject: () => {
             }

@@ -1,17 +1,17 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Table, TableModule } from 'primeng/table';
-import { PetService } from 'src/app/services/pet.service';
-import { TagModule } from 'primeng/tag';
-import { PET, ACTION } from 'src/app/common/constant';
-import { MenuItem } from 'primeng/api/menuitem';
-import { TieredMenuModule } from 'primeng/tieredmenu';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { PetModule } from './pet.module';
-import { Subject, takeUntil } from 'rxjs';
-import { PaginatorModule } from 'primeng/paginator';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { message, messagePet, title } from 'src/app/common/message';
-import { convertDateFormat, filteredSearch } from 'src/app/shared/utils/data.util';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Table, TableModule} from 'primeng/table';
+import {PetService} from 'src/app/services/pet.service';
+import {TagModule} from 'primeng/tag';
+import {ACTION, PET} from 'src/app/common/constant';
+import {MenuItem} from 'primeng/api/menuitem';
+import {TieredMenuModule} from 'primeng/tieredmenu';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {PetModule} from './pet.module';
+import {Subject, takeUntil} from 'rxjs';
+import {PaginatorModule} from 'primeng/paginator';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {message, messagePet, title} from 'src/app/common/message';
+import {convertDateFormat, filteredSearch} from 'src/app/shared/utils/data.util';
 
 @Component({
     selector: 'app-pet',
@@ -54,7 +54,8 @@ export class PetComponent implements OnInit, OnDestroy {
 
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public petService: PetService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
+    constructor(public petService: PetService, private messageService: MessageService, private confirmationService: ConfirmationService) {
+    }
 
     ngOnInit(): void {
         this.getPets();
@@ -86,33 +87,33 @@ export class PetComponent implements OnInit, OnDestroy {
             adoptedBy: this.key.adoptedBy ? this.key.adoptedBy : ''
         }
         this.petService.getPets(filteredSearch(search))
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    let data = res.data;
-                    this.currentPage = data.currentPage;
-                    this.first = (this.currentPage - 1) * this.limit;
-                    this.totalPages = data.totalPages;
-                    this.totalElements = data.totalElements;
-                    this.pets = data.pets;
-                    if (this.pets.length == 0) {
-                        this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        let data = res.data;
+                        this.currentPage = data.currentPage;
+                        this.first = (this.currentPage - 1) * this.limit;
+                        this.totalPages = data.totalPages;
+                        this.totalElements = data.totalElements;
+                        this.pets = data.pets;
+                        if (this.pets.length == 0) {
+                            this.messageService.add({severity: 'info', summary: title.info, detail: message.noData});
+                        } else {
+                            this.pets.forEach(pet => {
+                                pet.menuItems = this.getMenuItems(pet);
+                            });
+                        }
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                     } else {
-                        this.pets.forEach(pet => {
-                            pet.menuItems = this.getMenuItems(pet);
-                        });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                     }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     getMenuItems(pet: any): MenuItem[] {
@@ -155,14 +156,22 @@ export class PetComponent implements OnInit, OnDestroy {
         if (result) {
             if (type === ACTION.CREATE) {
                 this.visibleCreateModal = false;
-                this.messageService.add({ severity: 'success', summary: title.success, detail: messagePet.createSuccess });
+                this.messageService.add({
+                    severity: 'success',
+                    summary: title.success,
+                    detail: messagePet.createSuccess
+                });
             } else if (type === ACTION.UPDATE) {
                 this.visibleUpdateModal = false;
-                this.messageService.add({ severity: 'success', summary: title.success, detail: messagePet.updateSuccess });
+                this.messageService.add({
+                    severity: 'success',
+                    summary: title.success,
+                    detail: messagePet.updateSuccess
+                });
             }
             this.getPets();
         } else {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+            this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
         }
     }
 
@@ -216,22 +225,34 @@ export class PetComponent implements OnInit, OnDestroy {
             rejectButtonStyleClass: "p-button-text",
             accept: () => {
                 this.petService.deletePet(pet.id)
-                .pipe(takeUntil(this.subscribes$))
-                .subscribe({
-                    next: (res) => {
-                        if (res.success) {
-                            this.onSearch();
-                            this.messageService.add({ severity: 'success', summary: title.success, detail: messagePet.deleteSuccess });
+                    .pipe(takeUntil(this.subscribes$))
+                    .subscribe({
+                        next: (res) => {
+                            if (res.success) {
+                                this.onSearch();
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: title.success,
+                                    detail: messagePet.deleteSuccess
+                                });
+                            }
+                        },
+                        error: (res) => {
+                            if (res.error) {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
+                            }
                         }
-                    },
-                    error: (res) => {
-                        if (res.error) {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                        } else {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                        }
-                    }
-                });
+                    });
             },
             reject: () => {
             }

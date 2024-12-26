@@ -1,15 +1,15 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { DropdownModule } from 'primeng/dropdown';
-import { Table, TableModule } from 'primeng/table';
-import { Subject, takeUntil } from 'rxjs';
-import { CONFIG } from 'src/app/common/config';
-import { UserService } from 'src/app/services/user.service';
-import { AdminsModule } from './admins.module';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { message, messageUser, title } from 'src/app/common/message';
-import { ACTION } from 'src/app/common/constant';
-import { MessageService } from 'primeng/api';
-import { filteredSearch } from 'src/app/shared/utils/data.util';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {DropdownModule} from 'primeng/dropdown';
+import {Table, TableModule} from 'primeng/table';
+import {Subject, takeUntil} from 'rxjs';
+import {CONFIG} from 'src/app/common/config';
+import {UserService} from 'src/app/services/user.service';
+import {AdminsModule} from './admins.module';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {message, messageUser, title} from 'src/app/common/message';
+import {ACTION} from 'src/app/common/constant';
+import {MessageService} from 'primeng/api';
+import {filteredSearch} from 'src/app/shared/utils/data.util';
 
 @Component({
     selector: 'app-admins',
@@ -19,7 +19,7 @@ import { filteredSearch } from 'src/app/shared/utils/data.util';
     styleUrls: ['./admins.component.css']
 })
 export class AdminsComponent implements OnInit, OnDestroy {
-    
+
     @ViewChild("table") table!: Table;
     admins: any[] = [];
     visibleCreateModal: boolean = false;
@@ -34,7 +34,8 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public userService: UserService, private messageService: MessageService) { }
+    constructor(public userService: UserService, private messageService: MessageService) {
+    }
 
     ngOnInit(): void {
         this.getUsers();
@@ -55,22 +56,22 @@ export class AdminsComponent implements OnInit, OnDestroy {
             isActivated: this.key.isActivated != null ? this.key.isActivated : ''
         }
         this.userService.getUsers(filteredSearch(search))
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.table.reset();
-                    this.admins = res.data.users;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.table.reset();
+                        this.admins = res.data.users;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onRefresh(): void {
@@ -96,14 +97,22 @@ export class AdminsComponent implements OnInit, OnDestroy {
         if (result) {
             if (type === ACTION.CREATE) {
                 this.visibleCreateModal = false;
-                this.messageService.add({ severity: 'success', summary: title.success, detail: messageUser.crateAccountAdminSuccess });
+                this.messageService.add({
+                    severity: 'success',
+                    summary: title.success,
+                    detail: messageUser.crateAccountAdminSuccess
+                });
             } else if (type === ACTION.UPDATE) {
                 this.visibleUpdateModal = false;
-                this.messageService.add({ severity: 'success', summary: title.success, detail: messageUser.updateAccountAdminSuccess });
+                this.messageService.add({
+                    severity: 'success',
+                    summary: title.success,
+                    detail: messageUser.updateAccountAdminSuccess
+                });
             }
             this.getUsers();
         } else {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+            this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
         }
     }
 

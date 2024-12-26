@@ -7,10 +7,10 @@
         </ng-template>
         <div class="grid">
             <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12">
-                <p *ngIf="introductions" class="m-0 text-lg line-height-3" [innerHTML]="introductions[0].value"></p>
+                <p *ngIf="introductions" [innerHTML]="introductions[0].value" class="m-0 text-lg line-height-3"></p>
             </div>
             <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12" style="height: fit-content;">
-                <img src="../../../../assets/medias/imgs/intro.png" alt="" class="w-full">
+                <img alt="" class="w-full" src="../../../../assets/medias/imgs/intro.png">
             </div>
             <div class="col-12">
                 <div class="grid">
@@ -31,7 +31,8 @@
                     </p>
                     <p-divider layout="vertical" styleClass="lg:col-1 md:col-1 sm:col-2 col-2"></p-divider>
                     <p class="lg:col-9 md:col-9 sm:col-12 col-12 text-lg">
-                        Sẵn sàng là ngọn cờ dẫn đầu, lan tỏa tinh thần giúp đỡ động vật, cổ vũ - hỗ trợ các nhóm nhỏ hơn cùng phát triển và đi đúng hướng trên con đường cứu trợ chó mèo!
+                        Sẵn sàng là ngọn cờ dẫn đầu, lan tỏa tinh thần giúp đỡ động vật, cổ vũ - hỗ trợ các nhóm nhỏ hơn
+                        cùng phát triển và đi đúng hướng trên con đường cứu trợ chó mèo!
                     </p>
                 </div>
             </div>
@@ -47,4 +48,5 @@
         </div>
     </p-fieldset>
 </div>
-<app-card-footer [title]="'BẠN ĐÃ SẴN SÀNG GIÚP ĐỠ?'" [action]="'ỦNG HỘ NGAY'" [actionLink]="'/ung-ho'"></app-card-footer>
+<app-card-footer [actionLink]="'/ung-ho'" [action]="'ỦNG HỘ NGAY'"
+                 [title]="'BẠN ĐÃ SẴN SÀNG GIÚP ĐỠ?'"></app-card-footer>

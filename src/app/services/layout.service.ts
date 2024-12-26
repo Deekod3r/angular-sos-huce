@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
 
 export interface AppConfig {
     inputStyle: string;
@@ -43,11 +43,8 @@ export class LayoutService {
     };
 
     private configUpdate = new Subject<AppConfig>();
-
-    private overlayOpen = new Subject<any>();
-
     configUpdate$ = this.configUpdate.asObservable();
-
+    private overlayOpen = new Subject<any>();
     overlayOpen$ = this.overlayOpen.asObservable();
 
     onMenuToggle(): void {
@@ -60,8 +57,7 @@ export class LayoutService {
 
         if (this.isDesktop()) {
             this.state.staticMenuDesktopInactive = !this.state.staticMenuDesktopInactive;
-        }
-        else {
+        } else {
             this.state.staticMenuMobileActive = !this.state.staticMenuMobileActive;
 
             if (this.state.staticMenuMobileActive) {

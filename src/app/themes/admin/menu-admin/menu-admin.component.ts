@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { CONFIG } from 'src/app/common/config';
-import { AuthService } from 'src/app/services/auth.service';
-import { LayoutService } from 'src/app/services/layout.service';
+import {Component, OnInit} from '@angular/core';
+import {CONFIG} from 'src/app/common/config';
+import {AuthService} from 'src/app/services/auth.service';
+import {LayoutService} from 'src/app/services/layout.service';
 
 @Component({
     selector: 'app-menu-admin',
@@ -12,17 +12,18 @@ export class MenuAdminComponent implements OnInit {
 
     model: any[] = [];
 
-    constructor(public layoutService: LayoutService, private authService: AuthService) { }
+    constructor(public layoutService: LayoutService, private authService: AuthService) {
+    }
 
     ngOnInit() {
         this.model = [
             {
                 label: 'Trang chủ',
                 items: [
-                    { 
-                        label: 'Dashboard', 
-                        icon: 'fa fa-fw fa-home', 
-                        routerLink: ['/admin/trang-chu'] 
+                    {
+                        label: 'Dashboard',
+                        icon: 'fa fa-fw fa-home',
+                        routerLink: ['/admin/trang-chu']
                     }
                 ]
             },
@@ -51,7 +52,7 @@ export class MenuAdminComponent implements OnInit {
                         ]
                     },
                     {
-                        label: 'Ủng hộ', 
+                        label: 'Ủng hộ',
                         icon: 'fa fa-fw fa-solid fa-hand-holding-heart',
                         items: [
                             {
@@ -69,7 +70,7 @@ export class MenuAdminComponent implements OnInit {
                         ]
                     },
                     {
-                        label: 'Chi tiêu', 
+                        label: 'Chi tiêu',
                         icon: 'fa fa-dollar-sign',
                         items: [
                             {
@@ -93,12 +94,12 @@ export class MenuAdminComponent implements OnInit {
                         label: 'Blog',
                         icon: 'fa fa-fw fa-solid fa-blog',
                         items: [
-                            { 
-                                label: 'Tin tức', 
+                            {
+                                label: 'Tin tức',
                                 icon: 'fa fa-fw fa-solid fa-newspaper',
                                 routerLink: ['/admin/tin-tuc']
                             },
-                            { 
+                            {
                                 label: 'Danh mục',
                                 icon: 'fa fa-solid fa-layer-group',
                                 routerLink: ['/admin/danh-muc-tin-tuc']
@@ -106,7 +107,7 @@ export class MenuAdminComponent implements OnInit {
                         ]
                     },
                     {
-                        label: 'Người dùng', 
+                        label: 'Người dùng',
                         icon: 'fa fa-fw fa-solid fa-users',
                         items: [
                             {
@@ -132,14 +133,14 @@ export class MenuAdminComponent implements OnInit {
             {
                 label: 'Cấu hình',
                 items: [
-                    { 
-                        label: 'Galleria', 
+                    {
+                        label: 'Galleria',
                         icon: 'fa fa-fw fa-solid fa-photo-film',
                         routerLink: ['/admin/galleria']
                     },
-                    { 
-                        label: 'Thông tin web', 
-                        icon: 'fa fa-fw fa-solid fa-circle-info', 
+                    {
+                        label: 'Thông tin web',
+                        icon: 'fa fa-fw fa-solid fa-circle-info',
                         routerLink: ['/admin/cau-hinh'],
                         visible: CONFIG.ROLE.MANAGER.includes(this.authService.getRole())
                     },
@@ -148,15 +149,15 @@ export class MenuAdminComponent implements OnInit {
             {
                 label: 'Tài khoản',
                 items: [
-                    { 
-                        label: 'Đổi mật khẩu', 
+                    {
+                        label: 'Đổi mật khẩu',
                         icon: 'fa fa-fw fa-lock',
                         routerLink: ['/admin/doi-mat-khau'],
                         visible: CONFIG.ROLE.MANAGER.includes(this.authService.getRole())
                     },
                     {
                         label: 'Đăng xuất',
-                        icon: 'fa-solid fa-right-from-bracket text-red-600', 
+                        icon: 'fa-solid fa-right-from-bracket text-red-600',
                         command: () => {
                             this.authService.logout();
                             window.location.reload();

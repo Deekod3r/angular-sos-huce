@@ -1,15 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
-import { TableModule } from 'primeng/table';
-import { TieredMenuModule } from 'primeng/tieredmenu';
-import { Subject, takeUntil } from 'rxjs';
-import { NewsService } from 'src/app/services/news.service';
-import { convertDateTimeFormat, filteredSearch } from 'src/app/shared/utils/data.util';
-import { NewsMediaModule } from './news-media.module';
-import { NEWS, ACTION } from 'src/app/common/constant';
-import { title, message, messageNews } from 'src/app/common/message';
-import { TagModule } from 'primeng/tag';
-import { PaginatorModule } from 'primeng/paginator';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ConfirmationService, MenuItem, MessageService} from 'primeng/api';
+import {TableModule} from 'primeng/table';
+import {TieredMenuModule} from 'primeng/tieredmenu';
+import {Subject, takeUntil} from 'rxjs';
+import {NewsService} from 'src/app/services/news.service';
+import {convertDateTimeFormat, filteredSearch} from 'src/app/shared/utils/data.util';
+import {NewsMediaModule} from './news-media.module';
+import {ACTION, NEWS} from 'src/app/common/constant';
+import {message, messageNews, title} from 'src/app/common/message';
+import {TagModule} from 'primeng/tag';
+import {PaginatorModule} from 'primeng/paginator';
 
 @Component({
     selector: 'app-news',
@@ -18,7 +18,7 @@ import { PaginatorModule } from 'primeng/paginator';
     templateUrl: './news-media.component.html',
     styleUrls: ['./news-media.component.css']
 })
-export class NewsMedeiaComponent  implements OnInit, OnDestroy {
+export class NewsMediaComponent implements OnInit, OnDestroy {
 
     news!: any;
     categories!: any;
@@ -43,8 +43,9 @@ export class NewsMedeiaComponent  implements OnInit, OnDestroy {
     }
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public newsService: NewsService, private messageService: MessageService, 
-        private confirmationService: ConfirmationService) { }
+    constructor(public newsService: NewsService, private messageService: MessageService,
+                private confirmationService: ConfirmationService) {
+    }
 
     ngOnInit(): void {
         this.getNews();
@@ -71,51 +72,51 @@ export class NewsMedeiaComponent  implements OnInit, OnDestroy {
             categoryId: this.key.categoryId ? this.key.categoryId : ''
         }
         this.newsService.getNews(filteredSearch(search))
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.news = res.data.news;
-                    this.totalPages = res.data.totalPages;
-                    this.totalElements = res.data.totalElements;
-                    this.currentPage = res.data.currentPage;
-                    this.first = (this.currentPage - 1) * this.limit;
-                    if (this.news.length == 0) {
-                        this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.news = res.data.news;
+                        this.totalPages = res.data.totalPages;
+                        this.totalElements = res.data.totalElements;
+                        this.currentPage = res.data.currentPage;
+                        this.first = (this.currentPage - 1) * this.limit;
+                        if (this.news.length == 0) {
+                            this.messageService.add({severity: 'info', summary: title.info, detail: message.noData});
+                        } else {
+                            this.news.forEach((item: any) => {
+                                item.menuItems = this.getMenuItems(item);
+                            });
+                        }
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                     } else {
-                        this.news.forEach((item: any) => {
-                            item.menuItems = this.getMenuItems(item);
-                        });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                     }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     getNewsCategories(): void {
         this.newsService.getNewsCategories()
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.categories = res.data;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.categories = res.data;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     getMenuItems(news: any): MenuItem[] {
@@ -187,17 +188,25 @@ export class NewsMedeiaComponent  implements OnInit, OnDestroy {
         if (result) {
             if (type === ACTION.CREATE) {
                 this.visibleCreateModal = false;
-                this.messageService.add({ severity: 'success', summary: title.success, detail: messageNews.createSuccess });
+                this.messageService.add({
+                    severity: 'success',
+                    summary: title.success,
+                    detail: messageNews.createSuccess
+                });
             } else if (type === ACTION.UPDATE) {
                 this.visibleUpdateModal = false;
-                this.messageService.add({ severity: 'success', summary: title.success, detail: messageNews.updateSuccess });
+                this.messageService.add({
+                    severity: 'success',
+                    summary: title.success,
+                    detail: messageNews.updateSuccess
+                });
             }
             this.getNews();
         } else {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+            this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
         }
     }
-    
+
     onConfirmDelete(event: any, id: string): void {
         this.confirmationService.confirm({
             target: event.target as EventTarget,
@@ -211,22 +220,34 @@ export class NewsMedeiaComponent  implements OnInit, OnDestroy {
             rejectButtonStyleClass: "p-button-text",
             accept: () => {
                 this.newsService.deleteNews(id)
-                .pipe(takeUntil(this.subscribes$))
-                .subscribe({
-                    next: (res) => {
-                        if (res.success) {
-                            this.onSearch();
-                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageNews.deleteSuccess });
+                    .pipe(takeUntil(this.subscribes$))
+                    .subscribe({
+                        next: (res) => {
+                            if (res.success) {
+                                this.onSearch();
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: title.success,
+                                    detail: messageNews.deleteSuccess
+                                });
+                            }
+                        },
+                        error: (res) => {
+                            if (res.error) {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
+                            }
                         }
-                    },
-                    error: (res) => {
-                        if (res.error) {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                        } else {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                        }
-                    }
-                });
+                    });
             },
             reject: () => {
             }

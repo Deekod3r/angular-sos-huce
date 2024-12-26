@@ -15,9 +15,9 @@ export class AuthenticationInterceptor implements HttpInterceptor {
         if (lastActiveTime && (Date.now() - parseInt(lastActiveTime, 10) > CONFIG.DEFAULT_VALUE.SESSION_TIME_IN_SECONDS * 1000)) {
             sessionStorage.setItem(CONFIG.KEY.TOKEN_EXPIRED, 'true');
             this.authService.logout();
-            this.router.navigateByUrl('/dang-nhap');
+            this.router.navigateByUrl('/dang-nhap').then(() => {});
         }
         return next.handle(request);
     }
-    
+
 }

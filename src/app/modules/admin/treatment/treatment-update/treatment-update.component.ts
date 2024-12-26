@@ -1,25 +1,26 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
-import { title, message, messageTreatment } from 'src/app/common/message';
-import { FileService } from 'src/app/services/file.service';
-import { TreatmentService } from 'src/app/services/treatment.service';
-import { convertDateFormat } from 'src/app/shared/utils/data.util';
-import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {Subject, takeUntil} from 'rxjs';
+import {message, messageTreatment, title} from 'src/app/common/message';
+import {FileService} from 'src/app/services/file.service';
+import {TreatmentService} from 'src/app/services/treatment.service';
+import {convertDateFormat} from 'src/app/shared/utils/data.util';
+import {noWhitespaceValidator} from 'src/app/shared/utils/string.util';
 
 function endDateAfterStartDateValidator(control: FormControl): { [key: string]: boolean } | null {
     const startDate = control.root.get('startDate')?.value;
     const endDate = control.value;
     if (startDate && endDate) {
-      const startDateTime = new Date(startDate).getTime();
-      const endDateTime = new Date(endDate).getTime();
-      if (endDateTime < startDateTime) {
-        return { 'endDateBeforeStartDate': true };
-      }
+        const startDateTime = new Date(startDate).getTime();
+        const endDateTime = new Date(endDate).getTime();
+        if (endDateTime < startDateTime) {
+            return {'endDateBeforeStartDate': true};
+        }
     }
     return null;
 }
+
 @Component({
     selector: 'app-treatment-update',
     templateUrl: './treatment-update.component.html',
@@ -37,8 +38,9 @@ export class TreatmentUpdateComponent implements OnInit, OnDestroy {
     maxDate: Date = new Date();
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public treatmentService: TreatmentService, private messageService: MessageService, 
-        private confirmationService: ConfirmationService, private fileService: FileService) { }
+    constructor(public treatmentService: TreatmentService, private messageService: MessageService,
+                private confirmationService: ConfirmationService, private fileService: FileService) {
+    }
 
     ngOnInit(): void {
         this.form = new FormGroup({
@@ -63,22 +65,22 @@ export class TreatmentUpdateComponent implements OnInit, OnDestroy {
 
     getTreatment(): void {
         this.treatmentService.getTreatment(this.idTreatment)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res: any) => {
-                if (res.success) {
-                    this.treatment = res.data;
-                    this.onInitForm();
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res: any) => {
+                    if (res.success) {
+                        this.treatment = res.data;
+                        this.onInitForm();
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onInitForm(): void {
@@ -102,7 +104,7 @@ export class TreatmentUpdateComponent implements OnInit, OnDestroy {
             return;
         }
         if (!this.form.dirty) {
-            this.messageService.add({ severity: 'info', summary: title.info, detail: message.noChange });
+            this.messageService.add({severity: 'info', summary: title.info, detail: message.noChange});
             return;
         }
         this.confirmationService.confirm({
@@ -140,9 +142,17 @@ export class TreatmentUpdateComponent implements OnInit, OnDestroy {
                         },
                         error: (res) => {
                             if (res.error) {
-                                this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
                             } else {
-                                this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
                             }
                         }
                     });
@@ -164,29 +174,41 @@ export class TreatmentUpdateComponent implements OnInit, OnDestroy {
             rejectButtonStyleClass: "p-button-text",
             accept: () => {
                 this.fileService.delete(id)
-                .pipe(takeUntil(this.subscribes$))
-                .subscribe({
-                    next: (res) => {
-                        if (res.success) {
-                            this.getTreatment();
-                            this.visibleUpdateImageModal = false;
-                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageTreatment.updateSuccess });
+                    .pipe(takeUntil(this.subscribes$))
+                    .subscribe({
+                        next: (res) => {
+                            if (res.success) {
+                                this.getTreatment();
+                                this.visibleUpdateImageModal = false;
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: title.success,
+                                    detail: messageTreatment.updateSuccess
+                                });
+                            }
+                        },
+                        error: (res) => {
+                            if (res.error) {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
+                            }
                         }
-                    },
-                    error: (res) => {
-                        if (res.error) {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                        } else {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                        }
-                    }
-                });
+                    });
             },
             reject: () => {
             }
         });
     }
-    
+
     onImagePicked(event: any): void {
         if (event && event.files && event.files.length > 0) {
             for (const file of event.files) {
@@ -207,23 +229,27 @@ export class TreatmentUpdateComponent implements OnInit, OnDestroy {
         formData.append('objectId', this.idTreatment);
         formData.append('objectName', this.treatment.name);
         this.fileService.upload(formData)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.getTreatment();
-                    this.visibleUpdateImageModal = false;
-                    this.messageService.add({ severity: 'success', summary: title.success, detail: messageTreatment.updateSuccess });
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.getTreatment();
+                        this.visibleUpdateImageModal = false;
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: title.success,
+                            detail: messageTreatment.updateSuccess
+                        });
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
 }

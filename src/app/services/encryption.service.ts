@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import {Injectable} from '@angular/core';
+import {environment} from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -15,8 +15,7 @@ export class EncryptionService {
             return '';
         }
         let chars = this.swapAdjacentCharacters(JSON.stringify(data));
-        let encryptedData = encodeURIComponent(chars);
-        return encryptedData;
+        return encodeURIComponent(chars);
     }
 
     decrypt(encryptedData: any): any {
@@ -24,8 +23,7 @@ export class EncryptionService {
             return '';
         }
         let chars = decodeURIComponent(encryptedData);
-        let decryptedData = JSON.parse(this.revertSwappedCharacters(chars));
-        return decryptedData;
+        return JSON.parse(this.revertSwappedCharacters(chars));
     }
 
     private swapAdjacentCharacters(inputString: string): string {

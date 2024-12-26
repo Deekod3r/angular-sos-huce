@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { LayoutService } from 'src/app/services/layout.service';
-import { MenuService } from '../menu-admin/menu-admin.service';
+import {Component, Input} from '@angular/core';
+import {LayoutService} from 'src/app/services/layout.service';
+import {MenuService} from '../menu-admin/menu-admin.service';
 
 @Component({
     selector: 'admin-config',
@@ -12,7 +12,8 @@ export class AppConfigComponent {
 
     scales: number[] = [12, 13, 14, 15, 16];
 
-    constructor(public layoutService: LayoutService, public menuService: MenuService) { }
+    constructor(public layoutService: LayoutService, public menuService: MenuService) {
+    }
 
     get visible(): boolean {
         return this.layoutService.state.configSidebarVisible;

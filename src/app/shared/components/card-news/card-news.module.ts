@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ButtonModule} from 'primeng/button';
 
-import { CardNewsComponent } from './card-news.component';
-import { RouterModule } from '@angular/router';
-import { DividerModule } from 'primeng/divider';
+import {CardNewsComponent} from './card-news.component';
+import {RouterModule} from '@angular/router';
+import {DividerModule} from 'primeng/divider';
 
 @NgModule({
     declarations: [
@@ -20,4 +20,5 @@ import { DividerModule } from 'primeng/divider';
         CardNewsComponent
     ]
 })
-export class CardNewsModule { }
+export class CardNewsModule {
+}

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
     selector: 'app-card-pet',
@@ -12,7 +12,7 @@ export class CardPetComponent {
     @Input() name: any;
     @Input() breed: any;
     @Input() age: any;
-    @Input() vaccin: any;
+    @Input() vaccine: any;
     @Input() gender: any;
     @Input() severity: any;
     @Input() status: any;

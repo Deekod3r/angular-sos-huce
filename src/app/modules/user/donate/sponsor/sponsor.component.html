@@ -1,20 +1,20 @@
 <div class="container mt-5">
     <div class="grid mb-3 mx-auto">
         <div class="md:col-4 col-12">
-            <p-dropdown [options]="monthNames" [(ngModel)]="month" styleClass="mat-form-field" [showClear]="true"
-                optionLabel="label" optionValue="value" placeholder="--Chọn tháng--"></p-dropdown>
+            <p-dropdown [(ngModel)]="month" [options]="monthNames" [showClear]="true" optionLabel="label"
+                        optionValue="value" placeholder="--Chọn tháng--" styleClass="mat-form-field"></p-dropdown>
         </div>
         <div class="md:col-4 col-12">
-            <p-calendar [(ngModel)]="year" view="year" placeholder="--Chọn năm--" dataType="string" [showClear]="true"
-                dateFormat="yy" inputId="yearPicker" styleClass="mat-form-field"></p-calendar>
+            <p-calendar [(ngModel)]="year" [showClear]="true" dataType="string" dateFormat="yy" inputId="yearPicker"
+                        placeholder="--Chọn năm--" styleClass="mat-form-field" view="year"></p-calendar>
         </div>
         <div class="md:col-4 col-12">
-            <button pButton label="Xem thông tin ủng hộ" class="w-full" (click)="onSearchDonations()"></button>
+            <button (click)="onSearchDonations()" class="w-full" label="Xem thông tin ủng hộ" pButton></button>
         </div>
     </div>
-    <p-table *ngIf="donates != null && donates.length > 0" #table [value]="donates"
-        [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines my-3" selectionMode="single"
-        [paginator]="true" [rows]="2">
+    <p-table #table *ngIf="donates != null && donates.length > 0" [paginator]="true"
+             [rows]="2" [tableStyle]="{'min-width': '60rem'}" [value]="donates"
+             selectionMode="single" styleClass="p-datatable-gridlines my-3">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Thông tin ủng hộ
@@ -30,14 +30,14 @@
                 <th class="col-2">Giá trị</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-donate>
+        <ng-template let-donate pTemplate="body">
             <tr>
-                <td>{{donate.remitter}}</td>
-                <td>{{donate.payee}}</td>
-                <td>{{donate.date | date:'dd/MM/yyyy'}}</td>
-                <td>{{donationService.getType(donate.type)}}</td>
-                <td>{{donate.detail}}</td>
-                <td>{{donate.amount | currency: ' ' }} ₫</td>
+                <td>{{ donate.remitter }}</td>
+                <td>{{ donate.payee }}</td>
+                <td>{{ donate.date | date:'dd/MM/yyyy' }}</td>
+                <td>{{ donationService.getType(donate.type) }}</td>
+                <td>{{ donate.detail }}</td>
+                <td>{{ donate.amount | currency: ' ' }} ₫</td>
             </tr>
         </ng-template>
     </p-table>
@@ -49,13 +49,13 @@
         </div>
         <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12 z-1">
             <div class="justify-center items-center">
-                <i class="fa-solid fa-shield-heart fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>                
+                <i class="fa-solid fa-shield-heart fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>
                 <p class="xl:text-2xl text-2xl my-2">TÃ BỈM</p>
             </div>
         </div>
         <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12 z-1">
             <div class="justify-center items-center">
-                <i class="fa-solid fa-shirt fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>                
+                <i class="fa-solid fa-shirt fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>
                 <p class="xl:text-2xl text-2xl my-2">QUẦN ÁO</p>
             </div>
         </div>
@@ -64,9 +64,9 @@
                 <i class="fa-solid fa-bowl-rice fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>
                 <p class="xl:text-2xl text-2xl my-2">THỨC ĂN</p>
             </div>
-        </div>      
+        </div>
         <div class="col-12 z-1">
-            <button pButton class="font-bold" routerLink="/lien-he">LIÊN HỆ HUCE PET</button>
+            <button class="font-bold" pButton routerLink="/lien-he">LIÊN HỆ HUCE PET</button>
         </div>
     </div>
 </div>

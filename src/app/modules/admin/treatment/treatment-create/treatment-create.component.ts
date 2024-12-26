@@ -1,22 +1,24 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
-import { title, message } from 'src/app/common/message';
-import { TreatmentService } from 'src/app/services/treatment.service';
-import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {MessageService} from 'primeng/api';
+import {Subject, takeUntil} from 'rxjs';
+import {message, title} from 'src/app/common/message';
+import {TreatmentService} from 'src/app/services/treatment.service';
+import {noWhitespaceValidator} from 'src/app/shared/utils/string.util';
+
 function endDateAfterStartDateValidator(control: FormControl): { [key: string]: boolean } | null {
     const startDate = control.parent?.value.startDate;
     const endDate = control.value;
     if (startDate && endDate) {
-      const startDateTime = new Date(startDate).getTime();
-      const endDateTime = new Date(endDate).getTime();
-      if (endDateTime < startDateTime) {
-        return { 'endDateBeforeStartDate': true };
-      }
+        const startDateTime = new Date(startDate).getTime();
+        const endDateTime = new Date(endDate).getTime();
+        if (endDateTime < startDateTime) {
+            return {'endDateBeforeStartDate': true};
+        }
     }
     return null;
 }
+
 @Component({
     selector: 'app-treatment-create',
     templateUrl: './treatment-create.component.html',
@@ -31,7 +33,8 @@ export class TreatmentCreateComponent implements OnInit, OnDestroy {
     maxDate: Date = new Date();
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public treatmentService: TreatmentService, private messageService: MessageService) { }
+    constructor(public treatmentService: TreatmentService, private messageService: MessageService) {
+    }
 
     ngOnInit(): void {
         this.form = new FormGroup({
@@ -83,28 +86,28 @@ export class TreatmentCreateComponent implements OnInit, OnDestroy {
                 }
             }
         }
-        
+
         for (let i = 0; i < this.form.controls['images'].value.length; i++) {
             formData.append('images', this.form.controls['images'].value[i]);
         }
         this.treatmentService.createTreatment(formData)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.form.reset();
-                    this.result = true;
-                    this.resultAction.emit(this.result);
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.form.reset();
+                        this.result = true;
+                        this.resultAction.emit(this.result);
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onImagePicked(event: any): void {
@@ -126,7 +129,7 @@ export class TreatmentCreateComponent implements OnInit, OnDestroy {
     }
 
     getDetailPetControl(index: number): FormGroup {
-        return (this.form.controls['detailPet']  as FormArray).at(index) as FormGroup;
+        return (this.form.controls['detailPet'] as FormArray).at(index) as FormGroup;
     }
 
     onAddDetailPet(): void {
@@ -136,7 +139,7 @@ export class TreatmentCreateComponent implements OnInit, OnDestroy {
         }
         const detailLocationArray = this.form.controls['detailPet'] as FormArray;
         detailLocationArray.push(this.onInitDetailPet());
-    }    
+    }
 
     onRemoveDetailPet(index: number): void {
         const detailLocationArray = this.form.controls['detailPet'] as FormArray;

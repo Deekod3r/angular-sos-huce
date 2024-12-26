@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
-import { ConfigService } from 'src/app/services/config.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subject, takeUntil} from 'rxjs';
+import {ConfigService} from 'src/app/services/config.service';
 
 @Component({
     selector: 'app-adopt-process',
@@ -13,24 +13,25 @@ export class AdoptProcessComponent implements OnInit, OnDestroy {
     adoptProcess: any;
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private configService: ConfigService) { }
+    constructor(private configService: ConfigService) {
+    }
 
     ngOnInit(): void {
         this.configService.adoptConditions.asObservable()
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe(data => {
-            this.adoptConditions = data;
-        });
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe(data => {
+                this.adoptConditions = data;
+            });
         this.configService.adoptProcess.asObservable()
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe(data => {
-            this.adoptProcess = data;
-        });
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe(data => {
+                this.adoptProcess = data;
+            });
     }
 
     ngOnDestroy(): void {
         this.subscribes$.next();
         this.subscribes$.complete();
     }
-    
+
 }

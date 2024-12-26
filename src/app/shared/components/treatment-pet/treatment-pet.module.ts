@@ -1,8 +1,7 @@
-import { NgModule } from '@angular/core';
-import { TreatmentPetComponent } from './treatment-pet.component';
-import { SharedModule } from '../../shared.module';
-import { TableModule } from 'primeng/table';
-
+import {NgModule} from '@angular/core';
+import {TreatmentPetComponent} from './treatment-pet.component';
+import {SharedModule} from '../../shared.module';
+import {TableModule} from 'primeng/table';
 
 
 @NgModule({
@@ -17,4 +16,5 @@ import { TableModule } from 'primeng/table';
         TreatmentPetComponent
     ]
 })
-export class TreatmentPetModule { }
+export class TreatmentPetModule {
+}

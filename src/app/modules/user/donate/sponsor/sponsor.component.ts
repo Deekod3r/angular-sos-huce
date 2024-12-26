@@ -1,13 +1,13 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MessageService } from 'primeng/api';
-import { CalendarModule } from 'primeng/calendar';
-import { DropdownModule } from 'primeng/dropdown';
-import { PaginatorModule } from 'primeng/paginator';
-import { Table, TableModule } from 'primeng/table';
-import { Subject, takeUntil } from 'rxjs';
-import { title, message } from 'src/app/common/message';
-import { DonationService } from 'src/app/services/donation.service';
-import { SharedModule } from 'src/app/shared/shared.module';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MessageService} from 'primeng/api';
+import {CalendarModule} from 'primeng/calendar';
+import {DropdownModule} from 'primeng/dropdown';
+import {PaginatorModule} from 'primeng/paginator';
+import {Table, TableModule} from 'primeng/table';
+import {Subject, takeUntil} from 'rxjs';
+import {message, title} from 'src/app/common/message';
+import {DonationService} from 'src/app/services/donation.service';
+import {SharedModule} from 'src/app/shared/shared.module';
 
 @Component({
     selector: 'app-sponsor',
@@ -22,8 +22,6 @@ export class SponsorComponent implements OnInit, OnDestroy {
     year!: number;
     month!: number;
     donates!: any;
-    private subscribes$: Subject<void> = new Subject<void>();
-
     monthNames = [
         {
             label: 'Tháng 1',
@@ -86,8 +84,10 @@ export class SponsorComponent implements OnInit, OnDestroy {
             numberOfDay: 31
         }
     ]
+    private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public donationService: DonationService, private messageService: MessageService) {}
+    constructor(public donationService: DonationService, private messageService: MessageService) {
+    }
 
     ngOnInit(): void {
     }
@@ -99,7 +99,7 @@ export class SponsorComponent implements OnInit, OnDestroy {
 
     onSearchDonations() {
         if (!this.year || !this.month) {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.requiredInfo });
+            this.messageService.add({severity: 'error', summary: title.error, detail: message.requiredInfo});
             return;
         }
         let search = {
@@ -108,24 +108,24 @@ export class SponsorComponent implements OnInit, OnDestroy {
             fullData: true
         }
         this.donationService.getDonations(search)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.donates = res.data.donates;
-                    if (this.donates.length == 0) {
-                        this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.donates = res.data.donates;
+                        if (this.donates.length == 0) {
+                            this.messageService.add({severity: 'info', summary: title.info, detail: message.noData});
+                        }
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                     }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
 }

@@ -1,8 +1,8 @@
-import { Component, Input, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { MessageService } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
-import { title, message } from 'src/app/common/message';
-import { AdoptService } from 'src/app/services/adopt.service';
+import {Component, Input, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {MessageService} from 'primeng/api';
+import {Subject, takeUntil} from 'rxjs';
+import {message, title} from 'src/app/common/message';
+import {AdoptService} from 'src/app/services/adopt.service';
 
 @Component({
     selector: 'app-statistic-adopt',
@@ -26,7 +26,8 @@ export class StatisticAdoptComponent implements OnInit, OnDestroy {
     };
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private adoptService: AdoptService, private messageService: MessageService) { }
+    constructor(private adoptService: AdoptService, private messageService: MessageService) {
+    }
 
     ngOnInit(): void {
         this.getAdoptStatistic();
@@ -44,63 +45,63 @@ export class StatisticAdoptComponent implements OnInit, OnDestroy {
         if (changes['userId'] && !changes['userId'].firstChange) {
             this.getAdoptStatistic();
         }
-    }   
+    }
 
     getAdoptStatistic(): void {
-        this.adoptService.getAdoptStatistic({ 
+        this.adoptService.getAdoptStatistic({
             user: this.userId
         })
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.statistic = res.data;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.statistic = res.data;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     getAdoptsNearLog(): void {
         this.adoptService.getAdoptsNearLog()
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.adoptsNearLog = res.data;
-                    const currentDate = new Date();
-                    currentDate.setHours(0, 0, 0, 0);
-                    this.adoptsNearLog.forEach((element: any) => {
-                        const checkDates = [
-                            new Date(element.checkDateFirst),
-                            new Date(element.checkDateSecond),
-                            new Date(element.checkDateThird)
-                        ];
-                        const futureDates = checkDates.filter(date => date > currentDate);
-                        const nearestFutureDate = futureDates[0];
-                        nearestFutureDate.setHours(0, 0, 0, 0);
-                        const timeDiff = nearestFutureDate.getTime() - currentDate.getTime();
-                        const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-                        element.checkDate = nearestFutureDate.getFullYear() + '-' + (nearestFutureDate.getMonth() + 1) + '-' + nearestFutureDate.getDate();
-                        element.dateDiff = dayDiff;
-                    });
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.adoptsNearLog = res.data;
+                        const currentDate = new Date();
+                        currentDate.setHours(0, 0, 0, 0);
+                        this.adoptsNearLog.forEach((element: any) => {
+                            const checkDates = [
+                                new Date(element.checkDateFirst),
+                                new Date(element.checkDateSecond),
+                                new Date(element.checkDateThird)
+                            ];
+                            const futureDates = checkDates.filter(date => date > currentDate);
+                            const nearestFutureDate = futureDates[0];
+                            nearestFutureDate.setHours(0, 0, 0, 0);
+                            const timeDiff = nearestFutureDate.getTime() - currentDate.getTime();
+                            const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                            element.checkDate = nearestFutureDate.getFullYear() + '-' + (nearestFutureDate.getMonth() + 1) + '-' + nearestFutureDate.getDate();
+                            element.dateDiff = dayDiff;
+                        });
+                    }
+
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-                
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onRouteToPetCareLog(): void {

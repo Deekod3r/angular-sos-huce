@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
-import { title, message } from 'src/app/common/message';
-import { NewsService } from 'src/app/services/news.service';
-import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MessageService} from 'primeng/api';
+import {Subject, takeUntil} from 'rxjs';
+import {message, title} from 'src/app/common/message';
+import {NewsService} from 'src/app/services/news.service';
+import {noWhitespaceValidator} from 'src/app/shared/utils/string.util';
 
 @Component({
     selector: 'app-new-media-create',
@@ -19,7 +19,8 @@ export class NewMediaCreateComponent implements OnInit, OnDestroy {
     form!: FormGroup;
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private newsService: NewsService, private messageService: MessageService) { }
+    constructor(private newsService: NewsService, private messageService: MessageService) {
+    }
 
     ngOnInit(): void {
         this.form = new FormGroup({
@@ -30,7 +31,7 @@ export class NewMediaCreateComponent implements OnInit, OnDestroy {
             image: new FormControl(null, Validators.required),
         });
     }
-    
+
     ngOnDestroy(): void {
         this.subscribes$.next();
         this.subscribes$.complete();
@@ -48,35 +49,35 @@ export class NewMediaCreateComponent implements OnInit, OnDestroy {
         formData.append('categoryId', this.form.value.categoryId);
         formData.append('image', this.form.value.image);
         this.newsService.createNews(formData)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.form.reset();
-                    this.result = true;
-                    this.resultAction.emit(this.result);        
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.form.reset();
+                        this.result = true;
+                        this.resultAction.emit(this.result);
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onImagePicked(event: any): void {
         if (event && event.files && event.files.length > 0) {
             this.form.controls['image'].markAsDirty();
             const file = event.files[0];
-            this.form.patchValue({ image: file });
+            this.form.patchValue({image: file});
         }
     }
 
     onRemoveImage(): void {
-        this.form.patchValue({ image: null });
-    } 
-    
+        this.form.patchValue({image: null});
+    }
+
 }

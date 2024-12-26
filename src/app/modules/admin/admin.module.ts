@@ -1,16 +1,14 @@
-import { NgModule } from '@angular/core';
-import { AdminRoutingModule } from './admin-routing.module';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { StatisticExpenseComponent } from './statistic-expense/statistic-expense.component';
+import {NgModule} from '@angular/core';
+import {AdminRoutingModule} from './admin-routing.module';
+import {SharedModule} from 'src/app/shared/shared.module';
 
 @NgModule({
-    declarations: [
-    ],
+    declarations: [],
     imports: [
         AdminRoutingModule,
         SharedModule,
     ],
-    exports: [
-    ]
+    exports: []
 })
-export class AdminModule { }
+export class AdminModule {
+}

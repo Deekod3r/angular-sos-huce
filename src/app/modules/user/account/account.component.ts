@@ -1,26 +1,26 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { TabView, TabViewModule } from 'primeng/tabview';
-import { Subject, takeUntil } from 'rxjs';
-import { ADOPT, PET } from 'src/app/common/constant';
-import { title, message, messageAdopt, messageUser } from 'src/app/common/message';
-import { AdoptService } from 'src/app/services/adopt.service';
-import { AuthService } from 'src/app/services/auth.service';
-import { PetService } from 'src/app/services/pet.service';
-import { UserService } from 'src/app/services/user.service';
-import { AccountModule } from './account.module';
-import { BadgeModule } from 'primeng/badge';
-import { DialogModule } from 'primeng/dialog';
-import { TableModule } from 'primeng/table';
-import { TagModule } from 'primeng/tag';
-import { PetCareLogService } from 'src/app/services/pet-care-log.service';
-import { TreatmentPetModule } from 'src/app/shared/components/treatment-pet/treatment-pet.module';
-import { InforPetModule } from 'src/app/shared/components/infor-pet/infor-pet.module';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {TabView, TabViewModule} from 'primeng/tabview';
+import {Subject, takeUntil} from 'rxjs';
+import {ADOPT, PET} from 'src/app/common/constant';
+import {message, messageAdopt, messageUser, title} from 'src/app/common/message';
+import {AdoptService} from 'src/app/services/adopt.service';
+import {AuthService} from 'src/app/services/auth.service';
+import {PetService} from 'src/app/services/pet.service';
+import {UserService} from 'src/app/services/user.service';
+import {AccountModule} from './account.module';
+import {BadgeModule} from 'primeng/badge';
+import {DialogModule} from 'primeng/dialog';
+import {TableModule} from 'primeng/table';
+import {TagModule} from 'primeng/tag';
+import {PetCareLogService} from 'src/app/services/pet-care-log.service';
+import {TreatmentPetModule} from 'src/app/shared/components/treatment-pet/treatment-pet.module';
+import {InforPetModule} from 'src/app/shared/components/infor-pet/infor-pet.module';
 
 @Component({
     selector: 'app-account',
     standalone: true,
-    imports: [AccountModule, TabViewModule, TableModule, TagModule, 
+    imports: [AccountModule, TabViewModule, TableModule, TagModule,
         DialogModule, BadgeModule, TreatmentPetModule, InforPetModule],
     templateUrl: './account.component.html',
     styleUrls: ['./account.component.css']
@@ -48,9 +48,10 @@ export class AccountComponent implements OnInit, OnDestroy {
     adoptStatus: any;
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public adoptService: AdoptService, public petService: PetService, 
-        private userService: UserService, public authService: AuthService, private petCareLogService: PetCareLogService,
-        private messageService: MessageService, private confirmationService: ConfirmationService) { }
+    constructor(public adoptService: AdoptService, public petService: PetService,
+                private userService: UserService, public authService: AuthService, private petCareLogService: PetCareLogService,
+                private messageService: MessageService, private confirmationService: ConfirmationService) {
+    }
 
     ngOnInit(): void {
         this.getUser();
@@ -64,59 +65,59 @@ export class AccountComponent implements OnInit, OnDestroy {
 
     getUser(): void {
         this.userService.getUserById(this.authService.getCurrentUser().id)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.user = res.data;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.user = res.data;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     getAdopts(): void {
         this.adoptService.getAdopts({})
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.adopts = res.data.adopts;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.adopts = res.data.adopts;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     getAdopt(adoptId: string): void {
         this.adoptService.getAdoptById(adoptId)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.detailAdoptData = res.data;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.detailAdoptData = res.data;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     getPets(): void {
@@ -125,21 +126,21 @@ export class AccountComponent implements OnInit, OnDestroy {
             adoptedBy: this.authService.getCurrentUser().id,
             fullData: true
         })
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.pets = res.data.pets;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.pets = res.data.pets;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onChangeTabView(event: any): void {
@@ -169,9 +170,9 @@ export class AccountComponent implements OnInit, OnDestroy {
             },
             error: (res) => {
                 if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                    this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                 } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                    this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                 }
             }
         });
@@ -213,22 +214,34 @@ export class AccountComponent implements OnInit, OnDestroy {
             rejectButtonStyleClass: "p-button-text",
             accept: () => {
                 this.adoptService.cancelAdopt(adoptId)
-                .pipe(takeUntil(this.subscribes$))
-                .subscribe({
-                    next: (res) => {
-                        if (res.success) {
-                            this.getAdopts();
-                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageAdopt.cancelSuccess });
+                    .pipe(takeUntil(this.subscribes$))
+                    .subscribe({
+                        next: (res) => {
+                            if (res.success) {
+                                this.getAdopts();
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: title.success,
+                                    detail: messageAdopt.cancelSuccess
+                                });
+                            }
+                        },
+                        error: (res) => {
+                            if (res.error) {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
+                            }
                         }
-                    },
-                    error: (res) => {
-                        if (res.error) {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                        } else {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                        }
-                    }
-                });
+                    });
             },
             reject: () => {
             }
@@ -239,9 +252,9 @@ export class AccountComponent implements OnInit, OnDestroy {
         if (result) {
             this.getUser();
             this.visibleUpdateInfo = false;
-            this.messageService.add({ severity: 'success', summary: title.success, detail: messageUser.updateSuccess });
+            this.messageService.add({severity: 'success', summary: title.success, detail: messageUser.updateSuccess});
         } else {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+            this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
         }
     }
 

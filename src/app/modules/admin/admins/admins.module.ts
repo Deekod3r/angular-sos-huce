@@ -1,10 +1,10 @@
-import { NgModule } from "@angular/core";
-import { DialogModule } from "primeng/dialog";
-import { DropdownModule } from "primeng/dropdown";
-import { AdminCreateComponent } from "./admin-create/admin-create.component";
-import { AdminUpdateComponent } from "./admin-update/admin-update.component";
-import { SharedModule } from "src/app/shared/shared.module";
-import { PasswordModule } from "primeng/password";
+import {NgModule} from "@angular/core";
+import {DialogModule} from "primeng/dialog";
+import {DropdownModule} from "primeng/dropdown";
+import {AdminCreateComponent} from "./admin-create/admin-create.component";
+import {AdminUpdateComponent} from "./admin-update/admin-update.component";
+import {SharedModule} from "src/app/shared/shared.module";
+import {PasswordModule} from "primeng/password";
 
 @NgModule({
     declarations: [
@@ -19,9 +19,10 @@ import { PasswordModule } from "primeng/password";
     ],
     exports: [
         AdminCreateComponent,
-        AdminUpdateComponent,        
+        AdminUpdateComponent,
         SharedModule,
         DialogModule,
     ]
 })
-export class AdminsModule { }
+export class AdminsModule {
+}

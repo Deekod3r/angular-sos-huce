@@ -1,13 +1,13 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
-import { Subject, takeUntil } from 'rxjs';
-import { PET } from 'src/app/common/constant';
-import { message, title } from 'src/app/common/message';
-import { PetService } from 'src/app/services/pet.service';
-import { convertDateFormat } from 'src/app/shared/utils/data.util';
-import { noWhitespaceValidator, upcaseAllFirstLetters, upcaseFirstLetter } from 'src/app/shared/utils/string.util';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {AutoCompleteCompleteEvent} from 'primeng/autocomplete';
+import {Subject, takeUntil} from 'rxjs';
+import {PET} from 'src/app/common/constant';
+import {message, title} from 'src/app/common/message';
+import {PetService} from 'src/app/services/pet.service';
+import {convertDateFormat} from 'src/app/shared/utils/data.util';
+import {noWhitespaceValidator, upperCaseAllFirstLetters, upperCaseFirstLetter} from 'src/app/shared/utils/string.util';
 
 @Component({
     selector: 'app-pet-update',
@@ -27,10 +27,11 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
     filteredBreeds: any[] = [];
     filteredColors: any[] = [];
     maxDate: Date = new Date();
-    
+
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public petService: PetService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
+    constructor(public petService: PetService, private messageService: MessageService, private confirmationService: ConfirmationService) {
+    }
 
     ngOnInit(): void {
         this.getPet();
@@ -47,26 +48,59 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
                 if (res.success) {
                     this.pet = res.data;
                     this.form = new FormGroup({
-                        petId: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }, [Validators.required, noWhitespaceValidator()]),
-                        petName: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }, [Validators.required, noWhitespaceValidator()]),
-                        petType: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }, Validators.required),
-                        petBreed: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }, [Validators.required, noWhitespaceValidator()]),
-                        petColor: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }, [Validators.required, noWhitespaceValidator()]),
-                        petAge: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }, Validators.required),
-                        petGender: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }, Validators.required),
-                        petWeight: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }, [Validators.required, Validators.min(0.01)]),
-                        petStatus: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }, Validators.required),
-                        petVaccine: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }),
-                        petRabies: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }),
-                        petSterilization: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }),
-                        petDiet: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }),
-                        petToilet: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }),
-                        petFriendlyToHuman: new FormControl({value: null, disabled: this.isNotAvailableForUpdate() }),
-                        petFriendlyToCats: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }),
-                        petFriendlyToDogs: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }),
-                        petDescription: new FormControl({ value: '', disabled: this.isNotAvailableForUpdate() }, [Validators.required, noWhitespaceValidator()]),
-                        petNote: new FormControl({ value: '', disabled: this.isNotAvailableForUpdate() }),
-                        intakeDate: new FormControl({ value: null, disabled: this.isNotAvailableForUpdate() }, Validators.required),
+                        petId: new FormControl({
+                            value: null,
+                            disabled: this.isNotAvailableForUpdate()
+                        }, [Validators.required, noWhitespaceValidator()]),
+                        petName: new FormControl({
+                            value: null,
+                            disabled: this.isNotAvailableForUpdate()
+                        }, [Validators.required, noWhitespaceValidator()]),
+                        petType: new FormControl({
+                            value: null,
+                            disabled: this.isNotAvailableForUpdate()
+                        }, Validators.required),
+                        petBreed: new FormControl({
+                            value: null,
+                            disabled: this.isNotAvailableForUpdate()
+                        }, [Validators.required, noWhitespaceValidator()]),
+                        petColor: new FormControl({
+                            value: null,
+                            disabled: this.isNotAvailableForUpdate()
+                        }, [Validators.required, noWhitespaceValidator()]),
+                        petAge: new FormControl({
+                            value: null,
+                            disabled: this.isNotAvailableForUpdate()
+                        }, Validators.required),
+                        petGender: new FormControl({
+                            value: null,
+                            disabled: this.isNotAvailableForUpdate()
+                        }, Validators.required),
+                        petWeight: new FormControl({
+                            value: null,
+                            disabled: this.isNotAvailableForUpdate()
+                        }, [Validators.required, Validators.min(0.01)]),
+                        petStatus: new FormControl({
+                            value: null,
+                            disabled: this.isNotAvailableForUpdate()
+                        }, Validators.required),
+                        petVaccine: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}),
+                        petRabies: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}),
+                        petSterilization: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}),
+                        petDiet: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}),
+                        petToilet: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}),
+                        petFriendlyToHuman: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}),
+                        petFriendlyToCats: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}),
+                        petFriendlyToDogs: new FormControl({value: null, disabled: this.isNotAvailableForUpdate()}),
+                        petDescription: new FormControl({
+                            value: '',
+                            disabled: this.isNotAvailableForUpdate()
+                        }, [Validators.required, noWhitespaceValidator()]),
+                        petNote: new FormControl({value: '', disabled: this.isNotAvailableForUpdate()}),
+                        intakeDate: new FormControl({
+                            value: null,
+                            disabled: this.isNotAvailableForUpdate()
+                        }, Validators.required),
                     });
                     this.onInitForm();
                 }
@@ -110,14 +144,14 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
     onFilterColor(event: AutoCompleteCompleteEvent): void {
         this.filteredColors = this.petService.filterColor(event);
     }
-    
+
     onSavePet(event: any): void {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
             return;
         }
         if (!this.form.dirty) {
-            this.messageService.add({ severity: 'info', summary: title.info, detail: message.noChange });
+            this.messageService.add({severity: 'info', summary: title.info, detail: message.noChange});
             return;
         }
         this.confirmationService.confirm({
@@ -134,8 +168,8 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
                 let body = {
                     id: this.form.value.petId,
                     age: this.form.value.petAge,
-                    breed: upcaseFirstLetter((this.form.value.petBreed.label ? this.form.value.petBreed.label : this.form.value.petBreed).trim()),
-                    color: upcaseFirstLetter((this.form.value.petColor.label ? this.form.value.petColor.label : this.form.value.petColor).trim()),
+                    breed: upperCaseFirstLetter((this.form.value.petBreed.label ? this.form.value.petBreed.label : this.form.value.petBreed).trim()),
+                    color: upperCaseFirstLetter((this.form.value.petColor.label ? this.form.value.petColor.label : this.form.value.petColor).trim()),
                     description: this.form.value.petDescription.trim(),
                     note: this.form.value.petNote ? this.form.value.petNote.trim() : this.form.value.petNote,
                     diet: this.form.value.petDiet ? this.form.value.petDiet : PET.MORE_INFO_KEY.UNKNOWN,
@@ -143,7 +177,7 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
                     friendlyToDogs: this.form.value.petFriendlyToDogs ? this.form.value.petFriendlyToDogs : PET.MORE_INFO_KEY.UNKNOWN,
                     friendlyToHuman: this.form.value.petFriendlyToHuman ? this.form.value.petFriendlyToHuman : PET.MORE_INFO_KEY.UNKNOWN,
                     gender: this.form.value.petGender,
-                    name: upcaseAllFirstLetters(this.form.value.petName.trim()),
+                    name: upperCaseAllFirstLetters(this.form.value.petName.trim()),
                     rabies: this.form.value.petRabies ? this.form.value.petRabies : PET.MORE_INFO_KEY.UNKNOWN,
                     status: this.form.value.petStatus,
                     sterilization: this.form.value.petSterilization ? this.form.value.petSterilization : PET.MORE_INFO_KEY.UNKNOWN,
@@ -154,28 +188,37 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
                     intakeDate: convertDateFormat(this.form.value.intakeDate)
                 }
                 this.petService.updatePet(body, this.idPet)
-                .pipe(takeUntil(this.subscribes$))
-                .subscribe({
-                    next: (res) => {
-                        if (res.success) {
-                            this.form.reset();
-                            this.result = true;
-                            this.resultAction.emit(this.result);        
+                    .pipe(takeUntil(this.subscribes$))
+                    .subscribe({
+                        next: (res) => {
+                            if (res.success) {
+                                this.form.reset();
+                                this.result = true;
+                                this.resultAction.emit(this.result);
+                            }
+                        },
+                        error: (res) => {
+                            if (res.error) {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
+                            }
                         }
-                    },
-                    error: (res) => {
-                        if (res.error) {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                        } else {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                        }
-                    }
-                });
+                    });
             },
-            reject: () => {}
+            reject: () => {
+            }
         });
     }
-    
+
     onShowUpdateImageModal(): void {
         this.visibleUpdateImageModal = true;
     }
@@ -190,19 +233,19 @@ export class PetUpdateComponent implements OnInit, OnDestroy {
                 if (res.success) {
                     this.visibleUpdateImageModal = false;
                     this.result = true;
-                    this.resultAction.emit(this.result);        
+                    this.resultAction.emit(this.result);
                 }
             },
             error: (res) => {
                 if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                    this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                 } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                    this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                 }
             }
         });
     }
-    
+
     isNotAvailableForUpdate(): boolean {
         return this.pet.status === PET.STATUS_KEY.DEAD || this.pet.status === PET.STATUS_KEY.ADOPTED;
     }

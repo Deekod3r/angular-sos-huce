@@ -1,16 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { FieldsetModule } from 'primeng/fieldset';
-import { CardPetModule } from 'src/app/shared/components/card-pet/card-pet.module';
-import { PetService } from 'src/app/services/pet.service';
-import { DropdownModule } from 'primeng/dropdown';
-import { Subject, takeUntil } from 'rxjs';
-import { PaginatorModule } from 'primeng/paginator';
-import { PET } from 'src/app/common/constant';
-import { MessageService } from 'primeng/api';
-import { title, message } from 'src/app/common/message';
-import { filteredSearch } from 'src/app/shared/utils/data.util';
-import { AdoptProcessModule } from 'src/app/shared/components/adopt-process/adopt-process.module';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {SharedModule} from 'src/app/shared/shared.module';
+import {FieldsetModule} from 'primeng/fieldset';
+import {CardPetModule} from 'src/app/shared/components/card-pet/card-pet.module';
+import {PetService} from 'src/app/services/pet.service';
+import {DropdownModule} from 'primeng/dropdown';
+import {Subject, takeUntil} from 'rxjs';
+import {PaginatorModule} from 'primeng/paginator';
+import {PET} from 'src/app/common/constant';
+import {MessageService} from 'primeng/api';
+import {message, title} from 'src/app/common/message';
+import {filteredSearch} from 'src/app/shared/utils/data.util';
+import {AdoptProcessModule} from 'src/app/shared/components/adopt-process/adopt-process.module';
 
 @Component({
     selector: 'app-adopt',
@@ -39,7 +39,8 @@ export class AdoptComponent implements OnInit, OnDestroy {
     };
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public petService: PetService, private messageService: MessageService) { }
+    constructor(public petService: PetService, private messageService: MessageService) {
+    }
 
     ngOnInit(): void {
         this.getPets();
@@ -63,26 +64,26 @@ export class AdoptComponent implements OnInit, OnDestroy {
             age: this.key.age ? this.key.age : ''
         }
         this.petService.getPets(filteredSearch(search))
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    let data = res.data;
-                    this.currentPage = data.currentPage;
-                    this.first = (this.currentPage - 1) * this.limit;
-                    this.totalPages = data.totalPages;
-                    this.totalElements = data.totalElements;
-                    this.pets = data.pets;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        let data = res.data;
+                        this.currentPage = data.currentPage;
+                        this.first = (this.currentPage - 1) * this.limit;
+                        this.totalPages = data.totalPages;
+                        this.totalElements = data.totalElements;
+                        this.pets = data.pets;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onPageChange(event: any): void {

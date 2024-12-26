@@ -1,4 +1,4 @@
-import { CONFIG } from "./config";
+import {CONFIG} from "./config";
 
 export const ACTION = {
     CREATE: 1,
@@ -32,35 +32,35 @@ export const PET = {
         UNKNOWN: 3
     },
     STATUS: [
-        { 
-            label: "Đã chết", 
-            value: 1 
+        {
+            label: "Đã chết",
+            value: 1
         },
-        { 
-            label: "Đã được nhận", 
-            value: 2 
+        {
+            label: "Đã được nhận",
+            value: 2
         },
-        { 
-            label: "Đang điều trị", 
-            value: 3 
+        {
+            label: "Đang điều trị",
+            value: 3
         },
-        { 
-            label: "Chờ nhận nuôi", 
-            value: 4 
+        {
+            label: "Chờ nhận nuôi",
+            value: 4
         },
     ],
     STATUS_MODIFY: [
-        { 
-            label: "Đã chết", 
-            value: 1 
+        {
+            label: "Đã chết",
+            value: 1
         },
-        { 
-            label: "Đang điều trị", 
-            value: 3 
+        {
+            label: "Đang điều trị",
+            value: 3
         },
-        { 
-            label: "Chờ nhận nuôi", 
-            value: 4 
+        {
+            label: "Chờ nhận nuôi",
+            value: 4
         },
     ],
     STATUS_KEY: {

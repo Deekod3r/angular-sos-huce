@@ -1,16 +1,16 @@
-import { NgModule } from '@angular/core';
-import { PetCreateComponent } from './pet-create/pet-create.component';
-import { PetUpdateComponent } from './pet-update/pet-update.component';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { FileUploadModule } from 'primeng/fileupload';
-import { DialogModule } from 'primeng/dialog';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { DropdownModule } from 'primeng/dropdown';
-import { AutoCompleteModule } from 'primeng/autocomplete';
-import { ImageModule } from 'primeng/image';
-import { CalendarModule } from 'primeng/calendar';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { TreatmentPetModule } from 'src/app/shared/components/treatment-pet/treatment-pet.module';
+import {NgModule} from '@angular/core';
+import {PetCreateComponent} from './pet-create/pet-create.component';
+import {PetUpdateComponent} from './pet-update/pet-update.component';
+import {SharedModule} from 'src/app/shared/shared.module';
+import {FileUploadModule} from 'primeng/fileupload';
+import {DialogModule} from 'primeng/dialog';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {DropdownModule} from 'primeng/dropdown';
+import {AutoCompleteModule} from 'primeng/autocomplete';
+import {ImageModule} from 'primeng/image';
+import {CalendarModule} from 'primeng/calendar';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {TreatmentPetModule} from 'src/app/shared/components/treatment-pet/treatment-pet.module';
 
 @NgModule({
     declarations: [
@@ -31,10 +31,11 @@ import { TreatmentPetModule } from 'src/app/shared/components/treatment-pet/trea
     ],
     exports: [
         PetCreateComponent,
-        PetUpdateComponent,        
+        PetUpdateComponent,
         SharedModule,
         DialogModule,
         CalendarModule
     ]
 })
-export class PetModule { }
+export class PetModule {
+}

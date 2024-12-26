@@ -1,9 +1,9 @@
 <div class="container mt-5 mb-5">
     <app-adopt-process></app-adopt-process>
 </div>
-<app-card-footer [title]="'TẤT CẢ CÁC CA CỨU TRỢ'"
-    [description]="'Tìm hiểu về tất cả các ca cứu trợ, đang điều trị, đã mất, đã được nhận nuôi...'"
-    [action]="'XEM TẤT CẢ'" [actionLink]="'/cuu-tro/tat-ca'"></app-card-footer>
+<app-card-footer [actionLink]="'/cuu-tro/tat-ca'"
+                 [action]="'XEM TẤT CẢ'"
+                 [description]="'Tìm hiểu về tất cả các ca cứu trợ, đang điều trị, đã mất, đã được nhận nuôi...'" [title]="'TẤT CẢ CÁC CA CỨU TRỢ'"></app-card-footer>
 <div class="container mt-5 mb-5">
     <div class="flex align-items-center justify-content-center">
         <h2 class="my-1 mr-2 font-bold">TÌM THÚ CƯNG</h2>
@@ -14,69 +14,82 @@
             Tìm kiếm thú cưng theo các tiêu chí như giống, tuổi, giới tính, tình trạng sức khỏe...
         </p>
         <div class="flex align-items-center justify-content-center grid">
-            <button pButton label="TẤT CẢ" class="p-button-lg btn-primary btn-type mx-3 mt-1 lg:col-2 md:col-2 sm:col-5 col-5" [ngClass]="{'btn-active': btnActive === null}" (click)="onChangeType('')"></button>
-            <button pButton label="CHÓ" class="p-button-lg btn-primary btn-type mt-1 lg:col-2 md:col-2 sm:col-5 col-5" [ngClass]="{'btn-active': btnActive === 1}" (click)="onChangeType(1)"></button>
-            <button pButton label="MÈO" class="p-button-lg btn-primary btn-type mx-3 mt-1 lg:col-2 md:col-2 sm:col-5 col-5" [ngClass]="{'btn-active': btnActive === 2}" (click)="onChangeType(2)"></button>
-            <button pButton label="KHÁC" class="p-button-lg btn-primary btn-type mt-1 lg:col-2 md:col-2 sm:col-5 col-5" [ngClass]="{'btn-active': btnActive === 3}" (click)="onChangeType(3)"></button>            
+            <button (click)="onChangeType('')" [ngClass]="{'btn-active': btnActive === null}"
+                    class="p-button-lg btn-primary btn-type mx-3 mt-1 lg:col-2 md:col-2 sm:col-5 col-5"
+                    label="TẤT CẢ" pButton></button>
+            <button (click)="onChangeType(1)" [ngClass]="{'btn-active': btnActive === 1}" class="p-button-lg btn-primary btn-type mt-1 lg:col-2 md:col-2 sm:col-5 col-5"
+                    label="CHÓ" pButton></button>
+            <button (click)="onChangeType(2)" [ngClass]="{'btn-active': btnActive === 2}"
+                    class="p-button-lg btn-primary btn-type mx-3 mt-1 lg:col-2 md:col-2 sm:col-5 col-5"
+                    label="MÈO" pButton></button>
+            <button (click)="onChangeType(3)" [ngClass]="{'btn-active': btnActive === 3}" class="p-button-lg btn-primary btn-type mt-1 lg:col-2 md:col-2 sm:col-5 col-5"
+                    label="KHÁC" pButton></button>
         </div>
         <div class="grid mt-3">
             <div class="lg:col-3 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="pet-code" class="font-semibold">Mã</label>
-                    <input pInputText appendIcon="fa fa-search" class="mat-form-field border-primary-500" [(ngModel)]="key.code" id="pet-code">
+                    <label class="font-semibold" for="pet-code">Mã</label>
+                    <input [(ngModel)]="key.code" appendIcon="fa fa-search" class="mat-form-field border-primary-500"
+                           id="pet-code" pInputText>
                 </div>
             </div>
             <div class="lg:col-3 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="pet-name" class="font-semibold">Tên</label>
-                    <input pInputText appendIcon="fa fa-search" class="mat-form-field border-primary-500" [(ngModel)]="key.name" id="pet-name">
+                    <label class="font-semibold" for="pet-name">Tên</label>
+                    <input [(ngModel)]="key.name" appendIcon="fa fa-search" class="mat-form-field border-primary-500"
+                           id="pet-name" pInputText>
                 </div>
             </div>
             <div class="lg:col-3 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="pet-gender" class="font-semibold">Giới tính</label>
-                    <p-dropdown [options]="petService.optionGender()" id="pet-gender" optionLabel="label" optionValue="value"
-                        styleClass="mat-form-field border-primary-500" [showClear]="true" placeholder="--Tất cả--"
-                        emptyMessage="Không có dữ liệu" [(ngModel)]="key.gender"></p-dropdown>
-                </div>            
+                    <label class="font-semibold" for="pet-gender">Giới tính</label>
+                    <p-dropdown [(ngModel)]="key.gender" [options]="petService.optionGender()" [showClear]="true"
+                                emptyMessage="Không có dữ liệu"
+                                id="pet-gender" optionLabel="label"
+                                optionValue="value"
+                                placeholder="--Tất cả--" styleClass="mat-form-field border-primary-500"></p-dropdown>
+                </div>
             </div>
             <div class="lg:col-3 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
-                    <label for="pet-age" class="font-semibold">Tuổi</label>
-                    <p-dropdown [options]="petService.optionAge()" id="pet-age" optionLabel="label" optionValue="value"
-                        styleClass="mat-form-field border-primary-500" [showClear]="true" placeholder="--Tất cả--"
-                        emptyMessage="Không có dữ liệu" [(ngModel)]="key.age"></p-dropdown>
-                </div>            
+                    <label class="font-semibold" for="pet-age">Tuổi</label>
+                    <p-dropdown [(ngModel)]="key.age" [options]="petService.optionAge()" [showClear]="true" emptyMessage="Không có dữ liệu"
+                                id="pet-age" optionLabel="label"
+                                optionValue="value"
+                                placeholder="--Tất cả--" styleClass="mat-form-field border-primary-500"></p-dropdown>
+                </div>
             </div>
-            <div class="col-12" align="center">
-                <button pButton icon="fa fa-refresh" label="Làm mới" (click)="onRefresh()" class="mr-5 p-button-outlined bg-white-alpha-90"></button>
-                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="onSearch()" class="ml-5"></button>
+            <div align="center" class="col-12">
+                <button (click)="onRefresh()" class="mr-5 p-button-outlined bg-white-alpha-90" icon="fa fa-refresh" label="Làm mới"
+                        pButton></button>
+                <button (click)="onSearch()" class="ml-5" icon="fa fa-search" label="Tìm kiếm" pButton></button>
 
             </div>
         </div>
         <div *ngIf="pets && pets.length > 0; else noDataTemplate" class="grid mt-5">
-            <div class="xl:col-3 lg:col-3 md:col-4 sm:col-6 col-6 mx-auto" *ngFor="let pet of pets">
-                <app-card-pet 
-                    [id]="pet.id"
+            <div *ngFor="let pet of pets" class="xl:col-3 lg:col-3 md:col-4 sm:col-6 col-6 mx-auto">
+                <app-card-pet
                     [age]="petService.getAge(pet.age)"
                     [breed]="pet.breed"
-                    [vaccin]="petService.getVaccine(pet.vaccine)"
-                    [image]="pet.image"
                     [gender]="petService.getGender(pet.gender)"
-                    [name]="pet.name">
+                    [id]="pet.id"
+                    [image]="pet.image"
+                    [name]="pet.name"
+                    [vaccine]="petService.getVaccine(pet.vaccine)">
                 </app-card-pet>
             </div>
             <div class="col-12 mx-auto">
-                <p-paginator [rows]="limit" [showCurrentPageReport]="false" [totalRecords]="totalElements" [first]="first"
-                    [style]="{'margin-top': '1rem'}"
-                    (onPageChange)="onPageChange($event)">
+                <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="limit"
+                             [showCurrentPageReport]="false"
+                             [style]="{'margin-top': '1rem'}"
+                             [totalRecords]="totalElements">
                 </p-paginator>
             </div>
         </div>
         <ng-template #noDataTemplate>
             <div class="text-center mx-5 p-5 text-lg">Không có dữ liệu</div>
-        </ng-template>        
+        </ng-template>
     </div>
 </div>
-<app-card-footer [title]="'BẠN CHƯA ĐỦ ĐIỀU KIỆN MANG BOSS VỀ NHÀ? ỦNG HỘ HUCE PET BẰNG CÁC CÁCH KHÁC NHÉ!'"
-    [action]="'TÌM HIỂU NGAY'" [actionLink]="'/ung-ho'"></app-card-footer>
+<app-card-footer [actionLink]="'/ung-ho'"
+                 [action]="'TÌM HIỂU NGAY'" [title]="'BẠN CHƯA ĐỦ ĐIỀU KIỆN MANG BOSS VỀ NHÀ? ỦNG HỘ HUCE PET BẰNG CÁC CÁCH KHÁC NHÉ!'"></app-card-footer>

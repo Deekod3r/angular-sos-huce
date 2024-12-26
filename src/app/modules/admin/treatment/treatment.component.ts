@@ -1,15 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { TreatmentModule } from './treatment.module';
-import { TreatmentService } from 'src/app/services/treatment.service';
-import { Subject, takeUntil } from 'rxjs';
-import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
-import { PetService } from 'src/app/services/pet.service';
-import { title, message, messageTreatment } from 'src/app/common/message';
-import { ACTION, PET, TREATMENT } from 'src/app/common/constant';
-import { TieredMenuModule } from 'primeng/tieredmenu';
-import { TagModule } from 'primeng/tag';
-import { PaginatorModule } from 'primeng/paginator';
-import { filteredSearch } from 'src/app/shared/utils/data.util';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {TreatmentModule} from './treatment.module';
+import {TreatmentService} from 'src/app/services/treatment.service';
+import {Subject, takeUntil} from 'rxjs';
+import {ConfirmationService, MenuItem, MessageService} from 'primeng/api';
+import {PetService} from 'src/app/services/pet.service';
+import {message, messageTreatment, title} from 'src/app/common/message';
+import {ACTION, PET, TREATMENT} from 'src/app/common/constant';
+import {TieredMenuModule} from 'primeng/tieredmenu';
+import {TagModule} from 'primeng/tag';
+import {PaginatorModule} from 'primeng/paginator';
+import {filteredSearch} from 'src/app/shared/utils/data.util';
 
 @Component({
     selector: 'app-treatment',
@@ -55,9 +55,10 @@ export class TreatmentComponent implements OnInit, OnDestroy {
 
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public treatmentService: TreatmentService, private petService: PetService, 
-        private messageService: MessageService, private confirmationService: ConfirmationService) { }
-    
+    constructor(public treatmentService: TreatmentService, private petService: PetService,
+                private messageService: MessageService, private confirmationService: ConfirmationService) {
+    }
+
     ngOnInit(): void {
         this.getTreatments();
         this.getPets();
@@ -68,35 +69,35 @@ export class TreatmentComponent implements OnInit, OnDestroy {
         this.subscribes$.complete();
     }
 
-    getPets():void {
+    getPets(): void {
         this.petService.getPets({
             fullData: true
         })
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.pets = res.data.pets;
-                    this.petsModified = this.pets.map(pet => {
-                        return {
-                            label: pet.code + ' - ' + pet.name,
-                            value: pet.id,
-                            status: pet.status
-                        }
-                    }).filter(pet => pet.status !== PET.STATUS_KEY.DEAD && pet.status !== PET.STATUS_KEY.ADOPTED);
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.pets = res.data.pets;
+                        this.petsModified = this.pets.map(pet => {
+                            return {
+                                label: pet.code + ' - ' + pet.name,
+                                value: pet.id,
+                                status: pet.status
+                            }
+                        }).filter(pet => pet.status !== PET.STATUS_KEY.DEAD && pet.status !== PET.STATUS_KEY.ADOPTED);
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
-    getTreatments():void {
+    getTreatments(): void {
         this.key.limit = this.limit;
         this.key.page = this.currentPage;
         let search = {
@@ -107,32 +108,32 @@ export class TreatmentComponent implements OnInit, OnDestroy {
             daysOfTreatment: this.key.daysOfTreatment,
         }
         this.treatmentService.getTreatments(filteredSearch(search))
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.treatments = res.data.treatments;
-                    this.totalPages = res.data.totalPages;
-                    this.totalElements = res.data.totalElements;
-                    this.currentPage = res.data.currentPage;
-                    this.first = (this.currentPage - 1) * this.limit;
-                    if (this.treatments.length == 0) {
-                        this.messageService.add({ severity: 'info', summary: title.info, detail: message.noData });
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.treatments = res.data.treatments;
+                        this.totalPages = res.data.totalPages;
+                        this.totalElements = res.data.totalElements;
+                        this.currentPage = res.data.currentPage;
+                        this.first = (this.currentPage - 1) * this.limit;
+                        if (this.treatments.length == 0) {
+                            this.messageService.add({severity: 'info', summary: title.info, detail: message.noData});
+                        } else {
+                            this.treatments.forEach(treatment => {
+                                treatment.menuItems = this.getMenuItems(treatment);
+                            })
+                        }
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                     } else {
-                        this.treatments.forEach(treatment => {
-                            treatment.menuItems = this.getMenuItems(treatment);
-                        })
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                     }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     getMenuItems(treatment: any): MenuItem[] {
@@ -148,7 +149,7 @@ export class TreatmentComponent implements OnInit, OnDestroy {
                 }
             },
             {
-                    separator: true
+                separator: true
             },
             {
                 label: 'Xoá',
@@ -186,7 +187,7 @@ export class TreatmentComponent implements OnInit, OnDestroy {
         this.currentPage = 1;
         this.first = 0;
         this.getTreatments();
-    
+
     }
 
     onPageChange(event: any): void {
@@ -200,14 +201,24 @@ export class TreatmentComponent implements OnInit, OnDestroy {
         if (result) {
             if (type === ACTION.CREATE) {
                 this.visibleCreateModal = false;
-                this.messageService.add({ severity: 'success', summary: title.success, detail: messageTreatment.createSuccess, life: 5000 });
+                this.messageService.add({
+                    severity: 'success',
+                    summary: title.success,
+                    detail: messageTreatment.createSuccess,
+                    life: 5000
+                });
             } else if (type === ACTION.UPDATE) {
                 this.visibleUpdateModal = false;
-                this.messageService.add({ severity: 'success', summary: title.success, detail: messageTreatment.updateSuccess, life: 5000 });
+                this.messageService.add({
+                    severity: 'success',
+                    summary: title.success,
+                    detail: messageTreatment.updateSuccess,
+                    life: 5000
+                });
             }
             this.getTreatments();
         } else {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+            this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
         }
     }
 
@@ -224,26 +235,44 @@ export class TreatmentComponent implements OnInit, OnDestroy {
             rejectButtonStyleClass: "p-button-text",
             accept: () => {
                 this.treatmentService.deleteTreatment(id)
-                .pipe(takeUntil(this.subscribes$))
-                .subscribe({
-                    next: (res) => {
-                        if (res.success) {
-                            this.onSearch();
-                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageTreatment.deleteSuccess, life: 5000 });
-                        } else {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                    .pipe(takeUntil(this.subscribes$))
+                    .subscribe({
+                        next: (res) => {
+                            if (res.success) {
+                                this.onSearch();
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: title.success,
+                                    detail: messageTreatment.deleteSuccess,
+                                    life: 5000
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
+                            }
+                        },
+                        error: (res) => {
+                            if (res.error) {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
+                            }
                         }
-                    },
-                    error: (res) => {
-                        if (res.error) {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                        } else {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                        }
-                    }
-                });
+                    });
             },
-            reject: () => {}
+            reject: () => {
+            }
         });
     }
 

@@ -1,16 +1,14 @@
-import { Injectable } from '@angular/core';
-import { CommonService } from './common.service';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { CONFIG } from '../common/config';
-import { AuthService } from './auth.service';
+import {Injectable} from '@angular/core';
+import {CommonService} from './common.service';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {CONFIG} from '../common/config';
+import {AuthService} from './auth.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ConfigService {
 
-    private API_URL = 'configs';
-    
     socials = new BehaviorSubject<any>(null);
     contacts = new BehaviorSubject<any>(null);
     introductions = new BehaviorSubject<any>(null);
@@ -19,8 +17,10 @@ export class ConfigService {
     donates = new BehaviorSubject<any>(null);
     volunteerIntroduction = new BehaviorSubject<any>(null);
     volunteerConditions = new BehaviorSubject<any>(null);
+    private API_URL = 'configs';
 
-    constructor(private commonService: CommonService, private authService: AuthService) { }
+    constructor(private commonService: CommonService, private authService: AuthService) {
+    }
 
     getConfigs(key = ''): Observable<any> {
         const request = {

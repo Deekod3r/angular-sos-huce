@@ -1,73 +1,82 @@
 <div class="card">
-    <p-dialog *ngIf="visibleCreateModal" header="Thêm lịch sử kiểm tra đơn nhận nuôi" [(visible)]="visibleCreateModal" [modal]="true"
-        styleClass="lg:w-6 md:w-8 w-11" [draggable]="false" [resizable]="false">
-        <app-pet-care-log-create (resultAction)="onReceiveResult($event, 1)" [adopts]="adopts"></app-pet-care-log-create>
+    <p-dialog *ngIf="visibleCreateModal" [(visible)]="visibleCreateModal" [draggable]="false"
+              [modal]="true"
+              [resizable]="false" header="Thêm lịch sử kiểm tra đơn nhận nuôi" styleClass="lg:w-6 md:w-8 w-11">
+        <app-pet-care-log-create (resultAction)="onReceiveResult($event, 1)"
+                                 [adopts]="adopts"></app-pet-care-log-create>
     </p-dialog>
-    <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa lịch sử kiểm tra đơn nhận nuôi" [(visible)]="visibleUpdateModal" [modal]="true"
-        styleClass="lg:w-6 md:w-8 w-11" [draggable]="false" [resizable]="false">
-        <app-pet-care-log-update (resultAction)="onReceiveResult($event, 2)" [idLog]="idLogUpdate"></app-pet-care-log-update>
+    <p-dialog *ngIf="visibleUpdateModal" [(visible)]="visibleUpdateModal"
+              [draggable]="false" [modal]="true"
+              [resizable]="false" header="Chỉnh sửa lịch sử kiểm tra đơn nhận nuôi" styleClass="lg:w-6 md:w-8 w-11">
+        <app-pet-care-log-update (resultAction)="onReceiveResult($event, 2)"
+                                 [idLog]="idLogUpdate"></app-pet-care-log-update>
     </p-dialog>
-    <p-panel header="Công cụ" [toggleable]="true">
-        <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onShowCreateModal()"></button>
+    <p-panel [toggleable]="true" header="Công cụ">
+        <button (click)="onShowCreateModal()" icon="fa fa-plus" label="Thêm mới" pButton></button>
         <div class="card grid mt-3">
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="adoption">Đơn nhận nuôi</label>
-                    <p-dropdown [options]="adopts" optionLabel="code" optionValue="id" [filter]="true" filterBy="code" 
-                        emptyMessage="Không có dữ liệu" filterPlaceholder="Mã đơn nhận nuôi" id="adoption"
-                        [showClear]="true" placeholder="--Tất cả--" styleClass="mat-form-field" [(ngModel)]="key.adoptId">
+                    <p-dropdown [(ngModel)]="key.adoptId" [filter]="true" [options]="adopts" [showClear]="true" emptyMessage="Không có dữ liệu"
+                                filterBy="code" filterPlaceholder="Mã đơn nhận nuôi" id="adoption"
+                                optionLabel="code" optionValue="id" placeholder="--Tất cả--"
+                                styleClass="mat-form-field">
                         <ng-template let-adopt pTemplate="item">
                             <div class="flex align-items-center">
                                 <div>{{ adopt.code }} - [ {{ adopt.petName }} ]</div>
                             </div>
                         </ng-template>
                     </p-dropdown>
-                </div>            
+                </div>
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="log-from">Từ ngày</label>
-                    <p-calendar id="log-from" [showIcon]="true" [readonlyInput]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.fromDate"></p-calendar>
+                    <p-calendar [(ngModel)]="key.fromDate" [readonlyInput]="true" [showIcon]="true" dataType="string"
+                                dateFormat="dd/mm/yy" id="log-from" styleClass="mat-form-field"></p-calendar>
                 </div>
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="log-to">Đến ngày</label>
-                    <p-calendar id="log-to" [showIcon]="true" [readonlyInput]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.toDate"></p-calendar>
+                    <p-calendar [(ngModel)]="key.toDate" [readonlyInput]="true" [showIcon]="true" dataType="string"
+                                dateFormat="dd/mm/yy" id="log-to" styleClass="mat-form-field"></p-calendar>
                 </div>
             </div>
             <div class="col-12">
-                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="getLogs()"></button>
+                <button (click)="getLogs()" icon="fa fa-search" label="Tìm kiếm" pButton></button>
             </div>
         </div>
     </p-panel>
-    <p-table #table [value]="logs" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines mt-3"
-        selectionMode="single" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[1, 5, 10, 20]">
+    <p-table #table [paginator]="true" [rowsPerPageOptions]="[1, 5, 10, 20]" [rows]="5"
+             [tableStyle]="{'min-width': '60rem'}" [value]="logs" selectionMode="single" styleClass="p-datatable-gridlines mt-3">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Lịch sử kiểm tra
-                <p-button icon="fa fa-refresh" (onClick)="onRefresh()"></p-button>
+                <p-button (onClick)="onRefresh()" icon="fa fa-refresh"></p-button>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
             <tr class="">
                 <th class="col-2">Đơn nhận nuôi</th>
                 <th class="col-2">Thú cưng</th>
-                <th class="col-2" pSortableColumn="date">Ngày kiểm tra <p-sortIcon field="date"></p-sortIcon></th>
+                <th class="col-2" pSortableColumn="date">Ngày kiểm tra
+                    <p-sortIcon field="date"></p-sortIcon>
+                </th>
                 <th class="col-6">Nội dung</th>
                 <th class=""></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-log>
+        <ng-template let-log pTemplate="body">
             <tr>
-                <td>{{log.adoptCode}}</td>
-                <td>{{log.petName}}</td>
-                <td>{{log.date | date: 'dd/MM/yyyy' }}</td>
-                <td>{{log.note}}</td>
+                <td>{{ log.adoptCode }}</td>
+                <td>{{ log.petName }}</td>
+                <td>{{ log.date | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ log.note }}</td>
                 <td>
-                    <p-button #btn type="button" icon="fa fa-solid fa-sliders" (click)="menu.toggle($event)"></p-button>
+                    <p-button #btn (click)="menu.toggle($event)" icon="fa fa-solid fa-sliders" type="button"></p-button>
                     <p-tieredMenu #menu [model]="log.menuItems" [popup]="true" appendTo="body" class="p-0"
-                        styleClass="menucus"></p-tieredMenu>
+                                  styleClass="menucus"></p-tieredMenu>
                 </td>
             </tr>
         </ng-template>

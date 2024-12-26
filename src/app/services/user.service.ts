@@ -1,11 +1,9 @@
-import { HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { CONFIG } from '../common/config';
-import { CommonService } from './common.service';
-import { AuthService } from './auth.service';
-import { USER } from '../common/constant';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {CONFIG} from '../common/config';
+import {CommonService} from './common.service';
+import {AuthService} from './auth.service';
+import {USER} from '../common/constant';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +12,8 @@ export class UserService {
 
     private API_URL = 'users';
 
-    constructor(private commonService: CommonService, private authService: AuthService) { }
+    constructor(private commonService: CommonService, private authService: AuthService) {
+    }
 
     register(body: any): Observable<any> {
         const request = {
@@ -39,7 +38,7 @@ export class UserService {
         return this.commonService.callAPI(request);
     }
 
-    updateAdmin(id:string, body: any): Observable<any> {
+    updateAdmin(id: string, body: any): Observable<any> {
         const request = {
             function: this.API_URL + '/update/admin' + '/' + id,
             method: CONFIG.KEY.METHOD_PUT,
@@ -142,7 +141,7 @@ export class UserService {
     }
 
     getUsers(search: any): Observable<any> {
-        Object.assign(search, { roleRequest: this.authService.getRole() });
+        Object.assign(search, {roleRequest: this.authService.getRole()});
         const request = {
             function: this.API_URL,
             method: CONFIG.KEY.METHOD_GET,
@@ -194,7 +193,7 @@ export class UserService {
     isActivated(status: boolean): any {
         if (!status) return 'p-button-danger';
     }
-    
+
     optionStatus(): any {
         return USER.STATUS
     }

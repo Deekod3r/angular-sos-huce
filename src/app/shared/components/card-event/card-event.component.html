@@ -1,14 +1,16 @@
 <div class="card px-0 pt-0">
-    <a [routerLink]="['/su-kien', event.id]"><img src="{{event.image}}" class="border-round"></a>
+    <a [routerLink]="['/su-kien', event.id]"><img class="border-round" src="{{event.image}}"></a>
     <div class="text-card mb-1 px-3">
         <a [routerLink]="['/su-kien', event.id]" class="title">
-            <h4 class="text-card-event-title">{{event.title}}</h4>
+            <h4 class="text-card-event-title">{{ event.title }}</h4>
         </a>
-        <p class="font-semibold"><i class="fa-solid fa-calendar-days mr-2 text-cyan-500"></i>Thời gian: {{event.startDate}}</p>
-        <p class="font-semibold"><i class="fa-solid fa-location-dot mr-2 text-cyan-500"></i>Địa điểm: {{event.location}}</p>
+        <p class="font-semibold"><i class="fa-solid fa-calendar-days mr-2 text-cyan-500"></i>Thời
+            gian: {{ event.startDate }}</p>
+        <p class="font-semibold"><i class="fa-solid fa-location-dot mr-2 text-cyan-500"></i>Địa
+            điểm: {{ event.location }}</p>
     </div>
     <p-divider></p-divider>
     <div *ngIf="visibleDetail" align="center">
-        <button pButton class="p-button-link font-bold" [routerLink]="['/su-kien', event.id]">Xem chi tiết</button>
+        <button [routerLink]="['/su-kien', event.id]" class="p-button-link font-bold" pButton>Xem chi tiết</button>
     </div>
 </div>

@@ -1,36 +1,41 @@
-<p-dialog header="" [(visible)]="alertRequiredLogin" [closable]="true">
+<p-dialog [(visible)]="alertRequiredLogin" [closable]="true" header="">
     <ng-template pTemplate="header">
         <i class="fa-solid fa-circle-exclamation fa-2xl text-primary"></i>
     </ng-template>
     <strong>Bạn cần đăng nhập để đăng ký nhận nuôi thú cưng</strong>
     <ng-template pTemplate="footer">
-        <p-button routerLink="/dang-nhap" label="Ok"></p-button>
+        <p-button label="Ok" routerLink="/dang-nhap"></p-button>
     </ng-template>
 </p-dialog>
 <div *ngIf="pet" class="container mt-5 mb-5 card">
     <div class="grid">
         <div class="lg:col-7 md:col-8 sm:col-12 col-12">
-            <p-dialog *ngIf="visibleCreateModal" header="Đăng ký nhận nuôi" [(visible)]="visibleCreateModal" (visibleChange)="formAdopt.reset()"
-                [modal]="true" [style]="{ width: '90vw', height: '100vh' }" [draggable]="false" [resizable]="true">
+            <p-dialog (visibleChange)="formAdopt.reset()" *ngIf="visibleCreateModal" [(visible)]="visibleCreateModal"
+                      [draggable]="false"
+                      [modal]="true" [resizable]="true" [style]="{ width: '90vw', height: '100vh' }"
+                      header="Đăng ký nhận nuôi">
                 <p-panel header="Thông tin cá nhân">
-                    <p>Người nhận nuôi: <b>{{userInfo.name}}</b></p>
-                    <p>Email liên hệ: <b>{{userInfo.email}}</b></p>
-                    <p>Số điện thoại: <b>{{userInfo.phoneNumber}}</b></p>
+                    <p>Người nhận nuôi: <b>{{ userInfo.name }}</b></p>
+                    <p>Email liên hệ: <b>{{ userInfo.email }}</b></p>
+                    <p>Số điện thoại: <b>{{ userInfo.phoneNumber }}</b></p>
                     <p class="font-semibold font-italic text-red-500">
-                        Nếu thông tin của bạn đã thay đổi, hãy cập nhật lại trong mục Tài khoản để HUCE Pet có thể liên hệ với bạn cùng làm việc cho các bước tiếp theo
+                        Nếu thông tin của bạn đã thay đổi, hãy cập nhật lại trong mục Tài khoản để HUCE Pet có thể liên
+                        hệ với bạn cùng làm việc cho các bước tiếp theo
                     </p>
                     <form [formGroup]="formAdopt">
                         <div class="grid">
                             <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
                                 <div class="flex flex-column gap-2">
-                                    <label for="province">Tỉnh/thành phố <span class="text-red-500 font-bold">*</span></label>
-                                    <p-dropdown [options]="provinces" optionLabel="name" optionValue="id" id="province"
-                                        styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
-                                        emptyMessage="Không có dữ liệu" formControlName="province"
-                                        (onChange)="getDistricts(); wards = []"
-                                        (onClear)="districts = []; wards = []"></p-dropdown>
+                                    <label for="province">Tỉnh/thành phố <span
+                                        class="text-red-500 font-bold">*</span></label>
+                                    <p-dropdown (onChange)="getDistricts(); wards = []" (onClear)="districts = []; wards = []" [options]="provinces" [showClear]="true"
+                                                emptyMessage="Không có dữ liệu" formControlName="province" id="province"
+                                                optionLabel="name" optionValue="id"
+                                                placeholder="--Chọn--"
+                                                styleClass="mat-form-field"></p-dropdown>
                                 </div>
-                                <div [hidden]="formAdopt.controls['province'].valid || !formAdopt.controls['province'].touched"
+                                <div
+                                    [hidden]="formAdopt.controls['province'].valid || !formAdopt.controls['province'].touched"
                                     class="text-red-500 mt-2 ml-1">
                                     Vui lòng chọn tỉnh/thành phố
                                 </div>
@@ -38,13 +43,14 @@
                             <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
                                 <div class="flex flex-column gap-2">
                                     <label for="district">Quận/huyện/thị xã <span
-                                            class="text-red-500 font-bold">*</span></label>
-                                    <p-dropdown [options]="districts" optionLabel="name" optionValue="id" id="district"
-                                        styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
-                                        emptyMessage="Không có dữ liệu" (onChange)="getWards()"
-                                        formControlName="district" (onClear)="wards = []"></p-dropdown>
+                                        class="text-red-500 font-bold">*</span></label>
+                                    <p-dropdown (onChange)="getWards()" (onClear)="wards = []" [options]="districts" [showClear]="true"
+                                                emptyMessage="Không có dữ liệu" formControlName="district" id="district"
+                                                optionLabel="name" optionValue="id"
+                                                placeholder="--Chọn--" styleClass="mat-form-field"></p-dropdown>
                                 </div>
-                                <div [hidden]="formAdopt.controls['district'].valid || !formAdopt.controls['district'].touched"
+                                <div
+                                    [hidden]="formAdopt.controls['district'].valid || !formAdopt.controls['district'].touched"
                                     class="text-red-500 mt-2 ml-1">
                                     Vui lòng chọn quận/huyện/thị xã
                                 </div>
@@ -52,28 +58,30 @@
                             <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12">
                                 <div class="flex flex-column gap-2">
                                     <label for="ward">Xã/phường/thị trấn <span
-                                            class="text-red-500 font-bold">*</span></label>
-                                    <p-dropdown [options]="wards" optionLabel="name" optionValue="id" id="ward"
-                                        styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
-                                        emptyMessage="Không có dữ liệu" formControlName="ward"></p-dropdown>
+                                        class="text-red-500 font-bold">*</span></label>
+                                    <p-dropdown [options]="wards" [showClear]="true" emptyMessage="Không có dữ liệu" formControlName="ward"
+                                                id="ward" optionLabel="name" optionValue="id"
+                                                placeholder="--Chọn--" styleClass="mat-form-field"></p-dropdown>
                                 </div>
                                 <div [hidden]="formAdopt.controls['ward'].valid || !formAdopt.controls['ward'].touched"
-                                    class="text-red-500 mt-2 ml-1">
+                                     class="text-red-500 mt-2 ml-1">
                                     Vui lòng chọn xã/phường/thị trấn
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="flex flex-column gap-2">
                                     <label for="address">Số nhà, tên đường <span
-                                            class="text-red-500 font-bold">*</span></label>
-                                    <input pInputText id="address" styleClass="mat-form-field"
-                                        formControlName="address"/>
+                                        class="text-red-500 font-bold">*</span></label>
+                                    <input formControlName="address" id="address" pInputText
+                                           styleClass="mat-form-field"/>
                                 </div>
-                                <div [hidden]="!formAdopt.controls['address'].hasError('required') || !formAdopt.controls['address'].touched"
+                                <div
+                                    [hidden]="!formAdopt.controls['address'].hasError('required') || !formAdopt.controls['address'].touched"
                                     class="text-red-500 mt-2 ml-1">
                                     Vui lòng nhập thông tin số nhà, tên đường
                                 </div>
-                                <div [hidden]="!formAdopt.controls['address'].hasError('maxlength') || !formAdopt.controls['address'].touched"
+                                <div
+                                    [hidden]="!formAdopt.controls['address'].hasError('maxlength') || !formAdopt.controls['address'].touched"
                                     class="text-red-500 mt-2 ml-1">
                                     Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
                                 </div>
@@ -81,22 +89,26 @@
                             <div class="col-12">
                                 <div class="flex flex-column gap-2">
                                     <label for="reason">Lý do nhận nuôi <span
-                                            class="text-red-500 font-bold">*</span></label>
-                                    <input pInputText id="reason" styleClass="mat-form-field"
-                                        formControlName="reason" />
+                                        class="text-red-500 font-bold">*</span></label>
+                                    <input formControlName="reason" id="reason" pInputText
+                                           styleClass="mat-form-field"/>
                                 </div>
-                                <div [hidden]="!formAdopt.controls['reason'].hasError('required') || !formAdopt.controls['reason'].touched"
+                                <div
+                                    [hidden]="!formAdopt.controls['reason'].hasError('required') || !formAdopt.controls['reason'].touched"
                                     class="text-red-500 mt-2 ml-1">
                                     Vui lòng nhập lý do nhận nuôi
                                 </div>
-                                <div [hidden]="!formAdopt.controls['reason'].hasError('maxlength') || !formAdopt.controls['reason'].touched"
+                                <div
+                                    [hidden]="!formAdopt.controls['reason'].hasError('maxlength') || !formAdopt.controls['reason'].touched"
                                     class="text-red-500 mt-2 ml-1">
                                     Độ dài thông tin không hợp lệ (tối đa 255 ký tự)
                                 </div>
                             </div>
-                            <div class="col-12" [ngClass]="{'text-red-500': formAdopt.controls['confirm'].invalid && formAdopt.controls['confirm'].touched }">
-                                <p-checkbox formControlName="confirm" [binary]="true" id="confirm"></p-checkbox>
-                                <label for="confirm" class="ml-2 font-semibold">Tôi xác nhận các thông tin đã cung cấp là chính xác và tôi đã đủ hành vi, điều kiện cũng như sẽ
+                            <div [ngClass]="{'text-red-500': formAdopt.controls['confirm'].invalid && formAdopt.controls['confirm'].touched }"
+                                 class="col-12">
+                                <p-checkbox [binary]="true" formControlName="confirm" id="confirm"></p-checkbox>
+                                <label class="ml-2 font-semibold" for="confirm">Tôi xác nhận các thông tin đã cung cấp
+                                    là chính xác và tôi đã đủ hành vi, điều kiện cũng như sẽ
                                     hoàn toàn chịu mọi trách nhiệm cho việc nhận nuôi thú cưng</label>
                             </div>
                         </div>
@@ -105,19 +117,19 @@
                 <p-panel *ngIf="pet" header="Thông tin thú cưng" styleClass="my-3">
                     <div class="grid">
                         <div class="xl:col-3 lg:col-3 md:col-12 col-12 mx-auto">
-                            <p class="text-3xl font-semibold mb-3">{{pet.name}}</p>
+                            <p class="text-3xl font-semibold mb-3">{{ pet.name }}</p>
                             <p-divider type="dashed"></p-divider>
-                            <p class="my-3"><b>Mã:</b> {{pet.code}}</p>
+                            <p class="my-3"><b>Mã:</b> {{ pet.code }}</p>
                             <p-divider type="dashed"></p-divider>
-                            <p class="my-3"><b>Giống:</b> {{pet.breed}}</p>
+                            <p class="my-3"><b>Giống:</b> {{ pet.breed }}</p>
                             <p-divider type="dashed"></p-divider>
-                            <p class="my-3"><b>Màu lông:</b> {{pet.color}}</p>
+                            <p class="my-3"><b>Màu lông:</b> {{ pet.color }}</p>
                             <p-divider type="dashed"></p-divider>
-                            <p class="my-3"><b>Tuổi:</b> {{this.petService.getAge(pet.age)}}</p>
+                            <p class="my-3"><b>Tuổi:</b> {{ this.petService.getAge(pet.age) }}</p>
                             <p-divider type="dashed"></p-divider>
-                            <p class="my-3"><b>Cân nặng:</b> {{pet.weight}} kg</p>
+                            <p class="my-3"><b>Cân nặng:</b> {{ pet.weight }} kg</p>
                             <p-divider type="dashed"></p-divider>
-                            <p class="my-3"><b>Giới tính:</b> {{this.petService.getGender(pet.gender)}}</p>
+                            <p class="my-3"><b>Giới tính:</b> {{ this.petService.getGender(pet.gender) }}</p>
                             <p-divider type="dashed"></p-divider>
                         </div>
                         <div class="xl:col-9 lg:col-9 md:col-12 col-12 mx-auto">
@@ -126,130 +138,162 @@
                             <div class="grid mt-1">
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
                                     <p>
-                                        <p-badge value="{{petService.getBadgeValue(pet.sterilization)}}"
-                                            [severity]="petService.getBadgeSeverity(pet.sterilization)"></p-badge> 
+                                        <p-badge [severity]="petService.getBadgeSeverity(pet.sterilization)"
+                                                 value="{{petService.getBadgeValue(pet.sterilization)}}"></p-badge>
                                         Triệt sản
                                     </p>
                                 </div>
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(pet.friendlyToHuman)}}"
-                                            [severity]="petService.getBadgeSeverity(pet.friendlyToHuman)"></p-badge>
+                                    <p>
+                                        <p-badge [severity]="petService.getBadgeSeverity(pet.friendlyToHuman)"
+                                                 value="{{petService.getBadgeValue(pet.friendlyToHuman)}}"></p-badge>
                                         Thân thiện với người
                                     </p>
                                 </div>
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(pet.diet)}}"
-                                            [severity]="petService.getBadgeSeverity(pet.diet)"></p-badge> 
+                                    <p>
+                                        <p-badge [severity]="petService.getBadgeSeverity(pet.diet)"
+                                                 value="{{petService.getBadgeValue(pet.diet)}}"></p-badge>
                                         Chế độ ăn riêng
                                     </p>
                                 </div>
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(pet.rabies)}}"
-                                            [severity]="petService.getBadgeSeverity(pet.rabies)"></p-badge> Tiêm dại</p>
+                                    <p>
+                                        <p-badge [severity]="petService.getBadgeSeverity(pet.rabies)"
+                                                 value="{{petService.getBadgeValue(pet.rabies)}}"></p-badge>
+                                        Tiêm dại
+                                    </p>
                                 </div>
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(pet.friendlyToDogs)}}"
-                                            [severity]="petService.getBadgeSeverity(pet.friendlyToDogs)"></p-badge> 
+                                    <p>
+                                        <p-badge [severity]="petService.getBadgeSeverity(pet.friendlyToDogs)"
+                                                 value="{{petService.getBadgeValue(pet.friendlyToDogs)}}"></p-badge>
                                         Thân thiện với chó
                                     </p>
                                 </div>
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(pet.toilet)}}"
-                                            [severity]="petService.getBadgeSeverity(pet.toilet)"></p-badge> 
+                                    <p>
+                                        <p-badge [severity]="petService.getBadgeSeverity(pet.toilet)"
+                                                 value="{{petService.getBadgeValue(pet.toilet)}}"></p-badge>
                                         Đi vệ sinh đúng chỗ
                                     </p>
                                 </div>
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(pet.vaccine)}}"
-                                            [severity]="petService.getBadgeSeverity(pet.vaccine)"></p-badge> 
+                                    <p>
+                                        <p-badge [severity]="petService.getBadgeSeverity(pet.vaccine)"
+                                                 value="{{petService.getBadgeValue(pet.vaccine)}}"></p-badge>
                                         Tiêm phòng bệnh
                                     </p>
                                 </div>
                                 <div class="lg:col-3 md:col-6 sm:col-12 col-12">
-                                    <p><p-badge value="{{petService.getBadgeValue(pet.friendlyToCats)}}"
-                                            [severity]="petService.getBadgeSeverity(pet.friendlyToCats)"></p-badge> 
+                                    <p>
+                                        <p-badge [severity]="petService.getBadgeSeverity(pet.friendlyToCats)"
+                                                 value="{{petService.getBadgeValue(pet.friendlyToCats)}}"></p-badge>
                                         Thân thiện với mèo
                                     </p>
                                 </div>
                                 <div class="col-12">
-                                    <p><span class="font-semibold">Mô tả: </span><span>{{pet.description}}</span></p>
+                                    <p><span class="font-semibold">Mô tả: </span><span>{{ pet.description }}</span></p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </p-panel>
                 <app-treatment-pet [idPet]="id"></app-treatment-pet>
-                <div class="mt-3" align="center">
+                <div align="center" class="mt-3">
                     <p class="font-semibold font-italic text-red-500">Khi nhấn nút 'ĐĂNG KÝ', bạn xác nhận đã đồng ý
                         với các điều khoản của HUCE Pet</p>
                 </div>
-                <div class="mt-3" align="center">
-                    <p-button label="Đăng ký" styleClass="text-xl" [style]="{ width: '300px' }" (onClick)="onRegisterAdopt($event)"></p-button>
+                <div align="center" class="mt-3">
+                    <p-button (onClick)="onRegisterAdopt($event)" [style]="{ width: '300px' }" label="Đăng ký"
+                              styleClass="text-xl"></p-button>
                 </div>
             </p-dialog>
         </div>
     </div>
     <div class="grid">
         <div class="md:col-5 sm:col-12 mt-3 mx-auto">
-            <img src="{{pet.image}}" alt="{{pet.name}}" class="w-full" style="border-radius: 10px; max-height: 600px;">
+            <img alt="{{pet.name}}" class="w-full" src="{{pet.image}}" style="border-radius: 10px; max-height: 600px;">
         </div>
         <div class="md:col-7 col-12 p-3 mx-auto">
-            <p class="text-3xl font-semibold mb-3">{{pet.name}}</p>
+            <p class="text-3xl font-semibold mb-3">{{ pet.name }}</p>
             <p-divider type="dashed"></p-divider>
-            <p class="my-3"><b>Mã:</b> {{pet.code}}</p>
+            <p class="my-3"><b>Mã:</b> {{ pet.code }}</p>
             <p-divider type="dashed"></p-divider>
-            <p class="my-3"><b>Giống:</b> {{pet.breed}}</p>
+            <p class="my-3"><b>Giống:</b> {{ pet.breed }}</p>
             <p-divider type="dashed"></p-divider>
-            <p class="my-3"><b>Màu lông:</b> {{pet.color}}</p>
+            <p class="my-3"><b>Màu lông:</b> {{ pet.color }}</p>
             <p-divider type="dashed"></p-divider>
-            <p class="my-3"><b>Tuổi:</b> {{this.petService.getAge(pet.age)}}</p>
+            <p class="my-3"><b>Tuổi:</b> {{ this.petService.getAge(pet.age) }}</p>
             <p-divider type="dashed"></p-divider>
-            <p class="my-3"><b>Cân nặng:</b> {{pet.weight}} kg</p>
+            <p class="my-3"><b>Cân nặng:</b> {{ pet.weight }} kg</p>
             <p-divider type="dashed"></p-divider>
-            <p class="my-3"><b>Giới tính:</b> {{this.petService.getGender(pet.gender)}}</p>
+            <p class="my-3"><b>Giới tính:</b> {{ this.petService.getGender(pet.gender) }}</p>
             <p-divider type="dashed"></p-divider>
-            <button *ngIf="petService.isAvailableForAdopt(pet.status)" pButton label="NHẬN NUÔI" class="mt-3 mr-3"
-                (click)="onShowCreateModal()"></button>
-            <button pButton label="BẠN CÓ CÂU HỎI?" routerLink="/lien-he"
-                class="mt-3 bg-cyan-500 border-cyan-500"></button>
+            <button (click)="onShowCreateModal()" *ngIf="petService.isAvailableForAdopt(pet.status)" class="mt-3 mr-3" label="NHẬN NUÔI"
+                    pButton></button>
+            <button class="mt-3 bg-cyan-500 border-cyan-500" label="BẠN CÓ CÂU HỎI?" pButton
+                    routerLink="/lien-he"></button>
         </div>
         <div class="col-12">
             <p class="text-3xl font-semibold mb-1">Thông tin</p>
             <p-divider></p-divider>
             <div class="grid mt-1">
                 <div class="lg:col-3 md:col-6 sm:col-6 col-6">
-                    <p><p-badge value="{{petService.getBadgeValue(pet.sterilization)}}"
-                            [severity]="petService.getBadgeSeverity(pet.sterilization)"></p-badge> Triệt sản</p>
-                </div>
-                <div class="lg:col-3 md:col-6 sm:col-6 col-6">
-                    <p><p-badge value="{{petService.getBadgeValue(pet.friendlyToHuman)}}"
-                            [severity]="petService.getBadgeSeverity(pet.friendlyToHuman)"></p-badge> Thân thiện với
-                        người</p>
-                </div>
-                <div class="lg:col-3 md:col-6 sm:col-6 col-6">
-                    <p><p-badge value="{{petService.getBadgeValue(pet.diet)}}"
-                            [severity]="petService.getBadgeSeverity(pet.diet)"></p-badge> Chế độ ăn riêng</p>
-                </div>
-                <div class="lg:col-3 md:col-6 sm:col-6 col-6">
-                    <p><p-badge value="{{petService.getBadgeValue(pet.rabies)}}"
-                            [severity]="petService.getBadgeSeverity(pet.rabies)"></p-badge> Tiêm dại</p>
-                </div>
-                <div class="lg:col-3 md:col-6 sm:col-6 col-6">
-                    <p><p-badge value="{{petService.getBadgeValue(pet.friendlyToDogs)}}"
-                            [severity]="petService.getBadgeSeverity(pet.friendlyToDogs)"></p-badge> Thân thiện với chó
+                    <p>
+                        <p-badge [severity]="petService.getBadgeSeverity(pet.sterilization)"
+                                 value="{{petService.getBadgeValue(pet.sterilization)}}"></p-badge>
+                        Triệt sản
                     </p>
                 </div>
                 <div class="lg:col-3 md:col-6 sm:col-6 col-6">
-                    <p><p-badge value="{{petService.getBadgeValue(pet.toilet)}}"
-                            [severity]="petService.getBadgeSeverity(pet.toilet)"></p-badge> Đi vệ sinh đúng chỗ</p>
+                    <p>
+                        <p-badge [severity]="petService.getBadgeSeverity(pet.friendlyToHuman)"
+                                 value="{{petService.getBadgeValue(pet.friendlyToHuman)}}"></p-badge>
+                        Thân thiện với
+                        người
+                    </p>
                 </div>
                 <div class="lg:col-3 md:col-6 sm:col-6 col-6">
-                    <p><p-badge value="{{petService.getBadgeValue(pet.vaccine)}}"
-                            [severity]="petService.getBadgeSeverity(pet.vaccine)"></p-badge> Tiêm phòng bệnh</p>
+                    <p>
+                        <p-badge [severity]="petService.getBadgeSeverity(pet.diet)"
+                                 value="{{petService.getBadgeValue(pet.diet)}}"></p-badge>
+                        Chế độ ăn riêng
+                    </p>
                 </div>
                 <div class="lg:col-3 md:col-6 sm:col-6 col-6">
-                    <p><p-badge value="{{petService.getBadgeValue(pet.friendlyToCats)}}"
-                            [severity]="petService.getBadgeSeverity(pet.friendlyToCats)"></p-badge> Thân thiện với mèo
+                    <p>
+                        <p-badge [severity]="petService.getBadgeSeverity(pet.rabies)"
+                                 value="{{petService.getBadgeValue(pet.rabies)}}"></p-badge>
+                        Tiêm dại
+                    </p>
+                </div>
+                <div class="lg:col-3 md:col-6 sm:col-6 col-6">
+                    <p>
+                        <p-badge [severity]="petService.getBadgeSeverity(pet.friendlyToDogs)"
+                                 value="{{petService.getBadgeValue(pet.friendlyToDogs)}}"></p-badge>
+                        Thân thiện với chó
+                    </p>
+                </div>
+                <div class="lg:col-3 md:col-6 sm:col-6 col-6">
+                    <p>
+                        <p-badge [severity]="petService.getBadgeSeverity(pet.toilet)"
+                                 value="{{petService.getBadgeValue(pet.toilet)}}"></p-badge>
+                        Đi vệ sinh đúng chỗ
+                    </p>
+                </div>
+                <div class="lg:col-3 md:col-6 sm:col-6 col-6">
+                    <p>
+                        <p-badge [severity]="petService.getBadgeSeverity(pet.vaccine)"
+                                 value="{{petService.getBadgeValue(pet.vaccine)}}"></p-badge>
+                        Tiêm phòng bệnh
+                    </p>
+                </div>
+                <div class="lg:col-3 md:col-6 sm:col-6 col-6">
+                    <p>
+                        <p-badge [severity]="petService.getBadgeSeverity(pet.friendlyToCats)"
+                                 value="{{petService.getBadgeValue(pet.friendlyToCats)}}"></p-badge>
+                        Thân thiện với mèo
                     </p>
                 </div>
             </div>
@@ -257,12 +301,12 @@
         <div class="col-12">
             <p class="text-3xl font-semibold mb-1">Mô tả</p>
             <p-divider></p-divider>
-            <p class="mt-1">{{pet.description}}</p>
+            <p class="mt-1">{{ pet.description }}</p>
         </div>
     </div>
 </div>
-<app-card-footer [title]="'BẠN ĐÃ SẴN SÀNG GIÚP ĐỠ?'" [action]="'ỦNG HỘ NGAY'"
-    [actionLink]="'/ung-ho'"></app-card-footer>
+<app-card-footer [actionLink]="'/ung-ho'" [action]="'ỦNG HỘ NGAY'"
+                 [title]="'BẠN ĐÃ SẴN SÀNG GIÚP ĐỠ?'"></app-card-footer>
 <div class="container mt-5 mb-5">
     <app-adopt-process></app-adopt-process>
     <div *ngIf="pets" class="mt-5 panel">
@@ -273,21 +317,21 @@
                     <i class="fa-solid fa-paw fa-rotate-by fa-xl text-primary" style="--fa-rotate-angle: 30deg;"></i>
                 </div>
             </ng-template>
-            <p-carousel [value]="pets" [numVisible]="4" [numScroll]="1" [circular]="true"
-                [responsiveOptions]="responsiveOptions" [autoplayInterval]="3000">
+            <p-carousel [autoplayInterval]="3000" [circular]="true" [numScroll]="1" [numVisible]="4"
+                        [responsiveOptions]="responsiveOptions" [value]="pets">
                 <ng-template let-pet pTemplate="item">
                     <div class="mx-1 card-pet">
-                        <app-card-pet [id]="pet.id" [age]="this.petService.getAge(pet.age)" [breed]="pet.breed"
-                            [vaccin]="this.petService.getVaccine(pet.vaccine)" [image]="pet.image"
-                            [gender]="this.petService.getGender(pet.gender)" [name]="pet.name"></app-card-pet>
+                        <app-card-pet [age]="this.petService.getAge(pet.age)" [breed]="pet.breed" [gender]="this.petService.getGender(pet.gender)"
+                                      [id]="pet.id" [image]="pet.image"
+                                      [name]="pet.name" [vaccine]="this.petService.getVaccine(pet.vaccine)"></app-card-pet>
                     </div>
                 </ng-template>
             </p-carousel>
-            <div class="w-full" align="center">
-                <button pButton label="NHẬN NUÔI" routerLink="/cuu-tro" class="mt-3 text-center"></button>
+            <div align="center" class="w-full">
+                <button class="mt-3 text-center" label="NHẬN NUÔI" pButton routerLink="/cuu-tro"></button>
             </div>
         </p-panel>
     </div>
 </div>
-<app-card-footer [title]="'BẠN CHƯA ĐỦ ĐIỀU KIỆN MANG BOSS VỀ NHÀ? ỦNG HỘ HUCE PET BẰNG CÁC CÁCH KHÁC NHÉ!'"
-    [action]="'TÌM HIỂU NGAY'" [actionLink]="'/ung-ho'"></app-card-footer>
+<app-card-footer [actionLink]="'/ung-ho'"
+                 [action]="'TÌM HIỂU NGAY'" [title]="'BẠN CHƯA ĐỦ ĐIỀU KIỆN MANG BOSS VỀ NHÀ? ỦNG HỘ HUCE PET BẰNG CÁC CÁCH KHÁC NHÉ!'"></app-card-footer>

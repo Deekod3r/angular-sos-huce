@@ -1,14 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/api';
-import { CalendarModule } from 'primeng/calendar';
-import { ChartModule } from 'primeng/chart';
-import { DropdownModule } from 'primeng/dropdown';
-import { Subject } from 'rxjs';
-import { message, title } from 'src/app/common/message';
-import { LivingCostService } from 'src/app/services/living-cost.service';
-import { TreatmentService } from 'src/app/services/treatment.service';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { filteredSearch } from 'src/app/shared/utils/data.util';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {MessageService} from 'primeng/api';
+import {CalendarModule} from 'primeng/calendar';
+import {ChartModule} from 'primeng/chart';
+import {DropdownModule} from 'primeng/dropdown';
+import {Subject} from 'rxjs';
+import {message, title} from 'src/app/common/message';
+import {LivingCostService} from 'src/app/services/living-cost.service';
+import {TreatmentService} from 'src/app/services/treatment.service';
+import {SharedModule} from 'src/app/shared/shared.module';
+import {filteredSearch} from 'src/app/shared/utils/data.util';
 
 @Component({
     selector: 'app-statistic-expense',
@@ -24,11 +24,10 @@ export class StatisticExpenseComponent implements OnInit, OnDestroy {
     month!: number;
     options: any;
     statisticData: any;
-    private subscribes$: Subject<void> = new Subject<void>();
-    labelLivingCost = [1,2,3,4];
-    dataLivingCost = [0,0,0,0];
-    labelTreatment = [1,2,3,4,5];
-    dataTreatment = [0,0,0,0,0];
+    labelLivingCost = [1, 2, 3, 4];
+    dataLivingCost = [0, 0, 0, 0];
+    labelTreatment = [1, 2, 3, 4, 5];
+    dataTreatment = [0, 0, 0, 0, 0];
     objectStatistic = [
         {
             label: 'Sinh hoạt phí',
@@ -89,8 +88,10 @@ export class StatisticExpenseComponent implements OnInit, OnDestroy {
             value: '12',
         }
     ]
+    private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public treatmentService: TreatmentService, public livingCostService: LivingCostService, private messageService: MessageService) { }
+    constructor(public treatmentService: TreatmentService, public livingCostService: LivingCostService, private messageService: MessageService) {
+    }
 
     ngOnInit(): void {
         const textColor = '#495057';
@@ -150,11 +151,11 @@ export class StatisticExpenseComponent implements OnInit, OnDestroy {
 
     onStatistic(): void {
         if (!this.objectStatisticSelected) {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: 'Vui lòng chọn đối tượng' });
+            this.messageService.add({severity: 'error', summary: title.error, detail: 'Vui lòng chọn đối tượng'});
             return;
         }
         if (!this.year) {
-            this.messageService.add({ severity: 'error', summary: title.error, detail: 'Vui lòng chọn năm' });
+            this.messageService.add({severity: 'error', summary: title.error, detail: 'Vui lòng chọn năm'});
             return;
         }
         if (this.objectStatisticSelected == 1) {
@@ -166,7 +167,7 @@ export class StatisticExpenseComponent implements OnInit, OnDestroy {
             this.livingCostService.getTotalLivingCost(filteredSearch(search)).subscribe({
                 next: (res) => {
                     if (res.success) {
-                        this.dataLivingCost = [0,0,0,0];
+                        this.dataLivingCost = [0, 0, 0, 0];
                         res.data.forEach((item: any) => this.dataLivingCost[item.category - 1] = item.totalAmount);
                         this.statisticData = {
                             labels: this.labelLivingCost.map((item: any) => this.livingCostService.getCategory(item)),
@@ -184,9 +185,9 @@ export class StatisticExpenseComponent implements OnInit, OnDestroy {
                 },
                 error: (res) => {
                     if (res.error) {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                     } else {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                     }
                 }
             });
@@ -199,7 +200,7 @@ export class StatisticExpenseComponent implements OnInit, OnDestroy {
             this.treatmentService.getTotalTreatmentCost(filteredSearch(search)).subscribe({
                 next: (res) => {
                     if (res.success) {
-                        this.dataTreatment = [0,0,0,0,0];
+                        this.dataTreatment = [0, 0, 0, 0, 0];
                         res.data.forEach((item: any) => this.dataTreatment[item.category - 1] = item.totalAmount);
                         this.statisticData = {
                             labels: this.labelTreatment.map((item: any) => this.treatmentService.getType(item)),
@@ -217,9 +218,9 @@ export class StatisticExpenseComponent implements OnInit, OnDestroy {
                 },
                 error: (res) => {
                     if (res.error) {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                     } else {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                     }
                 }
             });

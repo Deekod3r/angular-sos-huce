@@ -1,9 +1,8 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
-import { EncryptionService } from './encryption.service';
-import { CONFIG } from '../common/config';
-import { CommonService } from './common.service';
+import {Injectable} from '@angular/core';
+import {map, Observable} from 'rxjs';
+import {EncryptionService} from './encryption.service';
+import {CONFIG} from '../common/config';
+import {CommonService} from './common.service';
 
 
 @Injectable({
@@ -11,12 +10,9 @@ import { CommonService } from './common.service';
 })
 export class AuthService {
 
-    isRemember: boolean = localStorage.getItem(CONFIG.KEY.REMEMBER) == 'true' ? true : false;
+    isRemember: boolean = localStorage.getItem(CONFIG.KEY.REMEMBER) == 'true';
 
-    constructor(private encryptionService: EncryptionService, private commonService: CommonService) { }
-
-    private getProfile(): any {
-        return JSON.parse(this.encryptionService.decrypt(localStorage.getItem(CONFIG.KEY.TOKEN)) || '{}')
+    constructor(private encryptionService: EncryptionService, private commonService: CommonService) {
     }
 
     login(body: any): Observable<any> {
@@ -89,6 +85,10 @@ export class AuthService {
             }
         }
         this.commonService.callAPI(request);
+    }
+
+    private getProfile(): any {
+        return JSON.parse(this.encryptionService.decrypt(localStorage.getItem(CONFIG.KEY.TOKEN)) || '{}')
     }
 
 }

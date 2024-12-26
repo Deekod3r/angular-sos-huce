@@ -1,16 +1,19 @@
-<p-galleria *ngIf="gallerias" [value]="gallerias" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="true"
-    [showIndicatorsOnItem]="false" [responsiveOptions]="responsiveOptions" [autoPlay]="true" [circular]="true"
-    [containerStyle]="{'width': '100%', 'max-height': '750px', 'min-height': '700px'}">
-    <ng-template pTemplate="item" class="relative" let-item>
+<p-galleria *ngIf="gallerias" [autoPlay]="true" [circular]="true" [containerStyle]="{'width': '100%', 'max-height': '750px', 'min-height': '700px'}"
+            [responsiveOptions]="responsiveOptions"
+            [showIndicatorsOnItem]="false" [showIndicators]="true" [showItemNavigators]="true" [showThumbnails]="false"
+            [value]="gallerias">
+    <ng-template class="relative" let-item pTemplate="item">
         <img [src]="item.image"
-            style="width: 100%; display: block; max-height: 750px; min-height: 700px; object-fit: cover;" />
+             style="width: 100%; display: block; max-height: 750px; min-height: 700px; object-fit: cover;"/>
     </ng-template>
-    <ng-template pTemplate="caption" let-item>
+    <ng-template let-item pTemplate="caption">
         <div class="mb-2 ml-1">
             <p class="title mb-0">{{ item.title }}</p>
             <p class="description">{{ item.description }}</p>
         </div>
-        <a href="{{ item.link }}" target="_blank"><button pButton label="XEM THÊM" class="btn-more ml-1"></button></a>
+        <a href="{{ item.link }}" target="_blank">
+            <button class="btn-more ml-1" label="XEM THÊM" pButton></button>
+        </a>
     </ng-template>
 </p-galleria>
 <div class="container mt-8">
@@ -22,12 +25,12 @@
         </ng-template>
         <div *ngIf="introductions" class="grid">
             <div class="xl:col-8 lg:col-8 md:col-12 sm:col-12 col-12">
-                <p class="m-0 text-lg line-height-3" [innerHTML]="introductions[0].value">
+                <p [innerHTML]="introductions[0].value" class="m-0 text-lg line-height-3">
                 </p>
-                <button pButton label="VỀ CHÚNG TÔI" class="mt-3" routerLink="/gioi-thieu"></button>
+                <button class="mt-3" label="VỀ CHÚNG TÔI" pButton routerLink="/gioi-thieu"></button>
             </div>
             <div class="xl:col-4 lg:col-4 md:col-6 sm:col-8 col-8 mx-auto">
-                <img src="../../../../assets/medias/imgs/logo-site-removebg.png" alt="" class="w-full">
+                <img alt="" class="w-full" src="../../../../assets/medias/imgs/logo-site-removebg.png">
             </div>
         </div>
     </p-fieldset>
@@ -35,80 +38,80 @@
         <div class="xl:col-4 lg:col-4 md:col-6 sm:col-9 col-10 mx-auto card-home">
             <p-card header="ỦNG HỘ">
                 <ng-template pTemplate="header">
-                    <img alt="ỦNG HỘ" src="../../../../assets/medias/imgs/action-1.jpg" style="height:350px"
-                        class="border-circle border-3 border-primary-300 p-4 bg-cyan-100" />
+                    <img alt="ỦNG HỘ" class="border-circle border-3 border-primary-300 p-4 bg-cyan-100" src="../../../../assets/medias/imgs/action-1.jpg"
+                         style="height:350px"/>
                 </ng-template>
                 <p class="m-0 text-overflow-ellipsis text-card">
                     Giúp duy trì hoạt động của HUCE Pet qua hình thức quyên góp tiền hoặc vật phẩm.
                 </p>
                 <ng-template pTemplate="footer">
-                    <p-button label="XEM THÊM" icon="fa fa-check" routerLink="/ung-ho"></p-button>
+                    <p-button icon="fa fa-check" label="XEM THÊM" routerLink="/ung-ho"></p-button>
                 </ng-template>
             </p-card>
         </div>
         <div class="xl:col-4 lg:col-4 md:col-6 sm:col-9 col-10 mx-auto">
             <p-card header="TÌNH NGUYỆN">
-                <ng-template pTemplate="header" class="bg-cyan-100">
-                    <img alt="TÌNH NGUYỆN" src="../../../../assets/medias/imgs/action-2.jpg" style="height:350px"
-                        class="border-circle border-3 border-primary-300 p-4 bg-cyan-100" />
+                <ng-template class="bg-cyan-100" pTemplate="header">
+                    <img alt="TÌNH NGUYỆN" class="border-circle border-3 border-primary-300 p-4 bg-cyan-100" src="../../../../assets/medias/imgs/action-2.jpg"
+                         style="height:350px"/>
                 </ng-template>
                 <p class="m-0 text-overflow-ellipsis text-card p-0">
                     Hành động để thay đổi cuộc sống của chó, mèo và thú cưng khác.
                 </p>
                 <ng-template pTemplate="footer">
-                    <p-button label="XEM THÊM" icon="fa fa-check" routerLink="/ung-ho"></p-button>
+                    <p-button icon="fa fa-check" label="XEM THÊM" routerLink="/ung-ho"></p-button>
                 </ng-template>
             </p-card>
         </div>
         <div class="xl:col-4 lg:col-4 md:col-6 sm:col-9 col-10 mx-auto card-home">
             <p-card header="NHẬN NUÔI">
                 <ng-template pTemplate="header">
-                    <img alt="NHẬN NUÔI" src="../../../../assets/medias/imgs/action-3.jpg" style="height:350px"
-                        class="border-circle border-3 border-primary-300 p-4 bg-cyan-100" />
+                    <img alt="NHẬN NUÔI" class="border-circle border-3 border-primary-300 p-4 bg-cyan-100" src="../../../../assets/medias/imgs/action-3.jpg"
+                         style="height:350px"/>
                 </ng-template>
                 <p class="m-0 text-overflow-ellipsis text-card">
                     Hãy nhận nuôi, cưu mang, đừng xua đuổi và yêu thương loài động vật bị bỏ rơi.
                 </p>
                 <ng-template pTemplate="footer">
-                    <p-button label="XEM THÊM" icon="fa fa-check" routerLink="cuu-tro"></p-button>
+                    <p-button icon="fa fa-check" label="XEM THÊM" routerLink="cuu-tro"></p-button>
                 </ng-template>
             </p-card>
         </div>
     </div>
 </div>
-<div class="w-full mt-5 mx-0 statistic" style="min-height: 300px;" *ngIf="statisticCases">
+<div *ngIf="statisticCases" class="w-full mt-5 mx-0 statistic" style="min-height: 300px;">
     <div class="grid mx-auto">
         <div class="col-12 z-1 mb-3">
             <p class="text-center font-bold lg:text-3xl text-2xl">TÌNH HÌNH CỨU TRỢ - HUCE PET</p>
         </div>
         <div class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12 z-1">
             <div class="justify-center items-center">
-                <i class="fa-solid fa-house-chimney-medical fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>                
-                <p class="xl:text-5xl lg:text-5xl md:text-2xl sm:text-2xl text-2xl font-bold my-2">{{statisticCases.total}}</p>
+                <i class="fa-solid fa-house-chimney-medical fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>
+                <p class="xl:text-5xl lg:text-5xl md:text-2xl sm:text-2xl text-2xl font-bold my-2">{{ statisticCases.total }}</p>
                 <p class="xl:text-2xl lg:text-2xl text-xl my-2">CA CỨU HỘ</p>
             </div>
         </div>
         <div class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12 z-1">
             <div class="justify-center items-center">
-                <i class="fa-solid fa-person-circle-plus fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>                
-                <p class="xl:text-5xl lg:text-5xl md:text-2xl sm:text-2xl text-2xl font-bold my-2">{{statisticCases.adopted}}</p>
+                <i class="fa-solid fa-person-circle-plus fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>
+                <p class="xl:text-5xl lg:text-5xl md:text-2xl sm:text-2xl text-2xl font-bold my-2">{{ statisticCases.adopted }}</p>
                 <p class="xl:text-2xl lg:text-2xl text-xl my-2">ĐÃ CÓ CHỦ MỚI</p>
             </div>
         </div>
         <div class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12 z-1">
             <div class="justify-center items-center">
                 <i class="fa-solid fa-heart fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>
-                <p class="xl:text-5xl lg:text-5xl md:text-2xl sm:text-2xl text-2xl font-bold my-2">{{statisticCases.wait}}</p>
+                <p class="xl:text-5xl lg:text-5xl md:text-2xl sm:text-2xl text-2xl font-bold my-2">{{ statisticCases.wait }}</p>
                 <p class="xl:text-2xl lg:text-2xl text-xl my-2">ĐANG TÌM CHỦ</p>
             </div>
         </div>
         <div class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12 z-1">
             <div class="justify-center items-center">
-                <i class="fa-solid fa-shield-virus fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>                
-                <p class="xl:text-5xl lg:text-5xl md:text-2xl sm:text-2xl text-2xl font-bold my-2">{{statisticCases.healing}}</p>
+                <i class="fa-solid fa-shield-virus fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>
+                <p class="xl:text-5xl lg:text-5xl md:text-2xl sm:text-2xl text-2xl font-bold my-2">{{ statisticCases.healing }}</p>
                 <p class="xl:text-2xl lg:text-2xl text-xl my-2 mb-0">ĐANG ĐIỀU TRỊ</p>
             </div>
-        </div>       
+        </div>
     </div>
 </div>
 <div class="container mb-5">
@@ -120,24 +123,24 @@
                     <i class="fa-solid fa-paw fa-rotate-by fa-xl text-primary" style="--fa-rotate-angle: 30deg;"></i>
                 </div>
             </ng-template>
-            <p-carousel [value]="pets" [numVisible]="4" [numScroll]="4" [circular]="true"
-                [responsiveOptions]="responsiveOptions" [autoplayInterval]="3000">
+            <p-carousel [autoplayInterval]="3000" [circular]="true" [numScroll]="4" [numVisible]="4"
+                        [responsiveOptions]="responsiveOptions" [value]="pets">
                 <ng-template let-pet pTemplate="item">
                     <div class="mx-1">
-                        <app-card-pet 
-                            [id]="pet.id"
+                        <app-card-pet
                             [age]="this.petService.getAge(pet.age)"
                             [breed]="pet.breed"
-                            [vaccin]="this.petService.getVaccine(pet.vaccine)"
-                            [image]="pet.image"
                             [gender]="this.petService.getGender(pet.gender)"
-                            [name]="pet.name">
+                            [id]="pet.id"
+                            [image]="pet.image"
+                            [name]="pet.name"
+                            [vaccine]="this.petService.getVaccine(pet.vaccine)">
                         </app-card-pet>
                     </div>
                 </ng-template>
             </p-carousel>
-            <div class="w-full" align="center">
-                <button pButton label="NHẬN NUÔI" routerLink="/cuu-tro" class="mt-3 text-center"></button>
+            <div align="center" class="w-full">
+                <button class="mt-3 text-center" label="NHẬN NUÔI" pButton routerLink="/cuu-tro"></button>
             </div>
         </p-panel>
     </div>
@@ -149,19 +152,19 @@
                     <i class="fa-solid fa-paw fa-rotate-by fa-xl text-primary" style="--fa-rotate-angle: 30deg;"></i>
                 </div>
             </ng-template>
-            <p-carousel [value]="news" [numVisible]="3" [numScroll]="3" [circular]="true"
-                [responsiveOptions]="responsiveOptions" [autoplayInterval]="3000">
+            <p-carousel [autoplayInterval]="3000" [circular]="true" [numScroll]="3" [numVisible]="3"
+                        [responsiveOptions]="responsiveOptions" [value]="news">
                 <ng-template let-news pTemplate="item">
                     <div class="mx-1">
                         <app-card-news [news]="news"></app-card-news>
                     </div>
                 </ng-template>
             </p-carousel>
-            <div class="w-full" align="center">
-                <button pButton label="XEM THÊM" routerLink="/tin-tuc" class="mt-3"></button>
+            <div align="center" class="w-full">
+                <button class="mt-3" label="XEM THÊM" pButton routerLink="/tin-tuc"></button>
             </div>
         </p-panel>
     </div>
 </div>
-<app-card-footer [title]="'BẠN ĐÃ SẴN SÀNG GIÚP ĐỠ?'" [action]="'ỦNG HỘ NGAY'"
-    [actionLink]="'/ung-ho'"></app-card-footer>
+<app-card-footer [actionLink]="'/ung-ho'" [action]="'ỦNG HỘ NGAY'"
+                 [title]="'BẠN ĐÃ SẴN SÀNG GIÚP ĐỠ?'"></app-card-footer>

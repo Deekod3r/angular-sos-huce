@@ -1,14 +1,18 @@
 <p-menubar [model]="items">
     <ng-template pTemplate="start">
-        <a routerLink="/" class="mx-3"><img src="../../../../assets/medias/imgs/logo-site-removebg.png" height="60" class="mr-2"/></a>
+        <a class="mx-3" routerLink="/"><img class="mr-2" height="60"
+                                            src="../../../../assets/medias/imgs/logo-site-removebg.png"/></a>
     </ng-template>
     <ng-template pTemplate="end">
         <div *ngIf="!this.authService.isAuthenticated(); else menuUserTools">
-            <p-avatar class="mr-3 cursor-pointer" shape="square" icon="fa fa-bars" [style]="{'background-color':'#14B8A6', 'color': '#ffffff'}" (click)="menuUserOptions.toggle($event)"/>
+            <p-avatar (click)="menuUserOptions.toggle($event)" [style]="{'background-color':'#14B8A6', 'color': '#ffffff'}" class="mr-3 cursor-pointer"
+                      icon="fa fa-bars"
+                      shape="square"/>
             <p-tieredMenu #menuUserOptions [model]="userOptions" [popup]="true"></p-tieredMenu>
         </div>
         <ng-template #menuUserTools>
-            <p-avatar class="mr-3 cursor-pointer" shape="square" icon="fa fa-user" [style]="{'background-color':'#14B8A6', 'color': '#ffffff'}" (click)="menu.toggle($event)"/>
+            <p-avatar (click)="menu.toggle($event)" [style]="{'background-color':'#14B8A6', 'color': '#ffffff'}" class="mr-3 cursor-pointer"
+                      icon="fa fa-user" shape="square"/>
             <p-tieredMenu #menu [model]="guestTools" [popup]="true"></p-tieredMenu>
         </ng-template>
     </ng-template>

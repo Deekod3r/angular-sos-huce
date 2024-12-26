@@ -1,104 +1,114 @@
 <div class="card">
-    <p-dialog *ngIf="visibleCreateModal" header="Thêm tin tức" [(visible)]="visibleCreateModal" [modal]="true"
-        [style]="{ width: '90vw' }" [draggable]="false" [resizable]="false">
-        <app-new-media-create (resultAction)="onReceiveResult($event, 1)" [categories]="categories"></app-new-media-create>
+    <p-dialog *ngIf="visibleCreateModal" [(visible)]="visibleCreateModal" [draggable]="false" [modal]="true"
+              [resizable]="false" [style]="{ width: '90vw' }" header="Thêm tin tức">
+        <app-new-media-create (resultAction)="onReceiveResult($event, 1)"
+                              [categories]="categories"></app-new-media-create>
     </p-dialog>
-    <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa tin tức" [(visible)]="visibleUpdateModal" [modal]="true"
-        [style]="{ width: '90vw' }" [draggable]="false" [resizable]="false">
-        <app-new-media-update (resultAction)="onReceiveResult($event, 2)" [idNews]="idNewsUpdate" [categories]="categories"></app-new-media-update>
+    <p-dialog *ngIf="visibleUpdateModal" [(visible)]="visibleUpdateModal" [draggable]="false" [modal]="true"
+              [resizable]="false" [style]="{ width: '90vw' }" header="Chỉnh sửa tin tức">
+        <app-new-media-update (resultAction)="onReceiveResult($event, 2)" [categories]="categories"
+                              [idNews]="idNewsUpdate"></app-new-media-update>
     </p-dialog>
-    <p-panel header="Công cụ" [toggleable]="true">
-        <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onShowCreateModal()"></button>
+    <p-panel [toggleable]="true" header="Công cụ">
+        <button (click)="onShowCreateModal()" icon="fa fa-plus" label="Thêm mới" pButton></button>
         <div class="card grid mt-3">
             <div class="xl:col-8 lg:col-12 md:col-12 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="news-title">Tiêu đề</label>
-                    <input pInputText appendIcon="fa fa-search" class="mat-form-field" [(ngModel)]="key.title" id="news-title">
+                    <input [(ngModel)]="key.title" appendIcon="fa fa-search" class="mat-form-field" id="news-title"
+                           pInputText>
                 </div>
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="news-status">Trạng thái</label>
-                    <p-dropdown [options]="newsService.optionStatus()" id="news-status" optionLabel="label" optionValue="value"
-                        styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--" [(ngModel)]="key.status"
-                        emptyMessage="Không có dữ liệu"></p-dropdown>
-                </div>            
+                    <p-dropdown [(ngModel)]="key.status" [options]="newsService.optionStatus()" [showClear]="true"
+                                emptyMessage="Không có dữ liệu"
+                                id="news-status" optionLabel="label" optionValue="value"
+                                placeholder="--Tất cả--"
+                                styleClass="mat-form-field"></p-dropdown>
+                </div>
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="category">Danh mục</label>
-                    <p-dropdown [options]="categories" optionLabel="name" optionValue="id" [filter]="true" filterBy="name" 
-                    filterPlaceholder="Tên danh mục" emptyMessage="Không có dữ liệu" id="category"
-                    [showClear]="true" placeholder="--Tất cả--" styleClass="mat-form-field" [(ngModel)]="key.categoryId">
+                    <p-dropdown [(ngModel)]="key.categoryId" [filter]="true" [options]="categories" [showClear]="true"
+                                emptyMessage="Không có dữ liệu"
+                                filterBy="name" filterPlaceholder="Tên danh mục" id="category"
+                                optionLabel="name" optionValue="id" placeholder="--Tất cả--"
+                                styleClass="mat-form-field">
                         <ng-template let-category pTemplate="item">
                             <div class="flex align-items-center">
                                 <div>{{ category.name }}</div>
                             </div>
                         </ng-template>
                     </p-dropdown>
-                </div>            
+                </div>
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="news-from">Từ ngày</label>
-                    <p-calendar [showClear]="true" id="news-from" [readonlyInput]="true"
-                    [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.fromDateTime"></p-calendar>
+                    <p-calendar [(ngModel)]="key.fromDateTime" [readonlyInput]="true" [showClear]="true"
+                                [showIcon]="true" dataType="string" dateFormat="dd/mm/yy" id="news-from"
+                                styleClass="mat-form-field"></p-calendar>
                 </div>
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="news-to">Đến ngày</label>
-                    <p-calendar [showClear]="true" id="news-to" [readonlyInput]="true"
-                    [showIcon]="true" dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.toDateTime"></p-calendar>
+                    <p-calendar [(ngModel)]="key.toDateTime" [readonlyInput]="true" [showClear]="true"
+                                [showIcon]="true" dataType="string" dateFormat="dd/mm/yy" id="news-to"
+                                styleClass="mat-form-field"></p-calendar>
                 </div>
             </div>
             <div class="col-12">
-                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="onSearch()"></button>
+                <button (click)="onSearch()" icon="fa fa-search" label="Tìm kiếm" pButton></button>
             </div>
         </div>
     </p-panel>
-    <p-table #table [value]="news" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines mt-3"
-    selectionMode="single" [paginator]="false">
-    <ng-template pTemplate="caption">
-        <div class="flex align-items-center justify-content-between">
-            Đơn nhận nuôi
-            <p-button icon="fa fa-refresh" (onClick)="onRefresh()"></p-button>
-        </div>
-    </ng-template>
-    <ng-template pTemplate="header">
-        <tr class="">
-            <th class="col-1">Hình ảnh</th>
-            <th class="col-7">Tiêu đề</th>
-            <th class="col-2">Danh mục</th>
-            <th class="col-1">Thời gian tạo</th>
-            <th class="col-1">Trạng thái</th>
-            <th class=""></th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-news>
-        <tr>
-            <td><img [src]="news.image" [alt]="news.title" width="60" class="shadow-4" height="60" /></td>
-            <td>{{news.title}}</td>
-            <td>{{news.categoryName}}</td>
-            <td>{{news.createdAt | date:'HH:mm - dd/MM/yyyy'}}</td>
-            <td>
-                <p-tag [value]="newsService.getStatus(news.status)"
-                        [severity]="newsService.getStatusBadge(news.status)"></p-tag>
-            </td>
-            <td>
-                <p-button #btn type="button" icon="fa fa-solid fa-sliders" (click)="menu.toggle($event)"></p-button>
-                <p-tieredMenu #menu [model]="news.menuItems" [popup]="true" appendTo="body" class="p-0"
-                    styleClass="menucus"></p-tieredMenu>
-            </td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="paginatorleft">
-        <p-button type="button" icon="fa fa-plus" styleClass="p-button-text" (onClick)="onShowCreateModal()"></p-button>
-    </ng-template>
-    <ng-template pTemplate="paginatorright">
-    </ng-template>
+    <p-table #table [paginator]="false" [tableStyle]="{'min-width': '60rem'}" [value]="news"
+             selectionMode="single" styleClass="p-datatable-gridlines mt-3">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                Đơn nhận nuôi
+                <p-button (onClick)="onRefresh()" icon="fa fa-refresh"></p-button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr class="">
+                <th class="col-1">Hình ảnh</th>
+                <th class="col-7">Tiêu đề</th>
+                <th class="col-2">Danh mục</th>
+                <th class="col-1">Thời gian tạo</th>
+                <th class="col-1">Trạng thái</th>
+                <th class=""></th>
+            </tr>
+        </ng-template>
+        <ng-template let-news pTemplate="body">
+            <tr>
+                <td><img [alt]="news.title" [src]="news.image" class="shadow-4" height="60" width="60"/></td>
+                <td>{{ news.title }}</td>
+                <td>{{ news.categoryName }}</td>
+                <td>{{ news.createdAt | date:'HH:mm - dd/MM/yyyy' }}</td>
+                <td>
+                    <p-tag [severity]="newsService.getStatusBadge(news.status)"
+                           [value]="newsService.getStatus(news.status)"></p-tag>
+                </td>
+                <td>
+                    <p-button #btn (click)="menu.toggle($event)" icon="fa fa-solid fa-sliders" type="button"></p-button>
+                    <p-tieredMenu #menu [model]="news.menuItems" [popup]="true" appendTo="body" class="p-0"
+                                  styleClass="menucus"></p-tieredMenu>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+            <p-button (onClick)="onShowCreateModal()" icon="fa fa-plus" styleClass="p-button-text"
+                      type="button"></p-button>
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+        </ng-template>
     </p-table>
-    <p-paginator [rows]="limit" [showCurrentPageReport]="false" [totalRecords]="totalElements" [first]="first"
-            [rowsPerPageOptions]="[1, 5, 10, 25]" [style]="{'margin-top': '1rem'}"
-            (onPageChange)="onPageChange($event)"></p-paginator>
+    <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rowsPerPageOptions]="[1, 5, 10, 25]" [rows]="limit"
+                 [showCurrentPageReport]="false" [style]="{'margin-top': '1rem'}"
+                 [totalRecords]="totalElements"></p-paginator>
 </div>

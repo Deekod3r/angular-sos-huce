@@ -1,5 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { LayoutService } from 'src/app/services/layout.service';
+import {Component, ElementRef} from '@angular/core';
+import {LayoutService} from 'src/app/services/layout.service';
 
 @Component({
     selector: 'app-sidebar-admin',
@@ -8,6 +8,7 @@ import { LayoutService } from 'src/app/services/layout.service';
 })
 export class SidebarAdminComponent {
 
-    constructor(public layoutService: LayoutService, public el: ElementRef) { }
-    
+    constructor(public layoutService: LayoutService, public el: ElementRef) {
+    }
+
 }

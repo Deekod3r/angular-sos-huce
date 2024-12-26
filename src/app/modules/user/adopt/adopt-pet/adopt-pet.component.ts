@@ -1,39 +1,39 @@
-import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { FieldsetModule } from 'primeng/fieldset';
-import { CardPetModule } from 'src/app/shared/components/card-pet/card-pet.module';
-import { PetService } from 'src/app/services/pet.service';
-import { DropdownModule } from 'primeng/dropdown';
-import { Subject, takeUntil } from 'rxjs';
-import { PaginatorModule } from 'primeng/paginator';
-import { PET } from 'src/app/common/constant';
-import { CarouselModule } from 'primeng/carousel';
-import { ActivatedRoute } from '@angular/router';
-import { BadgeModule } from 'primeng/badge';
-import { ImageModule } from 'primeng/image';
-import { DialogModule } from 'primeng/dialog';
-import { LocationService } from 'src/app/services/location.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
-import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
-import { CheckboxModule } from 'primeng/checkbox';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { message, messageAdopt, title } from 'src/app/common/message';
-import { AdoptService } from 'src/app/services/adopt.service';
-import { TreatmentPetModule } from 'src/app/shared/components/treatment-pet/treatment-pet.module';
-import { AdoptProcessModule } from 'src/app/shared/components/adopt-process/adopt-process.module';
+import {Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
+import {SharedModule} from 'src/app/shared/shared.module';
+import {FieldsetModule} from 'primeng/fieldset';
+import {CardPetModule} from 'src/app/shared/components/card-pet/card-pet.module';
+import {PetService} from 'src/app/services/pet.service';
+import {DropdownModule} from 'primeng/dropdown';
+import {Subject, takeUntil} from 'rxjs';
+import {PaginatorModule} from 'primeng/paginator';
+import {PET} from 'src/app/common/constant';
+import {CarouselModule} from 'primeng/carousel';
+import {ActivatedRoute} from '@angular/router';
+import {BadgeModule} from 'primeng/badge';
+import {ImageModule} from 'primeng/image';
+import {DialogModule} from 'primeng/dialog';
+import {LocationService} from 'src/app/services/location.service';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from 'src/app/services/auth.service';
+import {noWhitespaceValidator} from 'src/app/shared/utils/string.util';
+import {CheckboxModule} from 'primeng/checkbox';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {message, messageAdopt, title} from 'src/app/common/message';
+import {AdoptService} from 'src/app/services/adopt.service';
+import {TreatmentPetModule} from 'src/app/shared/components/treatment-pet/treatment-pet.module';
+import {AdoptProcessModule} from 'src/app/shared/components/adopt-process/adopt-process.module';
 
 @Component({
     selector: 'app-adopt',
     standalone: true,
-    imports: [SharedModule, FieldsetModule, CardPetModule, 
+    imports: [SharedModule, FieldsetModule, CardPetModule,
         DropdownModule, PaginatorModule, CarouselModule, AdoptProcessModule,
         BadgeModule, ImageModule, DialogModule, CheckboxModule, TreatmentPetModule],
     templateUrl: './adopt-pet.component.html',
     styleUrls: ['./adopt-pet.component.css']
 })
 export class AdoptPetComponent implements OnInit, OnDestroy {
-    
+
     visibleCreateModal: boolean = false;
     alertRequiredLogin: boolean = false;
     id!: string;
@@ -64,9 +64,10 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
     ];
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public petService: PetService, private route: ActivatedRoute, private adoptService: AdoptService, 
-        private locationService: LocationService, public authService: AuthService, private elementRef: ElementRef,
-        private messageService: MessageService, private confirmationService: ConfirmationService) { }
+    constructor(public petService: PetService, private route: ActivatedRoute, private adoptService: AdoptService,
+                private locationService: LocationService, public authService: AuthService, private elementRef: ElementRef,
+                private messageService: MessageService, private confirmationService: ConfirmationService) {
+    }
 
     ngOnInit(): void {
         this.formAdopt = new FormGroup({
@@ -83,7 +84,7 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
             this.getPets();
         });
     }
-    
+
     ngOnDestroy(): void {
         this.subscribes$.next();
         this.subscribes$.complete();
@@ -91,21 +92,21 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
 
     getPet(): void {
         this.petService.getPetById(this.id)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.pet = res.data;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.pet = res.data;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     getPets(): void {
@@ -115,21 +116,21 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
             status: PET.STATUS_KEY.WAITING.toString()
         };
         this.petService.getPets(petSearchKey)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.pets = res.data.pets;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.pets = res.data.pets;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onShowCreateModal(): void {
@@ -147,60 +148,60 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
     }
 
     getProvinces(): void {
-        this.locationService.getPronvinces()
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res) {
-                    this.provinces = res;
+        this.locationService.getProvinces()
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res) {
+                        this.provinces = res;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     getDistricts(): void {
         this.locationService.getDistricts(this.formAdopt.value.province)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res) {
-                    this.districts = res;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res) {
+                        this.districts = res;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     getWards(): void {
         this.locationService.getWards(this.formAdopt.value.district)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res) {
-                    this.wards = res;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res) {
+                        this.wards = res;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onRegisterAdopt(event: any): void {
@@ -208,7 +209,7 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
             this.formAdopt.markAllAsTouched();
             const firstInvalidControl = this.findFirstInvalidControl();
             if (firstInvalidControl) {
-                firstInvalidControl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                firstInvalidControl.scrollIntoView({behavior: 'smooth', block: 'center'});
             }
             return;
         }
@@ -233,23 +234,36 @@ export class AdoptPetComponent implements OnInit, OnDestroy {
                     registeredBy: this.userInfo.id
                 };
                 this.adoptService.createAdopt(body)
-                .pipe(takeUntil(this.subscribes$))
-                .subscribe({
-                    next: (res) => {
-                        if (res.success) {
-                            this.visibleCreateModal = false;
-                            this.formAdopt.reset();
-                            this.messageService.add({severity:'success', summary: title.success, detail: messageAdopt.createSuccess, life: 5000});
+                    .pipe(takeUntil(this.subscribes$))
+                    .subscribe({
+                        next: (res) => {
+                            if (res.success) {
+                                this.visibleCreateModal = false;
+                                this.formAdopt.reset();
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: title.success,
+                                    detail: messageAdopt.createSuccess,
+                                    life: 5000
+                                });
+                            }
+                        },
+                        error: (res) => {
+                            if (res.error) {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
+                            }
                         }
-                    },
-                    error: (res) => {
-                        if (res.error) {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                        } else {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                        }
-                    }
-                });
+                    });
             },
             reject: () => {
             }

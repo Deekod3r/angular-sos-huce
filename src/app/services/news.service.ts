@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { CommonService } from './common.service';
-import { AuthService } from './auth.service';
-import { CONFIG } from '../common/config';
-import { NEWS } from '../common/constant';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {CommonService} from './common.service';
+import {AuthService} from './auth.service';
+import {CONFIG} from '../common/config';
+import {NEWS} from '../common/constant';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +12,8 @@ export class NewsService {
 
     private API_URL = 'news';
 
-    constructor(private commonService: CommonService, private authService: AuthService) { }
+    constructor(private commonService: CommonService, private authService: AuthService) {
+    }
 
     getNews(search: any): Observable<any> {
         const request = {
@@ -27,7 +28,7 @@ export class NewsService {
         }
         return this.commonService.callAPI(request);
     }
-    
+
     getNewsCategories(): Observable<any> {
         const request = {
             function: this.API_URL + '/categories',

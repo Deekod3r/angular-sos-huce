@@ -1,19 +1,20 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { CommonService } from './common.service';
-import { AuthService } from './auth.service';
-import { CONFIG } from '../common/config';
-import { ADOPT } from '../common/constant';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {CommonService} from './common.service';
+import {AuthService} from './auth.service';
+import {CONFIG} from '../common/config';
+import {ADOPT} from '../common/constant';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 
 export class AdoptService {
 
     private API_URL = 'adopts';
 
-    constructor(private commonService: CommonService, private authService: AuthService) { }
+    constructor(private commonService: CommonService, private authService: AuthService) {
+    }
 
     getAdopts(search: any): Observable<any> {
         const request = {
@@ -140,16 +141,16 @@ export class AdoptService {
 
     deleteAdopt(id: string): Observable<any> {
         const request = {
-          function: this.API_URL + '/delete/' + id,
-          method: CONFIG.KEY.METHOD_DELETE,
-          options: {
-            headers: {
-              'Authorization': 'Bearer ' + this.authService.getToken()
+            function: this.API_URL + '/delete/' + id,
+            method: CONFIG.KEY.METHOD_DELETE,
+            options: {
+                headers: {
+                    'Authorization': 'Bearer ' + this.authService.getToken()
+                }
             }
-          }
         }
         return this.commonService.callAPI(request);
-      }
+    }
 
     getStatus(status: number): string | undefined {
         const statusOption = ADOPT.STATUS.find(option => option.value === status);
@@ -159,20 +160,20 @@ export class AdoptService {
     getSeverityStatus(status: number): any {
         switch (status) {
             case 1:
-              return 'primary';
+                return 'primary';
             case 2:
-              return 'warning';
+                return 'warning';
             case 3:
-              return 'danger';
+                return 'danger';
             case 4:
-              return 'info';
+                return 'info';
             case 5:
-              return 'success';
+                return 'success';
             case 6:
-              return 'danger';
+                return 'danger';
             default:
-              return 'info';
-          }
+                return 'info';
+        }
     }
 
     isAvailableForCancelByUser(status: number): boolean {
@@ -182,5 +183,5 @@ export class AdoptService {
     optionStatus(): any[] {
         return ADOPT.STATUS;
     }
-    
+
 }

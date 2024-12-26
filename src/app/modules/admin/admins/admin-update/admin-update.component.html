@@ -7,21 +7,21 @@
                 </div>
                 <div class="p-inputgroup">
                     <span class="p-inputgroup-addon">
-                        <i class="fa-solid fa-address-card"></i>                   
+                        <i class="fa-solid fa-address-card"></i>
                     </span>
-                    <input pInputText type="text" formControlName="name" class="form-control" name="name">
+                    <input class="form-control" formControlName="name" name="name" pInputText type="text">
                 </div>
-                <div class="text-red-500 mt-1 ml-1"
-                    *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched">
+                <div *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched"
+                     class="text-red-500 mt-1 ml-1">
                     Vui lòng nhập họ tên
                 </div>
-                <div class="text-red-500 mt-1 ml-1"
-                    *ngIf="(
+                <div *ngIf="(
                         form.controls['name'].hasError('pattern')
                         || form.controls['name'].hasError('minLength')
                         || form.controls['name'].hasError('maxLength')
                         )
-                        && form.controls['name'].dirty">
+                        && form.controls['name'].dirty"
+                     class="text-red-500 mt-1 ml-1">
                     Họ tên không hợp lệ
                 </div>
             </div>
@@ -31,21 +31,22 @@
                 </div>
                 <div class="p-inputgroup">
                     <span class="p-inputgroup-addon">
-                        <i class="fa-solid fa-phone-flip"></i>                    
+                        <i class="fa-solid fa-phone-flip"></i>
                     </span>
-                    <input pInputText type="text" formControlName="phoneNumber" class="form-control" name="phone-number">
+                    <input class="form-control" formControlName="phoneNumber" name="phone-number" pInputText
+                           type="text">
                 </div>
-                <div class="text-red-500 mt-1 ml-1"
-                    *ngIf="form.controls['phoneNumber'].hasError('required') && form.controls['phoneNumber'].touched">
+                <div *ngIf="form.controls['phoneNumber'].hasError('required') && form.controls['phoneNumber'].touched"
+                     class="text-red-500 mt-1 ml-1">
                     Vui lòng nhập số điện thoại
                 </div>
-                <div class="text-red-500 mt-1 ml-1"
-                    *ngIf="(
+                <div *ngIf="(
                         form.controls['phoneNumber'].hasError('pattern') ||
                         form.controls['phoneNumber'].hasError('minLength') ||
                         form.controls['phoneNumber'].hasError('maxLength')
                         )
-                        && form.controls['phoneNumber'].dirty">
+                        && form.controls['phoneNumber'].dirty"
+                     class="text-red-500 mt-1 ml-1">
                     Số điện thoại không hợp lệ
                 </div>
             </div>
@@ -57,53 +58,58 @@
                     <span class="p-inputgroup-addon">
                         <i class="fa fa-at"></i>
                     </span>
-                    <input pInputText type="email" formControlName="email" class="form-control" name="email">
+                    <input class="form-control" formControlName="email" name="email" pInputText type="email">
                 </div>
-                <div class="text-red-500 mt-1 ml-1"
-                    *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched">
+                <div *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched"
+                     class="text-red-500 mt-1 ml-1">
                     Vui lòng nhập email
                 </div>
-                <div class="text-red-500 mt-1 ml-1"
-                    *ngIf="(
+                <div *ngIf="(
                         form.controls['email'].hasError('email') ||
                         form.controls['email'].hasError('minLength') ||
                         form.controls['email'].hasError('maxLength')
                         )
-                        && form.controls['email'].dirty">
+                        && form.controls['email'].dirty"
+                     class="text-red-500 mt-1 ml-1">
                     Email không hợp lệ
                 </div>
             </div>
             <div class="md:col-6 col-12">
-                <div class="font-bold mb-1" #password>
+                <div #password class="font-bold mb-1">
                     Trạng thái <span class="text-red-500">*</span>
                 </div>
-                <p-dropdown [options]="userService.optionStatus()" id="status" optionLabel="label" optionValue="value"
-                    styleClass="mat-form-field" [showClear]="true" placeholder="--Chọn--"
-                    emptyMessage="Không có dữ liệu" formControlName="status"></p-dropdown>
-                <div class="text-red-500 mt-1"
-                    *ngIf="form.controls['status'].hasError('required') && form.controls['status'].touched">
+                <p-dropdown [options]="userService.optionStatus()" [showClear]="true" emptyMessage="Không có dữ liệu" formControlName="status"
+                            id="status" optionLabel="label" optionValue="value"
+                            placeholder="--Chọn--" styleClass="mat-form-field"></p-dropdown>
+                <div *ngIf="form.controls['status'].hasError('required') && form.controls['status'].touched"
+                     class="text-red-500 mt-1">
                     Vui lòng chọn trạng thái
                 </div>
             </div>
         </div>
         <div class="col-12 mt-5 grid justify-content-center">
-            <p-button label="Đổi mật khẩu" styleClass="p-button-outlined p-button-warning mr-3" icon="fa fa-lock" (onClick)="visibleUpdatePasswordModal = true"></p-button>
-            <p-button label="Hoàn tác" styleClass="p-button-outlined mr-3" icon="fa fa-refresh" [disabled]="!form.dirty" (onClick)="onInitForm()"></p-button>
-            <p-button label="Lưu thay đổi" icon="fa fa-save" (click)="onSaveAccountAdmin($event)"></p-button>
+            <p-button (onClick)="visibleUpdatePasswordModal = true" icon="fa fa-lock" label="Đổi mật khẩu"
+                      styleClass="p-button-outlined p-button-warning mr-3"></p-button>
+            <p-button (onClick)="onInitForm()" [disabled]="!form.dirty" icon="fa fa-refresh" label="Hoàn tác"
+                      styleClass="p-button-outlined mr-3"></p-button>
+            <p-button (click)="onSaveAccountAdmin($event)" icon="fa fa-save" label="Lưu thay đổi"></p-button>
         </div>
     </form>
-    <p-dialog *ngIf="visibleUpdatePasswordModal" header="Thay mật khẩu tài khoản quản trị viên" 
-        [(visible)]="visibleUpdatePasswordModal" [modal]="true" [draggable]="false" [resizable]="false">
+    <p-dialog *ngIf="visibleUpdatePasswordModal" [(visible)]="visibleUpdatePasswordModal"
+              [draggable]="false" [modal]="true" [resizable]="false" header="Thay mật khẩu tài khoản quản trị viên">
         <form [formGroup]="formPassword">
             <div class="col-12 mt-2">
-                <div class="font-bold mb-1" #password>
-                    Mật khẩu <span class="text-red-500">*</span> <p class="font-semibold">(Độ dài tối thiểu 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt)</p>
+                <div #password class="font-bold mb-1">
+                    Mật khẩu <span class="text-red-500">*</span>
+                    <p class="font-semibold">(Độ dài tối thiểu 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc
+                        biệt)</p>
                 </div>
                 <div class="p-inputgroup">
-                    <p-password formControlName="password" class="form-control" promptLabel=" " [feedback]="false"
-                        strongRegex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$"
-                        weakLabel="Yếu" mediumLabel="Trung bình" strongLabel="Mạnh" [style]="{'width':'100%'}" [toggleMask]="true"
-                        [inputStyle]="{'width':'100%'}">
+                    <p-password [feedback]="false" [inputStyle]="{'width':'100%'}" [style]="{'width':'100%'}" [toggleMask]="true"
+                                class="form-control"
+                                formControlName="password" mediumLabel="Trung bình" promptLabel=" " strongLabel="Mạnh"
+                                strongRegex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$"
+                                weakLabel="Yếu">
                         <ng-template pTemplate="header">
                         </ng-template>
                         <ng-template pTemplate="footer">
@@ -113,22 +119,22 @@
                         <i class="fa fa-key"></i>
                     </span>
                 </div>
-                <div class="text-red-500 mt-1 ml-1"
-                    *ngIf="formPassword.controls['password'].hasError('required') && formPassword.controls['password'].touched">
+                <div *ngIf="formPassword.controls['password'].hasError('required') && formPassword.controls['password'].touched"
+                     class="text-red-500 mt-1 ml-1">
                     Vui lòng nhập mật khẩu
                 </div>
-                <div class="text-red-500 mt-1 ml-1"
-                    *ngIf="(
+                <div *ngIf="(
                         formPassword.controls['password'].hasError('pattern') ||
                         formPassword.controls['password'].hasError('maxLength')
                         )
-                        && formPassword.controls['password'].dirty">
+                        && formPassword.controls['password'].dirty"
+                     class="text-red-500 mt-1 ml-1">
                     Mật khẩu không hợp lệ
                 </div>
             </div>
         </form>
         <div class="col-12 mt-3 grid justify-content-center">
-            <p-button label="Lưu thay đổi" icon="fa fa-save" type="button"  (click)="onSavePassword($event)"></p-button>
+            <p-button (click)="onSavePassword($event)" icon="fa fa-save" label="Lưu thay đổi" type="button"></p-button>
         </div>
     </p-dialog>
 </div>

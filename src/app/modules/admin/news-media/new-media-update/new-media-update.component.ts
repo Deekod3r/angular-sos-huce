@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
-import { title, message } from 'src/app/common/message';
-import { NewsService } from 'src/app/services/news.service';
-import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {Subject, takeUntil} from 'rxjs';
+import {message, title} from 'src/app/common/message';
+import {NewsService} from 'src/app/services/news.service';
+import {noWhitespaceValidator} from 'src/app/shared/utils/string.util';
 
 @Component({
     selector: 'app-new-media-update',
@@ -22,7 +22,8 @@ export class NewMediaUpdateComponent implements OnInit, OnDestroy {
     news!: any;
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public newsService: NewsService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
+    constructor(public newsService: NewsService, private messageService: MessageService, private confirmationService: ConfirmationService) {
+    }
 
     ngOnInit(): void {
         this.form = new FormGroup({
@@ -53,9 +54,9 @@ export class NewMediaUpdateComponent implements OnInit, OnDestroy {
                 },
                 error: (res) => {
                     if (res.error) {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
                     } else {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
                     }
                 }
             });
@@ -78,7 +79,7 @@ export class NewMediaUpdateComponent implements OnInit, OnDestroy {
             return;
         }
         if (!this.form.dirty) {
-            this.messageService.add({ severity: 'info', summary: title.info, detail: message.noChange });
+            this.messageService.add({severity: 'info', summary: title.info, detail: message.noChange});
             return;
         }
         this.confirmationService.confirm({
@@ -111,9 +112,17 @@ export class NewMediaUpdateComponent implements OnInit, OnDestroy {
                         },
                         error: (res) => {
                             if (res.error) {
-                                this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
                             } else {
-                                this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
                             }
                         }
                     });
@@ -130,21 +139,21 @@ export class NewMediaUpdateComponent implements OnInit, OnDestroy {
         formData.append('id', this.idNews);
         this.newsService.updateImageNews(formData, this.idNews)
             .pipe(takeUntil(this.subscribes$)).subscribe({
-                next: (res) => {
-                    if (res.success) {
-                        this.visibleUpdateImageModal = false;
-                        this.result = true;
-                        this.resultAction.emit(this.result);
-                    }
-                },
-                error: (res) => {
-                    if (res.error) {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                    } else {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                    }
+            next: (res) => {
+                if (res.success) {
+                    this.visibleUpdateImageModal = false;
+                    this.result = true;
+                    this.resultAction.emit(this.result);
                 }
-            });
+            },
+            error: (res) => {
+                if (res.error) {
+                    this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                } else {
+                    this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                }
+            }
+        });
     }
 
     onShowUpdateImageModal(): void {

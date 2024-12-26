@@ -1,15 +1,15 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { DialogModule } from 'primeng/dialog';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { Table, TableModule } from 'primeng/table';
-import { TieredMenuModule } from 'primeng/tieredmenu';
-import { Subject, takeUntil } from 'rxjs';
-import { message, messageNewsCategory, title } from 'src/app/common/message';
-import { NewsService } from 'src/app/services/news.service';
-import { SharedModule } from 'src/app/shared/shared.module';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ConfirmationService, MenuItem, MessageService} from 'primeng/api';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {DialogModule} from 'primeng/dialog';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {Table, TableModule} from 'primeng/table';
+import {TieredMenuModule} from 'primeng/tieredmenu';
+import {Subject, takeUntil} from 'rxjs';
+import {message, messageNewsCategory, title} from 'src/app/common/message';
+import {NewsService} from 'src/app/services/news.service';
+import {SharedModule} from 'src/app/shared/shared.module';
 
 @Component({
     selector: 'app-news-category',
@@ -28,8 +28,9 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
     visibleUpdateModal: boolean = false;
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private newsService: NewsService, private messageService: MessageService, 
-        private confirmationService: ConfirmationService) { }
+    constructor(private newsService: NewsService, private messageService: MessageService,
+                private confirmationService: ConfirmationService) {
+    }
 
     ngOnInit(): void {
         this.getNewsCategories();
@@ -51,24 +52,24 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
 
     getNewsCategories(): void {
         this.newsService.getNewsCategories()
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.categories = res.data;
-                    this.categories.forEach((category: any) => {
-                        category.menuItems = this.getMenuItems(category);
-                    })
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.categories = res.data;
+                        this.categories.forEach((category: any) => {
+                            category.menuItems = this.getMenuItems(category);
+                        })
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     getMenuItems(category: any): MenuItem[] {
@@ -111,48 +112,52 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
             description: this.formAdd.value.description.trim()
         };
         this.newsService.createNewsCategory(body)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.getNewsCategories();
-                    this.formAdd.reset();
-                    this.messageService.add({ severity: 'success', summary: title.success, detail: messageNewsCategory.createSuccess });
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.getNewsCategories();
+                        this.formAdd.reset();
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: title.success,
+                            detail: messageNewsCategory.createSuccess
+                        });
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onShowUpdateModal(id: string): void {
         this.newsService.getNewsCategoryById(id)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    let categoryUpdate = res.data;
-                    this.formUpdate.setValue({
-                        id: categoryUpdate.id,
-                        name: categoryUpdate.name,
-                        description: categoryUpdate.description
-                    });
-                    this.visibleUpdateModal = true;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        let categoryUpdate = res.data;
+                        this.formUpdate.setValue({
+                            id: categoryUpdate.id,
+                            name: categoryUpdate.name,
+                            description: categoryUpdate.description
+                        });
+                        this.visibleUpdateModal = true;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onHideFormAdd(): void {
@@ -166,7 +171,7 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
             return;
         }
         if (!this.formUpdate.dirty) {
-            this.messageService.add({ severity: 'info', summary: title.info, detail: message.noChange });
+            this.messageService.add({severity: 'info', summary: title.info, detail: message.noChange});
             return;
         }
         this.confirmationService.confirm({
@@ -186,24 +191,36 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
                     description: this.formUpdate.value.description.trim()
                 }
                 this.newsService.updateNewsCategory(body, this.formUpdate.value.id)
-                .pipe(takeUntil(this.subscribes$))
-                .subscribe({
-                    next: (res) => {
-                        if (res.success) {
-                            this.getNewsCategories();
-                            this.formUpdate.reset();
-                            this.visibleUpdateModal = false;
-                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageNewsCategory.updateSuccess });
+                    .pipe(takeUntil(this.subscribes$))
+                    .subscribe({
+                        next: (res) => {
+                            if (res.success) {
+                                this.getNewsCategories();
+                                this.formUpdate.reset();
+                                this.visibleUpdateModal = false;
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: title.success,
+                                    detail: messageNewsCategory.updateSuccess
+                                });
+                            }
+                        },
+                        error: (res) => {
+                            if (res.error) {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
+                            }
                         }
-                    },
-                    error: (res) => {
-                        if (res.error) {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                        } else {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                        }
-                    }
-                });
+                    });
             },
             reject: () => {
             }
@@ -223,23 +240,35 @@ export class NewsCategoryComponent implements OnInit, OnDestroy {
             rejectButtonStyleClass: "p-button-text",
             accept: () => {
                 this.newsService.deleteNewsCategory(id)
-                .pipe(takeUntil(this.subscribes$))
-                .subscribe({
-                    next: (res) => {
-                        if (res.success) {
-                            this.table.reset();
-                            this.getNewsCategories();
-                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageNewsCategory.deleteSuccess });
+                    .pipe(takeUntil(this.subscribes$))
+                    .subscribe({
+                        next: (res) => {
+                            if (res.success) {
+                                this.table.reset();
+                                this.getNewsCategories();
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: title.success,
+                                    detail: messageNewsCategory.deleteSuccess
+                                });
+                            }
+                        },
+                        error: (res) => {
+                            if (res.error) {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
+                            }
                         }
-                    },
-                    error: (res) => {
-                        if (res.error) {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                        } else {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                        }
-                    }
-                });
+                    });
             },
             reject: () => {
             }

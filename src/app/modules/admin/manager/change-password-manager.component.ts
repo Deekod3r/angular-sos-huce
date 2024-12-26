@@ -1,14 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { DialogModule } from 'primeng/dialog';
-import { PasswordModule } from 'primeng/password';
-import { Subject, takeUntil } from 'rxjs';
-import { message, messageUser, title } from 'src/app/common/message';
-import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user.service';
-import { SharedModule } from 'src/app/shared/shared.module';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {MessageService} from 'primeng/api';
+import {DialogModule} from 'primeng/dialog';
+import {PasswordModule} from 'primeng/password';
+import {Subject, takeUntil} from 'rxjs';
+import {message, messageUser, title} from 'src/app/common/message';
+import {AuthService} from 'src/app/services/auth.service';
+import {UserService} from 'src/app/services/user.service';
+import {SharedModule} from 'src/app/shared/shared.module';
 
 @Component({
     selector: 'app-change-password-manager',
@@ -23,7 +23,8 @@ export class ChangePasswordManagerComponent implements OnInit, OnDestroy {
     visibleModal: boolean = true;
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private userService: UserService, private messageService: MessageService, private authService: AuthService, private route: Router) { }
+    constructor(private userService: UserService, private messageService: MessageService, private authService: AuthService, private route: Router) {
+    }
 
     ngOnInit(): void {
         this.formPassword = new FormGroup({
@@ -46,26 +47,30 @@ export class ChangePasswordManagerComponent implements OnInit, OnDestroy {
             password: this.formPassword.value.password
         }
         this.userService.updatePasswordAdmin(body.id, body)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.formPassword.reset();
-                    this.messageService.add({ severity: 'success', summary: title.success, detail: messageUser.updateSuccess });
-                    setTimeout(() => {
-                        this.authService.logout();
-                        window.location.reload();
-                    }, 2000);
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.formPassword.reset();
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: title.success,
+                            detail: messageUser.updateSuccess
+                        });
+                        setTimeout(() => {
+                            this.authService.logout();
+                            window.location.reload();
+                        }, 2000);
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     hideDialog(): void {

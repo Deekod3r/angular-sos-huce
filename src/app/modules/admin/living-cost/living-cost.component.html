@@ -1,47 +1,53 @@
 <div class="card">
-    <p-dialog *ngIf="visibleCreateModal" header="Thêm chi phí sinh hoạt" [(visible)]="visibleCreateModal" [modal]="true"
-        styleClass="xl:w-6 lg:w-8 md:w-8 w-11" [draggable]="false" [resizable]="false">
+    <p-dialog *ngIf="visibleCreateModal" [(visible)]="visibleCreateModal" [draggable]="false" [modal]="true"
+              [resizable]="false" header="Thêm chi phí sinh hoạt" styleClass="xl:w-6 lg:w-8 md:w-8 w-11">
         <app-living-cost-create (resultAction)="onReceiveResult($event, 1)"></app-living-cost-create>
     </p-dialog>
-    <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh sửa chi phí sinh hoạt" [(visible)]="visibleUpdateModal" [modal]="true"
-        styleClass="xl:w-6 lg:w-8 md:w-8 w-11" [draggable]="false" [resizable]="false">
-        <app-living-cost-update (resultAction)="onReceiveResult($event, 2)" [idLivingCost]="idLivingCostUpdate"></app-living-cost-update>
+    <p-dialog *ngIf="visibleUpdateModal" [(visible)]="visibleUpdateModal" [draggable]="false"
+              [modal]="true"
+              [resizable]="false" header="Chỉnh sửa chi phí sinh hoạt" styleClass="xl:w-6 lg:w-8 md:w-8 w-11">
+        <app-living-cost-update (resultAction)="onReceiveResult($event, 2)"
+                                [idLivingCost]="idLivingCostUpdate"></app-living-cost-update>
     </p-dialog>
-    <p-panel header="Công cụ" [toggleable]="true">
-        <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onShowCreateModal()"></button>
+    <p-panel [toggleable]="true" header="Công cụ">
+        <button (click)="onShowCreateModal()" icon="fa fa-plus" label="Thêm mới" pButton></button>
         <div class="card grid mt-3">
             <div class="lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="living-cost-category">Danh mục chi phí</label>
-                    <p-dropdown id="living-cost-category" [options]="livingCostService.optionCategory()" placeholder="--Tất cả--"
-                        emptyMessage="Không có dữ liệu" optionLabel="label" optionValue="value" styleClass="mat-form-field" [(ngModel)]="key.category"></p-dropdown>
+                    <p-dropdown [(ngModel)]="key.category" [options]="livingCostService.optionCategory()"
+                                emptyMessage="Không có dữ liệu"
+                                id="living-cost-category" optionLabel="label" optionValue="value"
+                                placeholder="--Tất cả--" styleClass="mat-form-field"></p-dropdown>
                 </div>
             </div>
             <div class="lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="living-cost-from">Từ ngày</label>
-                    <p-calendar id="living-cost-from" [showIcon]="true" [readonlyInput]="true" 
-                        dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.fromDate"></p-calendar>
+                    <p-calendar [(ngModel)]="key.fromDate" [readonlyInput]="true" [showIcon]="true"
+                                dataType="string" dateFormat="dd/mm/yy" id="living-cost-from"
+                                styleClass="mat-form-field"></p-calendar>
                 </div>
             </div>
             <div class="lg:col-4 md:col-4 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="living-cost-to">Đến ngày</label>
-                    <p-calendar id="living-cost-to" [showIcon]="true" [readonlyInput]="true" 
-                        dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.toDate"></p-calendar>
+                    <p-calendar [(ngModel)]="key.toDate" [readonlyInput]="true" [showIcon]="true"
+                                dataType="string" dateFormat="dd/mm/yy" id="living-cost-to"
+                                styleClass="mat-form-field"></p-calendar>
                 </div>
             </div>
             <div class="col-12">
-                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="onSearch()"></button>
+                <button (click)="onSearch()" icon="fa fa-search" label="Tìm kiếm" pButton></button>
             </div>
         </div>
     </p-panel>
-    <p-table #table [value]="livingCosts" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines mt-3"
-        selectionMode="single" [paginator]="false">
+    <p-table #table [paginator]="false" [tableStyle]="{'min-width': '60rem'}" [value]="livingCosts"
+             selectionMode="single" styleClass="p-datatable-gridlines mt-3">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Danh sách chi phí sinh hoạt
-                <p-button icon="fa fa-refresh" (onClick)="onRefresh()"></p-button>
+                <p-button (onClick)="onRefresh()" icon="fa fa-refresh"></p-button>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -54,27 +60,28 @@
                 <th class=""></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-cost>
+        <ng-template let-cost pTemplate="body">
             <tr>
-                <td>{{cost.name}}</td>
-                <td>{{livingCostService.getCategory(cost.category)}}</td>
-                <td>{{cost.cost | currency: ' ' }} ₫</td>
-                <td>{{cost.date | date: 'dd/MM/yyyy' }}</td>
-                <td>{{cost.note}}</td>
+                <td>{{ cost.name }}</td>
+                <td>{{ livingCostService.getCategory(cost.category) }}</td>
+                <td>{{ cost.cost | currency: ' ' }} ₫</td>
+                <td>{{ cost.date | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ cost.note }}</td>
                 <td>
-                    <p-button #btn type="button" icon="fa fa-solid fa-sliders" (click)="menu.toggle($event)"></p-button>
+                    <p-button #btn (click)="menu.toggle($event)" icon="fa fa-solid fa-sliders" type="button"></p-button>
                     <p-tieredMenu #menu [model]="cost.menuItems" [popup]="true" appendTo="body" class="p-0"
-                        styleClass="menucus"></p-tieredMenu>
+                                  styleClass="menucus"></p-tieredMenu>
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="paginatorleft">
-            <p-button type="button" icon="fa fa-plus" styleClass="p-button-text" (click)="onShowCreateModal()"></p-button>
+            <p-button (click)="onShowCreateModal()" icon="fa fa-plus" styleClass="p-button-text"
+                      type="button"></p-button>
         </ng-template>
         <ng-template pTemplate="paginatorright">
         </ng-template>
     </p-table>
-    <p-paginator [rows]="limit" [showCurrentPageReport]="false" [totalRecords]="totalElements" [first]="first"
-            [rowsPerPageOptions]="[1, 5, 10, 25]" [style]="{'margin-top': '1rem'}"
-            (onPageChange)="onPageChange($event)"></p-paginator>
+    <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rowsPerPageOptions]="[1, 5, 10, 25]" [rows]="limit"
+                 [showCurrentPageReport]="false" [style]="{'margin-top': '1rem'}"
+                 [totalRecords]="totalElements"></p-paginator>
 </div>

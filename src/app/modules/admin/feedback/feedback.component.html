@@ -1,31 +1,33 @@
 <div class="card">
-    <p-panel header="Công cụ" [toggleable]="true">
+    <p-panel [toggleable]="true" header="Công cụ">
         <div class="card grid">
             <div class="lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="log-from">Từ ngày</label>
-                    <p-calendar id="log-from" [showIcon]="true" [readonlyInput]="true" [showClear]="false"
-                        dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.fromDate"></p-calendar>
+                    <p-calendar [(ngModel)]="key.fromDate" [readonlyInput]="true" [showClear]="false" [showIcon]="true"
+                                dataType="string" dateFormat="dd/mm/yy" id="log-from"
+                                styleClass="mat-form-field"></p-calendar>
                 </div>
             </div>
             <div class="lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="log-to">Đến ngày</label>
-                    <p-calendar id="log-to" [showIcon]="true" [readonlyInput]="true" [showClear]="false"
-                       dateFormat="dd/mm/yy" styleClass="mat-form-field" dataType="string" [(ngModel)]="key.toDate"></p-calendar>
+                    <p-calendar [(ngModel)]="key.toDate" [readonlyInput]="true" [showClear]="false" [showIcon]="true"
+                                dataType="string" dateFormat="dd/mm/yy" id="log-to"
+                                styleClass="mat-form-field"></p-calendar>
                 </div>
             </div>
             <div class="col-12">
-                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="getFeedbacks()"></button>
+                <button (click)="getFeedbacks()" icon="fa fa-search" label="Tìm kiếm" pButton></button>
             </div>
         </div>
     </p-panel>
-    <p-table #table [value]="feedbacks" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines mt-3"
-        selectionMode="single" [paginator]="true" [rowsPerPageOptions]="[1, 5, 10, 25]" [rows]="5">
+    <p-table #table [paginator]="true" [rowsPerPageOptions]="[1, 5, 10, 25]" [rows]="5"
+             [tableStyle]="{'min-width': '60rem'}" [value]="feedbacks" selectionMode="single" styleClass="p-datatable-gridlines mt-3">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Hòm thư hỗ trợ
-                <p-button icon="fa fa-refresh" (onClick)="onRefresh()"></p-button>
+                <p-button (onClick)="onRefresh()" icon="fa fa-refresh"></p-button>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -36,12 +38,12 @@
                 <th class="col-7">Nội dung</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-fb>
+        <ng-template let-fb pTemplate="body">
             <tr>
-                <td>{{fb.fullName}}</td>
-                <td>{{fb.email}}</td>
-                <td>{{fb.createdAt | date: 'dd/MM/yyyy' }}</td>
-                <td>{{fb.message}}</td>
+                <td>{{ fb.fullName }}</td>
+                <td>{{ fb.email }}</td>
+                <td>{{ fb.createdAt | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ fb.message }}</td>
             </tr>
         </ng-template>
         <ng-template pTemplate="paginatorleft">

@@ -1,15 +1,12 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
-import { CONFIG } from 'src/app/common/config';
-import { PET } from 'src/app/common/constant';
-import { title, message } from 'src/app/common/message';
-import { AdoptService } from 'src/app/services/adopt.service';
-import { LocationService } from 'src/app/services/location.service';
-import { PetService } from 'src/app/services/pet.service';
-import { UserService } from 'src/app/services/user.service';
-import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MessageService} from 'primeng/api';
+import {Subject, takeUntil} from 'rxjs';
+import {message, title} from 'src/app/common/message';
+import {AdoptService} from 'src/app/services/adopt.service';
+import {LocationService} from 'src/app/services/location.service';
+import {PetService} from 'src/app/services/pet.service';
+import {noWhitespaceValidator} from 'src/app/shared/utils/string.util';
 
 @Component({
     selector: 'app-adoption-create',
@@ -30,8 +27,9 @@ export class AdoptionCreateComponent implements OnInit, OnDestroy {
 
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public petService: PetService, private adoptService: AdoptService,    
-        private locationService: LocationService, private messageService: MessageService) { }
+    constructor(public petService: PetService, private adoptService: AdoptService,
+                private locationService: LocationService, private messageService: MessageService) {
+    }
 
     ngOnInit(): void {
         this.formAdopt = new FormGroup({
@@ -52,60 +50,60 @@ export class AdoptionCreateComponent implements OnInit, OnDestroy {
     }
 
     getProvinces(): void {
-        this.locationService.getPronvinces()
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res) {
-                    this.provinces = res;
+        this.locationService.getProvinces()
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res) {
+                        this.provinces = res;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     getDistricts(): void {
         this.locationService.getDistricts(this.formAdopt.value.province)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res) {
-                    this.districts = res;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res) {
+                        this.districts = res;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     getWards(): void {
         this.locationService.getWards(this.formAdopt.value.district)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res) {
-                    this.wards = res;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res) {
+                        this.wards = res;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onSaveAdopt(): void {
@@ -114,7 +112,7 @@ export class AdoptionCreateComponent implements OnInit, OnDestroy {
             return;
         }
         let body = {
-            provinceId: this.formAdopt.value.province, 
+            provinceId: this.formAdopt.value.province,
             districtId: this.formAdopt.value.district,
             wardId: this.formAdopt.value.ward,
             address: this.formAdopt.value.address.trim(),
@@ -123,23 +121,23 @@ export class AdoptionCreateComponent implements OnInit, OnDestroy {
             registeredBy: this.formAdopt.value.registeredBy.id
         };
         this.adoptService.createAdopt(body)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.formAdopt.reset();
-                    this.result = true;
-                    this.resultAction.emit(this.result); 
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.formAdopt.reset();
+                        this.result = true;
+                        this.resultAction.emit(this.result);
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
-    
+
 }

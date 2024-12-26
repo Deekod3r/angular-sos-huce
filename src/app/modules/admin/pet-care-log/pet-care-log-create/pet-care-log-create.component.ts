@@ -1,13 +1,12 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
-import { ADOPT } from 'src/app/common/constant';
-import { message, title } from 'src/app/common/message';
-import { AdoptService } from 'src/app/services/adopt.service';
-import { PetCareLogService } from 'src/app/services/pet-care-log.service';
-import { convertDateFormat } from 'src/app/shared/utils/data.util';
-import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MessageService} from 'primeng/api';
+import {Subject, takeUntil} from 'rxjs';
+import {message, title} from 'src/app/common/message';
+import {AdoptService} from 'src/app/services/adopt.service';
+import {PetCareLogService} from 'src/app/services/pet-care-log.service';
+import {convertDateFormat} from 'src/app/shared/utils/data.util';
+import {noWhitespaceValidator} from 'src/app/shared/utils/string.util';
 
 @Component({
     selector: 'app-pet-care-log-create',
@@ -21,10 +20,11 @@ export class PetCareLogCreateComponent implements OnInit, OnDestroy {
     form!: FormGroup;
     @Input() adopts: any[] = [];
     maxDate: Date = new Date();
-    
+
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private petCareLogService: PetCareLogService, private messageService: MessageService, private adoptService: AdoptService) { }
+    constructor(private petCareLogService: PetCareLogService, private messageService: MessageService, private adoptService: AdoptService) {
+    }
 
     ngOnInit(): void {
         this.form = new FormGroup({
@@ -47,23 +47,27 @@ export class PetCareLogCreateComponent implements OnInit, OnDestroy {
                 note: this.form.value.note.trim()
             }
             this.petCareLogService.createLog(body)
-            .pipe(takeUntil(this.subscribes$))
-            .subscribe({
-                next: (res) => {
-                    if (res.success) {
-                        this.form.reset();
-                        this.result = true;
-                        this.resultAction.emit(this.result);        
+                .pipe(takeUntil(this.subscribes$))
+                .subscribe({
+                    next: (res) => {
+                        if (res.success) {
+                            this.form.reset();
+                            this.result = true;
+                            this.resultAction.emit(this.result);
+                        }
+                    },
+                    error: (res) => {
+                        if (res.error) {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: title.error,
+                                detail: res.error.message
+                            });
+                        } else {
+                            this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                        }
                     }
-                },
-                error: (res) => {
-                    if (res.error) {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                    } else {
-                        this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                    }
-                }
-            });
+                });
         } else {
             this.form.markAllAsTouched();
         }

@@ -1,26 +1,26 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { Messages } from 'primeng/messages';
-import { Subject, takeUntil } from 'rxjs';
-import { title, message } from 'src/app/common/message';
-import { UserService } from 'src/app/services/user.service';
-import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MessageService} from 'primeng/api';
+import {Subject, takeUntil} from 'rxjs';
+import {message, title} from 'src/app/common/message';
+import {UserService} from 'src/app/services/user.service';
+import {noWhitespaceValidator} from 'src/app/shared/utils/string.util';
 
 @Component({
     selector: 'app-admin-create',
     templateUrl: './admin-create.component.html',
     styleUrls: ['./admin-create.component.css']
 })
-export class AdminCreateComponent implements OnInit, OnDestroy  {
-    
+export class AdminCreateComponent implements OnInit, OnDestroy {
+
     @Output() resultAction = new EventEmitter<boolean>();
     result: boolean = false;
 
     form!: FormGroup;
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private userService: UserService, private messageService: MessageService) { }
+    constructor(private userService: UserService, private messageService: MessageService) {
+    }
 
     ngOnInit(): void {
         this.form = new FormGroup({
@@ -30,7 +30,7 @@ export class AdminCreateComponent implements OnInit, OnDestroy  {
             'email': new FormControl('', [Validators.required, Validators.email, Validators.minLength(5), Validators.maxLength(100)])
         });
     }
-    
+
     ngOnDestroy(): void {
         this.subscribes$.next();
         this.subscribes$.complete();
@@ -48,23 +48,23 @@ export class AdminCreateComponent implements OnInit, OnDestroy  {
             email: this.form.value.email.trim()
         }
         this.userService.createAdmin(body)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.form.reset();
-                    this.result = true;
-                    this.resultAction.emit(this.result); 
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.form.reset();
+                        this.result = true;
+                        this.resultAction.emit(this.result);
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
 }

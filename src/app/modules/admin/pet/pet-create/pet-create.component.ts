@@ -1,13 +1,13 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { AutoCompleteCompleteEvent } from 'primeng/autocomplete/autocomplete.interface';
-import { Subject, takeUntil } from 'rxjs';
-import { PET } from 'src/app/common/constant';
-import { message, title } from 'src/app/common/message';
-import { PetService } from 'src/app/services/pet.service';
-import { convertDateFormat } from 'src/app/shared/utils/data.util';
-import { noWhitespaceValidator, upcaseAllFirstLetters, upcaseFirstLetter } from 'src/app/shared/utils/string.util';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MessageService} from 'primeng/api';
+import {AutoCompleteCompleteEvent} from 'primeng/autocomplete/autocomplete.interface';
+import {Subject, takeUntil} from 'rxjs';
+import {PET} from 'src/app/common/constant';
+import {message, title} from 'src/app/common/message';
+import {PetService} from 'src/app/services/pet.service';
+import {convertDateFormat} from 'src/app/shared/utils/data.util';
+import {noWhitespaceValidator, upperCaseAllFirstLetters, upperCaseFirstLetter} from 'src/app/shared/utils/string.util';
 
 
 @Component({
@@ -26,7 +26,8 @@ export class PetCreateComponent implements OnInit, OnDestroy {
 
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public petService: PetService, private messageService: MessageService) { }
+    constructor(public petService: PetService, private messageService: MessageService) {
+    }
 
     ngOnInit(): void {
         this.form = new FormGroup({
@@ -70,10 +71,10 @@ export class PetCreateComponent implements OnInit, OnDestroy {
         if (event && event.files && event.files.length > 0) {
             this.form.controls['petImage'].markAsDirty();
             const file = event.files[0];
-            this.form.patchValue({ petImage: file });
+            this.form.patchValue({petImage: file});
         }
     }
-    
+
     onSavePet(): void {
         if (!this.form.valid) {
             this.form.markAllAsTouched();
@@ -81,8 +82,8 @@ export class PetCreateComponent implements OnInit, OnDestroy {
         }
         const formData = new FormData();
         formData.append('age', this.form.value.petAge);
-        formData.append('breed', upcaseFirstLetter((this.form.value.petBreed.label ? this.form.value.petBreed.label : this.form.value.petBreed).trim()));
-        formData.append('color', upcaseFirstLetter((this.form.value.petColor.label ? this.form.value.petColor.label : this.form.value.petColor).trim()));
+        formData.append('breed', upperCaseFirstLetter((this.form.value.petBreed.label ? this.form.value.petBreed.label : this.form.value.petBreed).trim()));
+        formData.append('color', upperCaseFirstLetter((this.form.value.petColor.label ? this.form.value.petColor.label : this.form.value.petColor).trim()));
         formData.append('description', this.form.value.petDescription.trim());
         formData.append('note', this.form.value.petNote ? this.form.value.petNote.trim() : this.form.value.petNote);
         formData.append('diet', this.form.value.petDiet ? this.form.value.petDiet : PET.MORE_INFO_KEY.UNKNOWN);
@@ -91,7 +92,7 @@ export class PetCreateComponent implements OnInit, OnDestroy {
         formData.append('friendlyToHuman', this.form.value.petFriendlyToHuman ? this.form.value.petFriendlyToHuman : PET.MORE_INFO_KEY.UNKNOWN);
         formData.append('gender', this.form.value.petGender);
         formData.append('image', this.form.value.petImage);
-        formData.append('name', upcaseAllFirstLetters(this.form.value.petName.trim()));
+        formData.append('name', upperCaseAllFirstLetters(this.form.value.petName.trim()));
         formData.append('rabies', this.form.value.petRabies ? this.form.value.petRabies : PET.MORE_INFO_KEY.UNKNOWN);
         formData.append('status', this.form.value.petStatus);
         formData.append('sterilization', this.form.value.petSterilization ? this.form.value.petSterilization : PET.MORE_INFO_KEY.UNKNOWN);
@@ -101,27 +102,27 @@ export class PetCreateComponent implements OnInit, OnDestroy {
         formData.append('weight', this.form.value.petWeight);
         formData.append('intakeDate', convertDateFormat(this.form.value.intakeDate));
         this.petService.createPet(formData)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.form.reset();
-                    this.result = true;
-                    this.resultAction.emit(this.result);        
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.form.reset();
+                        this.result = true;
+                        this.resultAction.emit(this.result);
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onRemovePetImage(): void {
-        this.form.patchValue({ petImage: null });
-    } 
-    
+        this.form.patchValue({petImage: null});
+    }
+
 }

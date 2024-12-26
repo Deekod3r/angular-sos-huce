@@ -1,20 +1,20 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { FieldsetModule } from 'primeng/fieldset';
-import { CardPetModule } from 'src/app/shared/components/card-pet/card-pet.module';
-import { PetService } from 'src/app/services/pet.service';
-import { DropdownModule } from 'primeng/dropdown';
-import { Subject, takeUntil } from 'rxjs';
-import { PaginatorModule } from 'primeng/paginator';
-import { PET } from 'src/app/common/constant';
-import { title, message } from 'src/app/common/message';
-import { MessageService } from 'primeng/api';
-import { filteredSearch } from 'src/app/shared/utils/data.util';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {SharedModule} from 'src/app/shared/shared.module';
+import {FieldsetModule} from 'primeng/fieldset';
+import {CardPetModule} from 'src/app/shared/components/card-pet/card-pet.module';
+import {PetService} from 'src/app/services/pet.service';
+import {DropdownModule} from 'primeng/dropdown';
+import {Subject, takeUntil} from 'rxjs';
+import {PaginatorModule} from 'primeng/paginator';
+import {PET} from 'src/app/common/constant';
+import {message, title} from 'src/app/common/message';
+import {MessageService} from 'primeng/api';
+import {filteredSearch} from 'src/app/shared/utils/data.util';
 
 @Component({
     selector: 'app-adopt',
     standalone: true,
-    imports: [SharedModule, FieldsetModule, 
+    imports: [SharedModule, FieldsetModule,
         CardPetModule, DropdownModule, PaginatorModule],
     templateUrl: './adopt-all.component.html',
     styleUrls: ['./adopt-all.component.css']
@@ -40,7 +40,8 @@ export class AdoptAllComponent implements OnInit, OnDestroy {
     };
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public petService: PetService, private messageService: MessageService) { }
+    constructor(public petService: PetService, private messageService: MessageService) {
+    }
 
     ngOnInit(): void {
         this.getPets();
@@ -64,26 +65,26 @@ export class AdoptAllComponent implements OnInit, OnDestroy {
             gender: this.key.gender ? this.key.gender : ''
         }
         this.petService.getPets(filteredSearch(search))
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    let data = res.data;
-                    this.currentPage = data.currentPage;
-                    this.first = (this.currentPage - 1) * this.limit;
-                    this.totalPages = data.totalPages;
-                    this.totalElements = data.totalElements;
-                    this.pets = data.pets;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        let data = res.data;
+                        this.currentPage = data.currentPage;
+                        this.first = (this.currentPage - 1) * this.limit;
+                        this.totalPages = data.totalPages;
+                        this.totalElements = data.totalElements;
+                        this.pets = data.pets;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onPageChange(event: any): void {

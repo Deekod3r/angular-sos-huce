@@ -1,58 +1,62 @@
 <div class="card">
-    <p-dialog *ngIf="visibleCreateModal" header="Thêm thông tin điều trị" [(visible)]="visibleCreateModal" [modal]="true"
-        styleClass="w-11" [draggable]="false" [resizable]="false">
+    <p-dialog *ngIf="visibleCreateModal" [(visible)]="visibleCreateModal" [draggable]="false"
+              [modal]="true"
+              [resizable]="false" header="Thêm thông tin điều trị" styleClass="w-11">
         <app-treatment-create (resultAction)="onReceiveResult($event, 1)" [pets]="petsModified"></app-treatment-create>
     </p-dialog>
-    <p-dialog *ngIf="visibleUpdateModal" header="Chỉnh thông tin điều trị" [(visible)]="visibleUpdateModal" [modal]="true"
-        styleClass="xl:w-7 lg:w-8 md:w-9 w-11" [draggable]="false" [resizable]="false">
-        <app-treatment-update (resultAction)="onReceiveResult($event, 2)" [idTreatment]="idTreatmentUpdate"></app-treatment-update>
+    <p-dialog *ngIf="visibleUpdateModal" [(visible)]="visibleUpdateModal" [draggable]="false"
+              [modal]="true"
+              [resizable]="false" header="Chỉnh thông tin điều trị" styleClass="xl:w-7 lg:w-8 md:w-9 w-11">
+        <app-treatment-update (resultAction)="onReceiveResult($event, 2)"
+                              [idTreatment]="idTreatmentUpdate"></app-treatment-update>
     </p-dialog>
-    <p-panel header="Công cụ" [toggleable]="true">
-        <button pButton icon="fa fa-plus" label="Thêm mới" (click)="onShowCreateModal()"></button>
+    <p-panel [toggleable]="true" header="Công cụ">
+        <button (click)="onShowCreateModal()" icon="fa fa-plus" label="Thêm mới" pButton></button>
         <div class="card grid mt-3">
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="type">Loại điều trị</label>
-                    <p-dropdown [options]="treatmentService.optionType()" optionLabel="label" optionValue="value"
-                        emptyMessage="Không có dữ liệu" id="type" [showClear]="true" placeholder="--Tất cả--"
-                        styleClass="mat-form-field"  [(ngModel)]="key.type">
+                    <p-dropdown [(ngModel)]="key.type" [options]="treatmentService.optionType()" [showClear]="true"
+                                emptyMessage="Không có dữ liệu" id="type" optionLabel="label" optionValue="value"
+                                placeholder="--Tất cả--" styleClass="mat-form-field">
                     </p-dropdown>
-                </div>            
+                </div>
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="pet">Thú cưng</label>
-                    <p-dropdown [options]="pets" optionLabel="name" optionValue="id" [filter]="true" filterBy="code" 
-                        filterPlaceholder="Mã thú cưng" emptyMessage="Không có dữ liệu" id="pet"
-                        [showClear]="true" placeholder="--Tất cả--" styleClass="mat-form-field"  [(ngModel)]="key.petId">
+                    <p-dropdown [(ngModel)]="key.petId" [filter]="true" [options]="pets" [showClear]="true" emptyMessage="Không có dữ liệu"
+                                filterBy="code" filterPlaceholder="Mã thú cưng" id="pet"
+                                optionLabel="name" optionValue="id" placeholder="--Tất cả--"
+                                styleClass="mat-form-field">
                         <ng-template let-pet pTemplate="item">
                             <div class="flex align-items-center">
                                 <div>{{ pet.code }} - {{ pet.name }}</div>
                             </div>
                         </ng-template>
                     </p-dropdown>
-                </div>            
+                </div>
             </div>
             <div class="xl:col-4 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="status">Số ngày đi viện</label>
-                    <p-dropdown [options]="daysOfTreatmentOptions" optionLabel="label" optionValue="value"
-                        emptyMessage="Không có dữ liệu" id="status" [showClear]="true" placeholder="--Tất cả--"
-                        styleClass="mat-form-field"  [(ngModel)]="key.daysOfTreatment">
+                    <p-dropdown [(ngModel)]="key.daysOfTreatment" [options]="daysOfTreatmentOptions" [showClear]="true"
+                                emptyMessage="Không có dữ liệu" id="status" optionLabel="label" optionValue="value"
+                                placeholder="--Tất cả--" styleClass="mat-form-field">
                     </p-dropdown>
                 </div>
             </div>
             <div class="col-12">
-                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="onSearch()"></button>
+                <button (click)="onSearch()" icon="fa fa-search" label="Tìm kiếm" pButton></button>
             </div>
         </div>
     </p-panel>
-    <p-table #table [value]="treatments" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines mt-3"
-        selectionMode="single" [paginator]="false">
+    <p-table #table [paginator]="false" [tableStyle]="{'min-width': '60rem'}" [value]="treatments"
+             selectionMode="single" styleClass="p-datatable-gridlines mt-3">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Danh sách điều trị
-                <p-button icon="fa fa-refresh" (onClick)="onRefresh()"></p-button>
+                <p-button (onClick)="onRefresh()" icon="fa fa-refresh"></p-button>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -69,28 +73,28 @@
 
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-treatment>
+        <ng-template let-treatment pTemplate="body">
             <tr>
-                <td>{{treatment.petCode}} - {{treatment.petName}}</td>
-                <td>{{treatmentService.getType(treatment.type)}} - {{treatment.name}}</td>
-                <td>{{treatment.location}}</td>
-                <td>{{treatment.startDate | date:'dd/MM/yyyy'}}</td>
-                <td>{{treatment.endDate | date:'dd/MM/yyyy'}}</td>
-                <td>{{treatment.price | currency: ' ' }} ₫</td>
-                <td>{{treatment.quantity}}</td>
+                <td>{{ treatment.petCode }} - {{ treatment.petName }}</td>
+                <td>{{ treatmentService.getType(treatment.type) }} - {{ treatment.name }}</td>
+                <td>{{ treatment.location }}</td>
+                <td>{{ treatment.startDate | date:'dd/MM/yyyy' }}</td>
+                <td>{{ treatment.endDate | date:'dd/MM/yyyy' }}</td>
+                <td>{{ treatment.price | currency: ' ' }} ₫</td>
+                <td>{{ treatment.quantity }}</td>
                 <td>
-                    <p-tag [value]="this.treatmentService.getStatus(treatment.status)"
-                        [severity]="this.treatmentService.getStatusBadge(treatment.status)"></p-tag>
+                    <p-tag [severity]="this.treatmentService.getStatusBadge(treatment.status)"
+                           [value]="this.treatmentService.getStatus(treatment.status)"></p-tag>
                 </td>
                 <td>
-                    <p-button #btn type="button" icon="fa fa-solid fa-sliders" (click)="menu.toggle($event)"></p-button>
+                    <p-button #btn (click)="menu.toggle($event)" icon="fa fa-solid fa-sliders" type="button"></p-button>
                     <p-tieredMenu #menu [model]="treatment.menuItems" [popup]="true" appendTo="body" class="p-0"
-                        styleClass="menucus"></p-tieredMenu>
+                                  styleClass="menucus"></p-tieredMenu>
                 </td>
             </tr>
         </ng-template>
     </p-table>
-    <p-paginator [rows]="limit" [showCurrentPageReport]="false" [totalRecords]="totalElements" [first]="first"
-        [rowsPerPageOptions]="[1, 5, 10, 25]" [style]="{'margin-top': '1rem'}"
-        (onPageChange)="onPageChange($event)"></p-paginator>
+    <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rowsPerPageOptions]="[1, 5, 10, 25]" [rows]="limit"
+                 [showCurrentPageReport]="false" [style]="{'margin-top': '1rem'}"
+                 [totalRecords]="totalElements"></p-paginator>
 </div>

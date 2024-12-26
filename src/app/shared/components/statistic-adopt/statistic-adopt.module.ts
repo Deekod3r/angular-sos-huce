@@ -1,10 +1,9 @@
-import { NgModule } from '@angular/core';
-import { StatisticAdoptComponent } from './statistic-adopt.component';
-import { SharedModule } from '../../shared.module';
-import { DialogModule } from 'primeng/dialog';
-import { TableModule } from 'primeng/table';
-import { BadgeModule } from 'primeng/badge';
-
+import {NgModule} from '@angular/core';
+import {StatisticAdoptComponent} from './statistic-adopt.component';
+import {SharedModule} from '../../shared.module';
+import {DialogModule} from 'primeng/dialog';
+import {TableModule} from 'primeng/table';
+import {BadgeModule} from 'primeng/badge';
 
 
 @NgModule({
@@ -21,4 +20,5 @@ import { BadgeModule } from 'primeng/badge';
         StatisticAdoptComponent
     ]
 })
-export class StatisticAdoptModule { }
+export class StatisticAdoptModule {
+}

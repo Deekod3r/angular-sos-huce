@@ -1,13 +1,13 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { DropdownModule } from 'primeng/dropdown';
-import { Table, TableModule } from 'primeng/table';
-import { Subject, takeUntil } from 'rxjs';
-import { CONFIG } from 'src/app/common/config';
-import { message, messageUser, title } from 'src/app/common/message';
-import { UserService } from 'src/app/services/user.service';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { filteredSearch } from 'src/app/shared/utils/data.util';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {DropdownModule} from 'primeng/dropdown';
+import {Table, TableModule} from 'primeng/table';
+import {Subject, takeUntil} from 'rxjs';
+import {CONFIG} from 'src/app/common/config';
+import {message, messageUser, title} from 'src/app/common/message';
+import {UserService} from 'src/app/services/user.service';
+import {SharedModule} from 'src/app/shared/shared.module';
+import {filteredSearch} from 'src/app/shared/utils/data.util';
 
 @Component({
     selector: 'app-users',
@@ -29,7 +29,8 @@ export class UsersComponent implements OnInit, OnDestroy {
 
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public userService: UserService, private confirmationService: ConfirmationService, private messageService: MessageService) { }
+    constructor(public userService: UserService, private confirmationService: ConfirmationService, private messageService: MessageService) {
+    }
 
     ngOnInit(): void {
         this.getUsers();
@@ -50,22 +51,22 @@ export class UsersComponent implements OnInit, OnDestroy {
             isActivated: this.key.isActivated != null ? this.key.isActivated : ''
         }
         this.userService.getUsers(filteredSearch(search))
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.table.reset();
-                    this.users = res.data.users;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.table.reset();
+                        this.users = res.data.users;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onRefresh(): void {
@@ -105,22 +106,34 @@ export class UsersComponent implements OnInit, OnDestroy {
                     status: !user.isActivated,
                     role: user.role
                 }, 'status')
-                .pipe(takeUntil(this.subscribes$))
-                .subscribe({
-                    next: (res) => {
-                        if (res.success) {
-                            this.getUsers();
-                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageUser.updateSuccess });
+                    .pipe(takeUntil(this.subscribes$))
+                    .subscribe({
+                        next: (res) => {
+                            if (res.success) {
+                                this.getUsers();
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: title.success,
+                                    detail: messageUser.updateSuccess
+                                });
+                            }
+                        },
+                        error: (res) => {
+                            if (res.error) {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
+                            }
                         }
-                    },
-                    error: (res) => {
-                        if (res.error) {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                        } else {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                        }
-                    }
-                });
+                    });
             },
             reject: () => {
             }

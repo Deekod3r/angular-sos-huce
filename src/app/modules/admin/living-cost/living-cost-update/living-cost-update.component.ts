@@ -1,12 +1,12 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MessageService, ConfirmationService } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
-import { title, message, messageLivingCost } from 'src/app/common/message';
-import { FileService } from 'src/app/services/file.service';
-import { LivingCostService } from 'src/app/services/living-cost.service';
-import { convertDateFormat } from 'src/app/shared/utils/data.util';
-import { noWhitespaceValidator } from 'src/app/shared/utils/string.util';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {Subject, takeUntil} from 'rxjs';
+import {message, messageLivingCost, title} from 'src/app/common/message';
+import {FileService} from 'src/app/services/file.service';
+import {LivingCostService} from 'src/app/services/living-cost.service';
+import {convertDateFormat} from 'src/app/shared/utils/data.util';
+import {noWhitespaceValidator} from 'src/app/shared/utils/string.util';
 
 @Component({
     selector: 'app-living-cost-update',
@@ -25,8 +25,9 @@ export class LivingCostUpdateComponent implements OnInit, OnDestroy {
     maxDate: Date = new Date();
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(private messageService: MessageService, public livingCostService: LivingCostService, 
-        private confirmationService: ConfirmationService, private fileService: FileService) {}
+    constructor(private messageService: MessageService, public livingCostService: LivingCostService,
+                private confirmationService: ConfirmationService, private fileService: FileService) {
+    }
 
     ngOnInit(): void {
         this.form = new FormGroup({
@@ -47,22 +48,22 @@ export class LivingCostUpdateComponent implements OnInit, OnDestroy {
 
     getLivingCost(): void {
         this.livingCostService.getLivingCost(this.idLivingCost)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.livingCost = res.data;
-                    this.onInitForm();
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.livingCost = res.data;
+                        this.onInitForm();
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onInitForm(): void {
@@ -80,7 +81,7 @@ export class LivingCostUpdateComponent implements OnInit, OnDestroy {
             return;
         }
         if (!this.form.dirty) {
-            this.messageService.add({ severity: 'info', summary: title.info, detail: message.noChange });
+            this.messageService.add({severity: 'info', summary: title.info, detail: message.noChange});
             return;
         }
         this.confirmationService.confirm({
@@ -114,9 +115,17 @@ export class LivingCostUpdateComponent implements OnInit, OnDestroy {
                         },
                         error: (res) => {
                             if (res.error) {
-                                this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
                             } else {
-                                this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
                             }
                         }
                     });
@@ -146,23 +155,27 @@ export class LivingCostUpdateComponent implements OnInit, OnDestroy {
         formData.append('objectId', this.idLivingCost);
         formData.append('objectName', this.livingCost.name);
         this.fileService.upload(formData)
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.getLivingCost();
-                    this.visibleUpdateImageModal = false;
-                    this.messageService.add({ severity: 'success', summary: title.success, detail: messageLivingCost.updateSuccess });
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.getLivingCost();
+                        this.visibleUpdateImageModal = false;
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: title.success,
+                            detail: messageLivingCost.updateSuccess
+                        });
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
     onDeleteImage(id: string): void {
@@ -177,23 +190,35 @@ export class LivingCostUpdateComponent implements OnInit, OnDestroy {
             rejectButtonStyleClass: "p-button-text",
             accept: () => {
                 this.fileService.delete(id)
-                .pipe(takeUntil(this.subscribes$))
-                .subscribe({
-                    next: (res) => {
-                        if (res.success) {
-                            this.getLivingCost();
-                            this.visibleUpdateImageModal = false;
-                            this.messageService.add({ severity: 'success', summary: title.success, detail: messageLivingCost.updateSuccess });
+                    .pipe(takeUntil(this.subscribes$))
+                    .subscribe({
+                        next: (res) => {
+                            if (res.success) {
+                                this.getLivingCost();
+                                this.visibleUpdateImageModal = false;
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: title.success,
+                                    detail: messageLivingCost.updateSuccess
+                                });
+                            }
+                        },
+                        error: (res) => {
+                            if (res.error) {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: res.error.message
+                                });
+                            } else {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: title.error,
+                                    detail: message.error
+                                });
+                            }
                         }
-                    },
-                    error: (res) => {
-                        if (res.error) {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                        } else {
-                            this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                        }
-                    }
-                });
+                    });
             },
             reject: () => {
             }

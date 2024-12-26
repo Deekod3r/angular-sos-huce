@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AdoptProcessComponent } from './adopt-process.component';
-import { FieldsetModule } from 'primeng/fieldset';
-import { PanelModule } from 'primeng/panel';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {AdoptProcessComponent} from './adopt-process.component';
+import {FieldsetModule} from 'primeng/fieldset';
+import {PanelModule} from 'primeng/panel';
 
 @NgModule({
     declarations: [
@@ -17,4 +17,5 @@ import { PanelModule } from 'primeng/panel';
         AdoptProcessComponent
     ]
 })
-export class AdoptProcessModule { }
+export class AdoptProcessModule {
+}

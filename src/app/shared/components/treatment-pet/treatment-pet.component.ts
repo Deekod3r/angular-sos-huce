@@ -1,8 +1,8 @@
-import { Component, Input, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { MessageService } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
-import { title, message } from 'src/app/common/message';
-import { TreatmentService } from 'src/app/services/treatment.service';
+import {Component, Input, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {MessageService} from 'primeng/api';
+import {Subject, takeUntil} from 'rxjs';
+import {message, title} from 'src/app/common/message';
+import {TreatmentService} from 'src/app/services/treatment.service';
 
 @Component({
     selector: 'app-treatment-pet',
@@ -17,7 +17,8 @@ export class TreatmentPetComponent implements OnInit, OnDestroy {
     treatments!: any;
     private subscribes$: Subject<void> = new Subject<void>();
 
-    constructor(public treatmentService: TreatmentService, private messageService: MessageService) { }
+    constructor(public treatmentService: TreatmentService, private messageService: MessageService) {
+    }
 
     ngOnInit(): void {
         this.getTreatments();
@@ -32,29 +33,29 @@ export class TreatmentPetComponent implements OnInit, OnDestroy {
         if (changes['idPet'] && !changes['idPet'].firstChange) {
             this.getTreatments();
         }
-    }    
+    }
 
     getTreatments(): void {
         this.treatmentService.getTreatments({
             fullData: true,
-            petId: this.idPet, 
+            petId: this.idPet,
             status: this.status
         })
-        .pipe(takeUntil(this.subscribes$))
-        .subscribe({
-            next: (res) => {
-                if (res.success) {
-                    this.treatments = res.data.treatments;
+            .pipe(takeUntil(this.subscribes$))
+            .subscribe({
+                next: (res) => {
+                    if (res.success) {
+                        this.treatments = res.data.treatments;
+                    }
+                },
+                error: (res) => {
+                    if (res.error) {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: res.error.message});
+                    } else {
+                        this.messageService.add({severity: 'error', summary: title.error, detail: message.error});
+                    }
                 }
-            },
-            error: (res) => {
-                if (res.error) {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: res.error.message });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: title.error, detail: message.error });
-                }
-            }
-        });
+            });
     }
 
 }

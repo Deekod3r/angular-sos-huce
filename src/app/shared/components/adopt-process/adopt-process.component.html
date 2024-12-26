@@ -6,7 +6,7 @@
     </ng-template>
     <div class="grid">
         <div *ngIf="adoptProcess" class="xl:col-8 lg:col-8 md:col-8 sm:col-12 col-12">
-            <div class="m-0 text-lg line-height-3 html" [innerHTML]="adoptProcess[0].value"></div>
+            <div [innerHTML]="adoptProcess[0].value" class="m-0 text-lg line-height-3 html"></div>
         </div>
         <div *ngIf="adoptConditions" class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12" style="height: fit-content;">
             <p-panel iconPos="start">
@@ -15,7 +15,8 @@
                         <span class="font-semibold text-2xl">Điều kiện nhận nuôi</span>
                     </div>
                 </ng-template>
-                <p *ngFor="let item of adoptConditions" class="font-semibold"><i class="fa fa-paw text-primary mr-1"></i>{{item.value}}</p>
+                <p *ngFor="let item of adoptConditions" class="font-semibold"><i
+                    class="fa fa-paw text-primary mr-1"></i>{{ item.value }}</p>
             </p-panel>
         </div>
     </div>

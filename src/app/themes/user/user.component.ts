@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
     selector: 'app-main-user',
@@ -7,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserComponent implements OnInit {
 
-    constructor() { }
+    constructor() {
+    }
 
     ngOnInit(): void {
         var Tawk_API: any = Tawk_API || {};
@@ -21,7 +22,7 @@ export class UserComponent implements OnInit {
             s1.setAttribute('crossorigin', '*');
             if (s0 && s0.parentNode) {
                 s0.parentNode.insertBefore(s1, s0);
-            }        
+            }
         })();
     }
 

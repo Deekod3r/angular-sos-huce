@@ -1,21 +1,22 @@
-import { Injectable } from '@angular/core';
-import { CommonService } from './common.service';
-import { Observable } from 'rxjs';
-import { HttpParams } from '@angular/common/http';
-import { CONFIG } from '../common/config';
-import { AuthService } from './auth.service';
+import {Injectable} from '@angular/core';
+import {CommonService} from './common.service';
+import {Observable} from 'rxjs';
+import {HttpParams} from '@angular/common/http';
+import {CONFIG} from '../common/config';
+import {AuthService} from './auth.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class PetCareLogService {
 
     private API_URL = 'pet-care-logs';
 
-    constructor(private commonService: CommonService, private authService: AuthService) { }
+    constructor(private commonService: CommonService, private authService: AuthService) {
+    }
 
     getLogs(search: any): Observable<any> {
-      let params = new HttpParams();
+        let params = new HttpParams();
         for (const key in search) {
             if (search.hasOwnProperty(key)) {
                 params = params.set(key, search[key] != null ? search[key].toString() : '');
@@ -42,7 +43,7 @@ export class PetCareLogService {
                 headers: {
                     'Authorization': 'Bearer ' + this.authService.getToken()
                 }
-             }
+            }
         }
         return this.commonService.callAPI(request);
     }
@@ -74,7 +75,7 @@ export class PetCareLogService {
         }
         return this.commonService.callAPI(request);
     }
-    
+
     deleteLog(id: string): Observable<any> {
         const request = {
             function: this.API_URL + '/delete/' + id,

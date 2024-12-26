@@ -1,20 +1,20 @@
 <div class="card px-0 pt-0">
     <div class="col-12 p-0">
-        <a [routerLink]="['/cuu-tro', id]"><img src="{{image}}" alt="{{name}}" class="border-round img-pet"></a>
+        <a [routerLink]="['/cuu-tro', id]"><img alt="{{name}}" class="border-round img-pet" src="{{image}}"></a>
     </div>
     <div class="text-card-pet px-2">
-        <a [routerLink]="['/cuu-tro', id]" class="name">        
-            <h4 class="my-1">{{name}}</h4>
+        <a [routerLink]="['/cuu-tro', id]" class="name">
+            <h4 class="my-1">{{ name }}</h4>
         </a>
-        <p class="my-1 text-cyan-500 font-bold">{{breed}}</p>
-        <p-badge *ngIf="visibleStatus" value="{{status}}" [severity]="severity"></p-badge>
+        <p class="my-1 text-cyan-500 font-bold">{{ breed }}</p>
+        <p-badge *ngIf="visibleStatus" [severity]="severity" value="{{status}}"></p-badge>
         <p-divider></p-divider>
         <div class="p-0 m-0 sm:text-base text-sm">
-            <p><i class="fa-solid fa-venus-mars text-primary mr-2"></i><b>Giới tính:</b> {{gender}}</p>
+            <p><i class="fa-solid fa-venus-mars text-primary mr-2"></i><b>Giới tính:</b> {{ gender }}</p>
             <p-divider type="dashed"></p-divider>
-            <p><i class="fa-solid fa-cake-candles text-primary mr-2"></i><b>Độ tuổi:</b> {{age}}</p>
+            <p><i class="fa-solid fa-cake-candles text-primary mr-2"></i><b>Độ tuổi:</b> {{ age }}</p>
             <p-divider type="dashed"></p-divider>
-            <p><i class="fa-solid fa-syringe text-primary mr-2"></i><b>Tiêm phòng:</b> {{vaccin}}</p>
+            <p><i class="fa-solid fa-syringe text-primary mr-2"></i><b>Tiêm phòng:</b> {{ vaccine }}</p>
         </div>
         <!-- <p-divider type="dashed"></p-divider> -->
     </div>

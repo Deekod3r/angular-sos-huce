@@ -11,19 +11,19 @@
                     <div class="md:col-4 sm:col-12 col-12 text-lg">
                         <i class="fa-solid fa-map-marker-alt text-primary mr-2"></i>
                         <span class="font-semibold">
-                            {{contacts[2].value}}
+                            {{ contacts[2].value }}
                         </span>
                     </div>
                     <div class="md:col-4 sm:col-12 col-12 text-lg">
                         <i class="fa-solid fa-envelope text-primary mr-2"></i>
                         <a class="font-semibold" href="mailto:{{contacts[1].value}}">
-                            {{contacts[1].value}}
+                            {{ contacts[1].value }}
                         </a>
                     </div>
                     <div class="md:col-4 sm:col-12 col-12 text-lg">
                         <i class="fa-solid fa-phone text-primary mr-2"></i>
                         <a class="font-semibold" href="tel:{{contacts[0].value}}">
-                            {{contacts[0].value}}
+                            {{ contacts[0].value }}
                         </a>
                     </div>
                     <div class="md:col-4 sm:col-12 col-12 text-lg">
@@ -49,10 +49,14 @@
                 <div *ngIf="banks" class="grid mt-2 w-full text-lg">
                     <div class="col-12">
                         <p class="font-bold text-3xl">Thông tin ủng hộ</p>
-                        <p>Chi phí và vật dụng sẽ được chia đều cho các bé đang điều trị và phục vụ xây dựng nhà chung để các bé sinh hoạt</p>
+                        <p>Chi phí và vật dụng sẽ được chia đều cho các bé đang điều trị và phục vụ xây dựng nhà chung
+                            để các bé sinh hoạt</p>
                     </div>
                     <div *ngFor="let bank of banks" class="xl:col-3 lg:col-3 md:col-6 sm:col-12 col-12">
-                        <div class="font-semibold"><i class="text-primary mr-1" [ngClass]="bank.logo"></i> {{bank.name}} <br> {{bank.accountNumber}} <br> {{bank.owner}}  </div>
+                        <div class="font-semibold"><i [ngClass]="bank.logo"
+                                                      class="text-primary mr-1"></i> {{ bank.name }}
+                            <br> {{ bank.accountNumber }} <br> {{ bank.owner }}
+                        </div>
                     </div>
                 </div>
             </p-tabPanel>
@@ -72,42 +76,51 @@
                         </div> -->
                         <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12">
                             <label for="fullName">Họ và tên <span class="text-red-500">*</span></label>
-                            <input pInputText type="text" class="w-full p-2 border-primary-500 mt-1" id="fullName" formControlName="fullName">
-                            <div [hidden]="!formFeedback.controls['fullName'].hasError('required') || !formFeedback.controls['fullName'].touched"
+                            <input class="w-full p-2 border-primary-500 mt-1" formControlName="fullName" id="fullName" pInputText
+                                   type="text">
+                            <div
+                                [hidden]="!formFeedback.controls['fullName'].hasError('required') || !formFeedback.controls['fullName'].touched"
                                 class="text-red-500 mt-2 ml-1">
                                 Vui lòng nhập họ tên
                             </div>
-                            <div [hidden]="!formFeedback.controls['fullName'].hasError('minlength') || !formFeedback.controls['fullName'].touched"
+                            <div
+                                [hidden]="!formFeedback.controls['fullName'].hasError('minlength') || !formFeedback.controls['fullName'].touched"
                                 class="text-red-500 mt-2 ml-1">
                                 Độ dài thông tin không hợp lệ (tối thuểu 2 ký tự)
                             </div>
-                            <div [hidden]="!formFeedback.controls['fullName'].hasError('maxlength') || !formFeedback.controls['fullName'].touched"
+                            <div
+                                [hidden]="!formFeedback.controls['fullName'].hasError('maxlength') || !formFeedback.controls['fullName'].touched"
                                 class="text-red-500 mt-2 ml-1">
                                 Độ dài thông tin không hợp lệ (tối đa 100 ký tự)
                             </div>
                         </div>
                         <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12 col-12">
                             <label for="email">Email <span class="text-red-500">*</span></label>
-                            <input pInputText type="text" class="w-full p-2 border-primary-500 mt-1" id="email" formControlName="email">
-                            <div [hidden]="!formFeedback.controls['email'].hasError('required') || !formFeedback.controls['email'].touched"
+                            <input class="w-full p-2 border-primary-500 mt-1" formControlName="email" id="email" pInputText
+                                   type="text">
+                            <div
+                                [hidden]="!formFeedback.controls['email'].hasError('required') || !formFeedback.controls['email'].touched"
                                 class="text-red-500 mt-2 ml-1">
                                 Vui lòng nhập email
                             </div>
-                            <div [hidden]="!formFeedback.controls['email'].hasError('email') || !formFeedback.controls['email'].touched"
+                            <div
+                                [hidden]="!formFeedback.controls['email'].hasError('email') || !formFeedback.controls['email'].touched"
                                 class="text-red-500 mt-2 ml-1">
                                 Email không hợp lệ
                             </div>
                         </div>
                         <div class="col-12">
                             <label for="message">Lời nhắn <span class="text-red-500">*</span></label>
-                            <textarea pInputTextarea class="w-full p-2 border-primary-500 mt-1" rows="5" id="message" formControlName="message"></textarea>
-                            <div [hidden]="!formFeedback.controls['message'].invalid || !formFeedback.controls['message'].touched"
+                            <textarea class="w-full p-2 border-primary-500 mt-1" formControlName="message" id="message" pInputTextarea
+                                      rows="5"></textarea>
+                            <div
+                                [hidden]="!formFeedback.controls['message'].invalid || !formFeedback.controls['message'].touched"
                                 class="text-red-500 mt-2 ml-1">
                                 Vui lòng nhập lời nhắn (tối thiểu 20 ký tự)
                             </div>
                         </div>
-                        <div class="col-12" align="center">
-                            <button pButton class="font-bold" (click)="onFeedback($event)">Gửi tin nhắn</button>
+                        <div align="center" class="col-12">
+                            <button (click)="onFeedback($event)" class="font-bold" pButton>Gửi tin nhắn</button>
                         </div>
                     </div>
                 </form>
@@ -122,13 +135,13 @@
         </div>
         <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12 z-1">
             <div class="justify-center items-center">
-                <i class="fa-solid fa-shield-heart fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>                
+                <i class="fa-solid fa-shield-heart fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>
                 <p class="xl:text-2xl text-2xl my-2">TÃ BỈM</p>
             </div>
         </div>
         <div class="xl:col-4 lg:col-4 md:col-4 sm:col-12 col-12 z-1">
             <div class="justify-center items-center">
-                <i class="fa-solid fa-shirt fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>                
+                <i class="fa-solid fa-shirt fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>
                 <p class="xl:text-2xl text-2xl my-2">QUẦN ÁO</p>
             </div>
         </div>
@@ -137,7 +150,8 @@
                 <i class="fa-solid fa-bowl-rice fa-3x text-primary xl:p-3 lg:p-3 p-2"></i>
                 <p class="xl:text-2xl text-2xl my-2">THỨC ĂN</p>
             </div>
-        </div>      
+        </div>
     </div>
 </div>
-<app-card-footer [title]="'BẠN ĐÃ SẴN SÀNG GIÚP ĐỠ?'" [action]="'ỦNG HỘ NGAY'" [actionLink]="'/ung-ho'"></app-card-footer>
+<app-card-footer [actionLink]="'/ung-ho'" [action]="'ỦNG HỘ NGAY'"
+                 [title]="'BẠN ĐÃ SẴN SÀNG GIÚP ĐỠ?'"></app-card-footer>

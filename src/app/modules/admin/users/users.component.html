@@ -1,43 +1,44 @@
 <div class="card">
-    <p-panel header="Công cụ" [toggleable]="true">
+    <p-panel [toggleable]="true" header="Công cụ">
         <div class="card grid mt-3">
             <div class="xl:col-3 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="name">Họ và tên</label>
-                    <input pInputText type="text" id="name" [(ngModel)]="key.name">
-                </div>            
+                    <input [(ngModel)]="key.name" id="name" pInputText type="text">
+                </div>
             </div>
             <div class="xl:col-3 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="phone">Số điện thoại</label>
-                    <input pInputText type="text" id="phone" [(ngModel)]="key.phoneNumber">
+                    <input [(ngModel)]="key.phoneNumber" id="phone" pInputText type="text">
                 </div>
             </div>
             <div class="xl:col-3 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="email">Email</label>
-                    <input pInputText type="text" id="email" [(ngModel)]="key.email">
+                    <input [(ngModel)]="key.email" id="email" pInputText type="text">
                 </div>
             </div>
             <div class="xl:col-3 lg:col-6 md:col-6 sm:col-12 col-12">
                 <div class="flex flex-column gap-2">
                     <label for="status">Trạng thái</label>
-                    <p-dropdown [options]="userService.optionStatus()" id="status" optionLabel="label" optionValue="value"
-                        styleClass="mat-form-field" [showClear]="true" placeholder="--Tất cả--"
-                        emptyMessage="Không có dữ liệu" [(ngModel)]="key.isActivated"></p-dropdown>
+                    <p-dropdown [(ngModel)]="key.isActivated" [options]="userService.optionStatus()" [showClear]="true"
+                                emptyMessage="Không có dữ liệu"
+                                id="status" optionLabel="label" optionValue="value"
+                                placeholder="--Tất cả--" styleClass="mat-form-field"></p-dropdown>
                 </div>
             </div>
             <div class="col-12">
-                <button pButton icon="fa fa-search" label="Tìm kiếm" (click)="getUsers()"></button>
+                <button (click)="getUsers()" icon="fa fa-search" label="Tìm kiếm" pButton></button>
             </div>
         </div>
     </p-panel>
-    <p-table #table [value]="users" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-gridlines mt-3"
-        selectionMode="single" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[1, 5, 10, 20]">
+    <p-table #table [paginator]="true" [rowsPerPageOptions]="[1, 5, 10, 20]" [rows]="5"
+             [tableStyle]="{'min-width': '60rem'}" [value]="users" selectionMode="single" styleClass="p-datatable-gridlines mt-3">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Tài khoản người dùng
-                <p-button icon="fa fa-refresh" (onClick)="onRefresh()"></p-button>
+                <p-button (onClick)="onRefresh()" icon="fa fa-refresh"></p-button>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -49,14 +50,16 @@
                 <th class=""></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-user>
+        <ng-template let-user pTemplate="body">
             <tr>
-                <td>{{user.name}}</td>
-                <td>{{user.phoneNumber}}</td>
-                <td>{{user.email}}</td>
-                <td>{{userService.getStatus(user.isActivated)}}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.phoneNumber }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ userService.getStatus(user.isActivated) }}</td>
                 <td>
-                    <button pButton [icon]="getIconStatus(user.isActivated)" [ngClass]="userService.isActivated(user.isActivated)" (click)="onConfirmUpdateStatus($event, user)"></button>
+                    <button (click)="onConfirmUpdateStatus($event, user)" [icon]="getIconStatus(user.isActivated)"
+                            [ngClass]="userService.isActivated(user.isActivated)"
+                            pButton></button>
                 </td>
             </tr>
         </ng-template>

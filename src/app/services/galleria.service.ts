@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { GALLERIA } from '../common/constant';
-import { CommonService } from './common.service';
-import { CONFIG } from '../common/config';
-import { AuthService } from './auth.service';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {GALLERIA} from '../common/constant';
+import {CommonService} from './common.service';
+import {CONFIG} from '../common/config';
+import {AuthService} from './auth.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +12,8 @@ export class GalleriaService {
 
     private API_URL = 'gallerias';
 
-    constructor(private commonService: CommonService, private authService: AuthService) { }
+    constructor(private commonService: CommonService, private authService: AuthService) {
+    }
 
     getGallerias(search: any): Observable<any> {
         const request = {
@@ -103,5 +104,5 @@ export class GalleriaService {
     optionStatus(): any[] {
         return GALLERIA.STATUS;
     }
-    
+
 }

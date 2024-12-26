@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "sos-huce-1703816060758"
-  }
+  },
+  "targets": {
+    "sos-huce-1703816060758": {
+      "hosting": {
+        "default": [
+          "sos-huce-1703816060758"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

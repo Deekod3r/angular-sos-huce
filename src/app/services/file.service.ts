@@ -1,17 +1,18 @@
-import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
-import { CommonService } from './common.service';
-import { Observable } from 'rxjs';
-import { CONFIG } from '../common/config';
+import {Injectable} from '@angular/core';
+import {AuthService} from './auth.service';
+import {CommonService} from './common.service';
+import {Observable} from 'rxjs';
+import {CONFIG} from '../common/config';
 
 @Injectable({
-   providedIn: 'root'
+    providedIn: 'root'
 })
 export class FileService {
 
     private API_URL = 'files';
 
-    constructor(private commonService: CommonService, private authService: AuthService) { }
+    constructor(private commonService: CommonService, private authService: AuthService) {
+    }
 
     upload(body: any): Observable<any> {
         const request = {

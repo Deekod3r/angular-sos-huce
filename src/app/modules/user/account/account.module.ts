@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { UpdateInfoComponent } from './update-info/update-info.component';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { PasswordModule } from 'primeng/password';
-import { StatisticAdoptModule } from 'src/app/shared/components/statistic-adopt/statistic-adopt.module';
+import {NgModule} from '@angular/core';
+import {UpdateInfoComponent} from './update-info/update-info.component';
+import {SharedModule} from 'src/app/shared/shared.module';
+import {PasswordModule} from 'primeng/password';
+import {StatisticAdoptModule} from 'src/app/shared/components/statistic-adopt/statistic-adopt.module';
 
 @NgModule({
     declarations: [
@@ -19,4 +19,5 @@ import { StatisticAdoptModule } from 'src/app/shared/components/statistic-adopt/
         StatisticAdoptModule
     ]
 })
-export class AccountModule { }
+export class AccountModule {
+}

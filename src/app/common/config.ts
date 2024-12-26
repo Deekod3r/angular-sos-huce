@@ -35,9 +35,9 @@ export const CONFIG = {
     ROLE: {
         GUEST: 'GUEST',
         USER: 'USER',
-        CUSTOMER: ['USER','GUEST'],
+        CUSTOMER: ['USER', 'GUEST'],
         ADMIN: 'ADMIN',
         MANAGER: 'MANAGER',
-        ROOT: ['MANAGER','ADMIN'],
+        ROOT: ['MANAGER', 'ADMIN'],
     }
 }
